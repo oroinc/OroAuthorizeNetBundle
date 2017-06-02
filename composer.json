@@ -15,7 +15,7 @@
   },
   "require": {
     "php": ">=7.0",
-    "oro/commerce": "1.x-dev",
+    "oro/commerce": "~1.2",
     "authorizenet/authorizenet": "~1.9.2"
   },
   "extra": {
