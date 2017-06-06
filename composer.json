@@ -1,7 +1,7 @@
 {
   "name": "oro/commerce-authorizenet",
   "description": "OroCommerce Authorize.Net integration",
-  "homepage": "",
+  "homepage": "https://github.com/orocommerce/OroAuthorizeNetBundle.git",
   "license": "OSL-3.0",
   "authors": [
     {
