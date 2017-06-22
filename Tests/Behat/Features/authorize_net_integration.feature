@@ -1,6 +1,6 @@
 @fixture-OroFlatRateShippingBundle:FlatRateIntegration.yml
 @fixture-AuthorizeNetFixture.yml
-Feature: Process order submission with Authorize.Net integration
+Feature: Process order submission using Charge with Authorize.Net integration
   Scenario: Create new AuthorizeNet Integration
     Given I login as administrator
     When I go to System/Integrations/Manage Integrations
