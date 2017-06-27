@@ -302,7 +302,6 @@ class AuthorizeNetPaymentMethod implements PaymentMethodInterface
      */
     private function assertOpaqueData(array $additionalData, $fieldName)
     {
-
         if (!array_key_exists($fieldName, $additionalData)) {
             throw new \LogicException(sprintf(
                 'Can not find field "%s" in additional data',
