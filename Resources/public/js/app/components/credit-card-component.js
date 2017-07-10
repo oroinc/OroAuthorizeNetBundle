@@ -243,8 +243,10 @@ define(function(require) {
          */
         placeOrderResponse: function(eventData) {
             if (eventData.responseData.paymentMethod === this.options.paymentMethod) {
-                eventData.stopped = true;
-                mediator.execute('redirectTo', {url: eventData.responseData.successUrl}, {redirect: true});
+                if (true === eventData.responseData.successful) {
+                    eventData.stopped = true;
+                    mediator.execute('redirectTo', {url: eventData.responseData.successUrl}, {redirect: true});
+                }
             }
         },
 
