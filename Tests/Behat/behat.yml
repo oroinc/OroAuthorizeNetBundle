@@ -1,7 +1,7 @@
 oro_behat_extension:
   elements:
     Authorize.NetForm:
-      selector: 'div#container'
+      selector: 'form[name="oro_integration_channel_form"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
       options:
         mapping:
@@ -16,7 +16,10 @@ oro_behat_extension:
           Test Mode: 'oro_integration_channel_form[transport][authNetTestMode]'
           Payment Action: 'oro_integration_channel_form[transport][creditCardPaymentAction]'
     CreditCardForm:
-      selector: 'div#container'
+      selector:
+        type: 'xpath'
+        locator: '//input[@id[starts-with(.,"oro_authorize_net_credit_card_ACCT")]]/ancestor::div[contains(@class,"checkout__form__payment-methods__form")]'
+
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
       options:
         mapping:
