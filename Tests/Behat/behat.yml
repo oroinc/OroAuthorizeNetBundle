@@ -18,7 +18,7 @@ oro_behat_extension:
     CreditCardForm:
       selector:
         type: 'xpath'
-        locator: '//input[@id[starts-with(.,"oro_authorize_net_credit_card_ACCT")]]/ancestor::div[contains(@class,"checkout__form__payment-methods__form")]'
+        locator: '//input[@id[starts-with(.,"oro_authorize_net_credit_card_ACCT")]]/ancestor::div[contains(@class,"checkout-form__payment-methods-form")]'
 
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
       options:
