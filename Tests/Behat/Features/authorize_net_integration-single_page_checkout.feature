@@ -1,6 +1,6 @@
 @fixture-OroFlatRateShippingBundle:FlatRateIntegration.yml
 @fixture-OroAuthorizeNetBundle:AuthorizeNetFixture.yml
-Feature: Authorize.Net integration Single Page Checkout
+Feature: AuthorizeNet integration Single Page Checkout
 
   Scenario: Create new AuthorizeNet Integration
     Given I login as administrator
@@ -54,11 +54,11 @@ Feature: Authorize.Net integration Single Page Checkout
       | Year             | 2027             |
       | CVV              | 123              |
     And I click "Submit Order"
-    Then I should see "Authorize.Net communication error." flash message
+    Then I should see only following flash messages:
+      | Authorize.Net communication error. |
 
   Scenario: Error from Backend API when pay order with AuthorizeNet
     Given There are products in the system available for order
-    And I signed in as AmandaRCole@example.org on the store frontend
     When I open page with shopping list List 2
     And I click "Create Order"
     And I select "Fifth avenue, 10115 Berlin, Germany" from "Select Billing Address"
@@ -70,7 +70,9 @@ Feature: Authorize.Net integration Single Page Checkout
       | Year             | 2027             |
       | CVV              | 123              |
     And I click "Submit Order"
-    Then I should see "We were unable to process your payment. Please verify your payment information and try again." flash message
+    Then I should see only following flash messages:
+      | Invalid OTS Token.                                                                            |
+      | We were unable to process your payment. Please verify your payment information and try again. |
 
   Scenario: Successful order payment with AuthorizeNet
     Given There are products in the system available for order
