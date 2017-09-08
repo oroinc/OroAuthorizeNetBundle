@@ -1,9 +1,11 @@
 @fixture-OroFlatRateShippingBundle:FlatRateIntegration.yml
 @fixture-OroAuthorizeNetBundle:AuthorizeNetFixture.yml
 Feature: Process order submission using Charge with Authorize.Net integration
+
   Scenario: Create new AuthorizeNet Integration
-    Given I login as administrator
-    When I go to System/Integrations/Manage Integrations
+    Given I login as AmandaRCole@example.org the "Buyer" at "first_session" session
+    And I login as administrator and use in "second_session" as "Admin"
+    And I go to System/Integrations/Manage Integrations
     And I click "Create Integration"
     And I select "Authorize.NET" from "Type"
     And I fill "Authorize.Net Form" with:
@@ -34,7 +36,7 @@ Feature: Process order submission using Charge with Authorize.Net integration
 
   Scenario: Frontend AcceptJs Card validation error when pay order with AuthorizeNet
     Given There are products in the system available for order
-    And I signed in as AmandaRCole@example.org on the store frontend
+    And I operate as the Buyer
     When I open page with shopping list List 2
     And I press "Create Order"
     And I select "Fifth avenue, 10115 Berlin, Germany" on the "Billing Information" checkout step and press Continue
@@ -50,7 +52,6 @@ Feature: Process order submission using Charge with Authorize.Net integration
 
   Scenario: Error from Backend API when pay order with AuthorizeNet
     Given There are products in the system available for order
-    And I signed in as AmandaRCole@example.org on the store frontend
     When I open page with shopping list List 2
     And I press "Create Order"
     And I fill "Credit Card Form" with:
@@ -64,7 +65,6 @@ Feature: Process order submission using Charge with Authorize.Net integration
 
   Scenario: Successful order payment with AuthorizeNet
     Given There are products in the system available for order
-    And I signed in as AmandaRCole@example.org on the store frontend
     When I open page with shopping list List 1
     And I press "Create Order"
     And I select "Fifth avenue, 10115 Berlin, Germany" on the "Billing Information" checkout step and press Continue

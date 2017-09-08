@@ -21,8 +21,7 @@ Feature: Process order submission with Authorize.Net integration
     And I should see AuthorizeNet in grid
 
   Scenario: Create new Payment Rule for Authorize.Net integration
-    Given I login as administrator
-    When I go to System/Payment Rules
+    Given I go to System/Payment Rules
     And I click "Create Payment Rule"
     And I check "Enabled"
     And I fill in "Name" with "Authorize"
@@ -50,7 +49,7 @@ Feature: Process order submission with Authorize.Net integration
     Then I see the "Thank You" page with "Thank You For Your Purchase!" title
 
   Scenario: Successful capture of authorized order
-    Given I login as administrator
+    Given I am on dashboard
     When I go to Sales/Orders
     And I click View Payment authorized in grid
     And I click "Capture"
