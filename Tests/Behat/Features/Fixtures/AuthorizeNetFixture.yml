@@ -57,7 +57,8 @@ Oro\Bundle\ProductBundle\Entity\ProductUnitPrecision:
         precision: '1'
 
 Oro\Bundle\LocaleBundle\Entity\LocalizedFallbackValue:
-    locValue: ~
+    locValue:
+        string: 'product1'
 
 Oro\Bundle\ProductBundle\Entity\Product:
     product:
