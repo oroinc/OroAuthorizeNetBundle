@@ -53,10 +53,11 @@ class AuthorizeNetConfigFactory implements AuthorizeNetConfigFactoryInterface
         $params = [];
         $channel = $settings->getChannel();
 
-        $params[AuthorizeNetConfig::PAYMENT_METHOD_IDENTIFIER_KEY] = $this->getPaymentMethodIdentifier($channel);
-        $params[AuthorizeNetConfig::ADMIN_LABEL_KEY] = $channel->getName();
-        $params[AuthorizeNetConfig::LABEL_KEY] = $this->getLocalizedValue($settings->getCreditCardLabels());
-        $params[AuthorizeNetConfig::SHORT_LABEL_KEY] = $this->getLocalizedValue($settings->getCreditCardShortLabels());
+        $params[AuthorizeNetConfig::FIELD_PAYMENT_METHOD_IDENTIFIER] = $this->getPaymentMethodIdentifier($channel);
+        $params[AuthorizeNetConfig::FIELD_ADMIN_LABEL] = $channel->getName();
+        $params[AuthorizeNetConfig::FIELD_LABEL] = $this->getLocalizedValue($settings->getCreditCardLabels());
+        $params[AuthorizeNetConfig::FIELD_SHORT_LABEL] =
+            $this->getLocalizedValue($settings->getCreditCardShortLabels());
         $params[AuthorizeNetConfig::ALLOWED_CREDIT_CARD_TYPES_KEY] = $settings->getAllowedCreditCardTypes();
         $params[AuthorizeNetConfig::TEST_MODE_KEY] = $settings->getAuthNetTestMode();
         $params[AuthorizeNetConfig::PURCHASE_ACTION_KEY] = $settings->getCreditCardPaymentAction();

@@ -19,10 +19,10 @@ class AuthorizeNetConfigTest extends AbstractPaymentConfigTestCase
     protected function getPaymentConfig()
     {
         $params = [
-            AuthorizeNetConfig::PAYMENT_METHOD_IDENTIFIER_KEY => 'test_payment_method_identifier',
-            AuthorizeNetConfig::ADMIN_LABEL_KEY => 'test admin label',
-            AuthorizeNetConfig::LABEL_KEY => 'test label',
-            AuthorizeNetConfig::SHORT_LABEL_KEY => 'test short label',
+            AuthorizeNetConfig::FIELD_PAYMENT_METHOD_IDENTIFIER => 'test_payment_method_identifier',
+            AuthorizeNetConfig::FIELD_ADMIN_LABEL => 'test admin label',
+            AuthorizeNetConfig::FIELD_LABEL => 'test label',
+            AuthorizeNetConfig::FIELD_SHORT_LABEL => 'test short label',
             AuthorizeNetConfig::ALLOWED_CREDIT_CARD_TYPES_KEY => ['Master Card', 'Visa'],
             AuthorizeNetConfig::TEST_MODE_KEY => true,
             AuthorizeNetConfig::PURCHASE_ACTION_KEY => 'authorize',
