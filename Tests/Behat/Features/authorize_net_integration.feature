@@ -1,6 +1,6 @@
 @fixture-OroFlatRateShippingBundle:FlatRateIntegration.yml
 @fixture-OroAuthorizeNetBundle:AuthorizeNetFixture.yml
-Feature: Process order submission using Charge with Authorize.Net integration
+Feature: Process order submission using Charge with Authorize_Net integration
 
   Scenario: Create new AuthorizeNet Integration
     Given I login as AmandaRCole@example.org the "Buyer" at "first_session" session
