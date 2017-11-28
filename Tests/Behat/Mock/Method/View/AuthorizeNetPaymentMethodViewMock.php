@@ -11,8 +11,8 @@ class AuthorizeNetPaymentMethodViewMock extends AuthorizeNetPaymentMethodView
     {
         $options = parent::getOptions($context);
         $options['creditCardComponentOptions']['acceptJsUrls'] = [
-            'test' => '/bundles/oroauthorizenet/js/stubs/AcceptStub.js',
-            'prod' => '/bundles/oroauthorizenet/js/stubs/AcceptStub.js',
+            'test' => 'oroauthorizenet/js/stubs/AcceptStub',
+            'prod' => 'oroauthorizenet/js/stubs/AcceptStub',
         ];
         return $options;
     }
