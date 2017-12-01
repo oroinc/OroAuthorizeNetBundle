@@ -30,7 +30,7 @@ oro_behat_extension:
     AddMethodButton:
       selector: "a[class='btn add-method']"
     DeleteShoppingList:
-      selector: 'input[name=oro_workflow_transition[remove_source]]'
+      selector: 'input[name="oro_workflow_transition[remove_source]"]'
 
   suites:
     OroAuthorizeNetBundle:
