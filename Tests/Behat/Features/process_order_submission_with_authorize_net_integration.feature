@@ -1,6 +1,7 @@
 @fixture-OroFlatRateShippingBundle:FlatRateIntegration.yml
 @fixture-OroAuthorizeNetBundle:AuthorizeNetFixture.yml
 Feature: Process order submission with Authorize_Net integration
+  ToDo: BAP-16103 Add missing descriptions to the Behat features
   Scenario: Create new AuthorizeNet Integration
     Given I login as administrator
     When I go to System/Integrations/Manage Integrations
