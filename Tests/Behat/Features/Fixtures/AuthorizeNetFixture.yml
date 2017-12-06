@@ -76,10 +76,12 @@ Oro\Bundle\ShoppingListBundle\Entity\ShoppingList:
         label: 'List 1'
         customerUser: '@amanda'
         organization: '@organization'
+        website: '@website1'
     shoppinglist2:
         label: 'List 2'
         customerUser: '@amanda'
         organization: '@organization'
+        website: '@website1'
 
 Oro\Bundle\ShoppingListBundle\Entity\LineItem:
     lineitem1:
