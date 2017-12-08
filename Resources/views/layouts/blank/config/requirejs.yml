@@ -2,3 +2,7 @@ config:
     paths:
         'oroauthorizenet/js/app/components/credit-card-component': 'bundles/oroauthorizenet/js/app/components/credit-card-component.js'
         'oroauthorizenet/js/app/components/order-review-component': 'bundles/oroauthorizenet/js/app/components/order-review-component.js'
+
+build:
+    paths:
+        'oroauthorizenet/js/stubs/AcceptStub': 'empty:'
