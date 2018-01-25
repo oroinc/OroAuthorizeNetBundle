@@ -143,8 +143,8 @@ define(function(require) {
             });
 
             virtualForm.find('select').each(function(index, item) {
-                //set new select to value of old select
-                //http://stackoverflow.com/questions/742810/clone-isnt-cloning-select-values
+                // set new select to value of old select
+                // http://stackoverflow.com/questions/742810/clone-isnt-cloning-select-values
                 $(item).val(self.$form.find('select').eq(index).val());
             });
 
@@ -216,16 +216,15 @@ define(function(require) {
                 }
 
                 this.acceptJs.dispatchData({
-                        authData: {
-                            clientKey: this.options.clientKey,
-                            apiLoginID: this.options.apiLoginID
-                        },
-                        cardData: cardData
-                    }, function(response) {
-                        mediator.execute('hideLoading');
-                        self.acceptJsResponse.call(self, response, eventData);
-                    }
-                );
+                    authData: {
+                        clientKey: this.options.clientKey,
+                        apiLoginID: this.options.apiLoginID
+                    },
+                    cardData: cardData
+                }, function(response) {
+                    mediator.execute('hideLoading');
+                    self.acceptJsResponse(response, eventData);
+                });
             }
         },
 
@@ -242,7 +241,7 @@ define(function(require) {
             var acceptJsUrl = this.options.testMode ? this.options.acceptJsUrls.test : this.options.acceptJsUrls.prod;
             var self = this;
             require([acceptJsUrl], function() {
-                self.acceptJs = Accept; // jshint ignore:line
+                self.acceptJs = Accept;
             });
         },
 
