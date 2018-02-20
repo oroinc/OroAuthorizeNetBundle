@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\Method\Config;
 
-use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfigInterface;
 use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfig;
+use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfigInterface;
 use Oro\Bundle\PaymentBundle\Tests\Unit\Method\Config\AbstractPaymentConfigTestCase;
 
 class AuthorizeNetConfigTest extends AbstractPaymentConfigTestCase

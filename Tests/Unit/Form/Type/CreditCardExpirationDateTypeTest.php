@@ -2,10 +2,9 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\Form\Type;
 
+use Oro\Bundle\AuthorizeNetBundle\Form\Type\CreditCardExpirationDateType;
 use Symfony\Component\Form\FormConfigInterface;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
-
-use Oro\Bundle\AuthorizeNetBundle\Form\Type\CreditCardExpirationDateType;
 
 class CreditCardExpirationDateTypeTest extends FormIntegrationTestCase
 {

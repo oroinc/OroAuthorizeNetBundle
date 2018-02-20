@@ -3,19 +3,19 @@
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\Method;
 
 use JMS\Serializer\Serializer;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use net\authorize\api\contract\v1\CreateTransactionResponse;
 use net\authorize\api\contract\v1\MessagesType;
 use net\authorize\api\contract\v1\TransactionResponseType;
+use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Gateway;
+use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option\Transaction;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response\AuthorizeNetSDKResponse;
+use Oro\Bundle\AuthorizeNetBundle\Method\AuthorizeNetPaymentMethod;
+use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfigInterface;
 use Oro\Bundle\PaymentBundle\Context\PaymentContextInterface;
 use Oro\Bundle\PaymentBundle\Entity\PaymentTransaction;
 use Oro\Bundle\PaymentBundle\Method\PaymentMethodInterface;
-use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option\Transaction;
-use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Gateway;
-use Oro\Bundle\AuthorizeNetBundle\Method\AuthorizeNetPaymentMethod;
-use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfigInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods)

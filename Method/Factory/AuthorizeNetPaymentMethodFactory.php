@@ -2,12 +2,11 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\Method\Factory;
 
-use Psr\Log\LoggerAwareTrait;
-use Symfony\Component\HttpFoundation\RequestStack;
-
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Gateway;
 use Oro\Bundle\AuthorizeNetBundle\Method\AuthorizeNetPaymentMethod;
 use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfigInterface;
+use Psr\Log\LoggerAwareTrait;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class AuthorizeNetPaymentMethodFactory implements AuthorizeNetPaymentMethodFactoryInterface
 {

@@ -3,11 +3,11 @@
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\AuthorizeNet\Response;
 
 use JMS\Serializer\Serializer;
-use net\authorize\api\contract\v1\MessagesType;
-use net\authorize\api\contract\v1\TransactionResponseType\MessagesAType\MessageAType as TransactionMessage;
-use net\authorize\api\contract\v1\TransactionResponseType\ErrorsAType\ErrorAType as TransactionErrorMessage;
 use net\authorize\api\contract\v1\CreateTransactionResponse;
+use net\authorize\api\contract\v1\MessagesType;
 use net\authorize\api\contract\v1\TransactionResponseType;
+use net\authorize\api\contract\v1\TransactionResponseType\ErrorsAType\ErrorAType as TransactionErrorMessage;
+use net\authorize\api\contract\v1\TransactionResponseType\MessagesAType\MessageAType as TransactionMessage;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response\AuthorizeNetSDKResponse;
 
 class AuthorizeNetSDKResponseTest extends \PHPUnit_Framework_TestCase

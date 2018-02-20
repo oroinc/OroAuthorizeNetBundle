@@ -3,9 +3,8 @@
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\AuthorizeNet\Client\RequestConfigurator;
 
 use net\authorize\api\contract\v1 as AnetAPI;
-
-use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\RequestConfigurator\TransactionRequestConfigurator;
+use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 
 class TransactionRequestConfiguratorTest extends \PHPUnit_Framework_TestCase
 {

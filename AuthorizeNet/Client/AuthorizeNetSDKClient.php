@@ -4,7 +4,6 @@ namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client;
 
 use JMS\Serializer\Serializer;
 use net\authorize\api\contract\v1\CreateTransactionResponse;
-
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\Factory\AnetSDKRequestFactoryInterface;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response\AuthorizeNetSDKResponse;
 

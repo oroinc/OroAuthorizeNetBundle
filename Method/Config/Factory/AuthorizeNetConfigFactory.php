@@ -5,10 +5,10 @@ namespace Oro\Bundle\AuthorizeNetBundle\Method\Config\Factory;
 use Doctrine\Common\Collections\Collection;
 use Oro\Bundle\AuthorizeNetBundle\Entity\AuthorizeNetSettings;
 use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfig;
-use Oro\Bundle\SecurityBundle\Encoder\SymmetricCrypterInterface;
-use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
-use Oro\Bundle\IntegrationBundle\Generator\IntegrationIdentifierGeneratorInterface;
 use Oro\Bundle\IntegrationBundle\Entity\Channel;
+use Oro\Bundle\IntegrationBundle\Generator\IntegrationIdentifierGeneratorInterface;
+use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
+use Oro\Bundle\SecurityBundle\Encoder\SymmetricCrypterInterface;
 
 class AuthorizeNetConfigFactory implements AuthorizeNetConfigFactoryInterface
 {

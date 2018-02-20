@@ -2,9 +2,8 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-
 use Oro\Bundle\AuthorizeNetBundle\DependencyInjection\OroAuthorizeNetExtension;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class OroAuthorizeNetBundle extends Bundle
 {

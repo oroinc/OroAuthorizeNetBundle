@@ -2,10 +2,10 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\Method\View;
 
-use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfigInterface;
-use Oro\Bundle\PaymentBundle\Context\PaymentContextInterface;
-use Oro\Bundle\AuthorizeNetBundle\Method\View\AuthorizeNetPaymentMethodView;
 use Oro\Bundle\AuthorizeNetBundle\Form\Type\CreditCardType;
+use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfigInterface;
+use Oro\Bundle\AuthorizeNetBundle\Method\View\AuthorizeNetPaymentMethodView;
+use Oro\Bundle\PaymentBundle\Context\PaymentContextInterface;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\Form\FormFactoryInterface;
 

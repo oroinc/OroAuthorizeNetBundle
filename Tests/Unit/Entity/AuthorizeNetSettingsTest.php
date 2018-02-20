@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\Entity;
 
-use Oro\Bundle\LocaleBundle\Entity\LocalizedFallbackValue;
 use Oro\Bundle\AuthorizeNetBundle\Entity\AuthorizeNetSettings;
+use Oro\Bundle\LocaleBundle\Entity\LocalizedFallbackValue;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\HttpFoundation\ParameterBag;

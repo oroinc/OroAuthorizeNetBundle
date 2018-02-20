@@ -4,8 +4,8 @@ namespace Oro\Bundle\AuthorizeNetBundle\Method\View\Provider;
 
 use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfigInterface;
 use Oro\Bundle\AuthorizeNetBundle\Method\Config\Provider\AuthorizeNetConfigProviderInterface;
-use Oro\Bundle\PaymentBundle\Method\View\AbstractPaymentMethodViewProvider;
 use Oro\Bundle\AuthorizeNetBundle\Method\View\Factory\AuthorizeNetPaymentMethodViewFactoryInterface;
+use Oro\Bundle\PaymentBundle\Method\View\AbstractPaymentMethodViewProvider;
 
 class AuthorizeNetMethodViewProvider extends AbstractPaymentMethodViewProvider
 {

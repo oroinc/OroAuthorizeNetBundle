@@ -2,15 +2,14 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\Method;
 
-use Psr\Log\LoggerAwareTrait;
-use Symfony\Component\HttpFoundation\RequestStack;
-
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Gateway;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfigInterface;
 use Oro\Bundle\PaymentBundle\Context\PaymentContextInterface;
 use Oro\Bundle\PaymentBundle\Entity\PaymentTransaction;
 use Oro\Bundle\PaymentBundle\Method\PaymentMethodInterface;
+use Psr\Log\LoggerAwareTrait;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class AuthorizeNetPaymentMethod implements PaymentMethodInterface
 {
