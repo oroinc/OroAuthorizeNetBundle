@@ -72,12 +72,12 @@ class AuthorizeNetSettingsType extends AbstractType
             ->add('creditCardLabels', LocalizedFallbackValueCollectionType::NAME, [
                 'label' => 'oro.authorize_net.settings.credit_card_labels.label',
                 'required' => true,
-                'options' => ['constraints' => [new NotBlank()]],
+                'entry_options' => ['constraints' => [new NotBlank()]],
             ])
             ->add('creditCardShortLabels', LocalizedFallbackValueCollectionType::NAME, [
                 'label' => 'oro.authorize_net.settings.credit_card_short_labels.label',
                 'required' => true,
-                'options' => ['constraints' => [new NotBlank()]],
+                'entry_options' => ['constraints' => [new NotBlank()]],
             ])
             ->add('creditCardPaymentAction', ChoiceType::class, [
                 'choices' => $this->paymentActionsDataProvider->getPaymentActions(),
