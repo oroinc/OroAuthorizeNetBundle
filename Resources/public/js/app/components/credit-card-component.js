@@ -1,3 +1,4 @@
+/* global Accept */
 define(function(require) {
     'use strict';
 
