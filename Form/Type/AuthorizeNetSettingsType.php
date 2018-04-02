@@ -72,15 +72,16 @@ class AuthorizeNetSettingsType extends AbstractType
             ->add('creditCardLabels', LocalizedFallbackValueCollectionType::NAME, [
                 'label' => 'oro.authorize_net.settings.credit_card_labels.label',
                 'required' => true,
-                'options' => ['constraints' => [new NotBlank()]],
+                'entry_options' => ['constraints' => [new NotBlank()]],
             ])
             ->add('creditCardShortLabels', LocalizedFallbackValueCollectionType::NAME, [
                 'label' => 'oro.authorize_net.settings.credit_card_short_labels.label',
                 'required' => true,
-                'options' => ['constraints' => [new NotBlank()]],
+                'entry_options' => ['constraints' => [new NotBlank()]],
             ])
             ->add('creditCardPaymentAction', ChoiceType::class, [
                 'choices' => $this->paymentActionsDataProvider->getPaymentActions(),
+                // TODO: Remove 'choices_as_values' option in scope of BAP-15236
                 'choices_as_values' => true,
                 'choice_label' => function ($action) {
                     return $this->translator->trans(
@@ -92,6 +93,7 @@ class AuthorizeNetSettingsType extends AbstractType
             ])
             ->add('allowedCreditCardTypes', ChoiceType::class, [
                 'choices' => $this->cardTypesDataProvider->getCardTypes(),
+                // TODO: Remove 'choices_as_values' option in scope of BAP-15236
                 'choices_as_values' => true,
                 'choice_label' => function ($cardType) {
                     return $this->translator->trans(

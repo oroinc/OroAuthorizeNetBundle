@@ -3,9 +3,9 @@
 namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet;
 
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\ClientInterface;
-use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response\ResponseInterface;
-use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request\RequestRegistry;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option\OptionsResolver;
+use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request\RequestRegistry;
+use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response\ResponseInterface;
 
 class Gateway
 {

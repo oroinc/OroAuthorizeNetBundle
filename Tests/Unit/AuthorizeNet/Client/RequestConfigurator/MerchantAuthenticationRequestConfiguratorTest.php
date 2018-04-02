@@ -3,9 +3,8 @@
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\AuthorizeNet\Client\RequestConfigurator;
 
 use net\authorize\api\contract\v1\CreateTransactionRequest;
-
-use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\RequestConfigurator\MerchantAuthenticationRequestConfigurator;
+use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 
 class MerchantAuthenticationRequestConfiguratorTest extends \PHPUnit_Framework_TestCase
 {

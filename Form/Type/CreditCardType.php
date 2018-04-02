@@ -2,13 +2,12 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\Form\Type;
 
+use Oro\Bundle\ValidationBundle\Validator\Constraints\Integer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
-
-use Oro\Bundle\ValidationBundle\Validator\Constraints\Integer;
 
 class CreditCardType extends AbstractType
 {

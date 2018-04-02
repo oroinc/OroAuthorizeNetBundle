@@ -7,7 +7,6 @@ define(function(require) {
     var BaseComponent = require('oroui/js/app/components/base/component');
 
     OrderReviewComponent = BaseComponent.extend({
-
         /**
          * @property {Object}
          */
@@ -15,11 +14,24 @@ define(function(require) {
             paymentMethod: null
         },
 
+        /**
+         * @inheritDoc
+         */
+        constructor: function OrderReviewComponent() {
+            OrderReviewComponent.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */
         initialize: function(options) {
             this.options = _.extend({}, this.options, options);
             mediator.on('checkout:place-order:response', this.placeOrderResponse, this);
         },
 
+        /**
+         * @inheritDoc
+         */
         dispose: function() {
             mediator.off('checkout:place-order:response', this.placeOrderResponse, this);
             OrderReviewComponent.__super__.dispose.call(this);

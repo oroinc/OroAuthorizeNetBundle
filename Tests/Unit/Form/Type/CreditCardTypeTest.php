@@ -2,13 +2,12 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\Form\Type;
 
-use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
-use Symfony\Component\Form\Test\FormIntegrationTestCase;
-use Symfony\Component\Form\PreloadedExtension;
-use Symfony\Component\Validator\Validation;
-
 use Oro\Bundle\AuthorizeNetBundle\Form\Type\CreditCardExpirationDateType;
 use Oro\Bundle\AuthorizeNetBundle\Form\Type\CreditCardType;
+use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
+use Symfony\Component\Form\PreloadedExtension;
+use Symfony\Component\Form\Test\FormIntegrationTestCase;
+use Symfony\Component\Validator\Validation;
 
 class CreditCardTypeTest extends FormIntegrationTestCase
 {

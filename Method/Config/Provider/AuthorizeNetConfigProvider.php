@@ -2,12 +2,11 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\Method\Config\Provider;
 
-use Psr\Log\LoggerInterface;
 use Doctrine\Common\Persistence\ManagerRegistry;
-
 use Oro\Bundle\AuthorizeNetBundle\Entity\AuthorizeNetSettings;
 use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfigInterface;
 use Oro\Bundle\AuthorizeNetBundle\Method\Config\Factory\AuthorizeNetConfigFactoryInterface;
+use Psr\Log\LoggerInterface;
 
 class AuthorizeNetConfigProvider implements AuthorizeNetConfigProviderInterface
 {

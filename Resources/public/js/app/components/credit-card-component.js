@@ -1,3 +1,4 @@
+/* global Accept */
 define(function(require) {
     'use strict';
 
@@ -51,6 +52,13 @@ define(function(require) {
          * @property {(Accept|null)}
          */
         acceptJs: null,
+
+        /**
+         * @inheritDoc
+         */
+        constructor: function CreditCardComponent() {
+            CreditCardComponent.__super__.constructor.apply(this, arguments);
+        },
 
         /**
          * @inheritDoc

@@ -2,13 +2,13 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\Method\Config\Factory;
 
+use Oro\Bundle\AuthorizeNetBundle\Entity\AuthorizeNetSettings;
+use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfig;
+use Oro\Bundle\AuthorizeNetBundle\Method\Config\Factory\AuthorizeNetConfigFactory;
 use Oro\Bundle\IntegrationBundle\Entity\Channel;
 use Oro\Bundle\IntegrationBundle\Generator\IntegrationIdentifierGeneratorInterface;
 use Oro\Bundle\LocaleBundle\Entity\LocalizedFallbackValue;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
-use Oro\Bundle\AuthorizeNetBundle\Entity\AuthorizeNetSettings;
-use Oro\Bundle\AuthorizeNetBundle\Method\Config\Factory\AuthorizeNetConfigFactory;
-use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfig;
 use Oro\Bundle\SecurityBundle\Encoder\SymmetricCrypterInterface;
 use Oro\Component\Testing\Unit\EntityTrait;
 

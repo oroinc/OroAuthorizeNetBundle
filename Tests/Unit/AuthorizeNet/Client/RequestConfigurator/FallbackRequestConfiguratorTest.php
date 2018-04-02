@@ -3,11 +3,9 @@
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\AuthorizeNet\Client\RequestConfigurator;
 
 use net\authorize\api\contract\v1 as AnetAPI;
-
+use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\RequestConfigurator\FallbackRequestConfigurator;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
-
-use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\RequestConfigurator\FallbackRequestConfigurator;
 
 class FallbackRequestConfiguratorTest extends \PHPUnit_Framework_TestCase
 {

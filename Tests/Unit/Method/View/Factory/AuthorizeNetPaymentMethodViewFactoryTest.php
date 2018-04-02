@@ -3,8 +3,8 @@
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\Method\View\Factory;
 
 use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfigInterface;
-use Oro\Bundle\AuthorizeNetBundle\Method\View\Factory\AuthorizeNetPaymentMethodViewFactory;
 use Oro\Bundle\AuthorizeNetBundle\Method\View\AuthorizeNetPaymentMethodView;
+use Oro\Bundle\AuthorizeNetBundle\Method\View\Factory\AuthorizeNetPaymentMethodViewFactory;
 use Symfony\Component\Form\FormFactoryInterface;
 
 class AuthorizeNetPaymentMethodViewFactoryTest extends \PHPUnit_Framework_TestCase

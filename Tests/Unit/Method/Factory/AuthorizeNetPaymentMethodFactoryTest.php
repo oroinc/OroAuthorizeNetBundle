@@ -2,12 +2,12 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\Method\Factory;
 
-use Psr\Log\LoggerInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
+use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Gateway;
+use Oro\Bundle\AuthorizeNetBundle\Method\AuthorizeNetPaymentMethod;
 use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfigInterface;
 use Oro\Bundle\AuthorizeNetBundle\Method\Factory\AuthorizeNetPaymentMethodFactory;
-use Oro\Bundle\AuthorizeNetBundle\Method\AuthorizeNetPaymentMethod;
-use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Gateway;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class AuthorizeNetPaymentMethodFactoryTest extends \PHPUnit_Framework_TestCase
 {
