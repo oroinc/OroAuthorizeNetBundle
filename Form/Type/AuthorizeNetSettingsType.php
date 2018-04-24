@@ -69,12 +69,12 @@ class AuthorizeNetSettingsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('creditCardLabels', LocalizedFallbackValueCollectionType::NAME, [
+            ->add('creditCardLabels', LocalizedFallbackValueCollectionType::class, [
                 'label' => 'oro.authorize_net.settings.credit_card_labels.label',
                 'required' => true,
                 'entry_options' => ['constraints' => [new NotBlank()]],
             ])
-            ->add('creditCardShortLabels', LocalizedFallbackValueCollectionType::NAME, [
+            ->add('creditCardShortLabels', LocalizedFallbackValueCollectionType::class, [
                 'label' => 'oro.authorize_net.settings.credit_card_short_labels.label',
                 'required' => true,
                 'entry_options' => ['constraints' => [new NotBlank()]],
