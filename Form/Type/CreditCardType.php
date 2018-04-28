@@ -4,6 +4,8 @@ namespace Oro\Bundle\AuthorizeNetBundle\Form\Type;
 
 use Oro\Bundle\ValidationBundle\Validator\Constraints\Integer;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
@@ -20,7 +22,7 @@ class CreditCardType extends AbstractType
     {
         $builder->add(
             'ACCT',
-            'text',
+            TextType::class,
             [
                 'required' => true,
                 'label' => 'oro.authorize_net.credit_card.card_number.label',
@@ -50,7 +52,7 @@ class CreditCardType extends AbstractType
             ]
         )->add(
             'expirationDate',
-            CreditCardExpirationDateType::NAME,
+            CreditCardExpirationDateType::class,
             [
                 'required' => true,
                 'label' => 'oro.authorize_net.credit_card.expiration_date.label',
@@ -68,7 +70,7 @@ class CreditCardType extends AbstractType
         if ($options['requireCvvEntryEnabled']) {
             $builder->add(
                 'CVV2',
-                'password',
+                PasswordType::class,
                 [
                     'required' => true,
                     'label' => 'oro.authorize_net.credit_card.cvv2.label',

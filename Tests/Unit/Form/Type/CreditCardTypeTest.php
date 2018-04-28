@@ -4,8 +4,8 @@ namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\Form\Type;
 
 use Oro\Bundle\AuthorizeNetBundle\Form\Type\CreditCardExpirationDateType;
 use Oro\Bundle\AuthorizeNetBundle\Form\Type\CreditCardType;
+use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
-use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\Validator\Validation;
 
@@ -21,9 +21,8 @@ class CreditCardTypeTest extends FormIntegrationTestCase
      */
     protected function setUp()
     {
-        parent::setUp();
-
         $this->formType = new CreditCardType();
+        parent::setUp();
     }
 
     /**
@@ -34,7 +33,8 @@ class CreditCardTypeTest extends FormIntegrationTestCase
         return [
             new PreloadedExtension(
                 [
-                    CreditCardExpirationDateType::NAME => new CreditCardExpirationDateType(),
+                    $this->formType,
+                    CreditCardExpirationDateType::class => new CreditCardExpirationDateType(),
                 ],
                 []
             ),
@@ -44,12 +44,7 @@ class CreditCardTypeTest extends FormIntegrationTestCase
 
     public function testConfigureOptions()
     {
-        $form = $this->factory->create($this->formType);
+        $form = $this->factory->create(CreditCardType::class);
         $this->assertEquals('oro.authorize_net.methods.credit_card.label', $form->getConfig()->getOption('label'));
-    }
-
-    public function testGetName()
-    {
-        $this->assertEquals('oro_authorize_net_credit_card', $this->formType->getName());
     }
 }

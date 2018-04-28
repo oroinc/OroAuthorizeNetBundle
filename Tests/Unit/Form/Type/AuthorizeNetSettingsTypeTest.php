@@ -7,13 +7,14 @@ use Oro\Bundle\AuthorizeNetBundle\Form\Type\AuthorizeNetSettingsType;
 use Oro\Bundle\AuthorizeNetBundle\Settings\DataProvider\CardTypesDataProviderInterface;
 use Oro\Bundle\AuthorizeNetBundle\Settings\DataProvider\PaymentActionsDataProviderInterface;
 use Oro\Bundle\FormBundle\Form\Type\OroEncodedPlaceholderPasswordType;
+use Oro\Bundle\LocaleBundle\Form\Type\LocalizedFallbackValueCollectionType;
 use Oro\Bundle\LocaleBundle\Tests\Unit\Form\Type\Stub\LocalizedFallbackValueCollectionTypeStub;
 use Oro\Bundle\SecurityBundle\Encoder\SymmetricCrypterInterface;
 use Oro\Bundle\SecurityBundle\Form\DataTransformer\Factory\CryptedDataTransformerFactoryInterface;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
+use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
-use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Validation;
@@ -83,7 +84,8 @@ class AuthorizeNetSettingsTypeTest extends FormIntegrationTestCase
         return [
             new PreloadedExtension(
                 [
-                    $localizedType->getName() => $localizedType,
+                    $this->formType,
+                    LocalizedFallbackValueCollectionType::class => $localizedType,
                     new OroEncodedPlaceholderPasswordType($encoder),
                 ],
                 []
@@ -120,7 +122,7 @@ class AuthorizeNetSettingsTypeTest extends FormIntegrationTestCase
 
         $authorizeNetSettings = new AuthorizeNetSettings();
 
-        $form = $this->factory->create($this->formType, $authorizeNetSettings);
+        $form = $this->factory->create(AuthorizeNetSettingsType::class, $authorizeNetSettings);
 
         $form->submit($submitData);
 

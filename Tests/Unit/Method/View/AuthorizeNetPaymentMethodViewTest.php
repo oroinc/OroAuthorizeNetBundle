@@ -110,7 +110,7 @@ class AuthorizeNetPaymentMethodViewTest extends \PHPUnit_Framework_TestCase
 
         $this->formFactory->expects($this->once())
             ->method('create')
-            ->with(CreditCardType::NAME, null, $formOptions)
+            ->with(CreditCardType::class, null, $formOptions)
             ->willReturn($form);
 
         $this->paymentConfig->expects($this->once())
