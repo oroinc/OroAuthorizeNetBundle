@@ -4,6 +4,7 @@ namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\Form\Type;
 
 use Oro\Bundle\AuthorizeNetBundle\Form\Type\CreditCardExpirationDateType;
 use Oro\Component\Testing\Unit\PreloadedExtension;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormConfigInterface;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 
@@ -44,13 +45,13 @@ class CreditCardExpirationDateTypeTest extends FormIntegrationTestCase
             [
                 [
                     'month' => [
-                        'type' => 'choice',
+                        'type' => ChoiceType::class,
                         'options' => [
                             'required' => true,
                         ],
                     ],
                     'year' => [
-                        'type' => 'choice',
+                        'type' => ChoiceType::class,
                         'options' => [
                             'required' => true,
                         ],
@@ -80,7 +81,7 @@ class CreditCardExpirationDateTypeTest extends FormIntegrationTestCase
         foreach ($formFields as $fieldname => $fieldData) {
             $this->assertTrue($form->has($fieldname));
             $field = $form->get($fieldname);
-            $this->assertEquals($field->getConfig()->getType()->getName(), $fieldData['type']);
+            $this->assertInstanceOf($fieldData['type'], $field->getConfig()->getType()->getInnerType());
             $this->assertFormOptions($field->getConfig(), $fieldData['options']);
         }
     }
