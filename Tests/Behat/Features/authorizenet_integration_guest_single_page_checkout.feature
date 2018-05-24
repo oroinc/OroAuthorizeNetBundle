@@ -1,10 +1,16 @@
 @fixture-OroFlatRateShippingBundle:FlatRateIntegration.yml
 @fixture-OroAuthorizeNetBundle:AuthorizeNetFixture.yml
-Feature: AuthorizeNet integration Single Page Checkout
+Feature: AuthorizeNet integration guest Single Page Checkout
   ToDo: BAP-16103 Add missing descriptions to the Behat features
 
+  Scenario: Create different window session
+    Given sessions active:
+      | Admin | first_session  |
+      | User  | second_session |
+
   Scenario: Create new AuthorizeNet Integration
-    Given I login as administrator
+    Given I proceed as the Admin
+    And I login as administrator
     When I go to System/Integrations/Manage Integrations
     And I click "Create Integration"
     And I select "Authorize.NET" from "Type"
@@ -41,9 +47,18 @@ Feature: AuthorizeNet integration Single Page Checkout
     And I click "Activate"
     Then I should see "Workflow activated" flash message
 
+  Scenario: Enable guest checkout setting
+    Given I follow "Commerce/Sales/Checkout" on configuration sidebar
+    And fill "Checkout Configuration Form" with:
+      |Enable Guest Checkout Default|false|
+      |Enable Guest Checkout        |true |
+    And click "Save settings"
+    Then the "Enable Guest Checkout" checkbox should be checked
+
   Scenario: Frontend AcceptJs Card validation error when pay order with AuthorizeNet
-    Given There are products in the system available for order
-    And I signed in as AmandaRCole@example.org on the store frontend
+    Given I proceed as the User
+    And There are products in the system available for order
+    And I am on homepage
     When I open page with shopping list List 2
     And I click "Create Order"
     And I select "Fifth avenue, 10115 Berlin, Germany" from "Select Billing Address"
