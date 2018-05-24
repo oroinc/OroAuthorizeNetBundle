@@ -44,7 +44,7 @@ Feature: AuthorizeNet integration guest Checkout
     Then I should see "Payment rule has been saved" flash message
 
   Scenario: Enable guest shopping list setting
-    When go to System/ Configuration
+    Given I go to System/ Configuration
     And I follow "Commerce/Sales/Shopping List" on configuration sidebar
     And uncheck "Use default" for "Enable guest shopping list" field
     And I check "Enable guest shopping list"
@@ -91,5 +91,6 @@ Feature: AuthorizeNet integration guest Checkout
       | Year             | 2027             |
       | CVV              | 123              |
     And I click "Continue"
+    And I uncheck "Save my data and create an account" on the checkout page
     And I press "Submit Order"
-    Then I see the "Thank You" page with "Thank You For Your Purchase!" title
+    Then I should see "Thank You For Your Purchase!"
