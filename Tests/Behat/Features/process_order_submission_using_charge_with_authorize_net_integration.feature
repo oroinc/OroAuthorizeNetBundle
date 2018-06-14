@@ -63,9 +63,13 @@ Feature: Process order submission using Charge with Authorize_Net integration
     And I click "Continue"
     And I press "Submit Order"
     Then I should see "We were unable to process your payment. Please verify your payment information and try again." flash message
+    When I proceed as the Admin
+    And go to Sales/Orders
+    Then there is no records in grid
 
   Scenario: Successful order payment with AuthorizeNet
-    Given There are products in the system available for order
+    Given I operate as the Buyer
+    And There are products in the system available for order
     When I open page with shopping list List 1
     And I press "Create Order"
     And I select "Fifth avenue, 10115 Berlin, Germany" on the "Billing Information" checkout step and press Continue
