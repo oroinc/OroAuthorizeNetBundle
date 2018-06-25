@@ -6,7 +6,7 @@ use net\authorize\api\contract\v1\CreateTransactionRequest;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\RequestConfigurator\MerchantAuthenticationRequestConfigurator;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 
-class MerchantAuthenticationRequestConfiguratorTest extends \PHPUnit_Framework_TestCase
+class MerchantAuthenticationRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var MerchantAuthenticationRequestConfigurator

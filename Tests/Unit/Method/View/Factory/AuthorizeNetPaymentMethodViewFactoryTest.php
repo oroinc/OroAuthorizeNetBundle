@@ -7,7 +7,7 @@ use Oro\Bundle\AuthorizeNetBundle\Method\View\AuthorizeNetPaymentMethodView;
 use Oro\Bundle\AuthorizeNetBundle\Method\View\Factory\AuthorizeNetPaymentMethodViewFactory;
 use Symfony\Component\Form\FormFactoryInterface;
 
-class AuthorizeNetPaymentMethodViewFactoryTest extends \PHPUnit_Framework_TestCase
+class AuthorizeNetPaymentMethodViewFactoryTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var FormFactoryInterface

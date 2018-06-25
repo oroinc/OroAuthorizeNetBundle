@@ -9,7 +9,7 @@ use Oro\Bundle\AuthorizeNetBundle\Method\Factory\AuthorizeNetPaymentMethodFactor
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class AuthorizeNetPaymentMethodFactoryTest extends \PHPUnit_Framework_TestCase
+class AuthorizeNetPaymentMethodFactoryTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Gateway
@@ -21,7 +21,7 @@ class AuthorizeNetPaymentMethodFactoryTest extends \PHPUnit_Framework_TestCase
      */
     protected $logger;
 
-    /** @var  RequestStack|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var  RequestStack|\PHPUnit\Framework\MockObject\MockObject */
     protected $requestStack;
 
     /**

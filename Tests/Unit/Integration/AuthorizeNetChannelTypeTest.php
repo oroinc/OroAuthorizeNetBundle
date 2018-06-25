@@ -4,7 +4,7 @@ namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\Integration;
 
 use Oro\Bundle\AuthorizeNetBundle\Integration\AuthorizeNetChannelType;
 
-class AuthorizeNetChannelTypeTest extends \PHPUnit_Framework_TestCase
+class AuthorizeNetChannelTypeTest extends \PHPUnit\Framework\TestCase
 {
     /** @var AuthorizeNetChannelType */
     private $channel;

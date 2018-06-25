@@ -6,7 +6,7 @@ use Oro\Bundle\AuthorizeNetBundle\Entity\AuthorizeNetSettings;
 use Oro\Bundle\AuthorizeNetBundle\Form\Type\AuthorizeNetSettingsType;
 use Oro\Bundle\AuthorizeNetBundle\Integration\AuthorizeNetTransport;
 
-class AuthorizeNetTransportTest extends \PHPUnit_Framework_TestCase
+class AuthorizeNetTransportTest extends \PHPUnit\Framework\TestCase
 {
     /** @var AuthorizeNetTransport */
     private $transport;

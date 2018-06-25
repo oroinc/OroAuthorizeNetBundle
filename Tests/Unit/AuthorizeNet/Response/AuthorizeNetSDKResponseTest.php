@@ -10,12 +10,12 @@ use net\authorize\api\contract\v1\TransactionResponseType\ErrorsAType\ErrorAType
 use net\authorize\api\contract\v1\TransactionResponseType\MessagesAType\MessageAType as TransactionMessage;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response\AuthorizeNetSDKResponse;
 
-class AuthorizeNetSDKResponseTest extends \PHPUnit_Framework_TestCase
+class AuthorizeNetSDKResponseTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var Serializer|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var Serializer|\PHPUnit\Framework\MockObject\MockObject */
     protected $serializer;
 
-    /** @var CreateTransactionResponse|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var CreateTransactionResponse|\PHPUnit\Framework\MockObject\MockObject */
     protected $apiResponse;
 
     /** @var AuthorizeNetSDKResponse */

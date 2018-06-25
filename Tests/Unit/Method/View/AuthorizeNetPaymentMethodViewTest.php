@@ -9,18 +9,18 @@ use Oro\Bundle\PaymentBundle\Context\PaymentContextInterface;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\Form\FormFactoryInterface;
 
-class AuthorizeNetPaymentMethodViewTest extends \PHPUnit_Framework_TestCase
+class AuthorizeNetPaymentMethodViewTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
     const ALLOWED_CC_TYPES = ['visa', 'mastercard'];
 
-    /** @var FormFactoryInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var FormFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $formFactory;
 
     /** @var AuthorizeNetPaymentMethodView */
     protected $methodView;
 
-    /** @var AuthorizeNetConfigInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var AuthorizeNetConfigInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $paymentConfig;
 
     protected function setUp()
@@ -97,7 +97,7 @@ class AuthorizeNetPaymentMethodViewTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param $requireCvvEntryEnabled
-     * @return array|\PHPUnit_Framework_MockObject_MockObject[]
+     * @return array|\PHPUnit\Framework\MockObject\MockObject[]
      */
     protected function prepareMocks($requireCvvEntryEnabled)
     {
@@ -129,7 +129,7 @@ class AuthorizeNetPaymentMethodViewTest extends \PHPUnit_Framework_TestCase
             ->method('isTestMode')
             ->willReturn(true);
 
-        /** @var PaymentContextInterface|\PHPUnit_Framework_MockObject_MockObject $context */
+        /** @var PaymentContextInterface|\PHPUnit\Framework\MockObject\MockObject $context */
         $context = $this->createMock(PaymentContextInterface::class);
 
         return array($formView, $context);

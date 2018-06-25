@@ -6,7 +6,7 @@ use net\authorize\api\contract\v1 as AnetAPI;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\RequestConfigurator\TransactionRequestConfigurator;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 
-class TransactionRequestConfiguratorTest extends \PHPUnit_Framework_TestCase
+class TransactionRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
 {
     const SOLUTION_ID = 'AAA000001';
 
@@ -42,7 +42,7 @@ class TransactionRequestConfiguratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testHandle(array $options, AnetAPI\TransactionRequestType $transactionRequestType)
     {
-        /** @var AnetAPI\CreateTransactionRequest|\PHPUnit_Framework_MockObject_MockObject $request * */
+        /** @var AnetAPI\CreateTransactionRequest|\PHPUnit\Framework\MockObject\MockObject $request * */
         $request = new AnetAPI\CreateTransactionRequest();
 
         $customOptions = ['some_another_options' => 'value'];
