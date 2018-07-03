@@ -4,7 +4,7 @@ namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\Settings\DataProvider;
 
 use Oro\Bundle\AuthorizeNetBundle\Settings\DataProvider\BasicPaymentActionsDataProvider;
 
-class BasicPaymentActionsDataProviderTest extends \PHPUnit_Framework_TestCase
+class BasicPaymentActionsDataProviderTest extends \PHPUnit\Framework\TestCase
 {
     public function testGetPaymentActions()
     {

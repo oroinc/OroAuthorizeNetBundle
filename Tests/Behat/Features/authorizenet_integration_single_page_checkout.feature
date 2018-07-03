@@ -72,7 +72,6 @@ Feature: AuthorizeNet integration Single Page Checkout
       | CVV              | 123              |
     And I click "Submit Order"
     Then I should see only following flash messages:
-      | Invalid OTS Token.                                                                            |
       | We were unable to process your payment. Please verify your payment information and try again. |
 
   Scenario: Successful order payment with AuthorizeNet

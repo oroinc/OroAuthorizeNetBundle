@@ -10,14 +10,14 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\Factory\AnetSDKRequestFact
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response\AuthorizeNetSDKResponse;
 
-class AuthorizeNetSDKClientTest extends \PHPUnit_Framework_TestCase
+class AuthorizeNetSDKClientTest extends \PHPUnit\Framework\TestCase
 {
     const HOST_ADDRESS = 'http://example.local/api';
 
-    /** @var Serializer|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var Serializer|\PHPUnit\Framework\MockObject\MockObject */
     protected $serializer;
 
-    /** @var AnetSDKRequestFactoryInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var AnetSDKRequestFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $requestFactory;
 
     /** @var AuthorizeNetSDKClient */

@@ -2,21 +2,28 @@
 @fixture-OroAuthorizeNetBundle:AuthorizeNetFixture.yml
 Feature: Process order submission with Authorize_Net integration
   ToDo: BAP-16103 Add missing descriptions to the Behat features
+
+  Scenario: Create sessions
+    Given sessions active:
+      | Admin | first_session  |
+      | Buyer | second_session |
+
   Scenario: Create new AuthorizeNet Integration
-    Given I login as administrator
+    Given I proceed as the Admin
+    And I login as administrator
     When I go to System/Integrations/Manage Integrations
     And I click "Create Integration"
     And I select "Authorize.NET" from "Type"
     And I fill "Authorize.Net Form" with:
-      | Name                      | AuthorizeNet         |
-      | Label                     | Authorize            |
-      | Short Label               | Au                   |
-      | Allowed Credit Card Types | Mastercard           |
-      | API Login ID              | qwer1234             |
-      | Transaction Key           | qwerty123456         |
-      | Client Key                | qwer12345            |
-      | Require CVV Entry         | true                 |
-      | Payment Action            | Authorize            |
+      | Name                      | AuthorizeNet |
+      | Label                     | Authorize    |
+      | Short Label               | Au           |
+      | Allowed Credit Card Types | Mastercard   |
+      | API Login ID              | qwer1234     |
+      | Transaction Key           | qwerty123456 |
+      | Client Key                | qwer12345    |
+      | Require CVV Entry         | true         |
+      | Payment Action            | Authorize    |
     And I save and close form
     Then I should see "Integration saved" flash message
     And I should see AuthorizeNet in grid
@@ -34,6 +41,7 @@ Feature: Process order submission with Authorize_Net integration
 
   Scenario: Successful order payment with AuthorizeNet
     Given There are products in the system available for order
+    And I proceed as the Buyer
     And I signed in as AmandaRCole@example.org on the store frontend
     When I open page with shopping list List 1
     And I press "Create Order"
@@ -50,7 +58,8 @@ Feature: Process order submission with Authorize_Net integration
     Then I see the "Thank You" page with "Thank You For Your Purchase!" title
 
   Scenario: Successful capture of authorized order
-    Given I am on dashboard
+    Given I proceed as the Admin
+    And I am on dashboard
     When I go to Sales/Orders
     And I click View Payment authorized in grid
     And I click "Capture"

@@ -13,12 +13,12 @@ use Oro\Bundle\IntegrationBundle\Entity\Channel;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Psr\Log\LoggerInterface;
 
-class AuthorizeNetConfigProviderTest extends \PHPUnit_Framework_TestCase
+class AuthorizeNetConfigProviderTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
     /**
-     * @var ManagerRegistry|\PHPUnit_Framework_MockObject_MockObject
+     * @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $doctrine;
 
@@ -68,13 +68,13 @@ class AuthorizeNetConfigProviderTest extends \PHPUnit_Framework_TestCase
 
         $this->doctrine->expects($this->once())->method('getManagerForClass')->willReturn($objectManager);
 
-        /** @var AuthorizeNetConfigFactory|\PHPUnit_Framework_MockObject_MockObject $factory */
+        /** @var AuthorizeNetConfigFactory|\PHPUnit\Framework\MockObject\MockObject $factory */
         $factory = $this->createMock(AuthorizeNetConfigFactory::class);
         $factory->expects($this->exactly(2))
             ->method('createConfig')
             ->willReturn($config);
 
-        /** @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject $logger */
+        /** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
 
         $this->authorizeNetConfigProvider = new AuthorizeNetConfigProvider(

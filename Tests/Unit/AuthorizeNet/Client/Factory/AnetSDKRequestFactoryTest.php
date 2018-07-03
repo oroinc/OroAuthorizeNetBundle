@@ -8,12 +8,12 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\Factory\AnetSDKRequestFact
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\RequestConfigurator\RequestConfiguratorInterface;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\RequestConfigurator\RequestConfiguratorRegistry;
 
-class AnetSDKRequestFactoryTest extends \PHPUnit_Framework_TestCase
+class AnetSDKRequestFactoryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var AnetSDKRequestFactory */
     protected $factory;
 
-    /** @var RequestConfiguratorRegistry|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var RequestConfiguratorRegistry|\PHPUnit\Framework\MockObject\MockObject */
     protected $requestConfiguratorRegistry;
 
     protected function setUp()

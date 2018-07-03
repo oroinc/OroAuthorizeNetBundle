@@ -5,7 +5,7 @@ namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\AuthorizeNet\Request;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request\AbstractRequest;
 
-abstract class AbstractRequestTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractRequestTest extends \PHPUnit\Framework\TestCase
 {
     const DEFAULT_REQUEST_OPTIONS = [
         Option\ApiLoginId::API_LOGIN_ID => 'some_login_id',

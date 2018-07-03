@@ -5,7 +5,7 @@ namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\AuthorizeNet\Client\RequestCo
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\RequestConfigurator\RequestConfiguratorInterface;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\RequestConfigurator\RequestConfiguratorRegistry;
 
-class RequestConfiguratorRegistryTest extends \PHPUnit_Framework_TestCase
+class RequestConfiguratorRegistryTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var RequestConfiguratorRegistry
@@ -38,7 +38,7 @@ class RequestConfiguratorRegistryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param int $priority
-     * @return RequestConfiguratorInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return RequestConfiguratorInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected function createRequestConfigurator($priority = 0)
     {

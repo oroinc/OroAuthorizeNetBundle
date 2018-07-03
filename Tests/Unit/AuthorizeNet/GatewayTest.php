@@ -8,14 +8,14 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option\OptionsResolver;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request\RequestInterface;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request\RequestRegistry;
 
-class GatewayTest extends \PHPUnit_Framework_TestCase
+class GatewayTest extends \PHPUnit\Framework\TestCase
 {
     const CONFIGURABLE_OPTION = 'CONFIGURABLE_OPTION';
 
-    /** @var ClientInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var ClientInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $client;
 
-    /** @var RequestRegistry|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var RequestRegistry|\PHPUnit\Framework\MockObject\MockObject */
     protected $requestRegistry;
 
     /** @var Gateway */

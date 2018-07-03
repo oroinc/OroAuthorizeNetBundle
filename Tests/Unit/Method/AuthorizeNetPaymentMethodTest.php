@@ -21,21 +21,21 @@ use Symfony\Component\HttpFoundation\RequestStack;
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class AuthorizeNetPaymentMethodTest extends \PHPUnit_Framework_TestCase
+class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var Gateway|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var Gateway|\PHPUnit\Framework\MockObject\MockObject */
     protected $gateway;
 
     /** @var AuthorizeNetPaymentMethod */
     protected $method;
 
-    /** @var AuthorizeNetConfigInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var AuthorizeNetConfigInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $paymentConfig;
 
-    /** @var Serializer|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var Serializer|\PHPUnit\Framework\MockObject\MockObject */
     protected $serializer;
 
-    /** @var RequestStack|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject */
     protected $requestStack;
 
     protected function setUp()
@@ -345,7 +345,7 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit_Framework_TestCase
             ->method('getCurrentRequest')
             ->willReturn($request);
 
-        /** @var PaymentContextInterface|\PHPUnit_Framework_MockObject_MockObject $context */
+        /** @var PaymentContextInterface|\PHPUnit\Framework\MockObject\MockObject $context */
         $context = $this->createMock(PaymentContextInterface::class);
         $this->assertTrue($this->method->isApplicable($context));
     }
@@ -356,7 +356,7 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit_Framework_TestCase
             ->method('getCurrentRequest')
             ->willReturn(null);
 
-        /** @var PaymentContextInterface|\PHPUnit_Framework_MockObject_MockObject $context */
+        /** @var PaymentContextInterface|\PHPUnit\Framework\MockObject\MockObject $context */
         $context = $this->createMock(PaymentContextInterface::class);
         $this->assertTrue($this->method->isApplicable($context));
     }

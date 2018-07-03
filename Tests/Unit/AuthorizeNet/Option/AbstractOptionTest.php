@@ -4,7 +4,7 @@ namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\AuthorizeNet\Option;
 
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 
-abstract class AbstractOptionTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractOptionTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Option\OptionInterface[] */
     protected $options;

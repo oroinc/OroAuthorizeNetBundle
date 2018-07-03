@@ -7,7 +7,7 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\RequestConfigurator\Fallba
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
-class FallbackRequestConfiguratorTest extends \PHPUnit_Framework_TestCase
+class FallbackRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var PropertyAccessor

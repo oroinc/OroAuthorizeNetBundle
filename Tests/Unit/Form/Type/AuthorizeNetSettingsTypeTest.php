@@ -33,7 +33,7 @@ class AuthorizeNetSettingsTypeTest extends FormIntegrationTestCase
     private $formType;
 
     /**
-     * @var CryptedDataTransformerFactoryInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var CryptedDataTransformerFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private $cryptedDataTransformerFactory;
 
@@ -45,15 +45,15 @@ class AuthorizeNetSettingsTypeTest extends FormIntegrationTestCase
 
     protected function prepareForm()
     {
-        /** @var TranslatorInterface|\PHPUnit_Framework_MockObject_MockObject $translator */
+        /** @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject $translator */
         $translator = $this->createMock(TranslatorInterface::class);
-        /** @var CardTypesDataProviderInterface|\PHPUnit_Framework_MockObject_MockObject $cardTypesDataProvider */
+        /** @var CardTypesDataProviderInterface|\PHPUnit\Framework\MockObject\MockObject $cardTypesDataProvider */
         $cardTypesDataProvider = $this->createMock(CardTypesDataProviderInterface::class);
         $cardTypesDataProvider->expects($this->any())
             ->method('getCardTypes')
             ->willReturn(self::CARD_TYPES);
 
-        /** @var PaymentActionsDataProviderInterface|\PHPUnit_Framework_MockObject_MockObject $actionsDataProvider */
+        /** @var PaymentActionsDataProviderInterface|\PHPUnit\Framework\MockObject\MockObject $actionsDataProvider */
         $actionsDataProvider = $this->createMock(PaymentActionsDataProviderInterface::class);
         $actionsDataProvider->expects($this->any())
             ->method('getPaymentActions')
@@ -132,7 +132,7 @@ class AuthorizeNetSettingsTypeTest extends FormIntegrationTestCase
 
     public function testConfigureOptions()
     {
-        /** @var OptionsResolver|\PHPUnit_Framework_MockObject_MockObject $resolver */
+        /** @var OptionsResolver|\PHPUnit\Framework\MockObject\MockObject $resolver */
         $resolver = $this->createMock(OptionsResolver::class);
         $resolver->expects($this->once())
             ->method('setDefaults')
@@ -146,7 +146,7 @@ class AuthorizeNetSettingsTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * @return SymmetricCrypterInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return SymmetricCrypterInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private function createEncoderMock()
     {
