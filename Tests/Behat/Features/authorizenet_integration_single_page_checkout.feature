@@ -1,3 +1,4 @@
+@regression
 @fixture-OroFlatRateShippingBundle:FlatRateIntegration.yml
 @fixture-OroAuthorizeNetBundle:AuthorizeNetFixture.yml
 Feature: AuthorizeNet integration Single Page Checkout

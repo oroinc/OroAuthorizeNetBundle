@@ -1,3 +1,5 @@
+@regression
+@ticket-BB-13976
 @fixture-OroFlatRateShippingBundle:FlatRateIntegration.yml
 @fixture-OroAuthorizeNetBundle:AuthorizeNetFixture.yml
 Feature: AuthorizeNet integration guest Checkout
@@ -5,7 +7,7 @@ Feature: AuthorizeNet integration guest Checkout
   As a Guest customer
   I want to enter and complete checkout without registration with payment via Authorize.Net
 
-  Scenario: Create different window session
+  Scenario: Feature background
     Given sessions active:
       | Admin | first_session  |
       | User  | second_session |
@@ -83,7 +85,7 @@ Feature: AuthorizeNet integration guest Checkout
       | State           | Berlin          |
       | Zip/Postal Code | 10115           |
     And I click "Ship to This Address"
-    And press "Continue"
+    And I click "Continue"
     And I check "Flat Rate" on the "Shipping Method" checkout step and press Continue
     And I fill "Credit Card Form" with:
       | CreditCardNumber | 5424000000000015 |
