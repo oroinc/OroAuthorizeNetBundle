@@ -32,7 +32,7 @@ Feature: Process order submission using Charge with Authorize_Net integration
       | Enabled    | true      |
       | Sort Order | 1         |
       | Method     | Authorize |
-    And I press "Add Method Button"
+    And I click "Add Method Button"
     When I save and close form
     Then I should see "Payment rule has been saved" flash message
 
@@ -40,7 +40,7 @@ Feature: Process order submission using Charge with Authorize_Net integration
     Given There are products in the system available for order
     And I operate as the Buyer
     When I open page with shopping list List 2
-    And I press "Create Order"
+    And I click "Create Order"
     And I select "Fifth avenue, 10115 Berlin, Germany" on the "Billing Information" checkout step and press Continue
     And I select "Fifth avenue, 10115 Berlin, Germany" on the "Shipping Information" checkout step and press Continue
     And I check "Flat Rate" on the "Shipping Method" checkout step and press Continue
@@ -55,14 +55,14 @@ Feature: Process order submission using Charge with Authorize_Net integration
   Scenario: Error from Backend API when pay order with AuthorizeNet
     Given There are products in the system available for order
     When I open page with shopping list List 2
-    And I press "Create Order"
+    And I click "Create Order"
     And I fill "Credit Card Form" with:
       | CreditCardNumber | 5105105105105100 |
       | Month            | 11               |
       | Year             | 2027             |
       | CVV              | 123              |
     And I click "Continue"
-    And I press "Submit Order"
+    And I click "Submit Order"
     Then I should see "We were unable to process your payment. Please verify your payment information and try again." flash message
     When I proceed as the Admin
     And go to Sales/Orders
@@ -72,7 +72,7 @@ Feature: Process order submission using Charge with Authorize_Net integration
     Given I operate as the Buyer
     And There are products in the system available for order
     When I open page with shopping list List 1
-    And I press "Create Order"
+    And I click "Create Order"
     And I select "Fifth avenue, 10115 Berlin, Germany" on the "Billing Information" checkout step and press Continue
     And I select "Fifth avenue, 10115 Berlin, Germany" on the "Shipping Information" checkout step and press Continue
     And I check "Flat Rate" on the "Shipping Method" checkout step and press Continue
@@ -82,5 +82,5 @@ Feature: Process order submission using Charge with Authorize_Net integration
       | Year             | 2027             |
       | CVV              | 123              |
     And I click "Continue"
-    And I press "Submit Order"
+    And I click "Submit Order"
     Then I see the "Thank You" page with "Thank You For Your Purchase!" title
