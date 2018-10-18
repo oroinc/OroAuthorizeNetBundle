@@ -6,7 +6,7 @@ services:
         class: 'Oro\Bundle\AuthorizeNetBundle\Method\Config\Factory\AuthorizeNetConfigFactory'
         public: false
         arguments:
-            - '@oro_security.encoder.mcrypt'
+            - '@oro_security.encoder.default'
             - '@oro_locale.helper.localization'
             - '@oro_authorize_net.method.generator.identifier'
 
