@@ -32,6 +32,11 @@ oro_behat_extension:
     DeleteShoppingList:
       selector: 'input[name="oro_workflow_transition[remove_source]"]'
 
+    View Details:
+      selector:
+        type: 'xpath'
+        locator: '//span[contains(@class,"shopping-list-dropdown__info")]'
+
   suites:
     OroAuthorizeNetBundle:
       contexts:

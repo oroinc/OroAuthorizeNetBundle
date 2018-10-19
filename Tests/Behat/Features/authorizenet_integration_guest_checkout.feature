@@ -73,17 +73,44 @@ Feature: AuthorizeNet integration guest Checkout
     And I should see "product1"
 
   Scenario: Successful order payment with AuthorizeNet
-    Given I press "Create Order"
+    Given I click "View Details"
+    And I click "Create Order"
     And I click "Continue as a Guest"
     And I fill form with:
-      | First Name      | Tester1         |
-      | Last Name       | Testerson       |
-      | Email           | tester@test.com |
-      | Street          | Fifth avenue    |
-      | City            | Berlin          |
-      | Country         | Germany         |
-      | State           | Berlin          |
-      | Zip/Postal Code | 10115           |
+      | First Name      | Tester1          |
+      | Last Name       | Testerson1       |
+      | Email           | tester1@test.com |
+      | Street          | Fifth avenue     |
+      | City            | Berlin           |
+      | Country         | Germany          |
+      | State           | Berlin           |
+      | Zip/Postal Code | 10115            |
+    And I click "Ship to This Address"
+    And I click "Continue"
+    And I check "Flat Rate" on the "Shipping Method" checkout step and press Continue
+    And I fill "Credit Card Form" with:
+      | CreditCardNumber | 5424000000000015 |
+      | Month            | 11               |
+      | Year             | 2027             |
+      | CVV              | 123              |
+    And I click "Continue"
+    And I uncheck "Save my data and create an account" on the checkout page
+    And I press "Submit Order"
+    Then I should see "Thank You For Your Purchase!"
+
+  Scenario: Second successful order payment with AuthorizeNet after first order payment
+    Given I click "View Details"
+    And I click "Create Order"
+    And I click "Continue as a Guest"
+    And I fill form with:
+      | First Name      | Tester2          |
+      | Last Name       | Testerson2       |
+      | Email           | tester2@test.com |
+      | Street          | Fifth avenue     |
+      | City            | Berlin           |
+      | Country         | Germany          |
+      | State           | Berlin           |
+      | Zip/Postal Code | 10115            |
     And I click "Ship to This Address"
     And I click "Continue"
     And I check "Flat Rate" on the "Shipping Method" checkout step and press Continue
