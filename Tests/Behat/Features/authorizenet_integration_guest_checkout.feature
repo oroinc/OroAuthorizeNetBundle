@@ -73,7 +73,7 @@ Feature: AuthorizeNet integration guest Checkout
     And I should see "product1"
 
   Scenario: Successful order payment with AuthorizeNet
-    Given I click "View Details"
+    Given I click "View Details Link"
     And I click "Create Order"
     And I click "Continue as a Guest"
     And I fill form with:
@@ -99,7 +99,7 @@ Feature: AuthorizeNet integration guest Checkout
     Then I should see "Thank You For Your Purchase!"
 
   Scenario: Second successful order payment with AuthorizeNet after first order payment
-    Given I click "View Details"
+    Given I click "View Details Link"
     And I click "Create Order"
     And I click "Continue as a Guest"
     And I fill form with:
