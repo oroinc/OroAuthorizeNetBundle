@@ -2,34 +2,26 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 
-class Amount implements OptionInterface
+/**
+ * Option class to represent amount field (Authorize.Net SDK, CreateTransactionRequest)
+ */
+class Amount extends AbstractOption
 {
     const AMOUNT = 'amount';
 
     /**
-     * @var bool
+     * {@inheritdoc}
      */
-    protected $requiredOption;
-
-    /**
-     * @param bool $requiredOption
-     */
-    public function __construct($requiredOption = true)
+    protected function getName()
     {
-        $this->requiredOption = (bool)$requiredOption;
+        return self::AMOUNT;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function configureOption(OptionsResolver $resolver)
+    protected function getAllowedTypes()
     {
-        if ($this->requiredOption) {
-            $resolver->setRequired(Amount::AMOUNT);
-        }
-
-        $resolver
-            ->setDefined(Amount::AMOUNT)
-            ->addAllowedTypes(Amount::AMOUNT, ['float', 'integer']);
+        return ['float', 'integer'];
     }
 }

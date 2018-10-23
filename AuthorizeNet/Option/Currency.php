@@ -2,7 +2,10 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 
-class Currency implements OptionInterface
+/**
+ * Option class to represent currency field (Authorize.Net SDK, CreateTransactionRequest)
+ */
+class Currency extends AbstractOption
 {
     const CURRENCY = 'currency';
 
@@ -23,30 +26,18 @@ class Currency implements OptionInterface
     ];
 
     /**
-     * @var bool
+     * {@inheritdoc}
      */
-    protected $requiredOption;
-
-    /**
-     * @param bool $requiredOption
-     */
-    public function __construct($requiredOption = true)
+    protected function getName()
     {
-        $this->requiredOption = $requiredOption;
+        return self::CURRENCY;
     }
-
 
     /**
      * {@inheritdoc}
      */
-    public function configureOption(OptionsResolver $resolver)
+    protected function getAllowedValues()
     {
-        if ($this->requiredOption) {
-            $resolver->setRequired(Currency::CURRENCY);
-        }
-
-        $resolver
-            ->setDefined(Currency::CURRENCY)
-            ->addAllowedValues(Currency::CURRENCY, Currency::ALL_CURRENCIES);
+        return self::ALL_CURRENCIES;
     }
 }

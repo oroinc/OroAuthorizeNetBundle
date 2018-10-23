@@ -1,14 +1,26 @@
 parameters:
     oro_authorize_net.method.id: 'authorize_net'
+    oro_authorize_net.echeck.method.id: 'authorize_net_echeck'
 
 services:
-    oro_authorize_net.method.config.factory:
-        class: 'Oro\Bundle\AuthorizeNetBundle\Method\Config\Factory\AuthorizeNetConfigFactory'
+    oro_authorize_net.abstract.method.config.factory:
+        abstract: true
         public: false
         arguments:
             - '@oro_security.encoder.default'
             - '@oro_locale.helper.localization'
+
+    oro_authorize_net.method.config.factory:
+        class: 'Oro\Bundle\AuthorizeNetBundle\Method\Config\Factory\AuthorizeNetConfigFactory'
+        parent: oro_authorize_net.abstract.method.config.factory
+        arguments:
             - '@oro_authorize_net.method.generator.identifier'
+
+    oro_authorize_net.echeck.method.config.factory:
+        class: 'Oro\Bundle\AuthorizeNetBundle\Method\Config\Factory\AuthorizeNetEcheckConfigFactory'
+        parent: oro_authorize_net.abstract.method.config.factory
+        arguments:
+            - '@oro_authorize_net.echeck.method.generator.identifier'
 
     oro_authorize_net.method.factory:
         class: 'Oro\Bundle\AuthorizeNetBundle\Method\Factory\AuthorizeNetPaymentMethodFactory'
@@ -16,6 +28,8 @@ services:
         arguments:
             - '@oro_authorize_net.authorize_net.gateway'
             - '@request_stack'
+            - '@oro_authorize_net.method.option.resolver'
+            - '@event_dispatcher'
         calls:
             - [ setLogger, [ '@logger' ] ]
         tags:
@@ -27,14 +41,34 @@ services:
         arguments:
             - '%oro_authorize_net.method.id%'
 
-    oro_authorize_net.method.config.provider:
-        class: 'Oro\Bundle\AuthorizeNetBundle\Method\Config\Provider\AuthorizeNetConfigProvider'
+    oro_authorize_net.echeck.method.generator.identifier:
+        parent: oro_integration.generator.prefixed_identifier_generator
+        public: true
+        arguments:
+            - '%oro_authorize_net.echeck.method.id%'
+
+    oro_authorize_net.abstract.method.config.provider:
+        abstract: true
         public: false
         arguments:
             - '@doctrine'
             - '@logger'
+
+    oro_authorize_net.method.config.provider:
+        class: 'Oro\Bundle\AuthorizeNetBundle\Method\Config\Provider\AuthorizeNetConfigProvider'
+        parent: oro_authorize_net.abstract.method.config.provider
+        arguments:
             - '@oro_authorize_net.method.config.factory'
-            - '%oro_authorize_net.method.id%'
+        tags:
+            - { name: monolog.logger, channel: oro_authorize_net }
+
+    oro_authorize_net.echeck.method.config.provider:
+        class: 'Oro\Bundle\AuthorizeNetBundle\Method\Config\Provider\AuthorizeNetEcheckConfigProvider'
+        parent: oro_authorize_net.abstract.method.config.provider
+        arguments:
+            - '@oro_authorize_net.echeck.method.config.factory'
+        tags:
+            - { name: monolog.logger, channel: oro_authorize_net }
 
     oro_authorize_net.method.provider:
         class: 'Oro\Bundle\AuthorizeNetBundle\Method\Provider\AuthorizeNetMethodProvider'
@@ -45,6 +79,13 @@ services:
         tags:
             - { name: oro_payment.payment_method_provider }
 
+    oro_authorize_net.echeck.method.provider:
+        parent: oro_authorize_net.method.provider
+        arguments:
+            index_0: '@oro_authorize_net.echeck.method.config.provider'
+        tags:
+            - { name: oro_payment.payment_method_provider }
+
     oro_authorize_net.method.view.provider:
         class: 'Oro\Bundle\AuthorizeNetBundle\Method\View\Provider\AuthorizeNetMethodViewProvider'
         arguments:
@@ -52,3 +93,46 @@ services:
             - '@oro_authorize_net.method.config.provider'
         tags:
             - { name: oro_payment.payment_method_view_provider }
+
+    oro_authorize_net.echeck.method.view.provider:
+        class: 'Oro\Bundle\AuthorizeNetBundle\Method\View\Provider\AuthorizeNetMethodViewProvider'
+        arguments:
+            - '@oro_authorize_net.echeck.method_view_factory'
+            - '@oro_authorize_net.echeck.method.config.provider'
+        tags:
+            - { name: oro_payment.payment_method_view_provider }
+
+    oro_authorize_net.method.config.provider.cim_enabled_config_provider:
+        class: 'Oro\Bundle\AuthorizeNetBundle\Method\Config\Provider\AuthorizeNetCIMEnabledConfigProvider'
+        public: false
+        arguments:
+            - '@oro_authorize_net.method.config.provider'
+
+    oro_authorize_net.method.option.provider.factory:
+        class: Oro\Bundle\AuthorizeNetBundle\Method\Option\Provider\Factory\MethodOptionProviderFactory
+        arguments:
+            - '@oro_authorize_net.provider.customer_profile'
+            - '@oro_authorize_net.helper.merchant_customer_id_generator'
+            - '@oro_entity.doctrine_helper'
+            - '@oro_payment.provider.address_extractor'
+            - '@oro_tax.provider.tax_provider_registry'
+
+    oro_authorize_net.method.option.resolver:
+        class: Oro\Bundle\AuthorizeNetBundle\Method\Option\Resolver\MethodOptionResolver
+        arguments:
+            - '@oro_authorize_net.method.option.provider.factory'
+
+    oro_authorize_net.abstract.method_view_factory:
+        abstract: true
+        public: false
+        arguments:
+            - '@form.factory'
+            - '@oro_security.token_accessor'
+
+    oro_authorize_net.method_view_factory:
+        class: 'Oro\Bundle\AuthorizeNetBundle\Method\View\Factory\AuthorizeNetPaymentMethodViewFactory'
+        parent: oro_authorize_net.abstract.method_view_factory
+
+    oro_authorize_net.echeck.method_view_factory:
+        class: 'Oro\Bundle\AuthorizeNetBundle\Method\View\Factory\AuthorizeNetEcheckPaymentMethodViewFactory'
+        parent: oro_authorize_net.abstract.method_view_factory

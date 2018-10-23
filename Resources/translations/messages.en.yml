@@ -1,7 +1,10 @@
 oro:
+    authorizenet:
+        customerprofile.entity_label: 'Customer Profile'
+        customerpaymentprofile.entity_label: 'Customer Payment Profile'
     authorize_net:
         settings:
-            label: 'Authorize.NET'
+            label: 'Authorize.Net'
             api_login.label: 'API Login ID'
             transaction_key.label: 'Transaction Key'
             client_key.label: 'Client Key'
@@ -12,6 +15,12 @@ oro:
             credit_card_short_labels.label: 'Short Label'
             test_mode.label: 'Test Mode'
             require_cvv.label: 'Require CVV Entry'
+            enabled_cim:
+                label: 'Enable CIM'
+                tooltip: 'Enables Customer Information Manager Integration. <a href="https://www.authorize.net/our-features/secure-customer-data" target="_blank">More info</a>'
+            enabled_cim_websites:
+                label: 'CIM Websites'
+                tooltip: 'Select websites to enable CIM integration on'
             payment_action:
                 label: 'Payment Action'
                 authorize: 'Authorize'
@@ -22,18 +31,45 @@ oro:
                 mastercard: 'Mastercard'
                 discover: 'Discover'
                 american_express: 'American Express'
+                jcb: 'JCB'
+                diners_club: "Diner's Club"
+                china_union_pay: 'China Union Pay'
+            echeck:
+                enabled:
+                    label: 'Enable'
+                    tooltip: 'Enables eCheck Payments. <a href="https://www.authorize.net/payments/echeck/" target="_blank">More info</a>.'
+                label: 'Label'
+                short_label: 'Short Label'
+                account_types:
+                    label: 'Bank Account Types'
+                    tooltip: 'Bank account types to be available for eCheck checkout.'
+                    checking: 'Checking'
+                    savings: 'Savings'
+                    businessChecking: 'Business Checking'
+                confirmation_text:
+                    label: 'Confirmation Text'
+                    tooltip: 'Payment action confirmation text to show to the user, when he chooses eCheck as payment option.'
             form:
                 groups:
                     display_options.title: 'Display Options'
                     integration.title: 'Integration'
+                    integration.hint.text: 'No account? Sign up here'
                     connection.title: 'Connection Options'
                     advanced_settings.title: 'Advanced Settings'
                     other.title: 'Other'
+                    echeck.title: 'eCheck'
+                    cim.title: 'CIM'
+            check_credentials:
+                label: 'Check credentials'
+                credentials_are_valid: 'Credentials are valid'
+                credentials_are_not_valid: 'Credentials are not valid'
+
         channel_type:
-            authorize_net.label: 'Authorize.NET'
+            authorize_net.label: 'Authorize.Net'
 
         methods:
             credit_card.label: 'Credit card'
+            echeck.label: 'Bank Account'
 
         credit_card:
             card_number.label: Credit Card Number
@@ -45,3 +81,61 @@ oro:
                 number printed on the back of your card.
                 The American Express security code is a 4-digit
                 number printed on the front of your card.
+
+        echeck:
+            account_type.label: 'Account Type'
+            routing_number.label: 'Routing Number'
+            account_number.label: 'Account Number'
+            name_on_account.label: 'Name on Account'
+            bank_name.label: 'Bank Name'
+
+        frontend:
+            payment_profile:
+                form:
+                    fields:
+                        default.label: 'Set as default'
+                        update_creditcard.label: 'Update Credit Card information'
+                        update_echeck.label: 'Update Bank Account information'
+                message:
+                    not_saved: 'Could not save payment profile. Reason: %reason%'
+                    not_deleted: 'Could not delete payment profile. Reason: %reason%'
+                    deleted: 'Profile was deleted'
+                    grid_not_deleted: 'Profile might not exists anymore. Please refresh the page to see up to date profiles list.'
+                    saved: 'Payment profile has been saved successfully.'
+                    all_deleted: 'All payment profiles have been deleted.'
+                    delete_all_dialog: 'Delete All Payment Profiles?'
+                address:
+                    first_name.label: First name
+                    last_name.label: Last name
+                    company.label: Organization
+                    street.label: Street
+                    country.label: Country
+                    city.label: City
+                    region.label: State
+                    zip.label: Zip/Postal Code
+                    phone_number.label: Phone
+                    fax_number.label: Fax
+                buttons:
+                    creditcard:
+                        create: 'Add New Credit Card'
+                    echeck:
+                        create: 'Add New Bank Account'
+                    save: 'Save'
+                    cancel: 'Cancel'
+                    create: 'Add New Profile'
+                    delete_all: 'Delete all profiles'
+                create.label: 'New Payment Profile'
+                update.label: 'Edit Payment Profile'
+                menu.label: 'Manage Payment Profiles'
+                fields:
+                    name.label: 'Name'
+                    last_card_digits.label: '4 Last Card Digits'
+                    last_account_digits.label: '4 Last Account Digits'
+                    default.label: 'Default'
+                checkout:
+                    new_creditcard_choice.label: 'New Card'
+                    new_echeck_choice.label: 'New Bank Account'
+                    profile_choice.label: '%name% (ends with %lastDigits%)'
+                    save_profile:
+                        label: 'Save payment details'
+                        tooltip: 'Securely save your payment data for later use'

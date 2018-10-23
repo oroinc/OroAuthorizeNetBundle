@@ -11,7 +11,7 @@ final class AnetSDKRequestFactoryMock extends AnetSDKRequestFactory
     /**
      * {@inheritdoc}
      */
-    public function createController(AnetAPI\CreateTransactionRequest $request)
+    public function createController(AnetAPI\ANetApiRequestType $request)
     {
         return new CreateTransactionControllerMock($request);
     }

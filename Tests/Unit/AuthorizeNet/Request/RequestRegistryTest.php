@@ -19,7 +19,7 @@ class RequestRegistryTest extends \PHPUnit\Framework\TestCase
     {
         /** @var RequestInterface|\PHPUnit\Framework\MockObject\MockObject $request */
         $request = $this->createMock(RequestInterface::class);
-        $request->expects($this->once())->method('getTransactionType')->willReturn('X');
+        $request->expects($this->once())->method('getType')->willReturn('X');
 
         $this->registry->addRequest($request);
 
@@ -39,7 +39,7 @@ class RequestRegistryTest extends \PHPUnit\Framework\TestCase
     {
         /** @var RequestInterface|\PHPUnit\Framework\MockObject\MockObject $expectedRequest */
         $expectedRequest = $this->createMock(RequestInterface::class);
-        $expectedRequest->expects($this->once())->method('getTransactionType')->willReturn('A');
+        $expectedRequest->expects($this->once())->method('getType')->willReturn('A');
         $this->registry->addRequest($expectedRequest);
 
         $actualRequest = $this->registry->getRequest('A');

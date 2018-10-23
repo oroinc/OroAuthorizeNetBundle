@@ -37,7 +37,8 @@ class FallbackRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
 
     public function testIsApplicable()
     {
-        $this->assertTrue($this->fallbackRequestConfigurator->isApplicable([]));
+        $request = new AnetAPI\CreateTransactionRequest();
+        $this->assertTrue($this->fallbackRequestConfigurator->isApplicable($request, []));
     }
 
     public function testHandle()

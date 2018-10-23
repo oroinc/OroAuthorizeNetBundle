@@ -1,0 +1,44 @@
+layout:
+    imports:
+        -
+            id: oro_authorize_net_frontend_base_payment_profile_grid
+            root: __root
+    actions:
+        - '@setBlockTheme':
+            themes: 'OroAuthorizeNetBundle:layouts:default/imports/oro_authorize_net_frontend_echeck_payment_profile_grid/layout.html.twig'
+        - '@setOption':
+            id: __datagrid
+            optionName: grid_name
+            optionValue: frontend-echeck-payment-profiles-grid
+        - '@setOption':
+            id: __datagrid
+            optionName: grid_render_parameters.gridViewsOptions.text
+            optionValue: 'oro.authorize_net.frontend.payment_profile.echeck.plural_label'
+        - '@appendOption':
+            id: __datagrid
+            optionName: grid_render_parameters.themeOptions
+            optionValue:
+              toolbarTemplateSelector: '#template-echeck-payment-profile-grid-toolbar'
+        - '@setOption':
+            id: __datagrid
+            optionName: grid_parameters.profileType
+            optionValue: 'echeck'
+        - '@setOption':
+              id: __datagrid_views
+              optionName: attr.data-datagrid-views-name
+              optionValue: frontend-echeck-payment-profiles-grid
+        - '@add':
+            id: __button_create_new_payment_profile
+            parentId: __additional_views_container
+            blockType: link
+            options:
+              route_name: 'oro_authorize_net_payment_profile_frontend_create'
+              route_parameters:
+                  type: echeck
+              text: 'oro.authorize_net.frontend.payment_profile.buttons.echeck.create'
+              visible: '=data["acl"].isGranted("oro_authorize_net_payment_profile_frontend_create")'
+              icon: 'plus fa--small'
+              attr:
+                class: ' fa btn btn--size-s btn--info pull-right btn-block'
+    conditions:
+        'context["eCheckEnabled"] == true'

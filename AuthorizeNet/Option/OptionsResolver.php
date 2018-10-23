@@ -5,6 +5,9 @@ namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 use Symfony\Component\OptionsResolver\Exception\AccessException;
 use Symfony\Component\OptionsResolver\OptionsResolver as BaseOptionsResolver;
 
+/**
+ * Option resolver with general resolve logic
+ */
 class OptionsResolver extends BaseOptionsResolver
 {
     const ACCESS_EXCEPTION_MESSAGE = 'addOption is locked during resolve process';

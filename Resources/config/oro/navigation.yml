@@ -1,0 +1,47 @@
+navigation:
+    menu_config:
+        items:
+            oro_authorize_net_payment_profile_frontend_index:
+                label: 'oro.authorize_net.frontend.payment_profile.menu.label'
+                route: oro_authorize_net_payment_profile_frontend_index
+                position: 80
+                acl_resource_id: 'oro_authorize_net_payment_profile_frontend_view'
+            oro_authorize_net_creditcard_payment_profile_frontend_create:
+                label: 'oro.authorize_net.frontend.payment_profile.create.label'
+                route: oro_authorize_net_payment_profile_frontend_create
+                route_parameters:
+                    type: creditcard
+                acl_resource_id: 'oro_authorize_net_payment_profile_frontend_create'
+            oro_authorize_net_echeck_payment_profile_frontend_create:
+                label: 'oro.authorize_net.frontend.payment_profile.create.label'
+                route: oro_authorize_net_payment_profile_frontend_create
+                route_parameters:
+                    type: echeck
+                acl_resource_id: 'oro_authorize_net_payment_profile_frontend_create'
+            oro_authorize_net_payment_profile_frontend_update:
+                label: 'oro.authorize_net.frontend.payment_profile.update.label'
+                extras:
+                    routes:
+                        - 'oro_authorize_net_payment_profile_frontend_update'
+        tree:
+            frontend_menu:
+               children:
+                   oro_customer_menu_customer_user_index:
+                       children:
+                           oro_authorize_net_payment_profile_frontend_index:
+                               children:
+                                   oro_authorize_net_payment_profile_frontend_update: ~
+                                   oro_authorize_net_creditcard_payment_profile_frontend_create: ~
+                                   oro_authorize_net_echeck_payment_profile_frontend_create: ~
+            oro_customer_menu:
+                children:
+                    oro_authorize_net_payment_profile_frontend_index:
+                        children:
+                            oro_authorize_net_creditcard_payment_profile_frontend_create: ~
+                            oro_authorize_net_echeck_payment_profile_frontend_create: ~
+                            oro_authorize_net_payment_profile_frontend_update: ~
+    titles:
+        oro_authorize_net_payment_profile_frontend_index: 'oro.authorize_net.frontend.payment_profile.menu.label'
+        oro_authorize_net_creditcard_payment_profile_frontend_create: 'oro.authorize_net.frontend.payment_profile.create.label'
+        oro_authorize_net_echeck_payment_profile_frontend_create: 'oro.authorize_net.frontend.payment_profile.create.label'
+        oro_authorize_net_payment_profile_frontend_update: 'oro.authorize_net.frontend.payment_profile.update.label'

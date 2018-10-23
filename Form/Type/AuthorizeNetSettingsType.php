@@ -11,19 +11,24 @@ use Oro\Bundle\SecurityBundle\Form\DataTransformer\Factory\CryptedDataTransforme
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
+ * Form type for AuthorizeNet integration settings
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
  */
 class AuthorizeNetSettingsType extends AbstractType
 {
     const BLOCK_PREFIX = 'oro_authorize_net_settings';
+
+    const DEFAULT_CONFIRMATION_TEXT = 'By clicking the button below, I authorize to charge my bank account.';
 
     /**
      * @var TranslatorInterface
@@ -71,13 +76,15 @@ class AuthorizeNetSettingsType extends AbstractType
         $builder
             ->add('creditCardLabels', LocalizedFallbackValueCollectionType::class, [
                 'label' => 'oro.authorize_net.settings.credit_card_labels.label',
+                'tooltip' => 'oro.authorize_net.settings.label.tooltip',
                 'required' => true,
-                'entry_options' => ['constraints' => [new NotBlank()]],
+                'entry_options' => ['constraints' => [new NotBlank(), new Length(['max' => 255])]]
             ])
             ->add('creditCardShortLabels', LocalizedFallbackValueCollectionType::class, [
                 'label' => 'oro.authorize_net.settings.credit_card_short_labels.label',
+                'tooltip' => 'oro.authorize_net.settings.short_label.tooltip',
                 'required' => true,
-                'entry_options' => ['constraints' => [new NotBlank()]],
+                'entry_options' => ['constraints' => [new NotBlank(), new Length(['max' => 255])]]
             ])
             ->add('creditCardPaymentAction', ChoiceType::class, [
                 'choices' => $this->paymentActionsDataProvider->getPaymentActions(),
@@ -100,15 +107,11 @@ class AuthorizeNetSettingsType extends AbstractType
                 'required' => true,
                 'multiple' => true,
             ])
-            ->add(
-                'apiLoginId',
-                TextType::class,
-                [
-                    'label' => 'oro.authorize_net.settings.api_login.label',
-                    'required' => true,
-                    'attr' => ['autocomplete' => 'off'],
-                ]
-            )
+            ->add('apiLoginId', TextType::class, [
+                'label' => 'oro.authorize_net.settings.api_login.label',
+                'required' => true,
+                'attr' => ['autocomplete' => 'off'],
+            ])
             ->add('transactionKey', OroEncodedPlaceholderPasswordType::class, [
                 'label' => 'oro.authorize_net.settings.transaction_key.label',
                 'required' => true,
@@ -119,22 +122,57 @@ class AuthorizeNetSettingsType extends AbstractType
                 'required' => true,
                 'attr' => ['autocomplete' => 'off'],
             ])
-            ->add(
-                'authNetRequireCVVEntry',
-                CheckboxType::class,
-                [
-                    'label' => 'oro.authorize_net.settings.require_cvv.label',
-                    'required' => false,
+            ->add('authNetRequireCVVEntry', CheckboxType::class, [
+                'label' => 'oro.authorize_net.settings.require_cvv.label',
+                'required' => false,
+            ])
+            ->add('authNetTestMode', CheckboxType::class, [
+                'label' => 'oro.authorize_net.settings.test_mode.label',
+                'required' => false,
+            ])
+            ->add('enabledCIM', CheckboxType::class, [
+                'label' => 'oro.authorize_net.settings.enabled_cim.label',
+                'tooltip' => 'oro.authorize_net.settings.enabled_cim.tooltip',
+                'required' => false
+            ])
+            ->add('eCheckEnabled', CheckboxType::class, [
+                'label' => 'oro.authorize_net.settings.echeck.enabled.label',
+                'tooltip' => 'oro.authorize_net.settings.echeck.enabled.tooltip',
+                'required' => false
+            ])
+            ->add('eCheckLabels', LocalizedFallbackValueCollectionType::class, [
+                'label' => 'oro.authorize_net.settings.echeck.label',
+                'tooltip' => 'oro.authorize_net.settings.label.tooltip',
+                'required' => false,
+                'entry_options' => ['constraints' => [new Length(['max' => 255])]]
+            ])
+            ->add('eCheckShortLabels', LocalizedFallbackValueCollectionType::class, [
+                'label' => 'oro.authorize_net.settings.echeck.short_label',
+                'tooltip' => 'oro.authorize_net.settings.short_label.tooltip',
+                'required' => false,
+                'entry_options' => ['constraints' => [new Length(['max' => 255])]]
+            ])
+            ->add('eCheckAccountTypes', ChoiceType::class, [
+                'choices' => AuthorizeNetSettings::ECHECK_ACCOUNT_TYPES,
+                'choice_label' => function ($accountType) {
+                    return $this->translator->trans(
+                        sprintf('oro.authorize_net.settings.echeck.account_types.%s', $accountType)
+                    );
+                },
+                'label' => 'oro.authorize_net.settings.echeck.account_types.label',
+                'tooltip' => 'oro.authorize_net.settings.echeck.account_types.tooltip',
+                'required' => true,
+                'multiple' => true
+            ])
+            ->add('eCheckConfirmationText', TextareaType::class, [
+                'required' => false,
+                'label' => 'oro.authorize_net.settings.echeck.confirmation_text.label',
+                'tooltip' => 'oro.authorize_net.settings.echeck.confirmation_text.tooltip',
+                'empty_data' => self::DEFAULT_CONFIRMATION_TEXT,
+                'attr' => [
+                    'placeholder' => self::DEFAULT_CONFIRMATION_TEXT
                 ]
-            )
-            ->add(
-                'authNetTestMode',
-                CheckboxType::class,
-                [
-                    'label' => 'oro.authorize_net.settings.test_mode.label',
-                    'required' => false,
-                ]
-            );
+            ]);
 
         $this->transformWithEncodedValue($builder, 'apiLoginId');
         $this->transformWithEncodedValue($builder, 'clientKey');

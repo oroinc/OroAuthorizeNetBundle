@@ -2,6 +2,9 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\Settings\DataProvider;
 
+/**
+ * Credit card type provider
+ */
 interface CardTypesDataProviderInterface
 {
     /**

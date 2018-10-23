@@ -10,6 +10,10 @@ use Oro\Bundle\IntegrationBundle\Generator\IntegrationIdentifierGeneratorInterfa
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
 use Oro\Bundle\SecurityBundle\Encoder\SymmetricCrypterInterface;
 
+/**
+ * Creates instance of AuthorizeNetConfigInterface
+ * from AuthorizeNetSettings (integration settings)
+ */
 class AuthorizeNetConfigFactory implements AuthorizeNetConfigFactoryInterface
 {
     /**
@@ -46,7 +50,6 @@ class AuthorizeNetConfigFactory implements AuthorizeNetConfigFactoryInterface
      * @param AuthorizeNetSettings $settings
      *
      * @return AuthorizeNetConfig
-     * @throws \InvalidArgumentException
      */
     public function createConfig(AuthorizeNetSettings $settings)
     {
@@ -65,6 +68,12 @@ class AuthorizeNetConfigFactory implements AuthorizeNetConfigFactoryInterface
         $params[AuthorizeNetConfig::TRANSACTION_KEY] = $this->getDecryptedValue($settings->getTransactionKey());
         $params[AuthorizeNetConfig::CLIENT_KEY] = $this->getDecryptedValue($settings->getClientKey());
         $params[AuthorizeNetConfig::REQUIRE_CVV_ENTRY_KEY] = $settings->getAuthNetRequireCVVEntry();
+        $params[AuthorizeNetConfig::ENABLED_CIM_KEY] = $settings->isEnabledCIM();
+        $params[AuthorizeNetConfig::ENABLED_CIM_WEBSITES] = $settings->getEnabledCIMWebsites();
+        $params[AuthorizeNetConfig::INTEGRATION_ID] = $channel->getId();
+        $params[AuthorizeNetConfig::ECHECK_ENABLED] = $settings->isECheckEnabled();
+        $params[AuthorizeNetConfig::ECHECK_ACCOUNT_TYPES] = $settings->getECheckAccountTypes();
+        $params[AuthorizeNetConfig::ECHECK_CONFIRMATION_TEXT] = $settings->getECheckConfirmationText();
 
         return new AuthorizeNetConfig($params);
     }

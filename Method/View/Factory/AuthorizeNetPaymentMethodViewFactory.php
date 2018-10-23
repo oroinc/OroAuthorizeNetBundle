@@ -4,28 +4,17 @@ namespace Oro\Bundle\AuthorizeNetBundle\Method\View\Factory;
 
 use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfigInterface;
 use Oro\Bundle\AuthorizeNetBundle\Method\View\AuthorizeNetPaymentMethodView;
-use Symfony\Component\Form\FormFactoryInterface;
 
-class AuthorizeNetPaymentMethodViewFactory implements AuthorizeNetPaymentMethodViewFactoryInterface
+/**
+ * Authorize.Net payment method view factory
+ */
+class AuthorizeNetPaymentMethodViewFactory extends AbstractAuthorizeNetPaymentMethodViewFactory
 {
-    /**
-     * @var FormFactoryInterface
-     */
-    protected $formFactory;
-
-    /**
-     * @param FormFactoryInterface $formFactory
-     */
-    public function __construct(FormFactoryInterface $formFactory)
-    {
-        $this->formFactory = $formFactory;
-    }
-
     /**
      * {@inheritdoc}
      */
     public function create(AuthorizeNetConfigInterface $config)
     {
-        return new AuthorizeNetPaymentMethodView($this->formFactory, $config);
+        return new AuthorizeNetPaymentMethodView($this->formFactory, $this->tokenAccessor, $config);
     }
 }

@@ -2,4 +2,11 @@ oro:
     authorize_net:
         errors:
             accept_js:
-                communication_err: 'Authorize.Net communication error.'
+                communication_err: 'Payment gateway error. {{ reasons }}'
+        frontend:
+            payment_profile:
+                creditcard:
+                    plural_label: 'Credit Card Profiles'
+                echeck:
+                    plural_label: 'Bank Account Profiles'
+                datagrid.pagination.totalRecords: '{{ totalRecords }} Total Profiles'

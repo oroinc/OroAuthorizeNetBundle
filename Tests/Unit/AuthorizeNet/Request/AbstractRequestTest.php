@@ -4,6 +4,7 @@ namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\AuthorizeNet\Request;
 
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request\AbstractRequest;
+use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request\RequestInterface;
 
 abstract class AbstractRequestTest extends \PHPUnit\Framework\TestCase
 {
@@ -13,30 +14,54 @@ abstract class AbstractRequestTest extends \PHPUnit\Framework\TestCase
     ];
 
     /**
+     * @var AbstractRequest
+     */
+    protected $request;
+
+    /**
      * @return AbstractRequest
      */
-    abstract protected function getRequest();
+    protected function getRequest()
+    {
+        return $this->request;
+    }
 
     /**
      * @return array
      */
-    abstract protected function getOptions();
+    abstract public function optionsProvider();
 
-    public function testConfigureOptions()
+    /**
+     * @dataProvider optionsProvider
+     * @param array $options
+     */
+    public function testConfigureOptions(array $options = [])
     {
         $resolver = new Option\OptionsResolver();
 
         $request = $this->getRequest();
         $request->configureOptions($resolver);
 
-        $transactionType = $request->getTransactionType();
-
-        $options = array_merge(
+        $actualOptions = array_merge(
             static::DEFAULT_REQUEST_OPTIONS,
-            [Option\Transaction::TRANSACTION_TYPE => $transactionType],
-            $this->getOptions()
+            $options
         );
 
-        self::assertEquals($options, $resolver->resolve($options));
+        self::assertEquals($actualOptions, $resolver->resolve($actualOptions));
+    }
+
+    public function getNotRequiredOptionsProvider(): array
+    {
+        return [];
+    }
+
+    public function testGetType()
+    {
+        $request = $this->getRequest();
+        $this->assertInstanceOf(RequestInterface::class, $request);
+        $reflection = new \ReflectionClass(\get_class($this->getRequest()));
+        if (false !== $staticType = $reflection->getConstant('REQUEST_TYPE')) {
+            $this->assertEquals($staticType, $this->getRequest()->getType());
+        }
     }
 }

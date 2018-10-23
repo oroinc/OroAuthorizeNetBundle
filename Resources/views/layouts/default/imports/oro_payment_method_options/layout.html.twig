@@ -1,7 +1,6 @@
-{% block _payment_methods_au_net_credit_card_widget %}
+{% block _payment_methods_authorize_net_widget %}
     {{ form_widget(
         view.options.formView,
         {class_prefix: class_prefix, paymentMethod: name, options: view.options}
-    )
-    }}
+    )}}
 {% endblock %}

@@ -2,6 +2,9 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\RequestConfigurator;
 
+/**
+ * Registry for all RequestConfigurator objects
+ */
 class RequestConfiguratorRegistry
 {
     /** @var RequestConfiguratorInterface[][] */

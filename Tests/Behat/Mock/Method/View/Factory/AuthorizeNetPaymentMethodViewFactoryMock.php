@@ -10,6 +10,6 @@ class AuthorizeNetPaymentMethodViewFactoryMock extends AuthorizeNetPaymentMethod
 {
     public function create(AuthorizeNetConfigInterface $config)
     {
-        return new AuthorizeNetPaymentMethodViewMock($this->formFactory, $config);
+        return new AuthorizeNetPaymentMethodViewMock($this->formFactory, $this->tokenAccessor, $config);
     }
 }

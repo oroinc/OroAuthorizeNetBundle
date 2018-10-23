@@ -2,6 +2,9 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\Settings\DataProvider;
 
+/**
+ * Payment method action provider interface
+ */
 interface PaymentActionsDataProviderInterface
 {
     /**

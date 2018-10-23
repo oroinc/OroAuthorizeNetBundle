@@ -18,3 +18,63 @@ services:
         class: Oro\Bundle\AuthorizeNetBundle\Form\Type\CreditCardExpirationDateType
         tags:
             - { name: form.type, alias: oro_authorize_net_credit_card_expiration_date }
+
+    oro_authorize_net.form.type.credit_card_cvv:
+        class: 'Oro\Bundle\AuthorizeNetBundle\Form\Type\CreditCardCvvType'
+        arguments:
+            - '@translator.default'
+        tags:
+            - { name: form.type }
+
+    oro_authorize_net.form.extension.enabled_cim_websites_select:
+        class: 'Oro\Bundle\AuthorizeNetBundle\Form\Extension\EnabledCIMWebsitesSelectExtension'
+        public: true
+        arguments:
+            - '@oro_website.website.provider'
+            - '@oro_website.manager'
+        tags:
+            - { name: form.type_extension, extended_type: Oro\Bundle\AuthorizeNetBundle\Form\Type\AuthorizeNetSettingsType }
+
+    oro_authorize_net.form.type.payment_profile:
+        class: Oro\Bundle\AuthorizeNetBundle\Form\Type\PaymentProfileType
+        tags:
+            - { name: form.type}
+
+    oro_authorize_net.form.type.payment_profile_address:
+        class: Oro\Bundle\AuthorizeNetBundle\Form\Type\PaymentProfileAddressType
+        arguments:
+            - '@oro_address.form.listener.address'
+        tags:
+            - { name: form.type}
+
+    oro_authorize_net.form.type.checkout_payment_profile:
+        class: Oro\Bundle\AuthorizeNetBundle\Form\Type\CheckoutPaymentProfileType
+        arguments:
+            - '@oro_authorize_net.provider.customer_profile'
+            - '@oro_authorize_net.provider.payment_profile'
+            - '@translator'
+        tags:
+            - { name: form.type }
+
+    oro_authorize_net.form.type.checkout_creditcard_profile:
+        class: Oro\Bundle\AuthorizeNetBundle\Form\Type\CheckoutCredicardProfileType
+        tags:
+        - { name: form.type }
+
+    oro_authorize_net.form.type.checkout_echeck_profile:
+        class: Oro\Bundle\AuthorizeNetBundle\Form\Type\CheckoutEcheckProfileType
+        tags:
+        - { name: form.type }
+
+    oro_authorize_net.form.type.checkout_save_profile:
+        class: Oro\Bundle\AuthorizeNetBundle\Form\Type\CheckoutSaveProfileType
+        tags:
+        - { name: form.type }
+
+    oro_authorize_net.form.type.bank_account:
+        class: Oro\Bundle\AuthorizeNetBundle\Form\Type\BankAccountType
+        arguments:
+            - '@translator'
+        tags:
+        - { name: form.type }
+

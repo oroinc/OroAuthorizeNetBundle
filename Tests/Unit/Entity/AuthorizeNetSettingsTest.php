@@ -25,6 +25,9 @@ class AuthorizeNetSettingsTest extends \PHPUnit\Framework\TestCase
                 ['authNetRequireCVVEntry', true],
                 ['creditCardPaymentAction', 'charge'],
                 ['allowedCreditCardTypes', ['visa']],
+                ['eCheckEnabled', true],
+                ['eCheckAccountTypes', ['checking']],
+                ['eCheckConfirmationText', 'some text']
             ]
         );
         $this->assertPropertyCollections(
@@ -32,6 +35,8 @@ class AuthorizeNetSettingsTest extends \PHPUnit\Framework\TestCase
             [
                 ['creditCardLabels', new LocalizedFallbackValue()],
                 ['creditCardShortLabels', new LocalizedFallbackValue()],
+                ['eCheckLabels', new LocalizedFallbackValue()],
+                ['eCheckShortLabels', new LocalizedFallbackValue()],
             ]
         );
     }
@@ -51,6 +56,11 @@ class AuthorizeNetSettingsTest extends \PHPUnit\Framework\TestCase
                 'allowedCreditCardTypes' => ['visa', 'mastercard'],
                 'creditCardLabels' => [(new LocalizedFallbackValue())->setString('label')],
                 'creditCardShortLabels' => [(new LocalizedFallbackValue())->setString('lbl')],
+                'eCheckEnabled' => true,
+                'eCheckLabels' => [(new LocalizedFallbackValue())->setString('echeck label')],
+                'eCheckShortLabels' => [(new LocalizedFallbackValue())->setString('echeck short')],
+                'eCheckAccountTypes' => ['checking'],
+                'eCheckConfirmationText' => 'some text'
             ]
         );
 
@@ -62,23 +72,15 @@ class AuthorizeNetSettingsTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('some client key', $result->get('client_key'));
         $this->assertEquals(true, $result->get('test_mode'));
         $this->assertEquals(false, $result->get('require_cvv_entry'));
+        $this->assertEquals($result->get('allowed_credit_card_types'), $entity->getAllowedCreditCardTypes());
+        $this->assertEquals($result->get('credit_card_payment_action'), $entity->getCreditCardPaymentAction());
+        $this->assertEquals($result->get('credit_card_labels'), $entity->getCreditCardLabels());
+        $this->assertEquals($result->get('credit_card_short_labels'), $entity->getCreditCardShortLabels());
 
-        $this->assertEquals(
-            $result->get('allowed_credit_card_types'),
-            $entity->getAllowedCreditCardTypes()
-        );
-        $this->assertEquals(
-            $result->get('credit_card_payment_action'),
-            $entity->getCreditCardPaymentAction()
-        );
-
-        $this->assertEquals(
-            $result->get('credit_card_labels'),
-            $entity->getCreditCardLabels()
-        );
-        $this->assertEquals(
-            $result->get('credit_card_short_labels'),
-            $entity->getCreditCardShortLabels()
-        );
+        $this->assertEquals(true, $result->get('echeck_enabled'));
+        $this->assertEquals($result->get('echeck_labels'), $entity->getECheckLabels());
+        $this->assertEquals($result->get('echeck_short_labels'), $entity->getECheckShortLabels());
+        $this->assertEquals($result->get('echeck_account_types'), $entity->getECheckAccountTypes());
+        $this->assertEquals($result->get('echeck_confirmation_text'), $entity->getECheckConfirmationText());
     }
 }

@@ -2,7 +2,10 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 
-class Transaction implements OptionInterface
+/**
+ * Option class to represent transactionType field (Authorize.Net SDK, CreateTransactionRequest)
+ */
+class Transaction extends AbstractOption
 {
     const TRANSACTION_TYPE = 'transaction_type';
 
@@ -13,17 +16,20 @@ class Transaction implements OptionInterface
     /**
      * {@inheritdoc}
      */
-    public function configureOption(OptionsResolver $resolver)
+    protected function getName()
     {
-        $resolver
-            ->setRequired(Transaction::TRANSACTION_TYPE)
-            ->addAllowedValues(
-                Transaction::TRANSACTION_TYPE,
-                [
-                    Transaction::AUTHORIZE,
-                    Transaction::CAPTURE,
-                    Transaction::CHARGE,
-                ]
-            );
+        return self::TRANSACTION_TYPE;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getAllowedValues()
+    {
+        return [
+            self::AUTHORIZE,
+            self::CAPTURE,
+            self::CHARGE
+        ];
     }
 }

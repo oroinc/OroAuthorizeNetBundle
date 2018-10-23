@@ -16,6 +16,9 @@ class BasicCardTypesDataProviderTest extends \PHPUnit\Framework\TestCase
                 'mastercard',
                 'discover',
                 'american_express',
+                'jcb',
+                'diners_club',
+                'china_union_pay'
             ],
             $provider->getCardTypes()
         );

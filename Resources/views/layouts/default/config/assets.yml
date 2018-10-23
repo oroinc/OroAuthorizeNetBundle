@@ -1,0 +1,3 @@
+styles:
+    inputs:
+        - 'bundles/oroauthorizenet/default/scss/style.scss'

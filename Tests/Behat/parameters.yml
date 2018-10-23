@@ -3,6 +3,7 @@ services:
         class: 'Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Mock\Method\View\Factory\AuthorizeNetPaymentMethodViewFactoryMock'
         arguments:
             - '@form.factory'
+            - '@oro_security.token_accessor'
 
     oro_authorize_net.authorize_net.client.factory.anet_sdk_request_factory:
         class: 'Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Mock\AuthorizeNet\Client\Factory\AnetSDKRequestFactoryMock'
@@ -16,6 +17,8 @@ services:
         arguments:
             - '@oro_authorize_net.authorize_net.gateway'
             - '@request_stack'
+            - '@oro_authorize_net.method.option.resolver'
+            - '@event_dispatcher'
         calls:
             - [ setLogger, [ '@logger' ] ]
         tags:

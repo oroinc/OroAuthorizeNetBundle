@@ -7,7 +7,7 @@ Feature: AuthorizeNet integration Single Page Checkout
     Given I login as administrator
     When I go to System/Integrations/Manage Integrations
     And I click "Create Integration"
-    And I select "Authorize.NET" from "Type"
+    And I select "Authorize.Net" from "Type"
     And I fill "Authorize.Net Form" with:
       | Name                      | AuthorizeNet         |
       | Label                     | Authorize            |
@@ -56,7 +56,7 @@ Feature: AuthorizeNet integration Single Page Checkout
       | CVV              | 123              |
     And I click "Submit Order"
     Then I should see only following flash messages:
-      | Authorize.Net communication error. |
+      | Payment gateway error. User authentication failed due to invalid authentication values. |
 
   Scenario: Error from Backend API when pay order with AuthorizeNet
     Given There are products in the system available for order

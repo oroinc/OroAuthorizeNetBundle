@@ -2,17 +2,26 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 
-class SolutionId implements OptionInterface
+/**
+ * Option class to represent solutionId field (Authorize.Net SDK, CreateTransactionRequest)
+ */
+class SolutionId extends AbstractOption
 {
     const SOLUTION_ID = 'solution_id';
 
     /**
      * {@inheritdoc}
      */
-    public function configureOption(OptionsResolver $resolver)
+    protected function getName()
     {
-        $resolver
-            ->setDefined(SolutionId::SOLUTION_ID)
-            ->addAllowedTypes(SolutionId::SOLUTION_ID, 'string');
+        return self::SOLUTION_ID;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getAllowedTypes()
+    {
+        return 'string';
     }
 }

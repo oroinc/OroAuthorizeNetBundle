@@ -29,7 +29,7 @@ class GatewayTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider testRequestDataProvider
+     * @dataProvider requestDataProvider
      * @param $testMode
      * @param $expectedHostAddress
      */
@@ -62,7 +62,7 @@ class GatewayTest extends \PHPUnit\Framework\TestCase
         $this->client
             ->expects($this->once())
             ->method('send')
-            ->with($expectedHostAddress, $options);
+            ->with($expectedHostAddress, $transactionType, $options);
 
         $this->gateway->request($transactionType, $options);
     }
@@ -70,7 +70,7 @@ class GatewayTest extends \PHPUnit\Framework\TestCase
     /**
      * @return array
      */
-    public function testRequestDataProvider()
+    public function requestDataProvider()
     {
         return [
             [false, Gateway::ADDRESS_PRODUCTION],

@@ -4,23 +4,27 @@ namespace Oro\Bundle\AuthorizeNetBundle\Method;
 
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Gateway;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
+use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response\AuthorizeNetSDKTransactionResponse;
+use Oro\Bundle\AuthorizeNetBundle\Event\TransactionResponseReceivedEvent;
 use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfigInterface;
+use Oro\Bundle\AuthorizeNetBundle\Method\Option\Resolver\MethodOptionResolverInterface;
 use Oro\Bundle\PaymentBundle\Context\PaymentContextInterface;
 use Oro\Bundle\PaymentBundle\Entity\PaymentTransaction;
 use Oro\Bundle\PaymentBundle\Method\PaymentMethodInterface;
 use Psr\Log\LoggerAwareTrait;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
+/**
+ * Payment method realization (Authorize.Net API)
+ *  use internal MethodOptionResolverInterface to fetch/prepare options for Gateway
+ *  saves options to transaction.request
+ *  use Gateway to send request to Authorize.Net
+ *  checks api response and format array Response for Oro Payment logic
+ */
 class AuthorizeNetPaymentMethod implements PaymentMethodInterface
 {
     use LoggerAwareTrait;
-
-    const AMOUNT_PRECISION = 2;
-    const DATA_DESCRIPTOR = 'dataDescriptor';
-    const DATA_VALUE = 'dataValue';
-
-    // Authorize.NET solution id
-    const SOLUTION_ID = 'AAA171478';
 
     /** @var Gateway */
     protected $gateway;
@@ -31,16 +35,31 @@ class AuthorizeNetPaymentMethod implements PaymentMethodInterface
     /** @var RequestStack */
     protected $requestStack;
 
+    /** @var MethodOptionResolverInterface */
+    protected $methodOptionResolver;
+
+    /** @var EventDispatcherInterface */
+    protected $eventDispatcher;
+
     /**
      * @param Gateway $gateway
      * @param AuthorizeNetConfigInterface $config
      * @param RequestStack $requestStack
+     * @param MethodOptionResolverInterface $methodOptionResolver
+     * @param EventDispatcherInterface $eventDispatcher
      */
-    public function __construct(Gateway $gateway, AuthorizeNetConfigInterface $config, RequestStack $requestStack)
-    {
+    public function __construct(
+        Gateway $gateway,
+        AuthorizeNetConfigInterface $config,
+        RequestStack $requestStack,
+        MethodOptionResolverInterface $methodOptionResolver,
+        EventDispatcherInterface $eventDispatcher
+    ) {
         $this->gateway = $gateway;
         $this->config = $config;
         $this->requestStack = $requestStack;
+        $this->methodOptionResolver = $methodOptionResolver;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -109,16 +128,11 @@ class AuthorizeNetPaymentMethod implements PaymentMethodInterface
      */
     protected function purchase(PaymentTransaction $paymentTransaction)
     {
-        $request = array_merge(
-            $this->getPaymentOptions($paymentTransaction),
-            $this->getOpaqueCredentials($paymentTransaction)
-        );
+        $options = $this->methodOptionResolver->resolvePurchase($this->config, $paymentTransaction);
+        $action = $this->config->getPurchaseAction();
+        $paymentTransaction->setRequest($options)->setAction($action);
 
-        $paymentTransaction
-            ->setRequest($request)
-            ->setAction($this->config->getPurchaseAction());
-
-        return $this->executePaymentAction($paymentTransaction->getAction(), $paymentTransaction);
+        return $this->executePaymentAction($paymentTransaction->getAction(), $options, $paymentTransaction);
     }
 
     /**
@@ -127,7 +141,9 @@ class AuthorizeNetPaymentMethod implements PaymentMethodInterface
      */
     protected function authorize(PaymentTransaction $paymentTransaction)
     {
-        return $this->executePaymentAction(self::AUTHORIZE, $paymentTransaction);
+        $options = $this->methodOptionResolver->resolveAuthorize($this->config, $paymentTransaction);
+
+        return $this->executePaymentAction(self::AUTHORIZE, $options, $paymentTransaction);
     }
 
     /**
@@ -136,7 +152,9 @@ class AuthorizeNetPaymentMethod implements PaymentMethodInterface
      */
     protected function charge(PaymentTransaction $paymentTransaction)
     {
-        return $this->executePaymentAction(self::CHARGE, $paymentTransaction);
+        $options = $this->methodOptionResolver->resolveCharge($this->config, $paymentTransaction);
+
+        return $this->executePaymentAction(self::CHARGE, $options, $paymentTransaction);
     }
 
     /**
@@ -146,7 +164,6 @@ class AuthorizeNetPaymentMethod implements PaymentMethodInterface
     protected function capture(PaymentTransaction $paymentTransaction)
     {
         $authorizeTransaction = $paymentTransaction->getSourcePaymentTransaction();
-
         if (!$authorizeTransaction) {
             $paymentTransaction
                 ->setSuccessful(false)
@@ -155,11 +172,9 @@ class AuthorizeNetPaymentMethod implements PaymentMethodInterface
             return ['successful' => false];
         }
 
-        $options = $this->getPaymentOptions($authorizeTransaction);
-        $options[Option\OriginalTransaction::ORIGINAL_TRANSACTION] = $authorizeTransaction->getReference();
-
+        $options = $this->methodOptionResolver->resolveCapture($this->config, $paymentTransaction);
         $paymentTransaction->setRequest($options);
-        $result = $this->executePaymentAction(self::CAPTURE, $paymentTransaction);
+        $result = $this->executePaymentAction(self::CAPTURE, $options, $paymentTransaction);
 
         $paymentTransaction->setActive(false);
         $authorizeTransaction->setActive(!$paymentTransaction->isSuccessful());
@@ -169,15 +184,15 @@ class AuthorizeNetPaymentMethod implements PaymentMethodInterface
 
     /**
      * @param string $action
+     * @param array $options
      * @param PaymentTransaction $paymentTransaction
      * @return array
      */
-    protected function executePaymentAction($action, PaymentTransaction $paymentTransaction)
+    protected function executePaymentAction(string $action, array $options, PaymentTransaction $paymentTransaction)
     {
-        $response = $this->gateway->request(
-            $this->getTransactionType($action),
-            $this->combineOptions($paymentTransaction->getRequest())
-        );
+        $response = $this->gateway->request($this->getTransactionType($action), $options);
+
+        $this->dispatchTransactionResponseReceivedEvent($response, $paymentTransaction);
 
         $paymentTransaction
             ->setSuccessful($response->isSuccessful())
@@ -196,60 +211,11 @@ class AuthorizeNetPaymentMethod implements PaymentMethodInterface
     }
 
     /**
-     * @param PaymentTransaction $paymentTransaction
-     * @return array
-     */
-    protected function getPaymentOptions(PaymentTransaction $paymentTransaction)
-    {
-        return [
-            Option\Amount::AMOUNT => round($paymentTransaction->getAmount(), self::AMOUNT_PRECISION),
-            Option\Currency::CURRENCY => $paymentTransaction->getCurrency(),
-        ];
-    }
-
-    /**
-     * @param PaymentTransaction $paymentTransaction
-     * @return array
-     */
-    protected function getOpaqueCredentials(PaymentTransaction $paymentTransaction)
-    {
-        $opaqueData = $this->extractOpaqueCreditCardCredentials($paymentTransaction);
-
-        return [
-            Option\DataDescriptor::DATA_DESCRIPTOR => $opaqueData[self::DATA_DESCRIPTOR],
-            Option\DataValue::DATA_VALUE => $opaqueData[self::DATA_VALUE],
-        ];
-    }
-
-    /**
-     * @param array $options
-     * @return array
-     */
-    protected function combineOptions(array $options = [])
-    {
-        return array_replace(
-            $this->getCredentials(),
-            $this->getAdditionalOptions(),
-            $options
-        );
-    }
-
-    /**
-     * @return array
-     */
-    protected function getCredentials()
-    {
-        return [
-            Option\ApiLoginId::API_LOGIN_ID => $this->config->getApiLoginId(),
-            Option\TransactionKey::TRANSACTION_KEY => $this->config->getTransactionKey(),
-        ];
-    }
-
-    /**
      * @param string $action
      * @return string
+     * @throws \InvalidArgumentException
      */
-    protected function getTransactionType($action)
+    protected function getTransactionType($action): string
     {
         switch ($action) {
             case self::CAPTURE:
@@ -267,58 +233,16 @@ class AuthorizeNetPaymentMethod implements PaymentMethodInterface
     }
 
     /**
+     * @param AuthorizeNetSDKTransactionResponse $response
      * @param PaymentTransaction $paymentTransaction
-     * @return array
      */
-    protected function extractOpaqueCreditCardCredentials(PaymentTransaction $paymentTransaction)
-    {
-        $sourceTransaction = $paymentTransaction->getSourcePaymentTransaction();
-        if (!$sourceTransaction) {
-            throw new \LogicException('Cant extract required opaque credit card credentials from transaction');
-        }
-
-        $options = $sourceTransaction->getTransactionOptions();
-        if (!array_key_exists('additionalData', $options)) {
-            throw new \LogicException('Cant extract required opaque credit card credentials from transaction');
-        }
-
-        $additionalData = json_decode($options['additionalData'], true);
-
-        if (!is_array($additionalData)) {
-            throw new \LogicException('Additional data must be an array');
-        }
-
-        $this->assertOpaqueData($additionalData, self::DATA_DESCRIPTOR);
-        $this->assertOpaqueData($additionalData, self::DATA_VALUE);
-
-        return array_intersect_key($additionalData, array_flip([self::DATA_DESCRIPTOR, self::DATA_VALUE]));
-    }
-
-    /**
-     * @param array $additionalData
-     * @param string $fieldName
-     * @throws \LogicException
-     */
-    private function assertOpaqueData(array $additionalData, $fieldName)
-    {
-        if (!array_key_exists($fieldName, $additionalData)) {
-            throw new \LogicException(sprintf(
-                'Can not find field "%s" in additional data',
-                $fieldName
-            ));
-        }
-    }
-
-    /**
-     * @return array
-     */
-    protected function getAdditionalOptions()
-    {
-        $options = [];
-        if (!$this->config->isTestMode()) {
-            $options[Option\SolutionId::SOLUTION_ID] = self::SOLUTION_ID;
-        }
-
-        return $options;
+    protected function dispatchTransactionResponseReceivedEvent(
+        AuthorizeNetSDKTransactionResponse $response,
+        PaymentTransaction $paymentTransaction
+    ) {
+        $this->eventDispatcher->dispatch(
+            TransactionResponseReceivedEvent::NAME,
+            new TransactionResponseReceivedEvent($response, $paymentTransaction)
+        );
     }
 }

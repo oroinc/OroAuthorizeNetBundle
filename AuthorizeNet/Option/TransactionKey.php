@@ -2,17 +2,26 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 
-class TransactionKey implements OptionInterface
+/**
+ * Option class to represent merchantAuthentication::transactionKey field (Authorize.Net SDK)
+ */
+class TransactionKey extends AbstractOption
 {
     const TRANSACTION_KEY = 'transaction_key';
 
     /**
      * {@inheritdoc}
      */
-    public function configureOption(OptionsResolver $resolver)
+    protected function getName()
     {
-        $resolver
-            ->setRequired(TransactionKey::TRANSACTION_KEY)
-            ->addAllowedTypes(TransactionKey::TRANSACTION_KEY, 'string');
+        return self::TRANSACTION_KEY;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getAllowedTypes()
+    {
+        return 'string';
     }
 }

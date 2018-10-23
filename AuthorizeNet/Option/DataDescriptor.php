@@ -2,17 +2,26 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 
-class DataDescriptor implements OptionInterface
+/**
+ * Option class to represent dataDescriptor field (Authorize.Net SDK)
+ */
+class DataDescriptor extends AbstractOption
 {
     const DATA_DESCRIPTOR = 'data_descriptor';
 
     /**
      * {@inheritdoc}
      */
-    public function configureOption(OptionsResolver $resolver)
+    protected function getName()
     {
-        $resolver
-            ->setRequired(DataDescriptor::DATA_DESCRIPTOR)
-            ->addAllowedTypes(DataDescriptor::DATA_DESCRIPTOR, 'string');
+        return self::DATA_DESCRIPTOR;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getAllowedTypes()
+    {
+        return 'string';
     }
 }

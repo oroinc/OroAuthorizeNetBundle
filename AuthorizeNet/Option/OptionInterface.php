@@ -2,6 +2,9 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 
+/**
+ * Interface for api request option
+ */
 interface OptionInterface
 {
     /**

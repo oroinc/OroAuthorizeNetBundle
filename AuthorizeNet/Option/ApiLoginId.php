@@ -2,17 +2,26 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 
-class ApiLoginId implements OptionInterface
+/**
+ * Option class to represent merchantAuthentication::name field (Authorize.Net SDK)
+ */
+class ApiLoginId extends AbstractOption
 {
     const API_LOGIN_ID = 'api_login_id';
 
     /**
      * {@inheritdoc}
      */
-    public function configureOption(OptionsResolver $resolver)
+    protected function getName()
     {
-        $resolver
-            ->setRequired(ApiLoginId::API_LOGIN_ID)
-            ->addAllowedTypes(ApiLoginId::API_LOGIN_ID, 'string');
+        return self::API_LOGIN_ID;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getAllowedTypes()
+    {
+        return 'string';
     }
 }

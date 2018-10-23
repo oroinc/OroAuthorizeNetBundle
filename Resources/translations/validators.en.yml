@@ -1,0 +1,8 @@
+oro:
+    authorize_net:
+        validator:
+            required_enabled_cim_websites: 'Please select at least one website.'
+            forbid_to_reuse_enabled_cim_websites:
+                single: 'CIM is already enabled for the website in another Authorize.Net integration.'
+                multi: 'CIM is already enabled for the websites ({{ websites }}) in another Authorize.Net integration.'
+            regex_numeric: 'This value should contain numbers only.'

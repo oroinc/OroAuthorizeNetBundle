@@ -1,0 +1,82 @@
+datagrids:
+    base-frontend-payment-profiles-grid:
+        extended_entity_name: '%oro_authorize_net.entity.customer_payment_profile.class%'
+        options:
+            frontend: true
+            entityHint: payment profiles
+            entity_pagination: true
+            mass_actions:
+                delete:
+                    enabled: false
+        source:
+            type: orm
+            query:
+                select:
+                    - profile.id
+                    - profile.name
+                    - profile.lastDigits
+                    - profile.default
+                from:
+                    - { table: '%oro_authorize_net.entity.customer_payment_profile.class%', alias: profile }
+                where:
+                    and:
+                        - 'profile.customerUser = @oro_security.token_accessor->getUserId()'
+                        - 'profile.customerPaymentProfileId in (:paymentProfileExternalIds)'
+                        - 'profile.type = :profileType'
+            bind_parameters:
+                - paymentProfileExternalIds
+                - profileType
+        columns:
+            name:
+                label: oro.authorize_net.frontend.payment_profile.fields.name.label
+                required: true
+            lastDigits:
+                label: oro.authorize_net.frontend.payment_profile.fields.last_card_digits.label
+                shortenableLabel: false
+            default:
+                label: oro.authorize_net.frontend.payment_profile.fields.default.label
+                frontend_type: boolean
+        properties:
+            id: ~
+            update_link:
+                type:  url
+                route: oro_authorize_net_payment_profile_frontend_update
+                params: [ id ]
+            delete_link:
+                type:  url
+                route: oro_authorize_net_payment_profile_frontend_delete
+                params: [ id ]
+        sorters:
+            columns:
+                name:
+                    data_name: profile.name
+        filters:
+            columns:
+                name:
+                    type:      string
+                    data_name: profile.name
+        actions:
+            update:
+                type: navigate
+                label: oro.grid.action.update
+                link: update_link
+                icon: pencil
+            delete:
+                type: ajaxdelete
+                label: oro.grid.action.delete
+                link: delete_link
+                icon: trash
+
+    frontend-creditcard-payment-profiles-grid:
+        extends: base-frontend-payment-profiles-grid
+        options:
+            entityHint: credit card payment profiles
+
+    frontend-echeck-payment-profiles-grid:
+        extends: base-frontend-payment-profiles-grid
+        options:
+            entityHint: echeck payment profiles
+        columns:
+            lastDigits:
+                label: oro.authorize_net.frontend.payment_profile.fields.last_account_digits.label
+                shortenableLabel: false

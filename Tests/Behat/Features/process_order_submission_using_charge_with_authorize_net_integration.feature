@@ -8,7 +8,7 @@ Feature: Process order submission using Charge with Authorize_Net integration
     And I login as administrator and use in "second_session" as "Admin"
     And I go to System/Integrations/Manage Integrations
     And I click "Create Integration"
-    And I select "Authorize.NET" from "Type"
+    And I select "Authorize.Net" from "Type"
     And I fill "Authorize.Net Form" with:
       | Name                      | AuthorizeNet         |
       | Label                     | Authorize            |
@@ -49,7 +49,7 @@ Feature: Process order submission using Charge with Authorize_Net integration
       | Year             | 2027             |
       | CVV              | 123              |
     And I click "Continue"
-    Then I should see "Authorize.Net communication error." flash message
+    Then I should see "Payment gateway error. User authentication failed due to invalid authentication values." flash message
 
   Scenario: Error from Backend API when pay order with AuthorizeNet
     Given There are products in the system available for order
