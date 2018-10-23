@@ -61,7 +61,7 @@ Feature: AuthorizeNet integration guest Checkout
     When I save form
     Then the "Enable Guest Checkout" checkbox should be checked
 
-  Scenario: Create Shopping List as unauthorized user
+  Scenario: Prepare the first shopping list for order from under an unauthorized user
     Given I proceed as the User
     And I am on homepage
     And type "SKU123" in "search"
@@ -70,9 +70,9 @@ Feature: AuthorizeNet integration guest Checkout
     And I click "Add to Shopping List"
     And I should see "Product has been added to" flash message
     When I click "Shopping List"
-    And I should see "product1"
+    Then I should see "product1"
 
-  Scenario: Successful order payment with AuthorizeNet
+  Scenario: Successful first order payment with AuthorizeNet
     Given I click "View Details Link"
     And I click "Create Order"
     And I click "Continue as a Guest"
@@ -97,6 +97,16 @@ Feature: AuthorizeNet integration guest Checkout
     And I uncheck "Save my data and create an account" on the checkout page
     And I press "Submit Order"
     Then I should see "Thank You For Your Purchase!"
+
+  Scenario: Prepare the second shopping list for order from under an unauthorized user
+    Given I am on homepage
+    And type "SKU123" in "search"
+    And I click "Search Button"
+    And I click "product1"
+    And I click "Add to Shopping List"
+    And I should see "Product has been added to" flash message
+    When I click "Shopping List"
+    Then I should see "product1"
 
   Scenario: Second successful order payment with AuthorizeNet after first order payment
     Given I click "View Details Link"
