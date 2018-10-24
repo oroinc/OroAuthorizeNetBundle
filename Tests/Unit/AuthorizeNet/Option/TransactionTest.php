@@ -46,7 +46,9 @@ class TransactionTest extends AbstractOptionTest
         $resolver = new Option\OptionsResolver();
 
         $resolver->addOption($transaction);
-        $resolver->resolve(['transaction_type' => $transactionAction]);
+        $resolved = $resolver->resolve(['transaction_type' => $transactionAction]);
+        $this->assertArrayHasKey('transaction_type', $resolved);
+        $this->assertEquals($transactionAction, $resolved['transaction_type']);
     }
 
     public function validTransactionValuesDataProvider()

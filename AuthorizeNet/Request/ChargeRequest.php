@@ -4,28 +4,13 @@ namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request;
 
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 
-class ChargeRequest extends AbstractRequest
+/**
+ * Class to represent CreateTransactionRequest with transactionType=authCaptureTransaction (Authorize.Net API)
+ */
+class ChargeRequest extends AbstractDataFieldsAwareRequest
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getTransactionType()
+    public function getType(): string
     {
         return Option\Transaction::CHARGE;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function configureRequestOptions()
-    {
-        $this
-            ->addOption(new Option\Amount())
-            ->addOption(new Option\Currency())
-            ->addOption(new Option\SolutionId())
-            ->addOption(new Option\DataDescriptor())
-            ->addOption(new Option\DataValue());
-
-        return $this;
     }
 }

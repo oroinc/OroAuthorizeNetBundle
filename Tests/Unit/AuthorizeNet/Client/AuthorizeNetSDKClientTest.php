@@ -9,13 +9,14 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\AuthorizeNetSDKClient;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\Factory\AnetSDKRequestFactoryInterface;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response\AuthorizeNetSDKResponse;
+use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response\ResponseFactory;
 
 class AuthorizeNetSDKClientTest extends \PHPUnit\Framework\TestCase
 {
     const HOST_ADDRESS = 'http://example.local/api';
 
-    /** @var Serializer|\PHPUnit\Framework\MockObject\MockObject */
-    protected $serializer;
+    /** @var ResponseFactory */
+    protected $responseFactory;
 
     /** @var AnetSDKRequestFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $requestFactory;
@@ -25,23 +26,32 @@ class AuthorizeNetSDKClientTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp()
     {
-        $this->serializer = $this->createMock(Serializer::class);
         $this->requestFactory = $this->createMock(AnetSDKRequestFactoryInterface::class);
-        $this->client = new AuthorizeNetSDKClient($this->serializer, $this->requestFactory);
+        /** @var Serializer|\PHPUnit\Framework\MockObject\MockObject $serializer */
+        $serializer = $this->createMock(Serializer::class);
+        $this->responseFactory = new ResponseFactory($serializer);
+        $this->client = new AuthorizeNetSDKClient($this->requestFactory, $this->responseFactory);
     }
 
-    public function testSend()
+    /**
+     * @dataProvider sendDataProvider
+     * @param string $requestType
+     * @param string $apiRequestClass
+     * @param string $apiControllerClass
+     * @param string $apiResponseClass
+     */
+    public function testSend($requestType, $apiRequestClass, $apiControllerClass, $apiResponseClass)
     {
         $requestOptions = $this->getRequiredOptionsData();
 
-        $request = $this->createMock(AnetAPI\CreateTransactionRequest::class);
+        $request = $this->createMock($apiRequestClass);
         $this->requestFactory->expects($this->once())
             ->method('createRequest')
-            ->with($requestOptions)
+            ->with($requestType, $requestOptions)
             ->willReturn($request);
 
-        $transactionResponse = new AnetAPI\CreateTransactionResponse();
-        $controller = $this->createMock(AnetController\CreateTransactionController::class);
+        $transactionResponse = new $apiResponseClass;
+        $controller = $this->createMock($apiControllerClass);
         $controller->expects($this->once())->method('executeWithApiResponse')
             ->with(self::HOST_ADDRESS)
             ->willReturn($transactionResponse);
@@ -51,8 +61,35 @@ class AuthorizeNetSDKClientTest extends \PHPUnit\Framework\TestCase
             ->with($request)
             ->willReturn($controller);
 
-        $response = $this->client->send(self::HOST_ADDRESS, $requestOptions);
+        $response = $this->client->send(self::HOST_ADDRESS, $requestType, $requestOptions);
         $this->assertInstanceOf(AuthorizeNetSDKResponse::class, $response);
+    }
+
+    /**
+     * @return array
+     */
+    public function sendDataProvider()
+    {
+        return [
+            'charge type' => [
+                'requestType' => Option\Transaction::CHARGE,
+                'apiRequestClass' => AnetAPI\CreateTransactionRequest::class,
+                'apiControllerClass' => AnetController\CreateTransactionController::class,
+                'apiResponseClass' => AnetAPI\CreateTransactionResponse::class,
+            ],
+            'authorize type' => [
+                'requestType' => Option\Transaction::AUTHORIZE,
+                'apiRequestClass' => AnetAPI\CreateTransactionRequest::class,
+                'apiControllerClass' => AnetController\CreateTransactionController::class,
+                'apiResponseClass' => AnetAPI\CreateTransactionResponse::class,
+            ],
+            'capture type' => [
+                'requestType' => Option\Transaction::CAPTURE,
+                'apiRequestClass' => AnetAPI\CreateTransactionRequest::class,
+                'apiControllerClass' => AnetController\CreateTransactionController::class,
+                'apiResponseClass' => AnetAPI\CreateTransactionResponse::class,
+            ]
+        ];
     }
 
     /**
@@ -61,11 +98,12 @@ class AuthorizeNetSDKClientTest extends \PHPUnit\Framework\TestCase
     public function testSendReturnsUnexpectedResponse()
     {
         $requestOptions = $this->getRequiredOptionsData();
+        $requestType = Option\Transaction::CHARGE;
 
         $request = $this->createMock(AnetAPI\CreateTransactionRequest::class);
         $this->requestFactory->expects($this->once())
             ->method('createRequest')
-            ->with($requestOptions)
+            ->with($requestType, $requestOptions)
             ->willReturn($request);
 
         $errorResponse = new AnetAPI\ErrorResponse();
@@ -79,7 +117,7 @@ class AuthorizeNetSDKClientTest extends \PHPUnit\Framework\TestCase
             ->with($request)
             ->willReturn($controller);
 
-        $this->client->send(self::HOST_ADDRESS, $requestOptions);
+        $this->client->send(self::HOST_ADDRESS, $requestType, $requestOptions);
     }
 
     /**
@@ -89,7 +127,6 @@ class AuthorizeNetSDKClientTest extends \PHPUnit\Framework\TestCase
     {
         return [
             Option\ApiLoginId::API_LOGIN_ID => 'some_login_id',
-            Option\Transaction::TRANSACTION_TYPE => Option\Transaction::CHARGE,
             Option\TransactionKey::TRANSACTION_KEY => 'some_transaction_key',
         ];
     }

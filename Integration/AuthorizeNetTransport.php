@@ -8,6 +8,9 @@ use Oro\Bundle\IntegrationBundle\Entity\Transport;
 use Oro\Bundle\IntegrationBundle\Provider\TransportInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
+/**
+ * Authorize.Net integration transport
+ */
 class AuthorizeNetTransport implements TransportInterface
 {
     /** @var ParameterBag */

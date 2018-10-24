@@ -3,20 +3,30 @@
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\Form\Type;
 
 use Oro\Bundle\AuthorizeNetBundle\Entity\AuthorizeNetSettings;
+use Oro\Bundle\AuthorizeNetBundle\Form\Extension\EnabledCIMWebsitesSelectExtension;
 use Oro\Bundle\AuthorizeNetBundle\Form\Type\AuthorizeNetSettingsType;
 use Oro\Bundle\AuthorizeNetBundle\Settings\DataProvider\CardTypesDataProviderInterface;
 use Oro\Bundle\AuthorizeNetBundle\Settings\DataProvider\PaymentActionsDataProviderInterface;
+use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
+use Oro\Bundle\FormBundle\Form\Extension\TooltipFormExtension;
 use Oro\Bundle\FormBundle\Form\Type\OroEncodedPlaceholderPasswordType;
 use Oro\Bundle\LocaleBundle\Form\Type\LocalizedFallbackValueCollectionType;
 use Oro\Bundle\LocaleBundle\Tests\Unit\Form\Type\Stub\LocalizedFallbackValueCollectionTypeStub;
 use Oro\Bundle\SecurityBundle\Encoder\SymmetricCrypterInterface;
 use Oro\Bundle\SecurityBundle\Form\DataTransformer\Factory\CryptedDataTransformerFactoryInterface;
+use Oro\Bundle\TranslationBundle\Translation\Translator;
+use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
+use Oro\Bundle\WebsiteBundle\Provider\WebsiteProviderInterface;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType as EntityTypeStub;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
 use Oro\Component\Testing\Unit\PreloadedExtension;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\DataTransformerInterface;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Validation;
 
 class AuthorizeNetSettingsTypeTest extends FormIntegrationTestCase
@@ -25,6 +35,7 @@ class AuthorizeNetSettingsTypeTest extends FormIntegrationTestCase
         'visa',
         'mastercard',
     ];
+
     const PAYMENT_ACTION = 'authorize';
 
     /**
@@ -45,8 +56,6 @@ class AuthorizeNetSettingsTypeTest extends FormIntegrationTestCase
 
     protected function prepareForm()
     {
-        /** @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject $translator */
-        $translator = $this->createMock(TranslatorInterface::class);
         /** @var CardTypesDataProviderInterface|\PHPUnit\Framework\MockObject\MockObject $cardTypesDataProvider */
         $cardTypesDataProvider = $this->createMock(CardTypesDataProviderInterface::class);
         $cardTypesDataProvider->expects($this->any())
@@ -66,7 +75,7 @@ class AuthorizeNetSettingsTypeTest extends FormIntegrationTestCase
 
         $this->cryptedDataTransformerFactory = $this->createMock(CryptedDataTransformerFactoryInterface::class);
         $this->formType = new AuthorizeNetSettingsType(
-            $translator,
+            $this->getTranslator(),
             $this->cryptedDataTransformerFactory,
             $cardTypesDataProvider,
             $actionsDataProvider
@@ -81,14 +90,50 @@ class AuthorizeNetSettingsTypeTest extends FormIntegrationTestCase
         $localizedType = new LocalizedFallbackValueCollectionTypeStub();
         $encoder = $this->createEncoderMock();
 
+        /** @var Translator|\PHPUnit\Framework\MockObject\MockObject $translator */
+        $translator = $this->createMock(Translator::class);
+
+        /** @var ConfigProvider|\PHPUnit\Framework\MockObject\MockObject $configProvider */
+        $configProvider = $this->createMock(ConfigProvider::class);
+
+        /** @var WebsiteProviderInterface|\PHPUnit\Framework\MockObject\MockObject $websiteProvider */
+        $websiteProvider = $this->createMock(WebsiteProviderInterface::class);
+        $websiteProvider
+            ->expects($this->any())
+            ->method('getWebsiteIds')
+            ->willReturn([1,2]);
+
+        /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject $websiteManager */
+        $websiteManager = $this->createMock(WebsiteManager::class);
+
         return [
             new PreloadedExtension(
                 [
-                    $this->formType,
+                    EntityType::class => new EntityTypeStub([]),
+                    AuthorizeNetSettingsType::class => $this->formType,
                     LocalizedFallbackValueCollectionType::class => $localizedType,
-                    new OroEncodedPlaceholderPasswordType($encoder),
+                    OroEncodedPlaceholderPasswordType::class => new OroEncodedPlaceholderPasswordType($encoder),
                 ],
-                []
+                [
+                    CheckboxType::class => [
+                            new TooltipFormExtension($configProvider, $translator),
+                    ],
+                    EntityTypeStub::class => [
+                            new TooltipFormExtension($configProvider, $translator),
+                    ],
+                    TextareaType::class => [
+                            new TooltipFormExtension($configProvider, $translator),
+                    ],
+                    ChoiceType::class => [
+                            new TooltipFormExtension($configProvider, $translator),
+                    ],
+                    LocalizedFallbackValueCollectionTypeStub::class => [
+                            new TooltipFormExtension($configProvider, $translator),
+                    ],
+                    AuthorizeNetSettingsType::class => [
+                        new EnabledCIMWebsitesSelectExtension($websiteProvider, $websiteManager),
+                    ]
+                ]
             ),
             new ValidatorExtension(Validation::createValidator()),
         ];
@@ -111,10 +156,16 @@ class AuthorizeNetSettingsTypeTest extends FormIntegrationTestCase
             'clientKey' => 'some client key',
             'authNetTestMode' => true,
             'authNetRequireCVVEntry' => false,
+            'enabledCIM' => false,
+            'eCheckEnabled' => false,
+            'eCheckLabels' => [['string' => 'eCheck Label']],
+            'eCheckShortLabels' => [['string' => 'eCheck Short']],
+            'eCheckAccountTypes' => ['checking'],
+            'eCheckConfirmationText' => 'some text'
         ];
 
         $this->cryptedDataTransformerFactory
-            ->expects(static::any())
+            ->expects($this->any())
             ->method('create')
             ->willReturnCallback(function () {
                 return $this->createMock(DataTransformerInterface::class);
@@ -122,7 +173,13 @@ class AuthorizeNetSettingsTypeTest extends FormIntegrationTestCase
 
         $authorizeNetSettings = new AuthorizeNetSettings();
 
-        $form = $this->factory->create(AuthorizeNetSettingsType::class, $authorizeNetSettings);
+        $form = $this->factory->create(
+            AuthorizeNetSettingsType::class,
+            $authorizeNetSettings,
+            [
+                'constraints' => []
+            ]
+        );
 
         $form->submit($submitData);
 

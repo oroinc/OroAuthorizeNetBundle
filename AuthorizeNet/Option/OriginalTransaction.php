@@ -2,34 +2,26 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 
-class OriginalTransaction implements OptionInterface
+/**
+ * Option class to represent originalTransaction field (Authorize.Net SDK, CreateTransactionRequest)
+ */
+class OriginalTransaction extends AbstractOption
 {
     const ORIGINAL_TRANSACTION = 'original_transaction';
 
     /**
-     * @var bool
+     * {@inheritdoc}
      */
-    protected $requiredOption;
-
-    /**
-     * @param bool $requiredOption
-     */
-    public function __construct($requiredOption = true)
+    protected function getName()
     {
-        $this->requiredOption = $requiredOption;
+        return self::ORIGINAL_TRANSACTION;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function configureOption(OptionsResolver $resolver)
+    protected function getAllowedTypes()
     {
-        if ($this->requiredOption) {
-            $resolver->setRequired(OriginalTransaction::ORIGINAL_TRANSACTION);
-        }
-
-        $resolver
-            ->setDefined(OriginalTransaction::ORIGINAL_TRANSACTION)
-            ->addAllowedTypes(OriginalTransaction::ORIGINAL_TRANSACTION, ['integer','string']);
+        return ['integer', 'string'];
     }
 }

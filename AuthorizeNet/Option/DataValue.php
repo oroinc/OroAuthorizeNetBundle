@@ -2,17 +2,26 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 
-class DataValue implements OptionInterface
+/**
+ * Option class to represent dataValue field (Authorize.Net SDK)
+ */
+class DataValue extends AbstractOption
 {
     const DATA_VALUE = 'data_value';
 
     /**
      * {@inheritdoc}
      */
-    public function configureOption(OptionsResolver $resolver)
+    protected function getName()
     {
-        $resolver
-            ->setRequired(DataValue::DATA_VALUE)
-            ->addAllowedTypes(DataValue::DATA_VALUE, 'string');
+        return self::DATA_VALUE;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getAllowedTypes()
+    {
+        return 'string';
     }
 }

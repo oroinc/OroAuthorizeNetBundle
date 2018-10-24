@@ -5,6 +5,9 @@ namespace Oro\Bundle\AuthorizeNetBundle\Integration;
 use Oro\Bundle\IntegrationBundle\Provider\ChannelInterface;
 use Oro\Bundle\IntegrationBundle\Provider\IconAwareIntegrationInterface;
 
+/**
+ * Authorize.Net integration channel type
+ */
 class AuthorizeNetChannelType implements ChannelInterface, IconAwareIntegrationInterface
 {
     const TYPE = 'authorize_net';

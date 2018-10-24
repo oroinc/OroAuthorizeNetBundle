@@ -1,0 +1,155 @@
+{% block oro_authorize_net_payment_profile_address_widget %}
+    {% spaceless %}
+        <div class="grid">
+            <div class="grid__row grid__row--offset-none">
+                <div class="grid__column grid__column--6">
+                    {{ form_row(form.firstName) }}
+                </div>
+                <div class="grid__column grid__column--6">
+                    {{ form_row(form.lastName) }}
+                </div>
+            </div>
+            <div class="grid__row grid__row--offset-none">
+                <div class="grid__column grid__column--6">
+                    {{ form_row(form.company) }}
+                </div>
+                <div class="grid__column grid__column--3">
+                    {{ form_row(form.phoneNumber) }}
+                </div>
+                <div class="grid__column grid__column--3">
+                    {{ form_row(form.faxNumber) }}
+                </div>
+            </div>
+            <div class="grid__row grid__row--offset-none">
+                <div class="grid__column grid__column--12">
+                    {{ form_row(form.street) }}
+                </div>
+            </div>
+            <div class="grid__row grid__row--offset-none">
+                <div class="grid__column grid__column--6">
+                    {{ form_row(form.city) }}
+                </div>
+                <div class="grid__column grid__column--2">
+                    {{ form_row(form.country) }}
+                </div>
+                <div class="grid__column grid__column--2">
+                    {{ form_row(form.region) }}
+                </div>
+                <div class="grid__column grid__column--2">
+                    {{ form_row(form.zip) }}
+                </div>
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock %}
+
+{% block oro_authorize_net_credit_card_widget %}
+    {% set paymentProfileComponentOptions = paymentProfileComponentOptions|default({}) %}
+    <div data-credit-card-form="data-credit-card-form">
+        <div class="grid">
+            <div class="grid__row grid__row--offset-none">
+                <div class="grid__column grid__column--6">
+                    <div class="grid__row">
+                        <ul>
+                            {% for cc_name in paymentProfileComponentOptions.allowedCreditCards|default([]) %}
+                                <li class="pull-left">
+                                    <i class="credit-card-icon credit-card-icon_{{ cc_name }}"></i>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="grid__row grid__row--offset-none">
+                <div class="grid__column grid__column--6">
+                    {{ form_row(form.ACCT, {'disabled': false}) }}
+                </div>
+            </div>
+            <div class="grid__row grid__row--offset-none">
+                <div class="grid__column grid__column--4">
+                    {{ form_row(form.expirationDate, {'disabled': false}) }}
+                </div>
+                {% if form.CVV2 is defined %}
+                    <div class="grid__column grid__column--2">
+                        {{ form_row(form.CVV2, {'disabled': false}) }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block oro_authorize_net_credit_card_expiration_date_widget -%}
+    {% set validation = {
+        'credit-card-expiration-date-not-blank': {'message': 'oro.payment.validation.expiration_date', 'payload': null},
+        'credit-card-expiration-date': {'message': 'oro.payment.validation.month', 'payload': null}
+    }
+    %}
+    <div class="grid__row grid__row--offset-none" data-validation="{{ validation|json_encode }}" >
+        <div class="grid__column grid__column--6">
+            {{ form_widget(form.month, {'disabled': false, 'attr': {'data-expiration-date-month': true, 'data-sensitive-data': true}}) }}
+        </div>
+        <div class="grid__column grid__column--6">
+            {{ form_widget(form.year, {'disabled': false, 'attr': {'data-expiration-date-year': true, 'data-sensitive-data': true}}) }}
+        </div>
+    </div>
+{%- endblock %}
+
+{% block oro_authorize_net_payment_profile_dto_widget %}
+    {% set isCreateForm = data.profile.id ? false : true  %}
+    {% set collapseOptions = {
+        keepState: true,
+        open: isCreateForm,
+        animationSpeed: 1
+    } %}
+    <div data-page-component-collapse="{{ collapseOptions|json_encode }}">
+        {{ form_row(form.profile.name) }}
+        <div class="form-row {{ isCreateForm ? 'hidden' }}" >
+            {{ form_row(form.updatePaymentData, {
+                'attr': {
+                    'data-collapse-trigger': true,
+                    'data-update-payment-data': true
+                }
+            }) }}
+        </div>
+        <div data-collapse-container >
+            {{ form_row(form.paymentData, {'paymentProfileComponentOptions': paymentProfileComponentOptions}) }}
+        </div>
+        {{ form_row(form.address) }}
+        <div class="form-row">
+            {{ form_row(form.profile.default) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block oro_authorize_net_bank_account_widget %}
+    <div data-bank-account-form="data-bank-account-form">
+        <div class="grid">
+            <div class="grid__row grid__row--offset-none">
+                <div class="grid__column grid__column--6">
+                    {{ form_row(form.accountType, {'disabled': false}) }}
+                </div>
+            </div>
+            <div class="grid__row grid__row--offset-none">
+                <div class="grid__column grid__column--6">
+                    {{ form_row(form.routingNumber, {'disabled': false}) }}
+                </div>
+            </div>
+            <div class="grid__row grid__row--offset-none">
+                <div class="grid__column grid__column--6">
+                    {{ form_row(form.accountNumber, {'disabled': false}) }}
+                </div>
+            </div>
+            <div class="grid__row grid__row--offset-none">
+                <div class="grid__column grid__column--6">
+                    {{ form_row(form.nameOnAccount, {'disabled': false}) }}
+                </div>
+            </div>
+            <div class="grid__row grid__row--offset-none">
+                <div class="grid__column grid__column--6">
+                    {{ form_row(form.bankName, {'disabled': false}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -7,6 +7,9 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Form type for credit card expiration date (month + year)
+ */
 class CreditCardExpirationDateType extends AbstractType
 {
     const NAME = 'oro_authorize_net_credit_card_expiration_date';
@@ -43,14 +46,6 @@ class CreditCardExpirationDateType extends AbstractType
         );
 
         $resolver->setAllowedValues('input', ['array']);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return $this->getBlockPrefix();
     }
 
     /**

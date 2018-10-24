@@ -54,6 +54,8 @@ class AmountTest extends AbstractOptionTest
         $resolver = new Option\OptionsResolver();
 
         $resolver->addOption($amount);
-        $resolver->resolve([]);
+        $resolved = $resolver->resolve([]);
+
+        $this->assertCount(0, $resolved);
     }
 }

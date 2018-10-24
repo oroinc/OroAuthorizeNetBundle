@@ -7,6 +7,9 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option\OptionsResolver;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request\RequestRegistry;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response\ResponseInterface;
 
+/**
+ * Gateway for sending api request by type via api client
+ */
 class Gateway
 {
     const ADDRESS_SANDBOX = \net\authorize\api\constants\ANetEnvironment::SANDBOX;
@@ -38,17 +41,17 @@ class Gateway
     }
 
     /**
-     * @param string $transactionType
+     * @param string $type
      * @param array $options
      * @return ResponseInterface
      */
-    public function request($transactionType, array $options = [])
+    public function request(string $type, array $options = [])
     {
         $resolver = new OptionsResolver();
-        $request = $this->requestRegistry->getRequest($transactionType);
+        $request = $this->requestRegistry->getRequest($type);
         $request->configureOptions($resolver);
 
-        return $this->client->send($this->getHostAddress(), $resolver->resolve($options));
+        return $this->client->send($this->getHostAddress(), $type, $resolver->resolve($options));
     }
 
     /**

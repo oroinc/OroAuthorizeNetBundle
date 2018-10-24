@@ -30,14 +30,15 @@ class MerchantAuthenticationRequestConfiguratorTest extends \PHPUnit\Framework\T
 
     public function testIsApplicable()
     {
-        $this->assertFalse($this->merchantAuthenticationRequestConfigurator->isApplicable([]));
+        $request = new CreateTransactionRequest();
+        $this->assertFalse($this->merchantAuthenticationRequestConfigurator->isApplicable($request, []));
 
         $options = [
             Option\ApiLoginId::API_LOGIN_ID => 'api_login_id',
             Option\TransactionKey::TRANSACTION_KEY => 'transactionKey',
         ];
 
-        $this->assertTrue($this->merchantAuthenticationRequestConfigurator->isApplicable($options));
+        $this->assertTrue($this->merchantAuthenticationRequestConfigurator->isApplicable($request, $options));
     }
 
     public function testHandle()

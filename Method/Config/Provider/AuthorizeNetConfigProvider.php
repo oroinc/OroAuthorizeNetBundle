@@ -4,21 +4,20 @@ namespace Oro\Bundle\AuthorizeNetBundle\Method\Config\Provider;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Oro\Bundle\AuthorizeNetBundle\Entity\AuthorizeNetSettings;
+use Oro\Bundle\AuthorizeNetBundle\Integration\AuthorizeNetChannelType;
 use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfigInterface;
 use Oro\Bundle\AuthorizeNetBundle\Method\Config\Factory\AuthorizeNetConfigFactoryInterface;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Config provider of Authorize.Net payment method
+ */
 class AuthorizeNetConfigProvider implements AuthorizeNetConfigProviderInterface
 {
     /**
      * @var AuthorizeNetConfigInterface[]|null
      */
     protected $configs;
-
-    /**
-     * @var string
-     */
-    protected $type;
 
     /**
      * @var ManagerRegistry
@@ -36,21 +35,18 @@ class AuthorizeNetConfigProvider implements AuthorizeNetConfigProviderInterface
     protected $logger;
 
     /**
-     * @param ManagerRegistry                    $doctrine
-     * @param LoggerInterface                    $logger
+     * @param ManagerRegistry $doctrine
+     * @param LoggerInterface $logger
      * @param AuthorizeNetConfigFactoryInterface $configFactory
-     * @param string                             $type
      */
     public function __construct(
         ManagerRegistry $doctrine,
         LoggerInterface $logger,
-        AuthorizeNetConfigFactoryInterface $configFactory,
-        $type
+        AuthorizeNetConfigFactoryInterface $configFactory
     ) {
         $this->doctrine = $doctrine;
         $this->logger = $logger;
         $this->configFactory = $configFactory;
-        $this->type = $type;
     }
 
     /**
@@ -63,46 +59,6 @@ class AuthorizeNetConfigProvider implements AuthorizeNetConfigProviderInterface
         $configs = $this->getPaymentConfigs();
 
         return array_key_exists($identifier, $configs);
-    }
-
-    /**
-     * @return string
-     */
-    protected function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * @return AuthorizeNetSettings[]
-     */
-    protected function getEnabledIntegrationSettings()
-    {
-        try {
-            return $this->doctrine->getManagerForClass(AuthorizeNetSettings::class)
-                ->getRepository(AuthorizeNetSettings::class)
-                ->getEnabledSettingsByType($this->getType());
-        } catch (\UnexpectedValueException $e) {
-            $this->logger->critical($e->getMessage());
-
-            return [];
-        }
-    }
-
-    /**
-     * @return array
-     */
-    protected function collectConfigs()
-    {
-        $configs = [];
-        $settings = $this->getEnabledIntegrationSettings();
-
-        foreach ($settings as $setting) {
-            $config = $this->configFactory->createConfig($setting);
-            $configs[$config->getPaymentMethodIdentifier()] = $config;
-        }
-
-        return $configs;
     }
 
     /**
@@ -129,5 +85,46 @@ class AuthorizeNetConfigProvider implements AuthorizeNetConfigProviderInterface
         $configs = $this->getPaymentConfigs();
 
         return $configs[$identifier];
+    }
+
+    /**
+     * @return AuthorizeNetSettings[]
+     */
+    protected function getEnabledIntegrationSettings()
+    {
+        try {
+            $settings = $this->doctrine->getManagerForClass(AuthorizeNetSettings::class)
+                ->getRepository(AuthorizeNetSettings::class)
+                ->getEnabledSettingsByType(AuthorizeNetChannelType::TYPE);
+        } catch (\UnexpectedValueException $e) {
+            $this->logger->critical($e->getMessage());
+            $settings = [];
+        }
+
+        return $settings;
+    }
+
+    /**
+     * @return AuthorizeNetSettings[]
+     */
+    protected function getSettings()
+    {
+        return $this->getEnabledIntegrationSettings();
+    }
+
+    /**
+     * @return array
+     */
+    protected function collectConfigs()
+    {
+        $configs = [];
+        $settings = $this->getSettings();
+
+        foreach ($settings as $setting) {
+            $config = $this->configFactory->createConfig($setting);
+            $configs[$config->getPaymentMethodIdentifier()] = $config;
+        }
+
+        return $configs;
     }
 }

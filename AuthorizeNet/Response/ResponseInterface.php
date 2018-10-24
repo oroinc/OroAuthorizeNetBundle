@@ -2,6 +2,9 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response;
 
+/**
+ * Response interface
+ */
 interface ResponseInterface
 {
     /**

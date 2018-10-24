@@ -4,6 +4,9 @@ namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request;
 
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 
+/**
+ * Class to represent base Authorize.Net API request
+ */
 abstract class AbstractRequest implements RequestInterface
 {
     /**
@@ -25,10 +28,9 @@ abstract class AbstractRequest implements RequestInterface
     /**
      * @return $this
      */
-    private function configureRequiredOptions()
+    private function addRequiredOptions(): self
     {
         $this
-            ->addOption(new Option\Transaction())
             ->addOption(new Option\ApiLoginId())
             ->addOption(new Option\TransactionKey());
 
@@ -38,13 +40,13 @@ abstract class AbstractRequest implements RequestInterface
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(Option\OptionsResolver $resolver)
+    final public function configureOptions(Option\OptionsResolver $resolver): void
     {
         $this
             ->withResolver($resolver)
-            ->configureRequiredOptions()
+            ->addRequiredOptions()
             ->configureRequestOptions()
-            ->configureTransactionOptions()
+            ->configureSpecificOptions()
             ->endResolver();
     }
 
@@ -59,12 +61,8 @@ abstract class AbstractRequest implements RequestInterface
     /**
      * @return $this
      */
-    protected function configureTransactionOptions()
+    protected function configureSpecificOptions()
     {
-        $this->resolver
-            ->setDefault(Option\Transaction::TRANSACTION_TYPE, $this->getTransactionType())
-            ->addAllowedValues(Option\Transaction::TRANSACTION_TYPE, $this->getTransactionType());
-
         return $this;
     }
 

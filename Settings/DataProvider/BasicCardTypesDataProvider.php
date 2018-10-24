@@ -2,6 +2,9 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\Settings\DataProvider;
 
+/**
+ * Available credit card types provider
+ */
 class BasicCardTypesDataProvider implements CardTypesDataProviderInterface
 {
     /**
@@ -25,6 +28,21 @@ class BasicCardTypesDataProvider implements CardTypesDataProviderInterface
     const AMERICAN_EXPRESS = 'american_express';
 
     /**
+     * @internal
+     */
+    const JCB = 'jcb';
+
+    /**
+     * @internal
+     */
+    const DINERS_CLUB = 'diners_club';
+
+    /**
+     * @internal
+     */
+    const CHINA_UNION_PAY = 'china_union_pay';
+
+    /**
      * @return string[]
      */
     public function getCardTypes()
@@ -34,6 +52,9 @@ class BasicCardTypesDataProvider implements CardTypesDataProviderInterface
             self::MASTERCARD,
             self::DISCOVER,
             self::AMERICAN_EXPRESS,
+            self::JCB,
+            self::DINERS_CLUB,
+            self::CHINA_UNION_PAY,
         ];
     }
 }

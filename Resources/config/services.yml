@@ -1,3 +1,6 @@
+parameters:
+    oro_authorize_net.entity.customer_profile.class: Oro\Bundle\AuthorizeNetBundle\Entity\CustomerProfile
+    oro_authorize_net.entity.customer_payment_profile.class: Oro\Bundle\AuthorizeNetBundle\Entity\CustomerPaymentProfile
 services:
     oro_authorize_net.integation.authorize_net.channel:
         class: 'Oro\Bundle\AuthorizeNetBundle\Integration\AuthorizeNetChannelType'
@@ -9,13 +12,162 @@ services:
         tags:
             - { name: oro_integration.transport, type: authorize_net, channel_type: authorize_net }
 
-    oro_authorize_net.method_view_factory:
-        class: 'Oro\Bundle\AuthorizeNetBundle\Method\View\Factory\AuthorizeNetPaymentMethodViewFactory'
-        arguments:
-            - '@form.factory'
-
     oro_authorize_net.settings.payment_action.provider:
         class: 'Oro\Bundle\AuthorizeNetBundle\Settings\DataProvider\BasicPaymentActionsDataProvider'
 
     oro_authorize_net.settings.card_type.provider:
         class: 'Oro\Bundle\AuthorizeNetBundle\Settings\DataProvider\BasicCardTypesDataProvider'
+
+    oro_authorize_net.event_listener.disable_cim_without_websites:
+        class: 'Oro\Bundle\AuthorizeNetBundle\EventListener\DisableCIMWithoutWebsites'
+        tags:
+            - { name: doctrine.orm.entity_listener, entity: '%oro_website.entity.website.class%', event: preRemove }
+
+    oro_authorize_net.validator.forbid_to_reuse_enabled_cim_websites:
+        class: 'Oro\Bundle\AuthorizeNetBundle\Validator\Constraints\ForbidToReuseEnabledCIMWebsitesValidator'
+        arguments:
+            - '@oro_entity.doctrine_helper'
+            - '@oro_website.website.provider'
+        tags:
+            - { name: validator.constraint_validator,  alias: oro_authorize_net.validator.forbid_to_reuse_enabled_cim_websites }
+
+    oro_authorize_net.validator.required_enabled_cim_websites:
+        class: 'Oro\Bundle\AuthorizeNetBundle\Validator\Constraints\RequiredEnabledCIMWebsitesValidator'
+        tags:
+            - { name: validator.constraint_validator,  alias: oro_authorize_net.validator.required_enabled_cim_websites }
+
+    oro_authorize_net.checker.cim_restriction:
+        class: 'Oro\Bundle\AuthorizeNetBundle\Checker\CIMRestriction'
+        arguments:
+            - '@oro_entity.doctrine_helper'
+
+    oro_authorize_net.event_listener.navigation:
+        class: 'Oro\Bundle\AuthorizeNetBundle\EventListener\NavigationListener'
+        arguments:
+            - "@oro_website.manager"
+            - "@oro_authorize_net.method.config.provider.cim_enabled_config_provider"
+        tags:
+            - { name: kernel.event_listener, event: oro_menu.configure.oro_customer_menu, method: onNavigationConfigure }
+
+    oro_authorize_net.security.acl.voter.abstract_profile:
+        class: Oro\Bundle\AuthorizeNetBundle\Acl\Voter\CustomerProfileAndCustomerPaymentProfileVoter
+        abstract: true
+        public: false
+        arguments:
+            - "@oro_entity.doctrine_helper"
+            - "@oro_security.token_accessor"
+
+    oro_authorize_net.security.acl.voter.customer_profile:
+        class: Oro\Bundle\AuthorizeNetBundle\Acl\Voter\CustomerProfileAndCustomerPaymentProfileVoter
+        parent: oro_authorize_net.security.acl.voter.abstract_profile
+        calls:
+            - [setClassName, ['%oro_authorize_net.entity.customer_profile.class%']]
+        tags:
+            - { name: security.voter, priority: 50 }
+
+    oro_authorize_net.security.acl.voter.customer_payment_profile:
+        class: Oro\Bundle\AuthorizeNetBundle\Acl\Voter\CustomerProfileAndCustomerPaymentProfileVoter
+        parent: oro_authorize_net.security.acl.voter.abstract_profile
+        calls:
+            - [setClassName, ['%oro_authorize_net.entity.customer_payment_profile.class%']]
+        tags:
+            - { name: security.voter, priority: 100 }
+
+    oro_authorize_net.layout.data_provider.payment_profile_dto_form:
+        class: 'Oro\Bundle\AuthorizeNetBundle\Layout\DataProvider\PaymentProfileDTOFormProvider'
+        arguments:
+            - '@form.factory'
+            - '@router'
+            - '@oro_authorize_net.provider.cim_enabled_integration_config'
+        tags:
+            - { name: layout.data_provider, alias: oro_authorize_net_payment_profile_dto_form }
+
+    oro_authorize_net.form.handler.payment_profile:
+        class: Oro\Bundle\AuthorizeNetBundle\Form\Handler\PaymentProfileHandler
+        parent: oro_form.form.handler.default
+        arguments:
+            - '@oro_security.token_accessor'
+            - '@session'
+            - '@oro_authorize_net.helper.request_sender'
+            - '@translator'
+            - '@oro_authorize_net.provider.integration'
+            - '@oro_authorize_net.provider.customer_profile'
+
+    oro_authorize_net.helper.merchant_customer_id_generator:
+        class: Oro\Bundle\AuthorizeNetBundle\Helper\MerchantCustomerIdGenerator
+
+    oro_authorize_net.helper.request_sender:
+        class: 'Oro\Bundle\AuthorizeNetBundle\Helper\RequestSender'
+        public: true
+        arguments:
+            - '@oro_authorize_net.authorize_net.gateway'
+            - '@oro_entity.doctrine_helper'
+            - '@oro_authorize_net.provider.cim_enabled_integration_config'
+            - '@oro_authorize_net.helper.merchant_customer_id_generator'
+
+    oro_authorize_net.provider.integration:
+        class: 'Oro\Bundle\AuthorizeNetBundle\Provider\IntegrationProvider'
+        public: true
+        arguments:
+            - '@oro_website.manager'
+            - '@oro_entity.doctrine_helper'
+
+    oro_authorize_net.provider.cim_enabled_integration_config:
+        class: 'Oro\Bundle\AuthorizeNetBundle\Provider\CIMEnabledIntegrationConfigProvider'
+        public: true
+        arguments:
+            - '@oro_authorize_net.method.config.provider.cim_enabled_config_provider'
+            - '@oro_website.manager'
+
+    oro_authorize_net.handler.delete.abstract_profile:
+        abstract: true
+        public: true
+        arguments:
+            - '@oro_entity.doctrine_helper'
+            - '@oro_authorize_net.helper.request_sender'
+
+    oro_authorize_net.handler.delete.customer_payment_profile:
+        class: 'Oro\Bundle\AuthorizeNetBundle\Handler\CustomerPaymentProfileDeleteHandler'
+        parent: oro_authorize_net.handler.delete.abstract_profile
+
+    oro_authorize_net.handler.delete.customer_profile:
+        class: 'Oro\Bundle\AuthorizeNetBundle\Handler\CustomerProfileDeleteHandler'
+        parent: oro_authorize_net.handler.delete.abstract_profile
+
+    oro_authorize_net.provider.customer_profile:
+        class: 'Oro\Bundle\AuthorizeNetBundle\Provider\CustomerProfileProvider'
+        public: true
+        arguments:
+            - '@oro_entity.doctrine_helper'
+            - '@oro_authorize_net.provider.integration'
+            - '@oro_security.token_accessor'
+
+    oro_authorize_net.provider.payment_profile:
+        class: 'Oro\Bundle\AuthorizeNetBundle\Provider\PaymentProfileProvider'
+        public: true
+        arguments:
+            - '@oro_authorize_net.helper.request_sender'
+            - '@logger'
+        tags:
+            - { name: monolog.logger, channel: oro_authorize_net }
+
+    oro_authorize_net.event_listener.create_payment_profile_from_transaction_request:
+        class: 'Oro\Bundle\AuthorizeNetBundle\EventListener\CreatePaymentProfileFromTransactionResponse'
+        arguments:
+            - '@oro_entity.doctrine_helper'
+            - '@oro_authorize_net.provider.integration'
+            - '@session'
+            - '@translator'
+        tags:
+            - { name: kernel.event_listener, event: oro_authorize_net.transaction_response.received, method: onTransactionResponseReceived }
+
+    oro_authorize_net.service.authentication_credentials_validator_service:
+        class: Oro\Bundle\AuthorizeNetBundle\Service\AuthenticationCredentialsValidator
+        arguments:
+            - '@oro_authorize_net.authorize_net.gateway'
+
+    oro_authorize_net.service.transaction_key_value_provider:
+        class: Oro\Bundle\AuthorizeNetBundle\Service\TransactionKeyValueProvider
+        arguments:
+            - '@doctrine'
+            - '@oro_security.encoder.default'

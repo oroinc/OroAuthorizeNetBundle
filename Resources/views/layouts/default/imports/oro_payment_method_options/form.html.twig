@@ -1,4 +1,27 @@
-{% block _oro_authorize_net_credit_card_payment_credit_card_cvv_widget %}
+{% block _oro_authorize_net_credit_card_widget %}
+    {% set paymentMethodComponent = options.paymentMethodComponent|default('oroauthorizenet/js/app/components/payment-method-component') %}
+    {% set paymentMethodComponentOptions = options.paymentMethodComponentOptions|default({})|merge({paymentMethod: paymentMethod}) %}
+
+    <div class="{{ class_prefix }}-form__payment-methods"
+        data-page-component-module="{{ paymentMethodComponent }}"
+        data-page-component-options="{{ paymentMethodComponentOptions|json_encode }}">
+
+        <div data-payment-method-form>
+            <ul class="{{ class_prefix }}-form__payment-methods-list">
+                {% for cc_name in paymentMethodComponentOptions.allowedCreditCards %}
+                    <li class="{{ class_prefix }}-form__payment-methods-item"><i class="credit-card-icon credit-card-icon_{{ cc_name }}"></i></li>
+                {% endfor %}
+            </ul>
+            <div class="{{ class_prefix }}-form__payment-methods-form" data-payment-data-form>
+                {% for child in form.children %}
+                    {{ form_row(child, {class_prefix: class_prefix}) }}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _oro_authorize_net_checkout_creditcard_profile_profile_cvv_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' input input--short',
         'autocomplete': 'off'
@@ -6,36 +29,142 @@
 
     {%- set type = type|default('password') -%}
     <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
-    <a href="javascript: void(0);"
-       data-toggle="tooltip"
-       data-title="{{ 'oro.authorize_net.credit_card.tooltip'|trans }}"
-       data-html="true"
-       data-container="body"
-       data-placement="{% if isMobileVersion() %}top{% else %}right{% endif %}"
-       data-offset="0, 8px"
-    >
-        {{ 'oro.authorize_net.credit_card.whats_this'|trans }}
-    </a>
 {% endblock %}
 
-{% block _oro_authorize_net_credit_card_widget %}
-    {% set creditCardComponent = options.creditCardComponent|default('oroauthorizenet/js/app/components/credit-card-component') %}
-    {% set creditCardComponentOptions = options.creditCardComponentOptions|default({})|merge({paymentMethod: paymentMethod}) %}
+{% block _oro_authorize_net_checkout_creditcard_profile_profile_cvv_label %}
+    <label class="label label--full required" for="{{ id }}">
+        {{ label|trans }}<em>*</em>
+        <a href="javascript: void(0);"
+               data-toggle="tooltip"
+               data-title="{{ 'oro.authorize_net.credit_card.tooltip'|trans }}"
+               data-html="true"
+               data-container="body"
+               data-placement="{% if isMobileVersion() %}top{% else %}right{% endif %}"
+               data-offset="0, 8px"
+            >
+            {{ 'oro.authorize_net.credit_card.whats_this'|trans }}
+        </a>
+    </label>
+{% endblock %}
+
+{% block oro_authorize_net_checkout_save_profile_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' custom-checkbox__input'
+    }) %}
+    <label class="label label--full custom-checkbox" for="{{ id }}" >
+        <input type="checkbox" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+        <span class="custom-checkbox__icon"></span>
+        <span class="custom-checkbox__text">
+            {{ label|trans }}
+
+            <a href="javascript: void(0);"
+            data-toggle="tooltip"
+            data-title="{{ tooltip|trans }}"
+            data-html="true"
+            data-container="body"
+            >
+                <i class="fa fa-question-circle"></i>
+            </a>
+        </span>
+    </label>
+{% endblock %}
+
+{% block _oro_authorize_net_checkout_creditcard_profile_widget %}
+    {% set paymentMethodComponent = options.paymentMethodComponent|default('oroauthorizenet/js/app/components/payment-method-component') %}
+    {% set paymentMethodComponentOptions = options.paymentMethodComponentOptions|default({})|merge({paymentMethod: paymentMethod}) %}
 
     <div class="{{ class_prefix }}-form__payment-methods"
-        data-page-component-module="{{ creditCardComponent }}"
-        data-page-component-options="{{ creditCardComponentOptions|json_encode }}">
+        data-page-component-module="{{ paymentMethodComponent }}"
+        data-page-component-options="{{ paymentMethodComponentOptions|json_encode }}">
 
-        <div>
-            <ul class="{{ class_prefix }}-form__payment-methods-list">
-                {% for cc_name in options.creditCardComponentOptions.allowedCreditCards %}
-                    <li class="{{ class_prefix }}-form__payment-methods-item"><i class="credit-card-icon credit-card-icon_{{ cc_name }}"></i></li>
-                {% endfor %}
-            </ul>
-            <div class="{{ class_prefix }}-form__payment-methods-form" data-credit-card-form="data-credit-card-form">
+        {% set hidePaymentDataForm  = form.profile.vars.value %}
+
+        <div data-payment-method-form>
+            <div class="grid__row grid__row--offset-none" data-profile-form>
+                <div class="grid__column grid__column--8">
+                    {{ form_row(form.profile) }}
+                </div>
+                {% if form.profileCVV is defined %}
+                    <div class="grid__column grid__column--4 {{ not hidePaymentDataForm ? 'hidden' }}" data-profile-cvv>
+                        {{ form_row(form.profileCVV) }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="grid__row grid__row--offset-none {{ hidePaymentDataForm ? 'hidden' }}" data-payment-data-form>
+                <div class="grid__column grid__column--12">
+                    <ul class="{{ class_prefix }}-form__payment-methods-list">
+                        {% for cc_name in paymentMethodComponentOptions.allowedCreditCards %}
+                            <li class="{{ class_prefix }}-form__payment-methods-item">
+                                <i class="credit-card-icon credit-card-icon_{{ cc_name }}"></i>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="{{ class_prefix }}-form__payment-methods-form">
+                        {% for child in form.paymentData.children %}
+                            {{ form_row(child, {class_prefix: class_prefix}) }}
+                        {% endfor %}
+
+                        {{ form_row(form.saveProfile) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _oro_authorize_net_checkout_echeck_profile_widget %}
+    {% set paymentMethodComponent = options.paymentMethodComponent|default('oroauthorizenet/js/app/components/payment-method-component') %}
+    {% set paymentMethodComponentOptions = options.paymentMethodComponentOptions|default({})|merge({paymentMethod: paymentMethod}) %}
+
+    <div class="{{ class_prefix }}-form__payment-methods"
+         data-page-component-module="{{ paymentMethodComponent }}"
+         data-page-component-options="{{ paymentMethodComponentOptions|json_encode }}">
+
+        {% set hidePaymentDataForm  = form.profile.vars.value %}
+
+        <div data-payment-method-form>
+            <div class="grid__row grid__row--offset-none" data-profile-form>
+                <div class="grid__column grid__column--8">
+                    {{ form_row(form.profile) }}
+                </div>
+            </div>
+            <div class="grid__row grid__row--offset-none {{ hidePaymentDataForm ? 'hidden' }}" data-payment-data-form>
+                <div class="grid__column grid__column--12">
+                    <div class="{{ class_prefix }}-form__payment-methods-form">
+                        {% for child in form.paymentData.children %}
+                            {{ form_row(child, {class_prefix: class_prefix}) }}
+                        {% endfor %}
+
+                        {{ form_row(form.saveProfile) }}
+                    </div>
+                </div>
+            </div>
+            <div class="grid__row grid__row--offset-none">
+                <div class="grid__column grid__column--12 echeck-confirmation-text">
+                {{ form.paymentData.vars.confirmation_text|default('') }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _oro_authorize_net_bank_account_widget %}
+    {% set paymentMethodComponent = options.paymentMethodComponent|default('oroauthorizenet/js/app/components/payment-method-component') %}
+    {% set paymentMethodComponentOptions = options.paymentMethodComponentOptions|default({})|merge({paymentMethod: paymentMethod}) %}
+
+    <div class="{{ class_prefix }}-form__payment-methods"
+         data-page-component-module="{{ paymentMethodComponent }}"
+         data-page-component-options="{{ paymentMethodComponentOptions|json_encode }}">
+
+        <div data-payment-method-form>
+            <div class="{{ class_prefix }}-form__payment-methods-form" data-payment-data-form>
                 {% for child in form.children %}
                     {{ form_row(child, {class_prefix: class_prefix}) }}
                 {% endfor %}
+                <div class="echeck-confirmation-text">
+                    {{ confirmation_text|default('') }}
+                </div>
             </div>
         </div>
     </div>

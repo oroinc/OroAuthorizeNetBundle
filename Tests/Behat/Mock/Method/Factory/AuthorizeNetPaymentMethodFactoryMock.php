@@ -13,7 +13,13 @@ class AuthorizeNetPaymentMethodFactoryMock extends AuthorizeNetPaymentMethodFact
      */
     public function create(AuthorizeNetConfigInterface $config)
     {
-        $method = new AuthorizeNetPaymentMethodMock($this->gateway, $config, $this->requestStack);
+        $method = new AuthorizeNetPaymentMethodMock(
+            $this->gateway,
+            $config,
+            $this->requestStack,
+            $this->methodOptionResolver,
+            $this->eventDispatcher
+        );
 
         if ($this->logger) {
             $method->setLogger($this->logger);

@@ -1,0 +1,11 @@
+layout:
+    imports:
+        -
+            id: oro_authorize_net_payment_profile_form
+            namespace: payment_profile_form
+            root: page_content
+    actions:
+        - '@setOption':
+            id: page_title
+            optionName: defaultValue
+            optionValue: 'oro.authorize_net.frontend.payment_profile.create.label'

@@ -29,6 +29,8 @@ class AuthorizeNetConfigTest extends AbstractPaymentConfigTestCase
             AuthorizeNetConfig::CLIENT_KEY => 'client key',
             AuthorizeNetConfig::API_LOGIN_ID => 'api login id',
             AuthorizeNetConfig::TRANSACTION_KEY => 'trans key',
+            AuthorizeNetConfig::INTEGRATION_ID => 4,
+            AuthorizeNetConfig::ECHECK_ENABLED => true
         ];
 
         return new AuthorizeNetConfig($params);
@@ -36,7 +38,7 @@ class AuthorizeNetConfigTest extends AbstractPaymentConfigTestCase
 
     public function testIsTestMode()
     {
-        $this->assertSame(true, $this->config->isTestMode());
+        $this->assertTrue($this->config->isTestMode());
     }
 
     public function testGetPurchaseAction()
@@ -62,5 +64,15 @@ class AuthorizeNetConfigTest extends AbstractPaymentConfigTestCase
     public function testGetClientKey()
     {
         $this->assertSame('client key', $this->config->getClientKey());
+    }
+
+    public function testGetIntegrationId()
+    {
+        $this->assertSame(4, $this->config->getIntegrationId());
+    }
+
+    public function testIsECheckEnabled()
+    {
+        $this->assertTrue($this->config->isECheckEnabled());
     }
 }

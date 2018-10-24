@@ -3,11 +3,8 @@
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\AuthorizeNet\Response;
 
 use JMS\Serializer\Serializer;
-use net\authorize\api\contract\v1\CreateTransactionResponse;
+use net\authorize\api\contract\v1\ANetApiResponseType;
 use net\authorize\api\contract\v1\MessagesType;
-use net\authorize\api\contract\v1\TransactionResponseType;
-use net\authorize\api\contract\v1\TransactionResponseType\ErrorsAType\ErrorAType as TransactionErrorMessage;
-use net\authorize\api\contract\v1\TransactionResponseType\MessagesAType\MessageAType as TransactionMessage;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response\AuthorizeNetSDKResponse;
 
 class AuthorizeNetSDKResponseTest extends \PHPUnit\Framework\TestCase
@@ -15,7 +12,7 @@ class AuthorizeNetSDKResponseTest extends \PHPUnit\Framework\TestCase
     /** @var Serializer|\PHPUnit\Framework\MockObject\MockObject */
     protected $serializer;
 
-    /** @var CreateTransactionResponse|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ANetApiResponseType|\PHPUnit\Framework\MockObject\MockObject */
     protected $apiResponse;
 
     /** @var AuthorizeNetSDKResponse */
@@ -24,102 +21,67 @@ class AuthorizeNetSDKResponseTest extends \PHPUnit\Framework\TestCase
     protected function setUp()
     {
         $this->serializer = $this->createMock(Serializer::class);
-        $this->apiResponse = $this->createMock(CreateTransactionResponse::class);
+        $this->apiResponse = $this->createMock(ANetApiResponseType::class);
         $this->authorizeNetSdkResponse = new AuthorizeNetSDKResponse($this->serializer, $this->apiResponse);
     }
 
-    public function testIsSuccessfulWithNullableTransactionResponse()
+    public function testIsSuccessfulWithErrorResultCode()
     {
-        $this->apiResponse->expects($this->once())->method('getTransactionResponse')->willReturn(null);
-        $this->assertFalse($this->authorizeNetSdkResponse->isSuccessful());
-    }
-
-    public function testIsSuccessfulWithZeroResponseCode()
-    {
-        $transactionResponse = new TransactionResponseType();
-        $transactionResponse->setResponseCode(0);
-        $this->apiResponse->expects($this->once())->method('getTransactionResponse')
-            ->willReturn($transactionResponse);
-
-        $this->assertFalse($this->authorizeNetSdkResponse->isSuccessful());
-    }
-
-    public function testIsSuccessfulWithIntegerResponse()
-    {
-        $transactionResponse = new TransactionResponseType();
-        $transactionResponse->setResponseCode(1);
-        $this->apiResponse->expects($this->once())->method('getTransactionResponse')
-            ->willReturn($transactionResponse);
+        $messages = new MessagesType();
+        $messages->setResultCode('Error');
+        $this->apiResponse->expects($this->once())->method('getMessages')
+            ->willReturn($messages);
 
         $this->assertFalse($this->authorizeNetSdkResponse->isSuccessful());
     }
 
     public function testIsSuccessfulWithValidResponse()
     {
-        $transactionResponse = new TransactionResponseType();
-        $transactionResponse->setResponseCode('1');
-        $this->apiResponse->expects($this->once())->method('getTransactionResponse')
-            ->willReturn($transactionResponse);
+        $messages = new MessagesType();
+        $messages->setResultCode('Ok');
+        $this->apiResponse->expects($this->once())->method('getMessages')
+            ->willReturn($messages);
 
         $this->assertTrue($this->authorizeNetSdkResponse->isSuccessful());
     }
 
-    public function testGetReferenceWithEmptyTransactionResponse()
+    public function testGetReference()
     {
-        $this->apiResponse->expects($this->once())->method('getTransactionResponse')->willReturn(null);
-        $this->assertNull($this->authorizeNetSdkResponse->getReference());
-    }
+        $refId = '111';
+        $this->apiResponse->expects($this->once())->method('getRefId')
+            ->willReturn($refId);
 
-    public function testGetReferenceWithValidResponse()
-    {
-        $transId = '111';
-        $transactionResponse = new TransactionResponseType();
-        $transactionResponse->setTransId($transId);
-        $this->apiResponse->expects($this->once())->method('getTransactionResponse')
-            ->willReturn($transactionResponse);
-
-        $this->assertSame($transId, $this->authorizeNetSdkResponse->getReference());
+        $this->assertSame($refId, $this->authorizeNetSdkResponse->getReference());
     }
 
     public function testGetSuccessMessage()
     {
-        $transactionMessage = (new TransactionMessage)->setCode(144)->setDescription('Luke is the best jedi');
-
-        $transactionResponse = new TransactionResponseType();
-        $transactionResponse->setResponseCode('1');
-        $transactionResponse->setMessages([$transactionMessage]);
-
         $apiMessage = (new MessagesType\MessageAType)->setCode(255)->setText('Will be force with you!');
-        $apiMessageType = (new MessagesType)->setMessage([$apiMessage]);
+        $apiMessageType = (new MessagesType)->setResultCode('Ok')->setMessage([$apiMessage]);
 
-        $this->apiResponse->expects($this->once())->method('getMessages')->willReturn($apiMessageType);
-        $this->apiResponse->expects($this->exactly(2))->method('getTransactionResponse')
-            ->willReturn($transactionResponse);
+        $this->apiResponse
+            ->expects($this->exactly(2))
+            ->method('getMessages')
+            ->willReturn($apiMessageType);
 
         $this->assertSame(
-            '(255) Will be force with you!;  (144) Luke is the best jedi',
+            '(255) Will be force with you!',
             $this->authorizeNetSdkResponse->getMessage()
         );
     }
 
     public function testGetErrorMessage()
     {
-        $transactionError = (new TransactionErrorMessage)->setErrorCode(125)
-            ->setErrorText('Darth Vader is coming for you');
-
-        $transactionResponse = new TransactionResponseType();
-        $transactionResponse->setResponseCode('0');
-        $transactionResponse->setErrors([$transactionError]);
-
         $apiMessage = (new MessagesType\MessageAType)->setCode(408)->setText('The Dark Side is strong in you!');
-        $apiMessageType = (new MessagesType)->setMessage([$apiMessage]);
+        $apiMessageType = (new MessagesType)->setResultCode('Error')->setMessage([$apiMessage]);
 
-        $this->apiResponse->expects($this->once())->method('getMessages')->willReturn($apiMessageType);
-        $this->apiResponse->expects($this->exactly(2))->method('getTransactionResponse')
-            ->willReturn($transactionResponse);
+        $this->apiResponse
+            ->expects($this->exactly(2))
+            ->method('getMessages')
+            ->willReturn($apiMessageType);
 
         $this->assertSame(
-            '(408) The Dark Side is strong in you!;  (125) Darth Vader is coming for you',
+            '(408) The Dark Side is strong in you!',
             $this->authorizeNetSdkResponse->getMessage()
         );
     }
@@ -129,7 +91,7 @@ class AuthorizeNetSDKResponseTest extends \PHPUnit\Framework\TestCase
      * @param $entryData
      * @param $expectedData
      */
-    public function testFetData($entryData, $expectedData)
+    public function testGetData($entryData, $expectedData)
     {
         $this->serializer->expects($this->once())->method('toArray')
             ->with($this->apiResponse)->willReturn($entryData);

@@ -4,6 +4,9 @@ namespace Oro\Bundle\AuthorizeNetBundle\Method\Config\Provider;
 
 use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfigInterface;
 
+/**
+ * Interface for config provider of Authorize.Net payment method
+ */
 interface AuthorizeNetConfigProviderInterface
 {
     /**

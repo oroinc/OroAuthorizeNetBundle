@@ -7,11 +7,6 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request\CaptureRequest;
 
 class CaptureRequestTest extends AbstractRequestTest
 {
-    /**
-     * @var CaptureRequest
-     */
-    protected $request;
-
     protected function setUp()
     {
         $this->request = new CaptureRequest();
@@ -20,25 +15,17 @@ class CaptureRequestTest extends AbstractRequestTest
     /**
      * {@inheritdoc}
      */
-    protected function getOptions()
+    public function optionsProvider()
     {
         return [
-            Option\Amount::AMOUNT => 10.00,
-            Option\Currency::CURRENCY => Option\Currency::US_DOLLAR,
-            Option\OriginalTransaction::ORIGINAL_TRANSACTION => 1
+            'default' => [
+                [
+                    Option\Transaction::TRANSACTION_TYPE => (new CaptureRequest())->getType(),
+                    Option\Amount::AMOUNT => 10.00,
+                    Option\Currency::CURRENCY => Option\Currency::US_DOLLAR,
+                    Option\OriginalTransaction::ORIGINAL_TRANSACTION => 1
+                ]
+            ]
         ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getRequest()
-    {
-        return $this->request;
-    }
-
-    public function testTransactionType()
-    {
-        $this->assertEquals('priorAuthCaptureTransaction', $this->request->getTransactionType());
     }
 }

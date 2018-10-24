@@ -1,0 +1,8 @@
+operations:
+    oro_integration_activate:
+        preactions:
+            - '@call_service_method':
+                  service: oro_authorize_net.checker.cim_restriction
+                  method: isChannelActivationAllowed
+                  method_parameters: [$.data]
+                  attribute: $.actionAllowed

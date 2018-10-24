@@ -5,13 +5,48 @@ namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\Factory;
 use net\authorize\api\contract\v1 as AnetAPI;
 use net\authorize\api\controller as AnetController;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\RequestConfigurator\RequestConfiguratorRegistry;
+use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option\Transaction;
+use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request as Request;
 
+/**
+ * Factory for creating appropriate API request object by request type
+ * & creating API controller object by API request object
+ */
 class AnetSDKRequestFactory implements AnetSDKRequestFactoryInterface
 {
     /**
      * @var RequestConfiguratorRegistry
      */
     private $requestConfiguratorRegistry;
+
+    private static $requestClassMap = [
+        Transaction::AUTHORIZE => AnetAPI\CreateTransactionRequest::class,
+        Transaction::CAPTURE => AnetAPI\CreateTransactionRequest::class,
+        Transaction::CHARGE => AnetAPI\CreateTransactionRequest::class,
+        Request\CreateCustomerProfileRequest::REQUEST_TYPE => AnetAPI\CreateCustomerProfileRequest::class,
+        Request\DeleteCustomerProfileRequest::REQUEST_TYPE => AnetAPI\DeleteCustomerProfileRequest::class,
+        Request\CreateCustomerPaymentProfileRequest::REQUEST_TYPE => AnetAPI\CreateCustomerPaymentProfileRequest::class,
+        Request\UpdateCustomerPaymentProfileRequest::REQUEST_TYPE => AnetAPI\UpdateCustomerPaymentProfileRequest::class,
+        Request\GetCustomerPaymentProfileRequest::REQUEST_TYPE => AnetAPI\GetCustomerPaymentProfileRequest::class,
+        Request\GetCustomerProfileRequest::REQUEST_TYPE => AnetAPI\GetCustomerProfileRequest::class,
+        Request\DeleteCustomerPaymentProfileRequest::REQUEST_TYPE => AnetAPI\DeleteCustomerPaymentProfileRequest::class,
+        Request\AuthenticateTestRequest::REQUEST_TYPE => AnetAPI\AuthenticateTestRequest::class,
+    ];
+
+    private static $controllerClassMap = [
+        AnetAPI\CreateTransactionRequest::class => AnetController\CreateTransactionController::class,
+        AnetAPI\CreateCustomerProfileRequest::class => AnetController\CreateCustomerProfileController::class,
+        AnetAPI\DeleteCustomerProfileRequest::class => AnetController\DeleteCustomerProfileController::class,
+        AnetAPI\CreateCustomerPaymentProfileRequest::class =>
+            AnetController\CreateCustomerPaymentProfileController::class,
+        AnetAPI\UpdateCustomerPaymentProfileRequest::class =>
+            AnetController\UpdateCustomerPaymentProfileController::class,
+        AnetAPI\GetCustomerPaymentProfileRequest::class => AnetController\GetCustomerPaymentProfileController::class,
+        AnetAPI\GetCustomerProfileRequest::class => AnetController\GetCustomerProfileController::class,
+        AnetAPI\DeleteCustomerPaymentProfileRequest::class =>
+            AnetController\DeleteCustomerPaymentProfileController::class,
+        AnetAPI\AuthenticateTestRequest::class => AnetController\AuthenticateTestController::class
+    ];
 
     /**
      * {@inheritdoc}
@@ -24,14 +59,18 @@ class AnetSDKRequestFactory implements AnetSDKRequestFactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function createRequest(array $options = [])
+    public function createRequest(string $type, array $options = [])
     {
-        $request = new AnetAPI\CreateTransactionRequest();
+        if (!array_key_exists($type, self::$requestClassMap)) {
+            throw new \InvalidArgumentException('Unsupported request type');
+        }
+
+        $request = new self::$requestClassMap[$type];
 
         $configurators = $this->requestConfiguratorRegistry->getRequestConfigurators();
 
         foreach ($configurators as $configurator) {
-            if ($configurator->isApplicable($options)) {
+            if ($configurator->isApplicable($request, $options)) {
                 $configurator->handle($request, $options);
             }
         }
@@ -42,8 +81,14 @@ class AnetSDKRequestFactory implements AnetSDKRequestFactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function createController(AnetAPI\CreateTransactionRequest $request)
+    public function createController(AnetAPI\ANetApiRequestType $request)
     {
-        return new AnetController\CreateTransactionController($request);
+        $requestClass = \get_class($request);
+
+        if (!array_key_exists($requestClass, self::$controllerClassMap)) {
+            throw new \InvalidArgumentException('Unsupported request class');
+        }
+
+        return new self::$controllerClassMap[$requestClass]($request);
     }
 }

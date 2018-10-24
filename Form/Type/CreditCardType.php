@@ -4,13 +4,15 @@ namespace Oro\Bundle\AuthorizeNetBundle\Form\Type;
 
 use Oro\Bundle\ValidationBundle\Validator\Constraints\Integer;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
+/**
+ * Credit card form
+ */
 class CreditCardType extends AbstractType
 {
     const NAME = 'oro_authorize_net_credit_card';
@@ -31,24 +33,26 @@ class CreditCardType extends AbstractType
                     'data-validation' => [
                         'credit-card-number' => [
                             'message' => 'oro.payment.validation.credit_card',
-                            'payload' => null,
+                            'payload' => null
                         ],
                         'credit-card-type' => [
                             'message' => 'oro.payment.validation.credit_card_type',
                             'payload' => null,
+                            'allowedCreditCards' => $options['allowedCreditCards']
                         ]
                     ],
-                    'data-credit-card-type-validator' => 'credit-card-type',
+                    'data-sensitive-data' => true,
                     'data-card-number' => true,
+                    'data-last-digits-source' => true,
                     'autocomplete' => 'off',
                     'data-gateway' => true,
-                    'placeholder' => false,
+                    'placeholder' => false
                 ],
                 'constraints' => [
                     new Integer(),
                     new NotBlank(),
-                    new Length(['min' => '12', 'max' => '19']),
-                ],
+                    new Length(['min' => '12', 'max' => '19'])
+                ]
             ]
         )->add(
             'expirationDate',
@@ -59,35 +63,23 @@ class CreditCardType extends AbstractType
                 'mapped' => false,
                 'placeholder' => [
                     'year' => 'Year',
-                    'month' => 'Month',
+                    'month' => 'Month'
                 ],
                 'attr' => [
-                    'data-expiration-date' => true,
-                ],
+                    'data-expiration-date' => true
+                ]
             ]
         );
 
         if ($options['requireCvvEntryEnabled']) {
-            $builder->add(
-                'CVV2',
-                PasswordType::class,
-                [
-                    'required' => true,
-                    'label' => 'oro.authorize_net.credit_card.cvv2.label',
-                    'mapped' => false,
-                    'block_name' => 'payment_credit_card_cvv',
-                    'constraints' => [
-                        new Integer(['message' => 'oro.payment.number.error']),
-                        new NotBlank(),
-                        new Length(['min' => 3, 'max' => 4]),
-                    ],
-                    'attr' => [
-                        'data-card-cvv' => true,
-                        'data-gateway' => true,
-                        'placeholder' => false,
-                    ],
+            $builder->add('CVV2', CreditCardCvvType::class, [
+                'attr' => [
+                    'data-card-cvv' => true,
+                    'data-sensitive-data' => true,
+                    'placeholder' => false,
+                    'autocomplete' => 'new-password'
                 ]
-            );
+            ]);
         }
     }
 
@@ -100,15 +92,8 @@ class CreditCardType extends AbstractType
             'label' => 'oro.authorize_net.methods.credit_card.label',
             'csrf_protection' => false,
             'requireCvvEntryEnabled' => true,
+            'allowedCreditCards' => []
         ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return $this->getBlockPrefix();
     }
 
     /**

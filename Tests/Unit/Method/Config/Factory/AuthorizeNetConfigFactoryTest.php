@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\Method\Config\Factory;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Oro\Bundle\AuthorizeNetBundle\Entity\AuthorizeNetSettings;
 use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfig;
 use Oro\Bundle\AuthorizeNetBundle\Method\Config\Factory\AuthorizeNetConfigFactory;
@@ -10,6 +11,7 @@ use Oro\Bundle\IntegrationBundle\Generator\IntegrationIdentifierGeneratorInterfa
 use Oro\Bundle\LocaleBundle\Entity\LocalizedFallbackValue;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
 use Oro\Bundle\SecurityBundle\Encoder\SymmetricCrypterInterface;
+use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Component\Testing\Unit\EntityTrait;
 
 class AuthorizeNetConfigFactoryTest extends \PHPUnit\Framework\TestCase
@@ -75,6 +77,13 @@ class AuthorizeNetConfigFactoryTest extends \PHPUnit\Framework\TestCase
             'clientKey' => 'client key',
             'allowedCreditCardTypes' => ['visa'],
             'creditCardPaymentAction' => 'charge',
+            'enabled_cim' => true,
+            'enabled_cim_websites' =>  new ArrayCollection([
+                $this->getEntity(Website::class, ['id' => 1])
+            ]),
+            'echeck_enabled' => true,
+            'echeck_account_types' => ['type1', 'type2'],
+            'echeck_confirmation_text' => 'text'
         ];
         /** @var AuthorizeNetSettings $authorizeNetSettings */
         $authorizeNetSettings = $this->getEntity(AuthorizeNetSettings::class, $bag);
@@ -108,6 +117,17 @@ class AuthorizeNetConfigFactoryTest extends \PHPUnit\Framework\TestCase
             'api_login_id' => 'api login id',
             'transaction_key' => 'trans key',
             'require_cvv_entry' => true,
+            'enabled_cim' => true,
+            'enabled_cim_websites' => new ArrayCollection(
+                [
+                    $this->getEntity(Website::class, ['id' => 1])
+                ]
+            ),
+            'integration_id' => 1,
+            'echeck_enabled' => true,
+            'echeck_account_types' => ['type1', 'type2'],
+            'echeck_confirmation_text' => 'text'
+
         ]), $config);
     }
 }

@@ -1,0 +1,9 @@
+{% block __oro_authorize_net_payment_profile_form__form_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'data-page-component-module': "oroauthorizenet/js/app/components/payment-profile-component"
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}

@@ -7,9 +7,11 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\IntegrationBundle\Entity\Transport;
 use Oro\Bundle\LocaleBundle\Entity\LocalizedFallbackValue;
+use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
+ * Entity which store AuthorizeNet integration settings
  * @ORM\Entity(repositoryClass="Oro\Bundle\AuthorizeNetBundle\Entity\Repository\AuthorizeNetSettingsRepository")
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.TooManyMethods)
@@ -28,6 +30,19 @@ class AuthorizeNetSettings extends Transport
     const ALLOWED_CREDIT_CARD_TYPES_KEY = 'allowed_credit_card_types';
     const REQUIRE_CVV_ENTRY_KEY = 'require_cvv_entry';
     const TEST_MODE_KEY = 'test_mode';
+    const ENABLED_CIM_KEY = 'enabled_cim';
+    const ENABLED_CIM_WEBSITES_KEY = 'enabled_cim_websites';
+    const ECHECK_ENABLED_KEY = 'echeck_enabled';
+    const ECHECK_LABELS_KEY = 'echeck_labels';
+    const ECHECK_SHORT_LABELS_KEY = 'echeck_short_labels';
+    const ECHECK_ACCOUNT_TYPES_KEY = 'echeck_account_types';
+    const ECHECK_CONFIRMATION_TEXT_KEY = 'echeck_confirmation_text';
+
+    const ECHECK_ACCOUNT_TYPES = [
+        'checking',
+        'savings',
+        'businessChecking'
+    ];
 
     /**
      * @var ParameterBag
@@ -124,12 +139,99 @@ class AuthorizeNetSettings extends Transport
     protected $authNetRequireCVVEntry = true;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="au_net_enabled_cim", type="boolean", options={"default"=false})
+     */
+    protected $enabledCIM = false;
+
+    /**
+     * @var Website[]|Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Oro\Bundle\WebsiteBundle\Entity\Website")
+     * @ORM\JoinTable(
+     *      name="oro_au_net_enabled_cim_website",
+     *      joinColumns={
+     *          @ORM\JoinColumn(name="transport_id", referencedColumnName="id", onDelete="CASCADE")
+     *      },
+     *      inverseJoinColumns={
+     *          @ORM\JoinColumn(name="website_id", referencedColumnName="id", onDelete="CASCADE")
+     *      }
+     * )
+     */
+    protected $enabledCIMWebsites;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="au_net_echeck_enabled", type="boolean", options={"default"=false})
+     */
+    protected $eCheckEnabled = false;
+
+    /**
+     * @var Collection|LocalizedFallbackValue[]
+     *
+     * @ORM\ManyToMany(
+     *      targetEntity="Oro\Bundle\LocaleBundle\Entity\LocalizedFallbackValue",
+     *      cascade={"ALL"},
+     *      orphanRemoval=true
+     * )
+     * @ORM\JoinTable(
+     *      name="oro_au_net_echeck_label",
+     *      joinColumns={
+     *          @ORM\JoinColumn(name="transport_id", referencedColumnName="id", onDelete="CASCADE")
+     *      },
+     *      inverseJoinColumns={
+     *          @ORM\JoinColumn(name="localized_value_id", referencedColumnName="id", onDelete="CASCADE", unique=true)
+     *      }
+     * )
+     */
+    protected $eCheckLabels;
+
+    /**
+     * @var Collection|LocalizedFallbackValue[]
+     *
+     * @ORM\ManyToMany(
+     *      targetEntity="Oro\Bundle\LocaleBundle\Entity\LocalizedFallbackValue",
+     *      cascade={"ALL"},
+     *      orphanRemoval=true
+     * )
+     * @ORM\JoinTable(
+     *      name="oro_au_net_echeck_short_label",
+     *      joinColumns={
+     *          @ORM\JoinColumn(name="transport_id", referencedColumnName="id", onDelete="CASCADE")
+     *      },
+     *      inverseJoinColumns={
+     *          @ORM\JoinColumn(name="localized_value_id", referencedColumnName="id", onDelete="CASCADE", unique=true)
+     *      }
+     * )
+     */
+    protected $eCheckShortLabels;
+
+    /**
+     * @var array
+     *
+     * @ORM\Column(name="au_net_echeck_account_types", type="array")
+     */
+    protected $eCheckAccountTypes = self::ECHECK_ACCOUNT_TYPES;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="au_net_echeck_confirmation_txt", type="text")
+     */
+    protected $eCheckConfirmationText;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->creditCardLabels = new ArrayCollection();
         $this->creditCardShortLabels = new ArrayCollection();
+        $this->enabledCIMWebsites = new ArrayCollection();
+        $this->eCheckLabels = new ArrayCollection();
+        $this->eCheckShortLabels = new ArrayCollection();
     }
 
     /**
@@ -148,6 +250,13 @@ class AuthorizeNetSettings extends Transport
                 self::ALLOWED_CREDIT_CARD_TYPES_KEY => $this->getAllowedCreditCardTypes(),
                 self::TEST_MODE_KEY => $this->getAuthNetTestMode(),
                 self::REQUIRE_CVV_ENTRY_KEY => $this->getAuthNetRequireCVVEntry(),
+                self::ENABLED_CIM_KEY => $this->isEnabledCIM(),
+                self::ENABLED_CIM_WEBSITES_KEY => $this->getEnabledCIMWebsites(),
+                self::ECHECK_ENABLED_KEY => $this->isECheckEnabled(),
+                self::ECHECK_LABELS_KEY => $this->getECheckLabels(),
+                self::ECHECK_SHORT_LABELS_KEY => $this->getECheckShortLabels(),
+                self::ECHECK_ACCOUNT_TYPES_KEY => $this->getECheckAccountTypes(),
+                self::ECHECK_CONFIRMATION_TEXT_KEY => $this->getECheckConfirmationText()
             ]);
         }
 
@@ -351,5 +460,162 @@ class AuthorizeNetSettings extends Transport
     public function getAuthNetRequireCVVEntry()
     {
         return $this->authNetRequireCVVEntry;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEnabledCIM(): bool
+    {
+        return $this->enabledCIM;
+    }
+
+    /**
+     * @param bool $enabledCIM
+     */
+    public function setEnabledCIM(bool $enabledCIM)
+    {
+        $this->enabledCIM = $enabledCIM;
+    }
+
+    /**
+     * @return Collection|Website[]
+     */
+    public function getEnabledCIMWebsites()
+    {
+        return $this->enabledCIMWebsites;
+    }
+
+    /**
+     * @param array|Website[] $enabledCIMWebsites
+     */
+    public function setEnabledCIMWebsites($enabledCIMWebsites)
+    {
+        $this->enabledCIMWebsites = $enabledCIMWebsites;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isECheckEnabled(): bool
+    {
+        return $this->eCheckEnabled;
+    }
+
+    /**
+     * @param bool $eCheckEnabled
+     * @return $this
+     */
+    public function setECheckEnabled(bool $eCheckEnabled): AuthorizeNetSettings
+    {
+        $this->eCheckEnabled = $eCheckEnabled;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|LocalizedFallbackValue[]
+     */
+    public function getECheckLabels()
+    {
+        return $this->eCheckLabels;
+    }
+
+    /**
+     * @param LocalizedFallbackValue $eCheckLabel
+     * @return $this
+     */
+    public function addECheckLabel(LocalizedFallbackValue $eCheckLabel)
+    {
+        if (!$this->eCheckLabels->contains($eCheckLabel)) {
+            $this->eCheckLabels->add($eCheckLabel);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param LocalizedFallbackValue $eCheckLabel
+     * @return $this
+     */
+    public function removeECheckLabel(LocalizedFallbackValue $eCheckLabel)
+    {
+        if ($this->eCheckLabels->contains($eCheckLabel)) {
+            $this->eCheckLabels->removeElement($eCheckLabel);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|LocalizedFallbackValue[]
+     */
+    public function getECheckShortLabels()
+    {
+        return $this->eCheckShortLabels;
+    }
+
+    /**
+     * @param LocalizedFallbackValue $eCheckLabel
+     * @return $this
+     */
+    public function addECheckShortLabel(LocalizedFallbackValue $eCheckLabel)
+    {
+        if (!$this->eCheckShortLabels->contains($eCheckLabel)) {
+            $this->eCheckShortLabels->add($eCheckLabel);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param LocalizedFallbackValue $eCheckLabel
+     * @return $this
+     */
+    public function removeECheckShortLabel(LocalizedFallbackValue $eCheckLabel)
+    {
+        if ($this->eCheckShortLabels->contains($eCheckLabel)) {
+            $this->eCheckShortLabels->removeElement($eCheckLabel);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return null|array
+     */
+    public function getECheckAccountTypes(): ?array
+    {
+        return $this->eCheckAccountTypes;
+    }
+
+    /**
+     * @param array $eCheckAccountTypes
+     * @return $this
+     */
+    public function setECheckAccountTypes(array $eCheckAccountTypes): AuthorizeNetSettings
+    {
+        $this->eCheckAccountTypes = $eCheckAccountTypes;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getECheckConfirmationText(): ?string
+    {
+        return $this->eCheckConfirmationText;
+    }
+
+    /**
+     * @param null|string $eCheckConfirmationText
+     * @return AuthorizeNetSettings
+     */
+    public function setECheckConfirmationText(?string $eCheckConfirmationText): AuthorizeNetSettings
+    {
+        $this->eCheckConfirmationText = $eCheckConfirmationText;
+
+        return $this;
     }
 }

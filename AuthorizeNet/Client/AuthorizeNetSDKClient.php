@@ -2,51 +2,49 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client;
 
-use JMS\Serializer\Serializer;
-use net\authorize\api\contract\v1\CreateTransactionResponse;
+use net\authorize\api\contract\v1\ErrorResponse;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\Factory\AnetSDKRequestFactoryInterface;
-use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response\AuthorizeNetSDKResponse;
+use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response\ResponseFactory;
 
+/**
+ * AuthorizeNet API Client to send api request
+ */
 class AuthorizeNetSDKClient implements ClientInterface
 {
-    /**
-     * @var Serializer
-     */
-    protected $serializer;
-
     /**
      * @var AnetSDKRequestFactoryInterface
      */
     protected $requestFactory;
 
     /**
-     * @param Serializer $serializer
-     * @param AnetSDKRequestFactoryInterface $requestFactory
+     * @var ResponseFactory
      */
-    public function __construct(Serializer $serializer, AnetSDKRequestFactoryInterface $requestFactory)
+    protected $responseFactory;
+
+    /**
+     * @param AnetSDKRequestFactoryInterface $requestFactory
+     * @param ResponseFactory $responseFactory
+     */
+    public function __construct(AnetSDKRequestFactoryInterface $requestFactory, ResponseFactory $responseFactory)
     {
-        $this->serializer = $serializer;
         $this->requestFactory = $requestFactory;
+        $this->responseFactory = $responseFactory;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function send($hostAddress, array $options = [])
+    public function send(string $hostAddress, string $requestType, array $options = [])
     {
-        $request = $this->requestFactory->createRequest($options);
+        $request = $this->requestFactory->createRequest($requestType, $options);
         $controller = $this->requestFactory->createController($request);
 
         $apiResponse = $controller->executeWithApiResponse($hostAddress);
 
-        if (!$apiResponse instanceof CreateTransactionResponse) {
-            throw new \LogicException(sprintf(
-                'Authorize.Net SDK API returned wrong response type. Expected: "%s". Actual: "%s"',
-                CreateTransactionResponse::class,
-                get_class($apiResponse)
-            ));
+        if ($apiResponse instanceof ErrorResponse) {
+            throw new \LogicException('Authorize.Net SDK API returned ErrorResponse');
         }
 
-        return new AuthorizeNetSDKResponse($this->serializer, $apiResponse);
+        return $this->responseFactory->createResponse($apiResponse);
     }
 }

@@ -7,6 +7,9 @@ use Oro\Bundle\AuthorizeNetBundle\Method\Config\Provider\AuthorizeNetConfigProvi
 use Oro\Bundle\AuthorizeNetBundle\Method\Factory\AuthorizeNetPaymentMethodFactoryInterface;
 use Oro\Bundle\PaymentBundle\Method\Provider\AbstractPaymentMethodProvider;
 
+/**
+ * Authorize.Net payment method provider
+ */
 class AuthorizeNetMethodProvider extends AbstractPaymentMethodProvider
 {
     /**

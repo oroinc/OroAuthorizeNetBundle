@@ -1,0 +1,53 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+            themes: 'OroAuthorizeNetBundle:layouts:default/imports/oro_authorize_net_payment_profile_form/block_theme.html.twig'
+        - '@setFormTheme':
+            themes: 'OroAuthorizeNetBundle:layouts:default/imports/oro_authorize_net_payment_profile_form/form_theme.html.twig'
+        - '@addTree':
+            items:
+                __container:
+                    blockType: container
+                __form_errors:
+                    blockType: form_errors
+                    options:
+                        form: '=data["form"]'
+                __form:
+                    blockType: form
+                    options:
+                        form: '=data["form"]'
+                        attr:
+                            data-page-component-module: 'oroauthorizenet/js/app/components/payment-profile-component'
+                            data-page-component-options: '=data["oro_authorize_net_payment_profile_dto_form"].getPageComponentOptions()'
+
+                __form_actions:
+                    blockType: container
+                __form_actions_update:
+                    blockType: button
+                    options:
+                        action: submit
+                        text: oro.authorize_net.frontend.payment_profile.buttons.save
+                        style: auto
+                        attr:
+                            'class': 'role-submit '
+                __form_actions_cancel:
+                    blockType: link
+                    options:
+                        route_name: 'oro_authorize_net_payment_profile_frontend_index'
+                        text: oro.authorize_net.frontend.payment_profile.buttons.cancel
+                        attr:
+                            'class': 'btn '
+                __form_required_label:
+                    blockType: block
+            tree:
+                __root:
+                    __container:
+                        __form_errors: ~
+                        __form: ~
+                        __form_actions:
+                            __form_actions_update: ~
+                            __form_actions_cancel: ~
+        - '@move':
+            id: __form_actions
+            parentId: __form
+            siblingId: __form_fields

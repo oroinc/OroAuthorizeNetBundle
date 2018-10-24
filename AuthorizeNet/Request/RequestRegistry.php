@@ -2,6 +2,9 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request;
 
+/**
+ * Registry for all request classes
+ */
 class RequestRegistry
 {
     /**
@@ -15,27 +18,25 @@ class RequestRegistry
      */
     public function addRequest(RequestInterface $request)
     {
-        $this->requests[$request->getTransactionType()] = $request;
+        $this->requests[$request->getType()] = $request;
 
         return $this;
     }
 
     /**
-     * @param string $transactionType
+     * @param string $type
      * @return RequestInterface
      */
-    public function getRequest($transactionType)
+    public function getRequest(string $type)
     {
-        $transactionType = (string)$transactionType;
-
-        if (array_key_exists($transactionType, $this->requests)) {
-            return $this->requests[$transactionType];
+        if (\array_key_exists($type, $this->requests)) {
+            return $this->requests[$type];
         }
 
         throw new \InvalidArgumentException(
             sprintf(
                 'Request with type "%s" is missing. Registered requests are "%s"',
-                $transactionType,
+                $type,
                 implode(', ', array_keys($this->requests))
             )
         );
