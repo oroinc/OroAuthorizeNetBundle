@@ -22,24 +22,8 @@ Feature: AuthorizeNet integration Single Page Checkout
     And I save and close form
     Then I should see "Integration saved" flash message
     And I should see AuthorizeNet in grid
-
-  Scenario: Create new Payment Rule for Authorize.Net integration
-    Given I go to System/Payment Rules
-    And I click "Create Payment Rule"
-    And I fill form with:
-      | Name       | Authorize |
-      | Enabled    | true      |
-      | Sort Order | 1         |
-      | Method     | Authorize |
-    And I click "Add Method Button"
-    When I save and close form
-    Then I should see "Payment rule has been saved" flash message
-
-  Scenario: Enable SinglePage checkout
-    Given go to System/Workflows
-    When I click "Activate" on row "Single Page Checkout" in grid
-    And I click "Activate"
-    Then I should see "Workflow activated" flash message
+    And I create payment rule with "AuthorizeNet" payment method
+    And I activate "Single Page Checkout" workflow
 
   Scenario: Frontend AcceptJs Card validation error when pay order with AuthorizeNet
     Given There are products in the system available for order
