@@ -23,27 +23,27 @@
 
 {% block _oro_authorize_net_checkout_creditcard_profile_profile_cvv_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' input input--short',
+        '~class': ' input input--short form-field-CVV2',
         'autocomplete': 'off'
     }) %}
 
     {%- set type = type|default('password') -%}
     <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+    <a href="javascript: void(0);"
+           data-toggle="tooltip"
+           data-title="{{ 'oro.authorize_net.credit_card.tooltip'|trans }}"
+           data-html="true"
+           data-container="body"
+           data-placement="{% if isMobileVersion() %}top{% else %}right{% endif %}"
+           data-offset="0, 8px"
+        >
+        {{ 'oro.authorize_net.credit_card.whats_this'|trans }}
+    </a>
 {% endblock %}
 
 {% block _oro_authorize_net_checkout_creditcard_profile_profile_cvv_label %}
     <label class="label label--full required" for="{{ id }}">
         {{ label|trans }}<em>*</em>
-        <a href="javascript: void(0);"
-               data-toggle="tooltip"
-               data-title="{{ 'oro.authorize_net.credit_card.tooltip'|trans }}"
-               data-html="true"
-               data-container="body"
-               data-placement="{% if isMobileVersion() %}top{% else %}right{% endif %}"
-               data-offset="0, 8px"
-            >
-            {{ 'oro.authorize_net.credit_card.whats_this'|trans }}
-        </a>
     </label>
 {% endblock %}
 
@@ -81,11 +81,11 @@
 
         <div data-payment-method-form>
             <div class="grid__row grid__row--offset-none" data-profile-form>
-                <div class="grid__column grid__column--8">
+                <div class="grid__column grid__column--7">
                     {{ form_row(form.profile) }}
                 </div>
                 {% if form.profileCVV is defined %}
-                    <div class="grid__column grid__column--4 {{ not hidePaymentDataForm ? 'hidden' }}" data-profile-cvv>
+                    <div class="grid__column grid__column--5 {{ not hidePaymentDataForm ? 'hidden' }}" data-profile-cvv>
                         {{ form_row(form.profileCVV) }}
                     </div>
                 {% endif %}
@@ -125,7 +125,7 @@
 
         <div data-payment-method-form>
             <div class="grid__row grid__row--offset-none" data-profile-form>
-                <div class="grid__column grid__column--8">
+                <div class="grid__column grid__column--12">
                     {{ form_row(form.profile) }}
                 </div>
             </div>

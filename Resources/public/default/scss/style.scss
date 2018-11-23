@@ -4,3 +4,20 @@
     padding-top: 10px;
     font-weight: bold;
 }
+
+.authorizenet-payment-profile{
+    .request-form-container:not(:last-child) {
+        margin-bottom: 20px;
+    }
+    .fieldset-label {
+        font-size: $grid-views-title-font-size;
+        font-family: $grid-views-title-font-family;
+        text-transform: $grid-views-title-text-transform;
+        padding-left: $offset-y-m;
+        padding-bottom: 5px;
+        font-weight: 500;
+    }
+    .form-field-CVV2 {
+        margin-right: $offset-x-m;
+    }
+}

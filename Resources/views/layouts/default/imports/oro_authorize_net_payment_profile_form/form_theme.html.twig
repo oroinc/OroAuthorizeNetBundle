@@ -52,7 +52,7 @@
                     <div class="grid__row">
                         <ul>
                             {% for cc_name in paymentProfileComponentOptions.allowedCreditCards|default([]) %}
-                                <li class="pull-left">
+                                <li class="fa pull-left">
                                     <i class="credit-card-icon credit-card-icon_{{ cc_name }}"></i>
                                 </li>
                             {% endfor %}
@@ -66,11 +66,11 @@
                 </div>
             </div>
             <div class="grid__row grid__row--offset-none">
-                <div class="grid__column grid__column--4">
+                <div class="grid__column grid__column--3">
                     {{ form_row(form.expirationDate, {'disabled': false}) }}
                 </div>
                 {% if form.CVV2 is defined %}
-                    <div class="grid__column grid__column--2">
+                    <div class="grid__column grid__column--3">
                         {{ form_row(form.CVV2, {'disabled': false}) }}
                     </div>
                 {% endif %}
@@ -86,10 +86,10 @@
     }
     %}
     <div class="grid__row grid__row--offset-none" data-validation="{{ validation|json_encode }}" >
-        <div class="grid__column grid__column--6">
+        <div class="grid__column grid__column--6 grid__column--no-gutters-l">
             {{ form_widget(form.month, {'disabled': false, 'attr': {'data-expiration-date-month': true, 'data-sensitive-data': true}}) }}
         </div>
-        <div class="grid__column grid__column--6">
+        <div class="grid__column grid__column--6 grid__column--no-gutters-r">
             {{ form_widget(form.year, {'disabled': false, 'attr': {'data-expiration-date-year': true, 'data-sensitive-data': true}}) }}
         </div>
     </div>
@@ -102,22 +102,38 @@
         open: isCreateForm,
         animationSpeed: 1
     } %}
-    <div data-page-component-collapse="{{ collapseOptions|json_encode }}">
-        {{ form_row(form.profile.name) }}
-        <div class="form-row {{ isCreateForm ? 'hidden' }}" >
-            {{ form_row(form.updatePaymentData, {
-                'attr': {
-                    'data-collapse-trigger': true,
-                    'data-update-payment-data': true
+    <div class="request-form-container" data-page-component-collapse="{{ collapseOptions|json_encode }}">
+        <div class="grid__row grid__row--offset-none">
+            <div class="grid__column grid__column--12">
+                {{ form_row(form.profile.name) }}
+            </div>
+        </div>
+        <div class="grid__row {{ isCreateForm ? 'grid__row--offset-none' }}">
+            <div class="grid__column grid__column--12 {{ isCreateForm ? 'hidden' }}" >
+                {{ form_row(form.updatePaymentData, {
+                    'attr': {
+                        'data-collapse-trigger': true,
+                        'data-update-payment-data': true
+                    },
+                    'label_attr': {
+                        'class': 'fieldset-label'
+                    }
+                }) }}
+            </div>
+        </div>
+        <div data-collapse-container >
+            {{ form_row(form.paymentData, {
+                'paymentProfileComponentOptions': paymentProfileComponentOptions,
+                'label_attr': {
+                    'class': 'fieldset-label'
                 }
             }) }}
         </div>
-        <div data-collapse-container >
-            {{ form_row(form.paymentData, {'paymentProfileComponentOptions': paymentProfileComponentOptions}) }}
-        </div>
-        {{ form_row(form.address) }}
-        <div class="form-row">
-            {{ form_row(form.profile.default) }}
+        {{ form_row(form.address, {'label_attr': {'class': 'fieldset-label'}}) }}
+        <div class="grid__row grid__row--offset-m">
+            <div class="grid__column grid__column--12">
+                {{ form_row(form.profile.default) }}
+            </div>
         </div>
     </div>
 {% endblock %}

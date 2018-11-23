@@ -19,6 +19,7 @@ layout:
                         attr:
                             data-page-component-module: 'oroauthorizenet/js/app/components/payment-profile-component'
                             data-page-component-options: '=data["oro_authorize_net_payment_profile_dto_form"].getPageComponentOptions()'
+                            'class': 'authorizenet-payment-profile'
 
                 __form_actions:
                     blockType: container
