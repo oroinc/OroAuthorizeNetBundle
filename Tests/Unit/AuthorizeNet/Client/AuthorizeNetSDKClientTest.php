@@ -10,6 +10,7 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\Factory\AnetSDKRequestFact
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response\AuthorizeNetSDKResponse;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response\ResponseFactory;
+use Psr\Log\LoggerInterface;
 
 class AuthorizeNetSDKClientTest extends \PHPUnit\Framework\TestCase
 {
@@ -29,8 +30,9 @@ class AuthorizeNetSDKClientTest extends \PHPUnit\Framework\TestCase
         $this->requestFactory = $this->createMock(AnetSDKRequestFactoryInterface::class);
         /** @var Serializer|\PHPUnit\Framework\MockObject\MockObject $serializer */
         $serializer = $this->createMock(Serializer::class);
+        $logger = $this->createMock(LoggerInterface::class);
         $this->responseFactory = new ResponseFactory($serializer);
-        $this->client = new AuthorizeNetSDKClient($this->requestFactory, $this->responseFactory);
+        $this->client = new AuthorizeNetSDKClient($this->requestFactory, $this->responseFactory, $logger);
     }
 
     /**
@@ -111,6 +113,34 @@ class AuthorizeNetSDKClientTest extends \PHPUnit\Framework\TestCase
         $controller->expects($this->once())->method('executeWithApiResponse')
             ->with(self::HOST_ADDRESS)
             ->willReturn($errorResponse);
+
+        $this->requestFactory->expects($this->once())
+            ->method('createController')
+            ->with($request)
+            ->willReturn($controller);
+
+        $this->client->send(self::HOST_ADDRESS, $requestType, $requestOptions);
+    }
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Unexpected Payment Gateway Error
+     */
+    public function testSendReturnsUnexpectedException()
+    {
+        $requestOptions = $this->getRequiredOptionsData();
+        $requestType = Option\Transaction::CHARGE;
+
+        $request = $this->createMock(AnetAPI\CreateTransactionRequest::class);
+        $this->requestFactory->expects($this->once())
+            ->method('createRequest')
+            ->with($requestType, $requestOptions)
+            ->willReturn($request);
+
+        $controller = $this->createMock(AnetController\CreateTransactionController::class);
+        $controller->expects($this->once())->method('executeWithApiResponse')
+            ->with(self::HOST_ADDRESS)
+            ->willThrowException(new \Exception('Unexpected Exception'));
 
         $this->requestFactory->expects($this->once())
             ->method('createController')

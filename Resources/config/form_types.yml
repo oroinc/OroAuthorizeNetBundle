@@ -44,6 +44,7 @@ services:
         class: Oro\Bundle\AuthorizeNetBundle\Form\Type\PaymentProfileAddressType
         arguments:
             - '@oro_address.form.listener.address'
+            - '@translator'
         tags:
             - { name: form.type}
 
