@@ -171,3 +171,11 @@ services:
         arguments:
             - '@doctrine'
             - '@oro_security.encoder.default'
+
+    oro_authorize_net.event_listener.payment_profile_grid_listener:
+        class: 'Oro\Bundle\AuthorizeNetBundle\EventListener\PaymentProfileGridListener'
+        arguments:
+            - '@oro_authorize_net.provider.payment_profile'
+            - '@oro_authorize_net.provider.customer_profile'
+        tags:
+            - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.after.base-frontend-payment-profiles-grid, method: onBuildAfter }

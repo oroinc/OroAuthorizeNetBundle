@@ -23,7 +23,7 @@ class PaymentProfileController extends Controller
 {
     /**
      * @Route("/", name="oro_authorize_net_payment_profile_frontend_index")
-     * @Layout(vars={"entity_class", "eCheckEnabled", "paymentProfileExternalIds"})
+     * @Layout(vars={"entity_class", "eCheckEnabled"})
      * @Acl(
      *      id="oro_authorize_net_payment_profile_frontend_view",
      *      type="entity",
@@ -40,14 +40,10 @@ class PaymentProfileController extends Controller
         $config = $this->getCimEnabledConfig();
 
         $customerProfile = $this->get('oro_authorize_net.provider.customer_profile')->findCustomerProfile();
-        $paymentProfileIds = $this->get('oro_authorize_net.provider.payment_profile')->getPaymentProfileExternalIds(
-            $customerProfile
-        );
 
         return [
             'entity_class' => $this->getParameter('oro_authorize_net.entity.customer_payment_profile.class'),
             'eCheckEnabled' => $config ? $config->isECheckEnabled() : false,
-            'paymentProfileExternalIds' => $paymentProfileIds,
             'data' => [
                 'customerProfile' => $customerProfile
             ]
