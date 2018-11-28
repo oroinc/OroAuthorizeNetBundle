@@ -21,10 +21,8 @@ datagrids:
                 where:
                     and:
                         - 'profile.customerUser = @oro_security.token_accessor->getUserId()'
-                        - 'profile.customerPaymentProfileId in (:paymentProfileExternalIds)'
                         - 'profile.type = :profileType'
             bind_parameters:
-                - paymentProfileExternalIds
                 - profileType
         columns:
             name:

@@ -6,3 +6,4 @@ oro:
                 single: 'CIM is already enabled for the website in another Authorize.Net integration.'
                 multi: 'CIM is already enabled for the websites ({{ websites }}) in another Authorize.Net integration.'
             regex_numeric: 'This value should contain numbers only.'
+            regex_non_brackets: 'This value should not contain "(" or ")" characters.'

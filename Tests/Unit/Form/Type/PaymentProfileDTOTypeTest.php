@@ -16,6 +16,7 @@ use Oro\Bundle\AuthorizeNetBundle\Model\DTO\PaymentProfileMaskedDataDTO;
 use Oro\Component\Testing\Unit\AddressFormExtensionTestCase;
 use Oro\Component\Testing\Unit\Form\EventListener\Stub\AddressCountryAndRegionSubscriberStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class PaymentProfileDTOTypeTest extends AddressFormExtensionTestCase
 {
@@ -44,7 +45,8 @@ class PaymentProfileDTOTypeTest extends AddressFormExtensionTestCase
                     CreditCardType::class => new CreditCardType(),
                     CreditCardExpirationDateType::class => new CreditCardExpirationDateType(),
                     PaymentProfileAddressType::class => new PaymentProfileAddressType(
-                        new AddressCountryAndRegionSubscriberStub()
+                        new AddressCountryAndRegionSubscriberStub(),
+                        $this->createMock(TranslatorInterface::class)
                     )
                 ],
                 []

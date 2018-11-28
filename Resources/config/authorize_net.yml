@@ -12,6 +12,9 @@ services:
         arguments:
             - '@oro_authorize_net.authorize_net.client.factory.anet_sdk_request_factory'
             - '@oro_authorize_net.authorize_net.response.response_factory'
+            - '@logger'
+        tags:
+            - { name: monolog.logger, channel: oro_authorize_net }
 
     oro_authorize_net.authorize_net.response.response_factory:
         class: 'Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response\ResponseFactory'

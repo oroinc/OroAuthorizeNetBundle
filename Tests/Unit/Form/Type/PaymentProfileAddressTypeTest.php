@@ -9,6 +9,7 @@ use Oro\Bundle\AuthorizeNetBundle\Model\DTO\PaymentProfileAddressDTO;
 use Oro\Component\Testing\Unit\AddressFormExtensionTestCase;
 use Oro\Component\Testing\Unit\Form\EventListener\Stub\AddressCountryAndRegionSubscriberStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class PaymentProfileAddressTypeTest extends AddressFormExtensionTestCase
 {
@@ -22,7 +23,8 @@ class PaymentProfileAddressTypeTest extends AddressFormExtensionTestCase
      */
     protected function setUp()
     {
-        $this->formType = new PaymentProfileAddressType(new AddressCountryAndRegionSubscriberStub());
+        $translator = $this->createMock(TranslatorInterface::class);
+        $this->formType = new PaymentProfileAddressType(new AddressCountryAndRegionSubscriberStub(), $translator);
         parent::setUp();
     }
 

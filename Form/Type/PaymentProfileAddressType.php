@@ -14,8 +14,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 
 /**
  * Type for address representation in payment profile
@@ -28,11 +30,18 @@ class PaymentProfileAddressType extends AbstractType
     protected $countryAndRegionSubscriber;
 
     /**
-     * @param AddressCountryAndRegionSubscriber $eventListener
+     * @var TranslatorInterface
      */
-    public function __construct(AddressCountryAndRegionSubscriber $eventListener)
+    private $translator;
+
+    /**
+     * @param AddressCountryAndRegionSubscriber $eventListener
+     * @param TranslatorInterface $translator
+     */
+    public function __construct(AddressCountryAndRegionSubscriber $eventListener, TranslatorInterface $translator)
     {
         $this->countryAndRegionSubscriber = $eventListener;
+        $this->translator = $translator;
     }
 
     /**
@@ -48,7 +57,8 @@ class PaymentProfileAddressType extends AbstractType
             StripTagsExtension::OPTION_NAME => true,
             'constraints' => [
                 new NotBlank(),
-                new Length(['max' => 50])
+                new Length(['max' => 50]),
+                $this->createNonBracketsRegexConstraint()
             ]
         ])->add('lastName', TextType::class, [
             'required' => true,
@@ -56,14 +66,16 @@ class PaymentProfileAddressType extends AbstractType
             StripTagsExtension::OPTION_NAME => true,
             'constraints' => [
                 new NotBlank(),
-                new Length(['max' => 50])
+                new Length(['max' => 50]),
+                $this->createNonBracketsRegexConstraint()
             ]
         ])->add('company', TextType::class, [
             'required' => false,
             'label' => 'oro.authorize_net.frontend.payment_profile.address.company.label',
             StripTagsExtension::OPTION_NAME => true,
             'constraints' => [
-                new Length(['max' => 50])
+                new Length(['max' => 50]),
+                $this->createNonBracketsRegexConstraint()
             ]
         ])->add('street', TextType::class, [
             'required' => true,
@@ -71,7 +83,8 @@ class PaymentProfileAddressType extends AbstractType
             StripTagsExtension::OPTION_NAME => true,
             'constraints' => [
                 new NotBlank(),
-                new Length(['max' => 60])
+                new Length(['max' => 60]),
+                $this->createNonBracketsRegexConstraint()
             ]
         ])->add('country', CountryType::class, [
             'required' => true,
@@ -85,7 +98,8 @@ class PaymentProfileAddressType extends AbstractType
             StripTagsExtension::OPTION_NAME => true,
             'constraints' => [
                 new NotBlank(),
-                new Length(['max' => 40])
+                new Length(['max' => 40]),
+                $this->createNonBracketsRegexConstraint()
             ]
         ])->add('region', RegionType::class, [
             'required' => true,
@@ -99,7 +113,8 @@ class PaymentProfileAddressType extends AbstractType
             StripTagsExtension::OPTION_NAME => true,
             'constraints' => [
                 new NotBlank(),
-                new Length(['max' => 20])
+                new Length(['max' => 20]),
+                $this->createNonBracketsRegexConstraint()
             ]
         ])->add('phoneNumber', TextType::class, [
             'required' => false,
@@ -114,7 +129,8 @@ class PaymentProfileAddressType extends AbstractType
             'label' => 'oro.authorize_net.frontend.payment_profile.address.fax_number.label',
             StripTagsExtension::OPTION_NAME => true,
             'constraints' => [
-                new Length(['max' => 25])
+                new Length(['max' => 25]),
+                $this->createNonBracketsRegexConstraint()
             ]
         ]);
     }
@@ -146,5 +162,18 @@ class PaymentProfileAddressType extends AbstractType
     public function getBlockPrefix()
     {
         return self::NAME;
+    }
+
+    /**
+     * This restriction is related to an error on the Authorize.Net API
+     * "alert" and "()" in api request leads to malformed html resposne from api (HTTP 403)
+     * @return Regex
+     */
+    private function createNonBracketsRegexConstraint()
+    {
+        return new Regex([
+            'pattern' => '/^[^)(]+$/',
+            'message' => $this->translator->trans('oro.authorize_net.validator.regex_non_brackets')
+        ]);
     }
 }
