@@ -94,8 +94,8 @@ oro:
                 form:
                     fields:
                         default.label: 'Set as default'
-                        update_creditcard.label: 'Update Credit Card information'
-                        update_echeck.label: 'Update Bank Account information'
+                        update_creditcard.label: 'Update Credit Card Information'
+                        update_echeck.label: 'Update Bank Account Information'
                 message:
                     not_saved: 'Could not save payment profile. Reason: %reason%'
                     not_deleted: 'Could not delete payment profile. Reason: %reason%'
