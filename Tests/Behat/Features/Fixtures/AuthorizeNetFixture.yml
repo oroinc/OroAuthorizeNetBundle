@@ -34,6 +34,7 @@ Oro\Bundle\CustomerBundle\Entity\Customer:
         name: 'Company A'
         organization: '@organization'
         owner: '@admin'
+        vatId: 'TESTVATID'
 
 Oro\Bundle\CustomerBundle\Entity\CustomerUser:
     amanda:
