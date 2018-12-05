@@ -32,18 +32,7 @@ Feature: AuthorizeNet integration guest Checkout
     And I save and close form
     Then I should see "Integration saved" flash message
     And I should see AuthorizeNet in grid
-
-  Scenario: Create new Payment Rule for Authorize.Net integration
-    Given I go to System/Payment Rules
-    And I click "Create Payment Rule"
-    And I fill form with:
-      | Name       | Authorize |
-      | Enabled    | true      |
-      | Sort Order | 1         |
-      | Method     | Authorize |
-    And I click "Add Method Button"
-    When I save and close form
-    Then I should see "Payment rule has been saved" flash message
+    And I create payment rule with "AuthorizeNet" payment method
 
   Scenario: Enable guest shopping list setting
     Given I go to System/ Configuration
