@@ -34,9 +34,11 @@
         {# Show hint for new Integration #}
         {% if settingsEntity.id is null %}
             <div class="control-group">
-                <a href="https://reseller.authorize.net/application/101898/" target="_blank">
-                    {{ 'oro.authorize_net.settings.form.groups.integration.hint.text'|trans }}
-                </a>
+                <div class="controls">
+                    <a href="https://reseller.authorize.net/application/101898/" target="_blank">
+                        {{ 'oro.authorize_net.settings.form.groups.integration.hint.text'|trans }}
+                    </a>
+                </div>
             </div>
         {% endif %}
 
