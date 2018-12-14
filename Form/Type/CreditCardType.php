@@ -57,8 +57,8 @@ class CreditCardType extends AbstractType
                 'label' => 'oro.authorize_net.credit_card.expiration_date.label',
                 'mapped' => false,
                 'placeholder' => [
-                    'year' => 'Year',
-                    'month' => 'Month',
+                    'year' => 'oro.authorize_net.credit_card.expiration_date.year',
+                    'month' => 'oro.authorize_net.credit_card.expiration_date.month',
                 ],
                 'attr' => [
                     'data-expiration-date' => true,

@@ -36,6 +36,9 @@ oro:
             credit_card.label: 'Credit card'
 
         credit_card:
+            expiration_date:
+                year: Year
+                month: Month
             card_number.label: Credit Card Number
             expiration_date.label: Expiration Date
             cvv2.label: CVV
