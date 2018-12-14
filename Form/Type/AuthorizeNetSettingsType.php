@@ -28,8 +28,6 @@ class AuthorizeNetSettingsType extends AbstractType
 {
     const BLOCK_PREFIX = 'oro_authorize_net_settings';
 
-    const DEFAULT_CONFIRMATION_TEXT = 'By clicking the button below, I authorize to charge my bank account.';
-
     /**
      * @var TranslatorInterface
      */
@@ -168,9 +166,11 @@ class AuthorizeNetSettingsType extends AbstractType
                 'required' => false,
                 'label' => 'oro.authorize_net.settings.echeck.confirmation_text.label',
                 'tooltip' => 'oro.authorize_net.settings.echeck.confirmation_text.tooltip',
-                'empty_data' => self::DEFAULT_CONFIRMATION_TEXT,
+                'empty_data' => $this->translator->trans(
+                    'oro.authorize_net.settings.echeck.confirmation_text.placeholder'
+                ),
                 'attr' => [
-                    'placeholder' => self::DEFAULT_CONFIRMATION_TEXT
+                    'placeholder' => 'oro.authorize_net.settings.echeck.confirmation_text.placeholder',
                 ]
             ]);
 

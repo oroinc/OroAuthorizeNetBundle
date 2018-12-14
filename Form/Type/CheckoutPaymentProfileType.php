@@ -58,6 +58,7 @@ class CheckoutPaymentProfileType extends AbstractType
         $defaultPaymentProfile = $this->getDefaultPaymentProfile($paymentProfiles);
 
         $builder->add('profile', ChoiceType::class, [
+            'label' => 'oro.authorize_net.settings.form.groups.profile',
             'choice_label' => function (CustomerPaymentProfile $profile = null) use ($profileType) {
                 $label = $this->translator->trans(
                     sprintf(

@@ -49,8 +49,10 @@ oro:
                 confirmation_text:
                     label: 'Confirmation Text'
                     tooltip: 'Payment action confirmation text to show to the user, when he chooses eCheck as payment option.'
+                    placeholder: 'By clicking the button below, I authorize to charge my bank account.'
             form:
                 groups:
+                    profile: 'Profile'
                     display_options.title: 'Display Options'
                     integration.title: 'Integration'
                     integration.hint.text: 'No account? Sign up here'
@@ -72,6 +74,9 @@ oro:
             echeck.label: 'Bank Account'
 
         credit_card:
+            expiration_date:
+                year: Year
+                month: Month
             card_number.label: Credit Card Number
             expiration_date.label: Expiration Date
             cvv2.label: CVV
