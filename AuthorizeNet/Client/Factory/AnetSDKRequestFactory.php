@@ -19,7 +19,8 @@ class AnetSDKRequestFactory implements AnetSDKRequestFactoryInterface
      */
     private $requestConfiguratorRegistry;
 
-    private static $requestClassMap = [
+    /** @var array */
+    protected static $requestClassMap = [
         Transaction::AUTHORIZE => AnetAPI\CreateTransactionRequest::class,
         Transaction::CAPTURE => AnetAPI\CreateTransactionRequest::class,
         Transaction::CHARGE => AnetAPI\CreateTransactionRequest::class,
@@ -33,7 +34,8 @@ class AnetSDKRequestFactory implements AnetSDKRequestFactoryInterface
         Request\AuthenticateTestRequest::REQUEST_TYPE => AnetAPI\AuthenticateTestRequest::class,
     ];
 
-    private static $controllerClassMap = [
+    /** @var array */
+    protected static $controllerClassMap = [
         AnetAPI\CreateTransactionRequest::class => AnetController\CreateTransactionController::class,
         AnetAPI\CreateCustomerProfileRequest::class => AnetController\CreateCustomerProfileController::class,
         AnetAPI\DeleteCustomerProfileRequest::class => AnetController\DeleteCustomerProfileController::class,
@@ -61,11 +63,11 @@ class AnetSDKRequestFactory implements AnetSDKRequestFactoryInterface
      */
     public function createRequest(string $type, array $options = [])
     {
-        if (!array_key_exists($type, self::$requestClassMap)) {
+        if (!array_key_exists($type, static::$requestClassMap)) {
             throw new \InvalidArgumentException('Unsupported request type');
         }
 
-        $request = new self::$requestClassMap[$type];
+        $request = new static::$requestClassMap[$type];
 
         $configurators = $this->requestConfiguratorRegistry->getRequestConfigurators();
 
@@ -85,10 +87,10 @@ class AnetSDKRequestFactory implements AnetSDKRequestFactoryInterface
     {
         $requestClass = \get_class($request);
 
-        if (!array_key_exists($requestClass, self::$controllerClassMap)) {
+        if (!array_key_exists($requestClass, static::$controllerClassMap)) {
             throw new \InvalidArgumentException('Unsupported request class');
         }
 
-        return new self::$controllerClassMap[$requestClass]($request);
+        return new static::$controllerClassMap[$requestClass]($request);
     }
 }

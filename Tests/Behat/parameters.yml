@@ -10,6 +10,8 @@ services:
         public: false
         arguments:
             - '@oro_authorize_net.authorize_net.client.request_configurator.registry'
+        calls:
+            - [ setRemoteStoragePaymentProfileIds, [ '@oro_authorize_net.mock.remote.storage.payment_profile_ids' ] ]
 
     oro_authorize_net.method.factory:
         class: 'Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Mock\Method\Factory\AuthorizeNetPaymentMethodFactoryMock'
@@ -23,3 +25,22 @@ services:
             - [ setLogger, [ '@logger' ] ]
         tags:
             - { name: monolog.logger, channel: oro_authorize_net }
+
+    oro_authorize_net.layout.data_provider.payment_profile_dto_form:
+        class: 'Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Mock\Layout\DataProvider\PaymentProfileDTOFormProvider'
+        arguments:
+            - '@form.factory'
+            - '@router'
+            - '@oro_authorize_net.provider.cim_enabled_integration_config'
+        tags:
+            - { name: layout.data_provider, alias: oro_authorize_net_payment_profile_dto_form }
+
+    oro_authorize_net.cache.mock.customer_payment_profiles:
+        parent: oro.cache.abstract
+        calls:
+            - [ setNamespace, [ 'oro_au_net_mock_customer_payment_profiles' ] ]
+
+    oro_authorize_net.mock.remote.storage.payment_profile_ids:
+        class: 'Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Mock\Remote\Storage\PaymentProfileIDs'
+        arguments:
+            - '@oro_authorize_net.cache.mock.customer_payment_profiles'

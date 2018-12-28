@@ -15,11 +15,10 @@ oro_behat_extension:
           Require CVV Entry: 'oro_integration_channel_form[transport][authNetRequireCVVEntry]'
           Test Mode: 'oro_integration_channel_form[transport][authNetTestMode]'
           Payment Action: 'oro_integration_channel_form[transport][creditCardPaymentAction]'
+          Enable CIM: 'oro_integration_channel_form[transport][enabledCIM]'
+          CIM Websites: 'oro_integration_channel_form[transport][enabledCIMWebsites][]'
     CreditCardForm:
-      selector:
-        type: 'xpath'
-        locator: '//input[@id[starts-with(.,"oro_authorize_net_credit_card_ACCT")]]/ancestor::div[contains(@class,"checkout-form__payment-methods-form")]'
-
+      selector: 'div[data-content="payment_method_form"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
       options:
         mapping:
@@ -27,10 +26,69 @@ oro_behat_extension:
           Month: 'oro_authorize_net_credit_card[expirationDate][month]'
           Year: 'oro_authorize_net_credit_card[expirationDate][year]'
           CVV: 'oro_authorize_net_credit_card[CVV2]'
+
+    CheckoutPaymentProfileMethodForm:
+      selector: 'div[data-content="payment_method_form"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          # Credit card sub-type
+          CreditCardNumber: 'oro_authorize_net_checkout_creditcard_profile[paymentData][ACCT]'
+          Month: 'oro_authorize_net_checkout_creditcard_profile[paymentData][expirationDate][month]'
+          Year: 'oro_authorize_net_checkout_creditcard_profile[paymentData][expirationDate][year]'
+          CVV: 'oro_authorize_net_checkout_creditcard_profile[paymentData][CVV2]'
+          SaveProfile: 'oro_authorize_net_checkout_creditcard_profile[saveProfile]'
+
+          # Profile sub-type
+          Profile: 'oro_authorize_net_checkout_creditcard_profile[profile]'
+          ProfileCVV: 'oro_authorize_net_checkout_creditcard_profile[profileCVV]'
+
+    CreditCardProfile:
+        selector: 'select[name="oro_authorize_net_checkout_creditcard_profile[profile]"]'
+        class: Oro\Bundle\FormBundle\Tests\Behat\Element\Select
+
+    Authorize.NetForm.PaymentProfile:
+      selector: 'form[name="oro_authorize_net_payment_profile_dto"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          # Bank account sub-type
+          Account Type: 'oro_authorize_net_payment_profile_dto[paymentData][accountType]'
+          Routing Number: 'oro_authorize_net_payment_profile_dto[paymentData][routingNumber]'
+          Account Number: 'oro_authorize_net_payment_profile_dto[paymentData][accountNumber]'
+          Name on Account: 'oro_authorize_net_payment_profile_dto[paymentData][nameOnAccount]'
+          Bank Name: 'oro_authorize_net_payment_profile_dto[paymentData][bankName]'
+
+          # Credit card sub-type
+          Update Credit Card Information: 'oro_authorize_net_payment_profile_dto[updatePaymentData]'
+          Credit Card Number: 'oro_authorize_net_payment_profile_dto[paymentData][ACCT]'
+          Month: 'oro_authorize_net_payment_profile_dto[paymentData][expirationDate][month]'
+          Year: 'oro_authorize_net_payment_profile_dto[paymentData][expirationDate][year]'
+          CVV: 'oro_authorize_net_payment_profile_dto[paymentData][CVV2]'
+
+          # Address sub-type
+          First Name: 'oro_authorize_net_payment_profile_dto[address][firstName]'
+          Last Name: 'oro_authorize_net_payment_profile_dto[address][lastName]'
+          Company: 'oro_authorize_net_payment_profile_dto[address][company]'
+          Phone Number: 'oro_authorize_net_payment_profile_dto[address][phoneNumber]'
+          Fax Number: 'oro_authorize_net_payment_profile_dto[address][faxNumber]'
+          Street: 'oro_authorize_net_payment_profile_dto[address][street]'
+          City: 'oro_authorize_net_payment_profile_dto[address][city]'
+          Country: 'oro_authorize_net_payment_profile_dto[address][country]'
+          Region: 'oro_authorize_net_payment_profile_dto[address][region]'
+          Zip: 'oro_authorize_net_payment_profile_dto[address][zip]'
+
+          # General fields
+          Name: 'oro_authorize_net_payment_profile_dto[profile][name]'
+          Profile Default: 'oro_authorize_net_payment_profile_dto[profile][default]'
     AddMethodButton:
       selector: "a[class='btn add-method']"
     DeleteShoppingList:
       selector: 'input[name="oro_workflow_transition[remove_source]"]'
+
+    Credit Card Profile Grid:
+      selector: 'div[data-page-component-name="frontend-creditcard-payment-profiles-grid"]'
+      class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
 
   suites:
     OroAuthorizeNetBundle:
@@ -46,5 +104,7 @@ oro_behat_extension:
         - OroDataGridBundle::GridContext
         - OroWorkflowBundle::FeatureContext
         - OroPaymentBundle::FeatureContext
+        - OroDataGridBundle::GridContext
+        - OroAuthorizeNetBundle::FeatureContext
       paths:
         - '@OroAuthorizeNetBundle/Tests/Behat/Features'
