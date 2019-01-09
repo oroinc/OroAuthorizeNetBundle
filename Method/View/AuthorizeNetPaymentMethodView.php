@@ -7,7 +7,7 @@ use Oro\Bundle\AuthorizeNetBundle\Form\Type\CreditCardType;
 use Oro\Bundle\PaymentBundle\Context\PaymentContextInterface;
 
 /**
- * Payment methos view
+ * Payment methods view
  */
 class AuthorizeNetPaymentMethodView extends AbstractAuthorizeNetPaymentMethodView
 {

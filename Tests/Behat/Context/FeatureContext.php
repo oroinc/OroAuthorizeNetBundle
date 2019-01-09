@@ -12,7 +12,7 @@ class FeatureContext extends OroFeatureContext implements KernelAwareContext
     use KernelDictionary;
 
     /**
-     * @Given /^(?:|I )remove last payment profile from AuthorizeNet account$/
+     * @Given /^(?:|I )remove last added payment profile from AuthorizeNet account$/
      */
     public function iRemoveLastAddedPaymentProfileFromAuthorizeNet()
     {
@@ -32,7 +32,7 @@ class FeatureContext extends OroFeatureContext implements KernelAwareContext
     /**
      * @param int $count
      *
-     * @Then /^(?:|I )have (?P<count>(?:\d+)) payment profiles in AuthorizeNet account$/
+     * @Then /^number of records payment profiles in AuthorizeNet account should be (?P<count>(?:\d+))$/
      */
     public function numberOfPaymentProfilesOnAuthorizeNet(int $count)
     {

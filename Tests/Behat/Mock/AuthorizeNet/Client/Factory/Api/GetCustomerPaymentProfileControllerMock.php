@@ -11,17 +11,24 @@ use net\authorize\api\contract\v1\GetCustomerPaymentProfileRequest;
 use net\authorize\api\contract\v1\GetCustomerPaymentProfileResponse;
 use net\authorize\api\contract\v1\MessagesType;
 use net\authorize\api\contract\v1\PaymentMaskedType;
+use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option\ProfileType;
 use Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Mock\Remote\Storage\PaymentProfileIDs;
 use Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Mock\Remote\Storage\PaymentProfileIDsAwareInterface;
+use Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Mock\Remote\Storage\PaymentProfileTypesToIDs;
+use Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Mock\Remote\Storage\PaymentProfileTypesToIDsAwareInterface;
 
 class GetCustomerPaymentProfileControllerMock extends AbstractControllerMock implements
-    PaymentProfileIDsAwareInterface
+    PaymentProfileIDsAwareInterface,
+    PaymentProfileTypesToIDsAwareInterface
 {
     /** @var AnetApiRequestType */
-    protected $request;
+    private $request;
 
     /** @var PaymentProfileIDs */
-    protected $paymentProfileIdsStorage;
+    private $paymentProfileIdsStorage;
+
+    /** @var PaymentProfileTypesToIDs $paymentProfileTypesToIDsStorage */
+    private $paymentProfileTypesToIDsStorage;
 
     /**
      * @param GetCustomerPaymentProfileRequest $request
@@ -29,6 +36,14 @@ class GetCustomerPaymentProfileControllerMock extends AbstractControllerMock imp
     public function __construct(GetCustomerPaymentProfileRequest $request)
     {
         $this->request = $request;
+    }
+
+    /**
+     * @param PaymentProfileTypesToIDs $paymentProfileTypesToIDs
+     */
+    public function setPaymentProfileTypesToIDsStorage(PaymentProfileTypesToIDs $paymentProfileTypesToIDs)
+    {
+        $this->paymentProfileTypesToIDsStorage = $paymentProfileTypesToIDs;
     }
 
     /**
@@ -43,7 +58,7 @@ class GetCustomerPaymentProfileControllerMock extends AbstractControllerMock imp
      * @param null|string $endPoint
      * @return GetCustomerPaymentProfileResponse
      */
-    public function executeWithApiResponse($endPoint = null)
+    public function executeWithApiResponse($endPoint = null): GetCustomerPaymentProfileResponse
     {
         $recordExists = $this->paymentProfileIdsStorage->exists(
             $this->request->getCustomerPaymentProfileId()
@@ -57,12 +72,21 @@ class GetCustomerPaymentProfileControllerMock extends AbstractControllerMock imp
 
             $payment = new PaymentMaskedType();
             $bankAccount = new BankAccountMaskedType();
-
-
-
             $creditCard = new CreditCardMaskedType();
-            $creditCard->setCardNumber('5424000000000015');
-            $creditCard->setExpirationDate('11/2027');
+
+            $profileType = $this->paymentProfileTypesToIDsStorage->getType(
+                $this->request->getCustomerPaymentProfileId()
+            );
+            if (ProfileType::CREDITCARD_TYPE === $profileType) {
+                $creditCard->setCardNumber('5424000000000015');
+                $creditCard->setExpirationDate('11/2027');
+            } else {
+                $bankAccount->setAccountType('checking');
+                $bankAccount->setRoutingNumber('091905444');
+                $bankAccount->setAccountNumber('123456789');
+                $bankAccount->setNameOnAccount('Max Maxwell');
+                $bankAccount->setBankName('Minnesota Lakes Bank');
+            }
 
             $payment->setBankAccount($bankAccount);
             $payment->setCreditCard($creditCard);
@@ -88,10 +112,9 @@ class GetCustomerPaymentProfileControllerMock extends AbstractControllerMock imp
             $messages->setResultCode('Error');
             $messages->addToMessage(
                 (new MessagesType\MessageAType())
-                    ->setCode('E00114')
-                    ->setText('Incorrect payment profile id.')
+                    ->setCode('I00004')
+                    ->setText('No records found.')
             );
-            $response->setMessages($messages);
         }
 
         $response->setMessages($messages);

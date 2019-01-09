@@ -13,10 +13,10 @@ class UpdateCustomerPaymentProfileControllerMock extends AbstractControllerMock 
     PaymentProfileIDsAwareInterface
 {
     /** @var AnetApiRequestType */
-    protected $request;
+    private $request;
 
     /** @var PaymentProfileIDs */
-    protected $paymentProfileIdsStorage;
+    private $paymentProfileIdsStorage;
 
     /**
      * @param UpdateCustomerPaymentProfileRequest $request
@@ -38,7 +38,7 @@ class UpdateCustomerPaymentProfileControllerMock extends AbstractControllerMock 
      * @param null|string $endPoint
      * @return UpdateCustomerPaymentProfileResponse
      */
-    public function executeWithApiResponse($endPoint = null)
+    public function executeWithApiResponse($endPoint = null): UpdateCustomerPaymentProfileResponse
     {
         $recordExists = $this->paymentProfileIdsStorage->exists(
             $this->request->getPaymentProfile()->getCustomerPaymentProfileId()
@@ -54,10 +54,9 @@ class UpdateCustomerPaymentProfileControllerMock extends AbstractControllerMock 
             $messages->setResultCode('Error');
             $messages->addToMessage(
                 (new MessagesType\MessageAType())
-                    ->setCode('E00114')
-                    ->setText('Incorrect payment profile id.')
+                    ->setCode('I00004')
+                    ->setText('No records found.')
             );
-            $response->setMessages($messages);
         }
 
         $response->setMessages($messages);

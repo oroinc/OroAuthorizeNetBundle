@@ -2,10 +2,10 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Mock\Method\View;
 
-use Oro\Bundle\AuthorizeNetBundle\Method\View\AuthorizeNetPaymentMethodView;
+use Oro\Bundle\AuthorizeNetBundle\Method\View\AuthorizeNetEcheckPaymentMethodView;
 use Oro\Bundle\PaymentBundle\Context\PaymentContextInterface;
 
-class AuthorizeNetPaymentMethodViewMock extends AuthorizeNetPaymentMethodView
+class AuthorizeNetEcheckPaymentMethodViewMock extends AuthorizeNetEcheckPaymentMethodView
 {
     /**
      * {@inheritdoc}

@@ -1,11 +1,11 @@
 @regression
-@ticket-ANET-29
+@ticket-ANET-45
 @fixture-OroFlatRateShippingBundle:FlatRateIntegration.yml
 @fixture-OroAuthorizeNetBundle:AuthorizeNetFixture.yml
-Feature: AuthorizeNet integration CIM
+Feature: AuthorizeNet integration eCheck
   In order to have a fast and easy checkout
   As a Customer
-  I want to have the ability to save information about payment card and reuse it on checkout with Authorize.Net
+  I want to have the ability to save information about bank account and reuse it on checkout with Authorize.Net
 
   Scenario: Feature Background
     Given sessions active:
@@ -29,42 +29,49 @@ Feature: AuthorizeNet integration CIM
       | Require CVV Entry         | true                 |
       | Payment Action            | Authorize and Charge |
       | Status                    | Active               |
+      | Enable CIM                | true                 |
+      | CIM Websites              | Default              |
     And I save and close form
     Then I should see "Integration saved" flash message
     And I should see AuthorizeNet in grid
-    And I create payment rule with "AuthorizeNet" payment method
 
-  Scenario: Check "Manage Payment Profiles" when CIM disabled
+  Scenario: Check "eCheck grid" when option eCheck disabled
     Given I proceed as the Buyer
     And I signed in as AmandaRCole@example.org on the store frontend
     And I am on homepage
     And I click "Account"
-    Then I should not see "Manage Payment Profiles"
+    And I click "Manage Payment Profiles"
+    Then I should not see an "Authorize.NetGrid.eCheckProfile" element
+    And I should not see "Add New Bank Account"
 
-  Scenario: Check "Manage Payment Profiles" when CIM enabled
+  Scenario: Check "eCheck grid" when option eCheck enabled
     Given I proceed as the Admin
     And I go to System/Integrations/Manage Integrations
     And I click edit AuthorizeNet in grid
     And I fill "Authorize.Net Form" with:
-      | Enable CIM    | true     |
-      | CIM Websites  | Default  |
+      | Enable eCheck           | true                                                                 |
+      | eCheck Label            | Bank Account                                                         |
+      | eCheck Short Label      | Bank Account                                                         |
+      | eCheck Confirm Text     | By clicking the button below, I authorize to charge my bank account. |
+      | eCheck Account Types    | [Checking, Savings, Business Checking]                               |
     And I save and close form
     Then I should see "Integration saved" flash message
-    When I proceed as the Buyer
+    When I create payment rule with "Bank Account" payment method
+    And I proceed as the Buyer
     And I reload the page
-    Then I should see "Manage Payment Profiles"
-    When I click "Manage Payment Profiles"
-    Then there is no records in "Authorize.NetGridCreditCardProfile"
-    And I should see "Add New Credit Card"
+    Then I should see "Add New Bank Account"
+    And I should see an "Authorize.NetGrid.eCheckProfile" element
+    And there is no records in "Authorize.NetGrid.eCheckProfile"
 
-  Scenario: Create new credit card
-    Given I click "Add New Credit Card"
+  Scenario: Create new bank account
+    Given I click "Add New Bank Account"
     And I fill "Authorize.NetForm.PaymentProfile" with:
-      | Name                      | First credit card         |
-      | Credit Card Number        | 5424000000000015          |
-      | Month                     | 11                        |
-      | Year                      | 2027                      |
-      | CVV                       | 123                       |
+      | Name                      | First bank account        |
+      | Account Type              | Checking                  |
+      | Routing Number            | 091905444                 |
+      | Account Number            | 123456789                 |
+      | Name on Account           | Max Maxwell               |
+      | Bank Name                 | Minnesota Lakes Bank      |
       | First Name                | Max                       |
       | Last Name                 | Maxwell                   |
       | Street                    | 4576 Stonepot Road        |
@@ -75,35 +82,37 @@ Feature: AuthorizeNet integration CIM
       | Profile Default           | true                      |
     And I submit form
     Then I should see "Payment profile has been saved successfully." flash message
-    And number of records in "Authorize.NetGridCreditCardProfile" grid should be 1
+    And number of records in "Authorize.NetGrid.eCheckProfile" grid should be 1
     And number of records payment profiles in AuthorizeNet account should be 1
 
-  Scenario: Update credit card
-    Given I click Edit "First credit card" in grid
+  Scenario: Update bank account
+    Given I click Edit "First bank account" in "Authorize.NetGrid.eCheckProfile"
     And I fill "Authorize.NetForm.PaymentProfile" with:
-      | Update Credit Card Information | true               |
-      | Credit Card Number             | 5424000000001500   |
-      | Month                          | 10                 |
-      | Year                           | 2027               |
-      | CVV                            | 123                |
+      | Update Bank Account Information | true                      |
+      | Account Type                    | Checking                  |
+      | Routing Number                  | 091905444                 |
+      | Account Number                  | 123450000                 |
+      | Name on Account                 | Max Maxwell               |
+      | Bank Name                       | Minnesota Lakes Bank      |
     And I submit form
     Then I should see "Payment profile has been saved successfully." flash message
-    And 1500 must be first record in "Authorize.NetGridCreditCardProfile"
+    And 0000 must be first record in "Authorize.NetGrid.eCheckProfile"
 
   Scenario: Delete credit card
-    Given I click "Delete" on row "First credit card" in grid
+    Given I click "Delete" on row "First bank account" in "Authorize.NetGrid.eCheckProfile"
     And I click "Yes" in confirmation dialogue
-    Then there is no records in "Authorize.NetGridCreditCardProfile"
+    Then there is no records in "Authorize.NetGrid.eCheckProfile"
     And number of records payment profiles in AuthorizeNet account should be 0
 
   Scenario: Refresh grid and reset grid
-    Given I click "Add New Credit Card"
+    Given I click "Add New Bank Account"
     And I fill "Authorize.NetForm.PaymentProfile" with:
-      | Name                      | First credit card         |
-      | Credit Card Number        | 5424000000000015          |
-      | Month                     | 11                        |
-      | Year                      | 2027                      |
-      | CVV                       | 123                       |
+      | Name                      | First bank account        |
+      | Account Type              | Checking                  |
+      | Routing Number            | 091905444                 |
+      | Account Number            | 123456789                 |
+      | Name on Account           | Max Maxwell               |
+      | Bank Name                 | Minnesota Lakes Bank      |
       | First Name                | Max                       |
       | Last Name                 | Maxwell                   |
       | Street                    | 4576 Stonepot Road        |
@@ -113,43 +122,45 @@ Feature: AuthorizeNet integration CIM
       | Zip                       | 10115                     |
       | Profile Default           | true                      |
     And I submit form
-    Then number of records in "Authorize.NetGridCreditCardProfile" grid should be 1
+    Then number of records in "Authorize.NetGrid.eCheckProfile" grid should be 1
     And number of records payment profiles in AuthorizeNet account should be 1
     When I remove last added payment profile from AuthorizeNet account
-    And I refresh "Authorize.NetGridCreditCardProfile" grid
-    Then there is no records in "Authorize.NetGridCreditCardProfile"
-    When I reset "Authorize.NetGridCreditCardProfile" grid
-    Then there is no records in "Authorize.NetGridCreditCardProfile"
+    And I refresh "Authorize.NetGrid.eCheckProfile" grid
+    Then there is no records in "Authorize.NetGrid.eCheckProfile"
+    When I reset "Authorize.NetGrid.eCheckProfile" grid
+    Then there is no records in "Authorize.NetGrid.eCheckProfile"
 
-  Scenario: Checkout with new cart
+  Scenario: Checkout with new bank account
     Given I open page with shopping list List 2
     And I click "Create Order"
     And I select "Fifth avenue, 10115 Berlin, Germany" on the "Billing Information" checkout step and press Continue
     And I select "Fifth avenue, 10115 Berlin, Germany" on the "Shipping Information" checkout step and press Continue
     And I check "Flat Rate" on the "Shipping Method" checkout step and press Continue
-    And I fill "Authorize.NetFormCheckoutCreditCardPaymentProfileMethod" with:
-      | Profile                        | New Card           |
-      | Credit Card Number             | 5424000000001500   |
-      | Month                          | 10                 |
-      | Year                           | 2027               |
-      | CVV                            | 123                |
-      | Save Profile                   | true               |
+    And I fill "Authorize.NetFormCheckoutEcheckPaymentProfileMethod" with:
+      | Profile                   | New Bank Account          |
+      | Account Type              | Checking                  |
+      | Routing Number            | 091905444                 |
+      | Account Number            | 123456789                 |
+      | Name on Account           | Max Maxwell               |
+      | Bank Name                 | Minnesota Lakes Bank      |
+      | Save Profile              | true                      |
     And I click "Continue"
     And I click "Submit Order"
     Then I see the "Thank You" page with "Thank You For Your Purchase!" title
     When I click "Account"
     And I click "Manage Payment Profiles"
-    Then number of records in "Authorize.NetGridCreditCardProfile" grid should be 1
+    Then number of records in "Authorize.NetGrid.eCheckProfile" grid should be 1
     And number of records payment profiles in AuthorizeNet account should be 1
 
-  Scenario: Create second default cart
-    Given I click "Add New Credit Card"
+  Scenario: Create second default bank account
+    Given I click "Add New Bank Account"
     And I fill "Authorize.NetForm.PaymentProfile" with:
-      | Name                      | Second credit card        |
-      | Credit Card Number        | 5424000000000015          |
-      | Month                     | 10                        |
-      | Year                      | 2027                      |
-      | CVV                       | 123                       |
+      | Name                      | Second bank account       |
+      | Account Type              | Checking                  |
+      | Routing Number            | 091905444                 |
+      | Account Number            | 123450000                 |
+      | Name on Account           | Max Maxwell               |
+      | Bank Name                 | Minnesota Lakes Bank      |
       | First Name                | Max                       |
       | Last Name                 | Maxwell                   |
       | Street                    | 4576 Stonepot Road        |
@@ -160,19 +171,16 @@ Feature: AuthorizeNet integration CIM
       | Profile Default           | true                      |
     And I submit form
     Then I should see "Payment profile has been saved successfully." flash message
-    And number of records in "Authorize.NetGridCreditCardProfile" grid should be 2
-    And number of records payment profiles in AuthorizeNet account should be 2
+    And number of records in "Authorize.NetGrid.eCheckProfile" grid should be 2
 
-  Scenario: Checkout with existed cart
+  Scenario: Checkout with existed bank account
     Given I open page with shopping list List 1
     And I click "Create Order"
     And I select "Fifth avenue, 10115 Berlin, Germany" on the "Billing Information" checkout step and press Continue
     And I select "Fifth avenue, 10115 Berlin, Germany" on the "Shipping Information" checkout step and press Continue
     And I check "Flat Rate" on the "Shipping Method" checkout step and press Continue
-    And I fill "Authorize.NetFormCheckoutCreditCardPaymentProfileMethod" with:
-      | ProfileCVV | 123 |
-    Then I should see that option "Second credit card (ends with 0015)" is selected in "Authorize.NetField.CreditCardProfile" select
-    And I should see "****1500 (ends with 1500)" for "Authorize.NetField.CreditCardProfile" select
+    Then I should see that option "Second bank account (ends with 0000)" is selected in "Authorize.NetField.eCheckProfile" select
+    And I should see "****6789 (ends with 6789)" for "Authorize.NetField.eCheckProfile" select
     When I click "Continue"
     And I click "Submit Order"
     Then I see the "Thank You" page with "Thank You For Your Purchase!" title

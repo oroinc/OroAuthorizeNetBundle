@@ -18,6 +18,8 @@ use Symfony\Component\Translation\TranslatorInterface;
  */
 class CreatePaymentProfileFromTransactionResponse
 {
+    public const ACCOUNT_TYPE_ECHECK = 'eCheck';
+
     /** @var DoctrineHelper */
     private $doctrineHelper;
 
@@ -63,8 +65,8 @@ class CreatePaymentProfileFromTransactionResponse
 
         $customerProfileId = $profileData['customer_profile_id'];
         $paymentProfileId = reset($profileData['customer_payment_profile_id_list']);
-        $transactionData =  $data['transaction_response'];
-        $profileType = $transactionData['account_type'] === 'eCheck'
+        $transactionData = $data['transaction_response'];
+        $profileType = $transactionData['account_type'] === self::ACCOUNT_TYPE_ECHECK
             ? CustomerPaymentProfile::TYPE_ECHECK
             : CustomerPaymentProfile::TYPE_CREDITCARD;
         $accountNumber = $transactionData['account_number'];

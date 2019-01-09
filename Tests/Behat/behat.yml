@@ -17,6 +17,11 @@ oro_behat_extension:
           Payment Action: 'oro_integration_channel_form[transport][creditCardPaymentAction]'
           Enable CIM: 'oro_integration_channel_form[transport][enabledCIM]'
           CIM Websites: 'oro_integration_channel_form[transport][enabledCIMWebsites][]'
+          Enable eCheck: 'oro_integration_channel_form[transport][eCheckEnabled]'
+          eCheck Label: 'oro_integration_channel_form[transport][eCheckLabels][values][default]'
+          eCheck Short Label: 'oro_integration_channel_form[transport][eCheckShortLabels][values][default]'
+          eCheck Confirm Text: 'oro_integration_channel_form[transport][eCheckConfirmationText]'
+          eCheck Account Types: 'oro_integration_channel_form[transport][eCheckAccountTypes][]'
     CreditCardForm:
       selector: 'div[data-content="payment_method_form"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
@@ -27,25 +32,39 @@ oro_behat_extension:
           Year: 'oro_authorize_net_credit_card[expirationDate][year]'
           CVV: 'oro_authorize_net_credit_card[CVV2]'
 
-    CheckoutPaymentProfileMethodForm:
+    Authorize.NetFormCheckoutCreditCardPaymentProfileMethod:
       selector: 'div[data-content="payment_method_form"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
       options:
         mapping:
-          # Credit card sub-type
           CreditCardNumber: 'oro_authorize_net_checkout_creditcard_profile[paymentData][ACCT]'
           Month: 'oro_authorize_net_checkout_creditcard_profile[paymentData][expirationDate][month]'
           Year: 'oro_authorize_net_checkout_creditcard_profile[paymentData][expirationDate][year]'
           CVV: 'oro_authorize_net_checkout_creditcard_profile[paymentData][CVV2]'
-          SaveProfile: 'oro_authorize_net_checkout_creditcard_profile[saveProfile]'
-
-          # Profile sub-type
+          Save Profile: 'oro_authorize_net_checkout_creditcard_profile[saveProfile]'
           Profile: 'oro_authorize_net_checkout_creditcard_profile[profile]'
           ProfileCVV: 'oro_authorize_net_checkout_creditcard_profile[profileCVV]'
 
-    CreditCardProfile:
+    Authorize.NetFormCheckoutEcheckPaymentProfileMethod:
+      selector: 'div[data-content="payment_method_form"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          Profile: 'oro_authorize_net_checkout_echeck_profile[profile]'
+          Account Type: 'oro_authorize_net_checkout_echeck_profile[paymentData][accountType]'
+          Routing Number: 'oro_authorize_net_checkout_echeck_profile[paymentData][routingNumber]'
+          Account Number: 'oro_authorize_net_checkout_echeck_profile[paymentData][accountNumber]'
+          Name on Account: 'oro_authorize_net_checkout_echeck_profile[paymentData][nameOnAccount]'
+          Bank Name: 'oro_authorize_net_checkout_echeck_profile[paymentData][bankName]'
+          Save Profile: 'oro_authorize_net_checkout_echeck_profile[saveProfile]'
+
+    Authorize.NetField.CreditCardProfile:
         selector: 'select[name="oro_authorize_net_checkout_creditcard_profile[profile]"]'
         class: Oro\Bundle\FormBundle\Tests\Behat\Element\Select
+
+    Authorize.NetField.eCheckProfile:
+      selector: 'select[name="oro_authorize_net_checkout_echeck_profile[profile]"]'
+      class: Oro\Bundle\FormBundle\Tests\Behat\Element\Select
 
     Authorize.NetForm.PaymentProfile:
       selector: 'form[name="oro_authorize_net_payment_profile_dto"]'
@@ -58,6 +77,7 @@ oro_behat_extension:
           Account Number: 'oro_authorize_net_payment_profile_dto[paymentData][accountNumber]'
           Name on Account: 'oro_authorize_net_payment_profile_dto[paymentData][nameOnAccount]'
           Bank Name: 'oro_authorize_net_payment_profile_dto[paymentData][bankName]'
+          Update Bank Account Information: 'oro_authorize_net_payment_profile_dto[updatePaymentData]'
 
           # Credit card sub-type
           Update Credit Card Information: 'oro_authorize_net_payment_profile_dto[updatePaymentData]'
@@ -86,9 +106,27 @@ oro_behat_extension:
     DeleteShoppingList:
       selector: 'input[name="oro_workflow_transition[remove_source]"]'
 
-    Credit Card Profile Grid:
+    Authorize.NetGridCreditCardProfile:
       selector: 'div[data-page-component-name="frontend-creditcard-payment-profiles-grid"]'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
+      options:
+        mapping:
+          GridToolbarPaginator: 'Authorize.NetGridCreditCardProfile Paginator'
+
+    Authorize.NetGridCreditCardProfilePaginator:
+      selector: 'div[data-page-component-name="frontend-creditcard-payment-profiles-grid"] div.oro-items-counter'
+      class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\GridToolbarPaginator
+
+    Authorize.NetGrid.eCheckProfile:
+      selector: 'div[data-page-component-name="frontend-echeck-payment-profiles-grid"]'
+      class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
+      options:
+        mapping:
+          GridToolbarPaginator: 'Authorize.NetGrid.eCheckProfile Paginator'
+
+    Authorize.NetGrid.eCheckProfilePaginator:
+      selector: 'div[data-page-component-name="frontend-echeck-payment-profiles-grid"] div.oro-items-counter'
+      class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\GridToolbarPaginator
 
   suites:
     OroAuthorizeNetBundle:

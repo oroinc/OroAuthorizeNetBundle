@@ -6,17 +6,24 @@ use net\authorize\api\contract\v1\AnetApiRequestType;
 use net\authorize\api\contract\v1\CreateCustomerPaymentProfileRequest;
 use net\authorize\api\contract\v1\CreateCustomerPaymentProfileResponse;
 use net\authorize\api\contract\v1\MessagesType;
+use Oro\Bundle\AuthorizeNetBundle\Entity\CustomerPaymentProfile;
 use Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Mock\Remote\Storage\PaymentProfileIDs;
 use Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Mock\Remote\Storage\PaymentProfileIDsAwareInterface;
+use Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Mock\Remote\Storage\PaymentProfileTypesToIDs;
+use Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Mock\Remote\Storage\PaymentProfileTypesToIDsAwareInterface;
 
 class CreateCustomerPaymentProfileControllerMock extends AbstractControllerMock implements
-    PaymentProfileIDsAwareInterface
+    PaymentProfileIDsAwareInterface,
+    PaymentProfileTypesToIDsAwareInterface
 {
     /** @var AnetApiRequestType */
-    protected $request;
+    private $request;
 
     /** @var PaymentProfileIDs */
-    protected $paymentProfileIdsStorage;
+    private $paymentProfileIdsStorage;
+
+    /** @var PaymentProfileTypesToIDs $paymentProfileTypesToIDsStorage */
+    private $paymentProfileTypesToIDsStorage;
 
     /**
      * @param CreateCustomerPaymentProfileRequest $request
@@ -35,10 +42,18 @@ class CreateCustomerPaymentProfileControllerMock extends AbstractControllerMock 
     }
 
     /**
+     * @param PaymentProfileTypesToIDs $paymentProfileTypesToIDs
+     */
+    public function setPaymentProfileTypesToIDsStorage(PaymentProfileTypesToIDs $paymentProfileTypesToIDs)
+    {
+        $this->paymentProfileTypesToIDsStorage = $paymentProfileTypesToIDs;
+    }
+
+    /**
      * @param null|string $endPoint
      * @return CreateCustomerPaymentProfileResponse
      */
-    public function executeWithApiResponse($endPoint = null)
+    public function executeWithApiResponse($endPoint = null): CreateCustomerPaymentProfileResponse
     {
         $response = new CreateCustomerPaymentProfileResponse();
         $customerProfileId = $this->request->getCustomerProfileId();
@@ -49,6 +64,19 @@ class CreateCustomerPaymentProfileControllerMock extends AbstractControllerMock 
             $this->paymentProfileIdsStorage->save($paymentProfileId);
             $response->setCustomerPaymentProfileId($paymentProfileId);
 
+            /**
+             * Guess profile type, base on parameters from frontend and save it to the storage
+             */
+            $paymentDataValue = $this->request->getPaymentProfile()->getPayment()->getOpaqueData()->getDataValue();
+            $paymentProfileType = 'echeck_data_value' === $paymentDataValue ?
+                CustomerPaymentProfile::TYPE_ECHECK :
+                CustomerPaymentProfile::TYPE_CREDITCARD;
+
+            $this->paymentProfileTypesToIDsStorage->saveType(
+                $paymentProfileId,
+                $paymentProfileType
+            );
+
             $messages = new MessagesType();
             $messages->setResultCode('Ok');
         } else {
@@ -56,8 +84,8 @@ class CreateCustomerPaymentProfileControllerMock extends AbstractControllerMock 
             $messages->setResultCode('Error');
             $messages->addToMessage(
                 (new MessagesType\MessageAType())
-                    ->setCode('E00114')
-                    ->setText('Invalid OTS Token.')
+                    ->setCode('E00098')
+                    ->setText('Customer Profile ID or Shipping Profile ID not found.')
             );
         }
 

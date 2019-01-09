@@ -9,11 +9,18 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request as Request;
 use Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Mock\AuthorizeNet\Client\Factory\Api as MockControllers;
 use Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Mock\Remote\Storage\PaymentProfileIDs;
 use Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Mock\Remote\Storage\PaymentProfileIDsAwareInterface;
+use Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Mock\Remote\Storage\PaymentProfileTypesToIDs;
+use Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Mock\Remote\Storage\PaymentProfileTypesToIDsAwareInterface;
 
-final class AnetSDKRequestFactoryMock extends AnetSDKRequestFactory
+final class AnetSDKRequestFactoryMock extends AnetSDKRequestFactory implements
+    PaymentProfileIDsAwareInterface,
+    PaymentProfileTypesToIDsAwareInterface
 {
     /** @var PaymentProfileIDs */
-    protected $remoteStoragePaymentProfileIds;
+    private $paymentProfileIdsStorage;
+
+    /** @var PaymentProfileTypesToIDs $paymentProfileTypesToIDsStorage */
+    private $paymentProfileTypesToIDsStorage;
 
     /** @var array */
     protected static $requestClassMap = [
@@ -45,11 +52,19 @@ final class AnetSDKRequestFactoryMock extends AnetSDKRequestFactory
     ];
 
     /**
-     * @param PaymentProfileIDs $remoteStoragePaymentProfileIds
+     * @param PaymentProfileIDs $paymentProfileIdsStorage
      */
-    public function setRemoteStoragePaymentProfileIds(PaymentProfileIDs $remoteStoragePaymentProfileIds)
+    public function setPaymentProfileIdsStorage(PaymentProfileIDs $paymentProfileIdsStorage)
     {
-        $this->remoteStoragePaymentProfileIds = $remoteStoragePaymentProfileIds;
+        $this->paymentProfileIdsStorage = $paymentProfileIdsStorage;
+    }
+
+    /**
+     * @param PaymentProfileTypesToIDs $paymentProfileTypesToIDsStorage
+     */
+    public function setPaymentProfileTypesToIDsStorage(PaymentProfileTypesToIDs $paymentProfileTypesToIDsStorage)
+    {
+        $this->paymentProfileTypesToIDsStorage = $paymentProfileTypesToIDsStorage;
     }
 
     /**
@@ -60,7 +75,11 @@ final class AnetSDKRequestFactoryMock extends AnetSDKRequestFactory
         $controller = parent::createController($request);
 
         if ($controller instanceof PaymentProfileIDsAwareInterface) {
-            $controller->setPaymentProfileIdsStorage($this->remoteStoragePaymentProfileIds);
+            $controller->setPaymentProfileIdsStorage($this->paymentProfileIdsStorage);
+        }
+
+        if ($controller instanceof PaymentProfileTypesToIDsAwareInterface) {
+            $controller->setPaymentProfileTypesToIDsStorage($this->paymentProfileTypesToIDsStorage);
         }
 
         return $controller;

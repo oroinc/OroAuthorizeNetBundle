@@ -15,10 +15,10 @@ class GetCustomerProfileControllerMock extends AbstractControllerMock implements
     PaymentProfileIDsAwareInterface
 {
     /** @var AnetApiRequestType */
-    protected $request;
+    private $request;
 
     /** @var PaymentProfileIDs */
-    protected $paymentProfileIdsStorage;
+    private $paymentProfileIdsStorage;
 
     /**
      * @param GetCustomerProfileRequest $request
@@ -40,7 +40,7 @@ class GetCustomerProfileControllerMock extends AbstractControllerMock implements
      * @param null|string $endPoint
      * @return GetCustomerProfileResponse
      */
-    public function executeWithApiResponse($endPoint = null)
+    public function executeWithApiResponse($endPoint = null): GetCustomerProfileResponse
     {
         $response = new GetCustomerProfileResponse();
         $customerProfileId = $this->request->getCustomerProfileId();
@@ -74,8 +74,8 @@ class GetCustomerProfileControllerMock extends AbstractControllerMock implements
             $messages->setResultCode('Error');
             $messages->addToMessage(
                 (new MessagesType\MessageAType())
-                    ->setCode('E00114')
-                    ->setText('Invalid OTS Token.')
+                    ->setCode('E00098')
+                    ->setText('Customer Profile ID or Shipping Profile ID not found.')
             );
         }
 

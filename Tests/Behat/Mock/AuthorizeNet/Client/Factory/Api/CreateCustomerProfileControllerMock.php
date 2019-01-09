@@ -10,10 +10,10 @@ use net\authorize\api\contract\v1\MessagesType;
 class CreateCustomerProfileControllerMock extends AbstractControllerMock
 {
     /** @var string */
-    const REGISTERED_CUSTOMER_PROFILE_ID = '1';
+    public const REGISTERED_CUSTOMER_PROFILE_ID = '1';
 
     /** @var AnetApiRequestType */
-    protected $request;
+    private $request;
 
     /**
      * @param CreateCustomerProfileRequest $request
@@ -27,27 +27,28 @@ class CreateCustomerProfileControllerMock extends AbstractControllerMock
      * @param null|string $endPoint
      * @return CreateCustomerProfileResponse
      */
-    public function executeWithApiResponse($endPoint = null)
+    public function executeWithApiResponse($endPoint = null): CreateCustomerProfileResponse
     {
         $response = new CreateCustomerProfileResponse();
 
-        if ($this->request->getProfile()->getEmail() === 'AmandaRCole@example.org') {
-            $response->setCustomerProfileId(
-                self::REGISTERED_CUSTOMER_PROFILE_ID
-            );
+        $email = 'AmandaRCole@example.org';
+        if ($email !== $this->request->getProfile()->getEmail()) {
+            $errorMessage = 'Incorrect email given while try to create customer profile, expecting "' . $email .'"';
 
-            $messages = new MessagesType();
-            $messages->setResultCode('Ok');
-        } else {
-            $messages = new MessagesType();
-            $messages->setResultCode('Error');
-            $messages->addToMessage(
-                (new MessagesType\MessageAType())
-                    ->setCode('E00114')
-                    ->setText('Invalid OTS Token.')
-            );
+            if (null === $this->request->getProfile()->getEmail()) {
+                $errorMessage .= ', but got nothing!';
+            } else {
+                $errorMessage .= sprintf(', but got %!', $this->request->getProfile()->getEmail());
+            }
+
+            throw new \RuntimeException($errorMessage);
         }
 
+        $response->setCustomerProfileId(
+            self::REGISTERED_CUSTOMER_PROFILE_ID
+        );
+        $messages = new MessagesType();
+        $messages->setResultCode('Ok');
         $response->setMessages($messages);
 
         return $response;

@@ -8,15 +8,21 @@ use net\authorize\api\contract\v1\DeleteCustomerPaymentProfileResponse;
 use net\authorize\api\contract\v1\MessagesType;
 use Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Mock\Remote\Storage\PaymentProfileIDs;
 use Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Mock\Remote\Storage\PaymentProfileIDsAwareInterface;
+use Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Mock\Remote\Storage\PaymentProfileTypesToIDs;
+use Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Mock\Remote\Storage\PaymentProfileTypesToIDsAwareInterface;
 
 class DeleteCustomerPaymentProfileControllerMock extends AbstractControllerMock implements
-    PaymentProfileIDsAwareInterface
+    PaymentProfileIDsAwareInterface,
+    PaymentProfileTypesToIDsAwareInterface
 {
     /** @var AnetApiRequestType */
-    protected $request;
+    private $request;
 
     /** @var PaymentProfileIDs */
-    protected $paymentProfileIdsStorage;
+    private $paymentProfileIdsStorage;
+
+    /** @var PaymentProfileTypesToIDs $paymentProfileTypesToIDsStorage */
+    private $paymentProfileTypesToIDsStorage;
 
     /**
      * @param DeleteCustomerPaymentProfileRequest $request
@@ -35,12 +41,24 @@ class DeleteCustomerPaymentProfileControllerMock extends AbstractControllerMock 
     }
 
     /**
+     * @param PaymentProfileTypesToIDs $paymentProfileTypesToIDs
+     */
+    public function setPaymentProfileTypesToIDsStorage(PaymentProfileTypesToIDs $paymentProfileTypesToIDs)
+    {
+        $this->paymentProfileTypesToIDsStorage = $paymentProfileTypesToIDs;
+    }
+
+    /**
      * @param null|string $endPoint
      * @return DeleteCustomerPaymentProfileResponse
      */
-    public function executeWithApiResponse($endPoint = null)
+    public function executeWithApiResponse($endPoint = null): DeleteCustomerPaymentProfileResponse
     {
         $removeResult = $this->paymentProfileIdsStorage->remove(
+            $this->request->getCustomerPaymentProfileId()
+        );
+
+        $this->paymentProfileTypesToIDsStorage->removeId(
             $this->request->getCustomerPaymentProfileId()
         );
 
@@ -54,10 +72,9 @@ class DeleteCustomerPaymentProfileControllerMock extends AbstractControllerMock 
             $messages->setResultCode('Error');
             $messages->addToMessage(
                 (new MessagesType\MessageAType())
-                    ->setCode('E00114')
-                    ->setText('Incorrect payment profile id.')
+                    ->setCode('I00004')
+                    ->setText('No records found.')
             );
-            $response->setMessages($messages);
         }
 
         $response->setMessages($messages);
