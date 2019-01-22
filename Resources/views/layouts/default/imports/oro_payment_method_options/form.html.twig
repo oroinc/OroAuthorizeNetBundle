@@ -24,10 +24,13 @@
 {% block _oro_authorize_net_checkout_creditcard_profile_profile_cvv_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' input input--short form-field-CVV2',
-        'autocomplete': 'off'
+        'autocomplete': 'off',
+        'minlength': 3,
+        'maxlength': 4,
+        'data-page-component-view': 'orofrontend/default/js/app/views/fake-masked-input-view'
     }) %}
 
-    {%- set type = type|default('password') -%}
+    {%- set type = type|default('text') -%}
     <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
     <a href="javascript: void(0);"
            data-toggle="tooltip"
