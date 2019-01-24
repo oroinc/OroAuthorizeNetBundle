@@ -1,9 +1,16 @@
 {% block oro_authorize_net_credit_card_expiration_date_widget -%}
     {% set validation = {
-        'credit-card-expiration-date-not-blank': {'message': 'oro.payment.validation.expiration_date', 'payload': null},
-        'credit-card-expiration-date': {'message': 'oro.payment.validation.month', 'payload': null}
-    }
-    %}
+        'credit-card-expiration-date-not-blank': {
+            'message': 'oro.payment.validation.expiration_date',
+            'payload': null,
+            'formSelector': '[data-payment-data-form], form'
+        },
+        'credit-card-expiration-date': {
+            'message': 'oro.payment.validation.month',
+            'payload': null,
+            'formSelector': '[data-payment-data-form], form'
+        }
+    } %}
     <div {{ block('widget_attributes') }} data-validation="{{ validation|json_encode }}">
         <div class="{{ class_prefix }}-form__select-container">
             <div class="{{ class_prefix }}-form__select {{ class_prefix }}-form__select--exp-month">
