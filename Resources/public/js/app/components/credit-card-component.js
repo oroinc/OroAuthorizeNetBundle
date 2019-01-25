@@ -83,6 +83,7 @@ define(function(require) {
             mediator.on('checkout:payment:before-transit', this.beforeTransit, this);
             mediator.on('checkout-content:initialized', this.refreshPaymentMethod, this);
             mediator.on('checkout:place-order:response', this.placeOrderResponse, this);
+            this.onPaymentMethodAlreadySelected();
         },
 
         refreshPaymentMethod: function() {
@@ -234,6 +235,12 @@ define(function(require) {
          */
         onPaymentMethodChanged: function(eventData) {
             if (eventData.paymentMethod === this.options.paymentMethod) {
+                this.loadAcceptJsLibrary();
+            }
+        },
+
+        onPaymentMethodAlreadySelected: function() {
+            if (this.$form.is(':visible')) {
                 this.loadAcceptJsLibrary();
             }
         },
