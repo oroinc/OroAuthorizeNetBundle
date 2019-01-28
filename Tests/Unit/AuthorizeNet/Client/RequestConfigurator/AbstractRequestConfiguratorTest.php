@@ -4,7 +4,6 @@ namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\AuthorizeNet\Client\RequestCo
 
 use net\authorize\api\contract\v1 as AnetAPI;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\RequestConfigurator\RequestConfiguratorInterface;
-use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 
 abstract class AbstractRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
 {

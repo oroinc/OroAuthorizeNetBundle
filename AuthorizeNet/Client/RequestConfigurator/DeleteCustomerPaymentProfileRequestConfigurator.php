@@ -3,8 +3,6 @@
 namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\RequestConfigurator;
 
 use net\authorize\api\contract\v1 as AnetAPI;
-use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
-use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option\Address as AddressOption;
 
 /**
  * request configurator for deleteCustomerPaymentProfile request

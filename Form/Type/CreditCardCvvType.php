@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\Form\Type;
 
-use Oro\Bundle\ValidationBundle\Validator\Constraints\Integer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
