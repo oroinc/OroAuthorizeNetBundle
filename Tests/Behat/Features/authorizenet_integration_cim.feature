@@ -63,7 +63,6 @@ Feature: AuthorizeNet integration CIM
       | Name                      | First credit card         |
       | Credit Card Number        | 5424000000000015          |
       | Month                     | 11                        |
-      | Year                      | 2027                      |
       | CVV                       | 123                       |
       | First Name                | Max                       |
       | Last Name                 | Maxwell                   |
@@ -73,6 +72,11 @@ Feature: AuthorizeNet integration CIM
       | State                     | Bayern                    |
       | Zip                       | 10115                     |
       | Profile Default           | true                      |
+    Then I should not see "Invalid Expiration date."
+    When I submit form
+    Then I should see "Invalid Expiration date."
+    When I fill "Authorize.NetForm.PaymentProfile" with:
+      | Year | 2027 |
     And I submit form
     Then I should see "Payment profile has been saved successfully." flash message
     And number of records in "Authorize.NetGridCreditCardProfile" grid should be 1
@@ -131,9 +135,13 @@ Feature: AuthorizeNet integration CIM
       | Profile                        | New Card           |
       | Credit Card Number             | 5424000000001500   |
       | Month                          | 10                 |
-      | Year                           | 2027               |
       | CVV                            | 123                |
       | Save Profile                   | true               |
+    Then I should not see "Invalid Expiration date."
+    When I click "Continue"
+    Then I should see "Invalid Expiration date."
+    When I fill "Authorize.NetFormCheckoutCreditCardPaymentProfileMethod" with:
+      | Year | 2027 |
     And I click "Continue"
     And I click "Submit Order"
     Then I see the "Thank You" page with "Thank You For Your Purchase!" title

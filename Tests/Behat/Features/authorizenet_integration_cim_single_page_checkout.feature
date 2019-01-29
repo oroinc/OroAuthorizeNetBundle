@@ -53,9 +53,14 @@ Feature: AuthorizeNet integration CIM single page checkout
       | Profile                        | New Card           |
       | Credit Card Number             | 5424000000001500   |
       | Month                          | 10                 |
-      | Year                           | 2027               |
       | CVV                            | 123                |
       | Save Profile                   | true               |
+    Then I should not see "Invalid Expiration date."
+    And I wait for action
+    When I click "Submit Order"
+    Then I should see "Invalid Expiration date."
+    When I fill "Authorize.NetFormCheckoutCreditCardPaymentProfileMethod" with:
+      | Year | 2027 |
     And I click "Submit Order"
     Then I see the "Thank You" page with "Thank You For Your Purchase!" title
     When I click "Account"
