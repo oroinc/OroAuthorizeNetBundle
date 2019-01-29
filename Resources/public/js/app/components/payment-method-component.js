@@ -87,11 +87,6 @@ define(function(require) {
 
             this.$el
                 .on(
-                    'change',
-                    this.options.selectors.expirationDate,
-                    $.proxy(this.validate, this, this.options.selectors.expirationDate)
-                )
-                .on(
                     'focusout',
                     this.options.selectors.cardNumber,
                     $.proxy(this.validate, this, this.options.selectors.cardNumber)

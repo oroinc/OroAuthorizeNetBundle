@@ -33,10 +33,11 @@ Feature: AuthorizeNet integration Single Page Checkout
     And I click "Create Order"
     When I fill "Credit Card Form" with:
       | Month | 10 |
-    Then I should see "Invalid Expiration date"
+    Then I should not see "Invalid Expiration date."
+    When I click "Submit Order"
+    Then I should see "Invalid Expiration date."
     When I fill "Credit Card Form" with:
       | Year | 2029 |
-    Then I should not see "Invalid Expiration date"
 
   Scenario: Frontend AcceptJs Card validation error when pay order with AuthorizeNet
     Given I select "Fifth avenue, 10115 Berlin, Germany" from "Select Billing Address"
