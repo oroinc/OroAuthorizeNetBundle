@@ -87,11 +87,6 @@ define(function(require) {
 
             this.$el
                 .on(
-                    'change',
-                    this.options.selectors.expirationDate,
-                    $.proxy(this.validate, this, this.options.selectors.expirationDate)
-                )
-                .on(
                     'focusout',
                     this.options.selectors.cardNumber,
                     $.proxy(this.validate, this, this.options.selectors.cardNumber)
@@ -116,6 +111,7 @@ define(function(require) {
             this.$profileCvv = this.$form.find(this.options.selectors.profileCvv);
             this.$profileSelector.on('change', _.bind(this.onProfileChanged, this));
             this.onProfileChanged();
+            this.onPaymentMethodAlreadySelected();
         },
 
         onProfileChanged: function() {
@@ -175,7 +171,7 @@ define(function(require) {
                 var element = this.$form.find(elementSelector);
                 var parentForm = element.closest('form');
 
-                if (parentForm.length) {
+                if (elementSelector !== this.options.selectors.expirationDate && parentForm.length) {
                     return this._validateFormField(this.$form, element);
                 }
                 appendElement = element.clone();
@@ -334,6 +330,12 @@ define(function(require) {
          */
         onPaymentMethodChanged: function(eventData) {
             if (eventData.paymentMethod === this.options.paymentMethod) {
+                this.loadAcceptJsLibrary();
+            }
+        },
+
+        onPaymentMethodAlreadySelected: function() {
+            if (this.$paymentDataForm.is(':visible')) {
                 this.loadAcceptJsLibrary();
             }
         },

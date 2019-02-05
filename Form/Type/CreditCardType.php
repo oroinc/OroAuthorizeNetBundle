@@ -66,7 +66,8 @@ class CreditCardType extends AbstractType
                     'month' => 'oro.authorize_net.credit_card.expiration_date.month',
                 ],
                 'attr' => [
-                    'data-expiration-date' => true
+                    'data-expiration-date' => true,
+                    'data-validation-ignore-onblur' => true,
                 ]
             ]
         );

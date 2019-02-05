@@ -1,9 +1,16 @@
 {% block oro_authorize_net_credit_card_expiration_date_widget -%}
     {% set validation = {
-        'credit-card-expiration-date-not-blank': {'message': 'oro.payment.validation.expiration_date', 'payload': null},
-        'credit-card-expiration-date': {'message': 'oro.payment.validation.month', 'payload': null}
-    }
-    %}
+        'credit-card-expiration-date-not-blank': {
+            'message': 'oro.payment.validation.expiration_date',
+            'payload': null,
+            'formSelector': '[data-payment-data-form], form'
+        },
+        'credit-card-expiration-date': {
+            'message': 'oro.payment.validation.month',
+            'payload': null,
+            'formSelector': '[data-payment-data-form], form'
+        }
+    } %}
     <div {{ block('widget_attributes') }} data-validation="{{ validation|json_encode }}">
         <div class="{{ class_prefix }}-form__select-container">
             <div class="{{ class_prefix }}-form__select {{ class_prefix }}-form__select--exp-month">
@@ -104,10 +111,13 @@
 {% block oro_authorize_net_credit_card_cvv_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' input input--short',
-        'autocomplete': 'off'
+        'autocomplete': 'off',
+        'minlength': 3,
+        'maxlength': 4,
+        'data-page-component-view': 'orofrontend/default/js/app/views/fake-masked-input-view'
     }) %}
 
-    {%- set type = type|default('password') -%}
+    {%- set type = type|default('text') -%}
     <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
     <a href="javascript: void(0);"
            data-toggle="tooltip"
