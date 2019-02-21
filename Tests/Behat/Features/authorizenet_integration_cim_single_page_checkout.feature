@@ -56,7 +56,6 @@ Feature: AuthorizeNet integration CIM single page checkout
       | CVV                            | 123                |
       | Save Profile                   | true               |
     Then I should not see "Invalid Expiration date."
-    And I wait for action
     When I click "Submit Order"
     Then I should see "Invalid Expiration date."
     When I fill "Authorize.NetFormCheckoutCreditCardPaymentProfileMethod" with:
