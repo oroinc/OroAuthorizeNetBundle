@@ -1,6 +1,7 @@
 @regression
 @ticket-ANET-45
 @fixture-OroFlatRateShippingBundle:FlatRateIntegration.yml
+@fixture-OroCheckoutBundle:Shipping.yml
 @fixture-OroAuthorizeNetBundle:AuthorizeNetFixture.yml
 Feature: AuthorizeNet integration eCheck single page checkout
   In order to have a fast and easy checkout

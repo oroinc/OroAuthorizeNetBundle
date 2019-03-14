@@ -1,5 +1,6 @@
 @regression
 @fixture-OroFlatRateShippingBundle:FlatRateIntegration.yml
+@fixture-OroCheckoutBundle:Shipping.yml
 @fixture-OroAuthorizeNetBundle:AuthorizeNetFixture.yml
 Feature: AuthorizeNet integration Single Page Checkout
   ToDo: BAP-16103 Add missing descriptions to the Behat features
