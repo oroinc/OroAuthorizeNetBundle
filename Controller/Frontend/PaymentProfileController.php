@@ -8,6 +8,7 @@ use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfigInterface;
 use Oro\Bundle\AuthorizeNetBundle\Model\DTO\PaymentProfileDTO;
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
+use Oro\Bundle\SecurityBundle\Annotation\CsrfProtection;
 use Oro\Bundle\UIBundle\Route\Router;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -103,6 +104,8 @@ class PaymentProfileController extends Controller
 
     /**
      * @Route("/delete/{id}", name="oro_authorize_net_payment_profile_frontend_delete", requirements={"id"="\d+"})
+     * @Method("DELETE")
+     * @CsrfProtection()
      * @Acl(
      *      id="oro_authorize_net_payment_profile_frontend_delete",
      *      type="entity",
@@ -133,6 +136,7 @@ class PaymentProfileController extends Controller
     /**
      * @Route("/delete-all/{id}", name="oro_authorize_net_payment_profile_frontend_delete_all",requirements={"id"="\d+"})
      * @Method("DELETE")
+     * @CsrfProtection()
      * @Acl(
      *      id="oro_authorize_net_customer_profile_frontend_delete",
      *      type="entity",
