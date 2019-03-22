@@ -3,6 +3,8 @@
 namespace Oro\Bundle\AuthorizeNetBundle\Controller;
 
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
+use Oro\Bundle\SecurityBundle\Annotation\CsrfProtection;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -17,6 +19,8 @@ class SettingsController extends Controller
     /**
      * @Route(name="oro_authorize_net_settings_check_credentials", path="/check-credentials")
      * @AclAncestor("oro_authorize_net_settings_edit")
+     * @Method("POST")
+     * @CsrfProtection()
      */
     public function checkCredentialsAction(Request $request)
     {
