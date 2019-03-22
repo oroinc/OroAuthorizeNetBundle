@@ -113,7 +113,6 @@ class AuthorizeNetSettingsType extends AbstractType
             ->add('transactionKey', OroEncodedPlaceholderPasswordType::class, [
                 'label' => 'oro.authorize_net.settings.transaction_key.label',
                 'required' => true,
-                'attr' => ['autocomplete' => 'new-password'],
             ])
             ->add('clientKey', TextType::class, [
                 'label' => 'oro.authorize_net.settings.client_key.label',
