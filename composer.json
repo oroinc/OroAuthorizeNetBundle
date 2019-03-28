@@ -14,7 +14,7 @@
     "exclude-from-classmap": ["/Tests/"]
   },
   "require": {
-    "oro/commerce": "3.1.*",
+    "oro/commerce": "4.0.*",
     "authorizenet/authorizenet": "~1.9.2"
   },
   "repositories": {
@@ -31,7 +31,7 @@
   "prefer-stable": true,
   "extra": {
     "branch-alias": {
-      "dev-master": "3.1-dev"
+      "dev-master": "4.0-dev"
     }
   }
 }
