@@ -78,7 +78,6 @@ class CreditCardType extends AbstractType
                     'data-card-cvv' => true,
                     'data-sensitive-data' => true,
                     'placeholder' => false,
-                    'autocomplete' => 'new-password'
                 ]
             ]);
         }
