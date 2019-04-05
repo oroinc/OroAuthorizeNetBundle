@@ -3,7 +3,7 @@ datagrids:
         extended_entity_name: '%oro_authorize_net.entity.customer_payment_profile.class%'
         options:
             frontend: true
-            entityHint: payment profiles
+            entityHint: oro.authorize_net.frontend.payment_profile.datagrid.base-frontend-payment-profiles-grid.entity_hint
             entity_pagination: true
             mass_actions:
                 delete:
@@ -68,13 +68,13 @@ datagrids:
     frontend-creditcard-payment-profiles-grid:
         extends: base-frontend-payment-profiles-grid
         options:
-            entityHint: credit card payment profiles
+            entityHint: oro.authorize_net.frontend.payment_profile.datagrid.frontend-creditcard-payment-profiles-grid.entity_hint
 
     frontend-echeck-payment-profiles-grid:
         extends: base-frontend-payment-profiles-grid
         options:
-            entityHint: echeck payment profiles
+            entityHint: oro.authorize_net.frontend.payment_profile.datagrid.frontend-echeck-payment-profiles-grid.entity_hint
         columns:
             lastDigits:
-                label: oro.authorize_net.frontend.payment_profile.fields.last_account_digits.label
+                label: oro.authorize_net.frontend.payment_profile.datagrid.fields.last_account_digits.label
                 shortenableLabel: false
