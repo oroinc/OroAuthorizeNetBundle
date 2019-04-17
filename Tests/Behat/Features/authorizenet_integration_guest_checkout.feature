@@ -2,7 +2,7 @@
 @ticket-BB-13976
 @fixture-OroFlatRateShippingBundle:FlatRateIntegration.yml
 @fixture-OroCheckoutBundle:Shipping.yml
-@fixture-OroAuthorizeNetBundle:AuthorizeNetFixture.yml
+@fixture-OroPaymentBundle:ProductsAndShoppingListsForPayments.yml
 Feature: AuthorizeNet integration guest Checkout
   In order to purchase goods using Authorize.Net payment system
   As a Guest customer
