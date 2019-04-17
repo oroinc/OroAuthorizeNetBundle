@@ -1,7 +1,7 @@
 @regression
 @ticket-ANET-29
 @fixture-OroFlatRateShippingBundle:FlatRateIntegration.yml
-@fixture-OroAuthorizeNetBundle:AuthorizeNetFixture.yml
+@fixture-OroPaymentBundle:ProductsAndShoppingListsForPayments.yml
 Feature: AuthorizeNet integration CIM
   In order to have a fast and easy checkout
   As a Customer

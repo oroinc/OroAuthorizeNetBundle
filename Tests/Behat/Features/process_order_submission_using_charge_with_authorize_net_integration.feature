@@ -1,6 +1,6 @@
 @regression
 @fixture-OroFlatRateShippingBundle:FlatRateIntegration.yml
-@fixture-OroAuthorizeNetBundle:AuthorizeNetFixture.yml
+@fixture-OroPaymentBundle:ProductsAndShoppingListsForPayments.yml
 Feature: Process order submission using Charge with Authorize_Net integration
   ToDo: BAP-16103 Add missing descriptions to the Behat features
 
