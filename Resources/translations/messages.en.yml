@@ -2,6 +2,7 @@ oro:
     authorizenet:
         customerprofile.entity_label: 'Customer Profile'
         customerpaymentprofile.entity_label: 'Customer Payment Profile'
+        customerpaymentprofile.entity_plural_label: 'Customer Payment Profiles'
     authorize_net:
         settings:
             label: 'Authorize.Net'
@@ -96,6 +97,10 @@ oro:
 
         frontend:
             payment_profile:
+                datagrid:
+                    base-frontend-payment-profiles-grid.entity_hint: Payment Profiles
+                    frontend-creditcard-payment-profiles-grid.entity_hint: Credit card payment profiles
+                    frontend-echeck-payment-profiles-grid.entity_hint: Echeck payment profiles
                 form:
                     fields:
                         default.label: 'Set as default'
