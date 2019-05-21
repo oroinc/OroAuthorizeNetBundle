@@ -32,7 +32,7 @@
 
     {%- set type = type|default('text') -%}
     <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
-    <a href="javascript: void(0);"
+    <a href="#"
            data-toggle="tooltip"
            data-title="{{ 'oro.authorize_net.credit_card.tooltip'|trans }}"
            data-html="true"
@@ -60,7 +60,7 @@
         <span class="custom-checkbox__text">
             {{ label|trans }}
 
-            <a href="javascript: void(0);"
+            <a href="#"
             data-toggle="tooltip"
             data-title="{{ tooltip|trans }}"
             data-container="body"
