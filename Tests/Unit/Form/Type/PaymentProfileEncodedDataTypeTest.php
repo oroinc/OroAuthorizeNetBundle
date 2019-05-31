@@ -51,6 +51,7 @@ class PaymentProfileEncodedDataTypeTest extends FormIntegrationTestCase
 
         $form->submit($submittedData);
         $this->assertEquals($isValid, $form->isValid());
+        $this->assertTrue($form->isSynchronized());
         $this->assertEquals($expectedData, $form->getData());
     }
 
