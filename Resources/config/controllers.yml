@@ -1,0 +1,15 @@
+services:
+    _defaults:
+        public: true
+
+    Oro\Bundle\AuthorizeNetBundle\Controller\SettingsController:
+        calls:
+            - [setContainer, ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }
+
+    Oro\Bundle\AuthorizeNetBundle\Controller\Frontend\PaymentProfileController:
+        calls:
+            - [setContainer, ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }

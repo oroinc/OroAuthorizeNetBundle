@@ -21,6 +21,7 @@ class OroAuthorizeNetExtension extends Extension
         $loader->load('form_types.yml');
         $loader->load('method.yml');
         $loader->load('authorize_net.yml');
+        $loader->load('controllers.yml');
     }
 
     /**

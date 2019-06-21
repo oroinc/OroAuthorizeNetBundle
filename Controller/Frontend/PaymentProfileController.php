@@ -4,23 +4,31 @@ namespace Oro\Bundle\AuthorizeNetBundle\Controller\Frontend;
 
 use Oro\Bundle\AuthorizeNetBundle\Entity\CustomerPaymentProfile;
 use Oro\Bundle\AuthorizeNetBundle\Entity\CustomerProfile;
+use Oro\Bundle\AuthorizeNetBundle\Form\Handler\PaymentProfileHandler;
+use Oro\Bundle\AuthorizeNetBundle\Handler\CustomerPaymentProfileDeleteHandler;
+use Oro\Bundle\AuthorizeNetBundle\Handler\CustomerProfileDeleteHandler;
+use Oro\Bundle\AuthorizeNetBundle\Layout\DataProvider\PaymentProfileDTOFormProvider;
 use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfigInterface;
 use Oro\Bundle\AuthorizeNetBundle\Model\DTO\PaymentProfileDTO;
+use Oro\Bundle\AuthorizeNetBundle\Provider\CIMEnabledIntegrationConfigProvider;
+use Oro\Bundle\AuthorizeNetBundle\Provider\CustomerProfileProvider;
+use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\CsrfProtection;
 use Oro\Bundle\UIBundle\Route\Router;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Frontend controller for payment profile management
  */
-class PaymentProfileController extends Controller
+class PaymentProfileController extends AbstractController
 {
     /**
      * @Route("/", name="oro_authorize_net_payment_profile_frontend_index")
@@ -40,10 +48,10 @@ class PaymentProfileController extends Controller
         $this->assertCIMEnabled();
         $config = $this->getCimEnabledConfig();
 
-        $customerProfile = $this->get('oro_authorize_net.provider.customer_profile')->findCustomerProfile();
+        $customerProfile = $this->get(CustomerProfileProvider::class)->findCustomerProfile();
 
         return [
-            'entity_class' => $this->getParameter('oro_authorize_net.entity.customer_payment_profile.class'),
+            'entity_class' => CustomerPaymentProfile::class,
             'eCheckEnabled' => $config ? $config->isECheckEnabled() : false,
             'data' => [
                 'customerProfile' => $customerProfile
@@ -121,13 +129,15 @@ class PaymentProfileController extends Controller
     {
         $this->assertCIMEnabled();
         $successfull = true;
-        $message = $this->get('translator')->trans('oro.authorize_net.frontend.payment_profile.message.deleted');
+
+        $translator = $this->get(TranslatorInterface::class);
+        $message = $translator->trans('oro.authorize_net.frontend.payment_profile.message.deleted');
+
         try {
-            $this->get('oro_authorize_net.handler.delete.customer_payment_profile')->handleDelete($paymentProfile);
+            $this->get(CustomerPaymentProfileDeleteHandler::class)->handleDelete($paymentProfile);
         } catch (\Exception $exception) {//catch api error
             $successfull = false;
-            $message = $this->get('translator')
-                ->trans('oro.authorize_net.frontend.payment_profile.message.grid_not_deleted');
+            $message = $translator->trans('oro.authorize_net.frontend.payment_profile.message.grid_not_deleted');
         }
 
         return new JsonResponse(['successful' => $successfull, 'message' => $message]);
@@ -154,7 +164,7 @@ class PaymentProfileController extends Controller
         $responseCode = JsonResponse::HTTP_NO_CONTENT;
 
         try {
-            $this->get('oro_authorize_net.handler.delete.customer_profile')->handleDelete($customerProfile);
+            $this->get(CustomerProfileDeleteHandler::class)->handleDelete($customerProfile);
         } catch (\Exception $exception) {//catch api error
             $responseCode = JsonResponse::HTTP_INTERNAL_SERVER_ERROR;
         }
@@ -167,7 +177,7 @@ class PaymentProfileController extends Controller
      */
     private function getCimEnabledConfig()
     {
-        $configProvider = $this->get('oro_authorize_net.provider.cim_enabled_integration_config');
+        $configProvider = $this->get(CIMEnabledIntegrationConfigProvider::class);
 
         return $configProvider->getConfig();
     }
@@ -199,11 +209,11 @@ class PaymentProfileController extends Controller
         $request->attributes->set(Router::ACTION_PARAMETER, \json_encode($actionParams));
 
         $form = $this
-            ->get('oro_authorize_net.layout.data_provider.payment_profile_dto_form')
+            ->get(PaymentProfileDTOFormProvider::class)
             ->getPaymentProfileDTOForm($paymentProfileDTO);
 
-        $formHandler = $this->get('oro_authorize_net.form.handler.payment_profile');
-        $updateHandler = $this->get('oro_form.update_handler');
+        $formHandler = $this->get(PaymentProfileHandler::class);
+        $updateHandler = $this->get(UpdateHandlerFacade::class);
 
         $result = $updateHandler->update(
             $paymentProfileDTO,
@@ -219,6 +229,23 @@ class PaymentProfileController extends Controller
 
         return [
             'data' => $result
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getSubscribedServices()
+    {
+        return [
+            TranslatorInterface::class,
+            CustomerProfileProvider::class,
+            CustomerPaymentProfileDeleteHandler::class,
+            CustomerProfileDeleteHandler::class,
+            CIMEnabledIntegrationConfigProvider::class,
+            PaymentProfileDTOFormProvider::class,
+            PaymentProfileHandler::class,
+            UpdateHandlerFacade::class,
         ];
     }
 }

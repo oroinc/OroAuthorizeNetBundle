@@ -82,6 +82,9 @@ services:
         tags:
             - { name: layout.data_provider, alias: oro_authorize_net_payment_profile_dto_form }
 
+    Oro\Bundle\AuthorizeNetBundle\Layout\DataProvider\PaymentProfileDTOFormProvider:
+        alias: oro_authorize_net.layout.data_provider.payment_profile_dto_form
+
     oro_authorize_net.form.handler.payment_profile:
         class: Oro\Bundle\AuthorizeNetBundle\Form\Handler\PaymentProfileHandler
         parent: oro_form.form.handler.default
@@ -92,6 +95,9 @@ services:
             - '@translator'
             - '@oro_authorize_net.provider.integration'
             - '@oro_authorize_net.provider.customer_profile'
+
+    Oro\Bundle\AuthorizeNetBundle\Form\Handler\PaymentProfileHandler:
+        alias: oro_authorize_net.form.handler.payment_profile
 
     oro_authorize_net.helper.merchant_customer_id_generator:
         class: Oro\Bundle\AuthorizeNetBundle\Helper\MerchantCustomerIdGenerator
@@ -119,6 +125,9 @@ services:
             - '@oro_authorize_net.method.config.provider.cim_enabled_config_provider'
             - '@oro_website.manager'
 
+    Oro\Bundle\AuthorizeNetBundle\Provider\CIMEnabledIntegrationConfigProvider:
+        alias: oro_authorize_net.provider.cim_enabled_integration_config
+
     oro_authorize_net.handler.delete.abstract_profile:
         abstract: true
         public: true
@@ -130,9 +139,15 @@ services:
         class: 'Oro\Bundle\AuthorizeNetBundle\Handler\CustomerPaymentProfileDeleteHandler'
         parent: oro_authorize_net.handler.delete.abstract_profile
 
+    Oro\Bundle\AuthorizeNetBundle\Handler\CustomerPaymentProfileDeleteHandler:
+        alias: oro_authorize_net.handler.delete.customer_payment_profile
+
     oro_authorize_net.handler.delete.customer_profile:
         class: 'Oro\Bundle\AuthorizeNetBundle\Handler\CustomerProfileDeleteHandler'
         parent: oro_authorize_net.handler.delete.abstract_profile
+
+    Oro\Bundle\AuthorizeNetBundle\Handler\CustomerProfileDeleteHandler:
+        alias: oro_authorize_net.handler.delete.customer_profile
 
     oro_authorize_net.provider.customer_profile:
         class: 'Oro\Bundle\AuthorizeNetBundle\Provider\CustomerProfileProvider'
@@ -141,6 +156,9 @@ services:
             - '@oro_entity.doctrine_helper'
             - '@oro_authorize_net.provider.integration'
             - '@oro_security.token_accessor'
+
+    Oro\Bundle\AuthorizeNetBundle\Provider\CustomerProfileProvider:
+        alias: oro_authorize_net.provider.customer_profile
 
     oro_authorize_net.provider.payment_profile:
         class: 'Oro\Bundle\AuthorizeNetBundle\Provider\PaymentProfileProvider'
@@ -166,11 +184,17 @@ services:
         arguments:
             - '@oro_authorize_net.authorize_net.gateway'
 
+    Oro\Bundle\AuthorizeNetBundle\Service\AuthenticationCredentialsValidator:
+        alias: oro_authorize_net.service.authentication_credentials_validator_service
+
     oro_authorize_net.service.transaction_key_value_provider:
         class: Oro\Bundle\AuthorizeNetBundle\Service\TransactionKeyValueProvider
         arguments:
             - '@doctrine'
             - '@oro_security.encoder.default'
+
+    Oro\Bundle\AuthorizeNetBundle\Service\TransactionKeyValueProvider:
+        alias: oro_authorize_net.service.transaction_key_value_provider
 
     oro_authorize_net.event_listener.payment_profile_grid_listener:
         class: 'Oro\Bundle\AuthorizeNetBundle\EventListener\PaymentProfileGridListener'
