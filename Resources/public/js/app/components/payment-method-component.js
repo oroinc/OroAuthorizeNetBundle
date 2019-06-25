@@ -87,18 +87,18 @@ define(function(require) {
 
             this.$el
                 .on(
-                    'focusout',
+                    'focusout.' + this.cid,
                     this.options.selectors.cardNumber,
-                    $.proxy(this.validate, this, this.options.selectors.cardNumber)
+                    this.validate.bind(this, this.options.selectors.cardNumber)
                 )
                 .on(
-                    'keyup focusout',
+                    ['keyup.' + this.cid, 'focusout.' + this.cid].join(' '),
                     this.options.selectors.cvv,
-                    $.proxy(this.validate, this, this.options.selectors.cvv)
+                    this.validate.bind(this, this.options.selectors.cvv)
                 ).on(
-                    'keyup focusout',
+                    ['keyup.' + this.cid, 'focusout.' + this.cid].join(' '),
                     this.options.selectors.profileCvv,
-                    $.proxy(this.validate, this, this.options.selectors.profileCvv)
+                    this.validate.bind(this, this.options.selectors.profileCvv)
                 );
 
             mediator.on('checkout:payment:method:changed', this.onPaymentMethodChanged, this);
@@ -109,7 +109,7 @@ define(function(require) {
             this.$paymentDataForm = this.$form.find(this.options.selectors.paymentDataForm);
             this.$profileSelector = this.$form.find(this.options.selectors.profileSelector);
             this.$profileCvv = this.$form.find(this.options.selectors.profileCvv);
-            this.$profileSelector.on('change', _.bind(this.onProfileChanged, this));
+            this.$profileSelector.on('change.' + this.cid, this.onProfileChanged.bind(this));
             this.onProfileChanged();
             this.onPaymentMethodAlreadySelected();
         },
@@ -149,8 +149,8 @@ define(function(require) {
                 return;
             }
 
-            this.$el.off();
-            this.$profileSelector.off();
+            this.$el.off('.' + this.cid);
+            this.$profileSelector.off('.' + this.cid);
 
             mediator.off('checkout-content:initialized', this.refreshPaymentMethod, this);
             mediator.off('checkout:payment:method:changed', this.onPaymentMethodChanged, this);
