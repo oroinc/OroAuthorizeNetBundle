@@ -5,7 +5,7 @@ namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\Form\Type;
 use Oro\Bundle\AuthorizeNetBundle\Form\Type\BankAccountType;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
 use Oro\Component\Testing\Unit\PreloadedExtension;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class BankAccountTypeTest extends FormIntegrationTestCase
 {

@@ -73,10 +73,10 @@ class AddressInfoProviderTest extends \PHPUnit\Framework\TestCase
         $orderAddress->setOrganization('Oro');
         $orderAddress->setStreet('Elm');
         $orderAddress->setCountry(
-            $this->getEntity(Country::class, ['iso2Code' => 'US', 'iso3Code' => 'USA'])
+            $this->getEntity(Country::class, ['iso3Code' => 'USA'], ['US'])
         );
         $orderAddress->setRegion(
-            $this->getEntity(Region::class, ['code' => 'CA', 'name' => 'California'])
+            $this->getEntity(Region::class, ['name' => 'California'], ['CA'])
         );
         $orderAddress->setPostalCode('01001');
         $orderAddress->setCity('Los Angeles');
@@ -108,10 +108,10 @@ class AddressInfoProviderTest extends \PHPUnit\Framework\TestCase
         $orderAddress->setOrganization('Oro');
         $orderAddress->setStreet('Elm');
         $orderAddress->setCountry(
-            $this->getEntity(Country::class, ['iso2Code' => 'US', 'iso3Code' => 'USA'])
+            $this->getEntity(Country::class, ['iso3Code' => 'USA'], ['US'])
         );
         $orderAddress->setRegion(
-            $this->getEntity(Region::class, ['code' => 'CA', 'name' => 'California'])
+            $this->getEntity(Region::class, ['name' => 'California'], ['CA'])
         );
         $orderAddress->setPostalCode('01001');
         $orderAddress->setCity('Los Angeles');
@@ -171,10 +171,10 @@ class AddressInfoProviderTest extends \PHPUnit\Framework\TestCase
         $orderAddress->setPostalCode($hundredLetterPhrase);
 
         $orderAddress->setCountry(
-            $this->getEntity(Country::class, ['iso2Code' => 'US', 'iso3Code' => 'USA'])
+            $this->getEntity(Country::class, ['iso3Code' => 'USA'], ['US'])
         );
         $orderAddress->setRegion(
-            $this->getEntity(Region::class, ['code' => 'CA', 'name' => 'California'])
+            $this->getEntity(Region::class, ['name' => 'California'], ['CA'])
         );
 
         $this->addressExtractor
@@ -206,10 +206,10 @@ class AddressInfoProviderTest extends \PHPUnit\Framework\TestCase
         $orderAddress->setPostalCode($hundredLetterPhrase);
 
         $orderAddress->setCountry(
-            $this->getEntity(Country::class, ['iso2Code' => 'US', 'iso3Code' => 'USA'])
+            $this->getEntity(Country::class, ['iso3Code' => 'USA'], ['US'])
         );
         $orderAddress->setRegion(
-            $this->getEntity(Region::class, ['code' => 'CA', 'name' => 'California'])
+            $this->getEntity(Region::class, ['name' => 'California'], ['CA'])
         );
 
         $this->addressExtractor

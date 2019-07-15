@@ -9,7 +9,7 @@ use Oro\Bundle\AuthorizeNetBundle\Model\DTO\PaymentProfileAddressDTO;
 use Oro\Component\Testing\Unit\AddressFormExtensionTestCase;
 use Oro\Component\Testing\Unit\Form\EventListener\Stub\AddressCountryAndRegionSubscriberStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PaymentProfileAddressTypeTest extends AddressFormExtensionTestCase
 {
