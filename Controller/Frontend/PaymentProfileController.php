@@ -17,12 +17,11 @@ use Oro\Bundle\LayoutBundle\Annotation\Layout;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\CsrfProtection;
 use Oro\Bundle\UIBundle\Route\Router;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -111,8 +110,12 @@ class PaymentProfileController extends AbstractController
     }
 
     /**
-     * @Route("/delete/{id}", name="oro_authorize_net_payment_profile_frontend_delete", requirements={"id"="\d+"})
-     * @Method("DELETE")
+     * @Route(
+     *     "/delete/{id}",
+     *     name="oro_authorize_net_payment_profile_frontend_delete",
+     *     requirements={"id"="\d+"},
+     *     methods={"DELETE"}
+     * )
      * @CsrfProtection()
      * @Acl(
      *      id="oro_authorize_net_payment_profile_frontend_delete",
@@ -144,8 +147,12 @@ class PaymentProfileController extends AbstractController
     }
 
     /**
-     * @Route("/delete-all/{id}", name="oro_authorize_net_payment_profile_frontend_delete_all",requirements={"id"="\d+"})
-     * @Method("DELETE")
+     * @Route(
+     *     "/delete-all/{id}",
+     *     name="oro_authorize_net_payment_profile_frontend_delete_all",
+     *     requirements={"id"="\d+"},
+     *     methods={"DELETE"}
+     * )
      * @CsrfProtection()
      * @Acl(
      *      id="oro_authorize_net_customer_profile_frontend_delete",
