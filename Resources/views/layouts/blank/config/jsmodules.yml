@@ -1,0 +1,5 @@
+dynamic-imports:
+    oroauthorizenet:
+        - oroauthorizenet/js/app/components/order-review-component
+        - oroauthorizenet/js/app/components/payment-method-component
+        - oroauthorizenet/js/app/components/payment-profile-component

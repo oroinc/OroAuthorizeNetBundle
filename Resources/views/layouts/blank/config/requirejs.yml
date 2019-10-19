@@ -1,9 +1,0 @@
-config:
-    paths:
-        'oroauthorizenet/js/app/components/payment-method-component': 'bundles/oroauthorizenet/js/app/components/payment-method-component.js'
-        'oroauthorizenet/js/app/components/order-review-component': 'bundles/oroauthorizenet/js/app/components/order-review-component.js'
-        'oroauthorizenet/js/app/components/payment-profile-component': 'bundles/oroauthorizenet/js/app/components/payment-profile-component.js'
-
-build:
-    paths:
-        'oroauthorizenet/js/stubs/AcceptStub': 'empty:'

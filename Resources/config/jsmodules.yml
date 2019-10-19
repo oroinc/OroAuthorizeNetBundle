@@ -1,0 +1,3 @@
+dynamic-imports:
+    oroauthorizenet:
+        - oroauthorizenet/js/app/components/check-credentials-component

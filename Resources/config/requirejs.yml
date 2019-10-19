@@ -1,3 +1,0 @@
-config:
-    paths:
-        'oroauthorizenet/js/app/components/check-credentials-component': 'bundles/oroauthorizenet/js/app/components/check-credentials-component.js'

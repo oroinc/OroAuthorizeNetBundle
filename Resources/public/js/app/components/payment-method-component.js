@@ -6,6 +6,7 @@ define(function(require) {
     var _ = require('underscore');
     var __ = require('orotranslation/js/translator');
     var $ = require('jquery');
+    var scriptjs = require('scriptjs');
     var mediator = require('oroui/js/mediator');
     var BaseComponent = require('oroui/js/app/components/base/component');
     require('jquery.validate');
@@ -342,10 +343,10 @@ define(function(require) {
 
         loadAcceptJsLibrary: function() {
             var acceptJsUrl = this.options.testMode ? this.options.acceptJsUrls.test : this.options.acceptJsUrls.prod;
-            var self = this;
-            require([acceptJsUrl], function() {
-                self.acceptJs = Accept;
-            });
+
+            scriptjs(acceptJsUrl, function() {
+                this.acceptJs = Accept;
+            }.bind(this));
         },
 
         /**
