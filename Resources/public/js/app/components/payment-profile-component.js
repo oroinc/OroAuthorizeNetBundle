@@ -2,16 +2,15 @@
 define(function(require) {
     'use strict';
 
-    var PaymentProfileComponent;
-    var _ = require('underscore');
-    var __ = require('orotranslation/js/translator');
-    var $ = require('jquery');
-    var scriptjs = require('scriptjs');
-    var mediator = require('oroui/js/mediator');
-    var BaseComponent = require('oroui/js/app/components/base/component');
+    const _ = require('underscore');
+    const __ = require('orotranslation/js/translator');
+    const $ = require('jquery');
+    const scriptjs = require('scriptjs');
+    const mediator = require('oroui/js/mediator');
+    const BaseComponent = require('oroui/js/app/components/base/component');
     require('jquery.validate');
 
-    PaymentProfileComponent = BaseComponent.extend({
+    const PaymentProfileComponent = BaseComponent.extend({
         /**
          * @property {Object}
          */
@@ -73,8 +72,8 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function PaymentProfileComponent() {
-            PaymentProfileComponent.__super__.constructor.apply(this, arguments);
+        constructor: function PaymentProfileComponent(options) {
+            PaymentProfileComponent.__super__.constructor.call(this, options);
         },
 
         /**
@@ -108,33 +107,33 @@ define(function(require) {
          * @param {Object} eventData
          */
         onSubmit: function(eventData) {
-            var processForm = this.$el.find(this.options.selectors.updatePaymentData).prop('checked');
+            const processForm = this.$el.find(this.options.selectors.updatePaymentData).prop('checked');
 
             if (this.submitted || !processForm) { // prevent processing
                 return;
             }
 
-            var self = this;
-            var form = this.$form;
+            const self = this;
+            const form = this.$form;
 
             if (form.valid()) {
                 mediator.execute('showLoading');
 
-                var data = {
+                const data = {
                     authData: {
                         clientKey: this.options.clientKey,
                         apiLoginID: this.options.apiLoginID
                     }
                 };
 
-                var $cardNumber = form.find(this.options.selectors.cardNumber);
+                const $cardNumber = form.find(this.options.selectors.cardNumber);
                 if ($cardNumber.length) {
-                    var cardData = {
+                    const cardData = {
                         cardNumber: $cardNumber.val(),
                         month: form.find(this.options.selectors.month).val(),
                         year: form.find(this.options.selectors.year).val()
                     };
-                    var $cvv = form.find(this.options.selectors.cvv);
+                    const $cvv = form.find(this.options.selectors.cvv);
                     if ($cvv.length) {
                         cardData.cardCode = $cvv.val();
                     }
@@ -142,9 +141,9 @@ define(function(require) {
                     data.cardData = cardData;
                 }
 
-                var $accountType = form.find(this.options.selectors.accountType);
+                const $accountType = form.find(this.options.selectors.accountType);
                 if ($accountType.length) {
-                    var bankData = {
+                    const bankData = {
                         accountType: $accountType.val(),
                         accountNumber: form.find(this.options.selectors.accountNumber).val(),
                         routingNumber: form.find(this.options.selectors.routingNumber).val(),
@@ -166,7 +165,7 @@ define(function(require) {
         },
 
         loadAcceptJsLibrary: function() {
-            var acceptJsUrl = this.options.testMode ? this.options.acceptJsUrls.test : this.options.acceptJsUrls.prod;
+            const acceptJsUrl = this.options.testMode ? this.options.acceptJsUrls.test : this.options.acceptJsUrls.prod;
 
             scriptjs(acceptJsUrl, function() {
                 this.acceptJs = Accept;
@@ -181,7 +180,7 @@ define(function(require) {
                 !response.opaqueData.dataDescriptor || !response.opaqueData.dataValue
             ) {
                 this.logError(response);
-                var reasons = response.messages.message.map(function(item) {
+                const reasons = response.messages.message.map(function(item) {
                     return item.text;
                 });
                 mediator.execute(
@@ -190,7 +189,7 @@ define(function(require) {
                     __(this.options.messages.communication_err, {reasons: reasons.join(', ')})
                 );
             } else {
-                var additionalData = {
+                const additionalData = {
                     dataDescriptor: response.opaqueData.dataDescriptor,
                     dataValue: response.opaqueData.dataValue
                 };
@@ -207,19 +206,19 @@ define(function(require) {
          * @param {Object} additionalData
          */
         setAdditionalData: function(additionalData) {
-            var selectors = this.options.selectors;
-            var form = this.$form;
+            const selectors = this.options.selectors;
+            const form = this.$form;
 
             form.find(selectors.dataDescriptor).val(additionalData.dataDescriptor);
             form.find(selectors.dataValue).val(additionalData.dataValue);
 
-            var lastDigits = form.find(selectors.lastDigitsSource).val().slice(-4);
+            const lastDigits = form.find(selectors.lastDigitsSource).val().slice(-4);
             form.find(selectors.lastDigits).val(lastDigits);
         },
 
         eraseSensitiveData: function() {
-            var selectors = this.options.selectors;
-            var form = this.$form;
+            const selectors = this.options.selectors;
+            const form = this.$form;
 
             // prevent sending sensitive data to server
             form.find(selectors.sensitiveData).prop('disabled', true);

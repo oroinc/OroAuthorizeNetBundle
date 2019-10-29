@@ -2,16 +2,15 @@
 define(function(require) {
     'use strict';
 
-    var PaymentMethodComponent;
-    var _ = require('underscore');
-    var __ = require('orotranslation/js/translator');
-    var $ = require('jquery');
-    var scriptjs = require('scriptjs');
-    var mediator = require('oroui/js/mediator');
-    var BaseComponent = require('oroui/js/app/components/base/component');
+    const _ = require('underscore');
+    const __ = require('orotranslation/js/translator');
+    const $ = require('jquery');
+    const scriptjs = require('scriptjs');
+    const mediator = require('oroui/js/mediator');
+    const BaseComponent = require('oroui/js/app/components/base/component');
     require('jquery.validate');
 
-    PaymentMethodComponent = BaseComponent.extend({
+    const PaymentMethodComponent = BaseComponent.extend({
         /**
          * @property {Object}
          */
@@ -68,8 +67,8 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function PaymentMethodComponent() {
-            PaymentMethodComponent.__super__.constructor.apply(this, arguments);
+        constructor: function PaymentMethodComponent(options) {
+            PaymentMethodComponent.__super__.constructor.call(this, options);
         },
 
         /**
@@ -124,7 +123,7 @@ define(function(require) {
         },
 
         _isPaymentDataProcessing: function() {
-            var result = true;
+            let result = true;
             if (this.$profileSelector.length) {
                 result = this.$profileSelector.val() === '';
             }
@@ -165,12 +164,12 @@ define(function(require) {
          * @param {String} elementSelector
          */
         validate: function(elementSelector) {
-            var appendElement;
-            var self = this;
+            let appendElement;
+            const self = this;
 
             if (elementSelector) {
-                var element = this.$form.find(elementSelector);
-                var parentForm = element.closest('form');
+                const element = this.$form.find(elementSelector);
+                const parentForm = element.closest('form');
 
                 if (elementSelector !== this.options.selectors.expirationDate && parentForm.length) {
                     return this._validateFormField(this.$form, element);
@@ -180,7 +179,7 @@ define(function(require) {
                 appendElement = this.$form.clone();
             }
 
-            var virtualForm = $('<form>');
+            const virtualForm = $('<form>');
             virtualForm.append(appendElement);
 
             if (this.$paymentDataForm.is(':visible')) { // remove invisible fields
@@ -195,11 +194,11 @@ define(function(require) {
                 $(item).val(self.$form.find('#' + item.id).val());
             });
 
-            var validator = virtualForm.validate({
+            const validator = virtualForm.validate({
                 ignore: '', // required to validate all fields in virtual form
                 errorPlacement: function(error, element) {
-                    var $el = self.$form.find('#' + $(element).attr('id'));
-                    var parentWithValidation = $el.parents(self.options.selectors.validation);
+                    const $el = self.$form.find('#' + $(element).attr('id'));
+                    const parentWithValidation = $el.parents(self.options.selectors.validation);
 
                     $el.addClass('error');
 
@@ -214,7 +213,7 @@ define(function(require) {
             // Add validator to form
             $.data(virtualForm, 'validator', validator);
 
-            var errors;
+            let errors;
 
             if (elementSelector) {
                 errors = this.$form.find(elementSelector).parent();
@@ -263,24 +262,24 @@ define(function(require) {
         _processWithPaymentData: function(eventData) {
             mediator.execute('showLoading');
 
-            var self = this;
-            var form = this.$form;
+            const self = this;
+            const form = this.$form;
 
-            var data = {
+            const data = {
                 authData: {
                     clientKey: this.options.clientKey,
                     apiLoginID: this.options.apiLoginID
                 }
             };
 
-            var $cardNumber = form.find(this.options.selectors.cardNumber);
+            const $cardNumber = form.find(this.options.selectors.cardNumber);
             if ($cardNumber.length) {
-                var cardData = {
+                const cardData = {
                     cardNumber: $cardNumber.val(),
                     month: form.find(this.options.selectors.month).val(),
                     year: form.find(this.options.selectors.year).val()
                 };
-                var $cvv = form.find(this.options.selectors.cvv);
+                const $cvv = form.find(this.options.selectors.cvv);
                 if ($cvv.length) {
                     cardData.cardCode = $cvv.val();
                 }
@@ -288,9 +287,9 @@ define(function(require) {
                 data.cardData = cardData;
             }
 
-            var $accountType = form.find(this.options.selectors.accountType);
+            const $accountType = form.find(this.options.selectors.accountType);
             if ($accountType.length) {
-                var bankData = {
+                const bankData = {
                     accountType: $accountType.val(),
                     accountNumber: form.find(this.options.selectors.accountNumber).val(),
                     routingNumber: form.find(this.options.selectors.routingNumber).val(),
@@ -312,11 +311,11 @@ define(function(require) {
          * @param {Object} eventData
          */
         _processWithProfile: function(eventData) {
-            var additionalData = {
+            const additionalData = {
                 profileId: this.$profileSelector.val()
             };
 
-            var $profileCvvField = this.$form.find(this.options.selectors.profileCvvField);
+            const $profileCvvField = this.$form.find(this.options.selectors.profileCvvField);
             if ($profileCvvField.length) {
                 additionalData.cvv = $profileCvvField.val();
             }
@@ -342,7 +341,7 @@ define(function(require) {
         },
 
         loadAcceptJsLibrary: function() {
-            var acceptJsUrl = this.options.testMode ? this.options.acceptJsUrls.test : this.options.acceptJsUrls.prod;
+            const acceptJsUrl = this.options.testMode ? this.options.acceptJsUrls.test : this.options.acceptJsUrls.prod;
 
             scriptjs(acceptJsUrl, function() {
                 this.acceptJs = Accept;
@@ -358,7 +357,7 @@ define(function(require) {
                 !response.opaqueData.dataDescriptor || !response.opaqueData.dataValue
             ) {
                 this.logError(response);
-                var reasons = response.messages.message.map(function(item) {
+                const reasons = response.messages.message.map(function(item) {
                     return item.text;
                 });
                 mediator.execute(
@@ -367,12 +366,12 @@ define(function(require) {
                     __(this.options.messages.communication_err, {reasons: reasons.join(', ')})
                 );
             } else {
-                var additionalData = {
+                const additionalData = {
                     dataDescriptor: response.opaqueData.dataDescriptor,
                     dataValue: response.opaqueData.dataValue
                 };
 
-                var $saveProfile = this.$form.find(this.options.selectors.saveProfile);
+                const $saveProfile = this.$form.find(this.options.selectors.saveProfile);
                 if ($saveProfile.length) {
                     additionalData.saveProfile = $saveProfile.prop('checked');
                 }

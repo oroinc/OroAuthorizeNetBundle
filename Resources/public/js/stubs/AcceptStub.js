@@ -2,7 +2,7 @@
     'use strict';
     window.Accept = {
         dispatchData: function(request, callback) {
-            var result;
+            let result;
             if (request.bankData) {
                 result = this.processBankRequest();
             } else {

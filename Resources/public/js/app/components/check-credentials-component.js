@@ -1,11 +1,11 @@
 define(function(require) {
-    var $ = require('jquery');
-    var _ = require('underscore');
-    var __ = require('orotranslation/js/translator');
-    var routing = require('routing');
-    var BaseComponent = require('oroui/js/app/components/base/component');
+    const $ = require('jquery');
+    const _ = require('underscore');
+    const __ = require('orotranslation/js/translator');
+    const routing = require('routing');
+    const BaseComponent = require('oroui/js/app/components/base/component');
 
-    var CheckCredentialsComponent = BaseComponent.extend({
+    const CheckCredentialsComponent = BaseComponent.extend({
         _container: null,
 
         _alertContainer: null,
@@ -30,8 +30,8 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function CheckCredentialsComponent() {
-            CheckCredentialsComponent.__super__.constructor.apply(this, arguments);
+        constructor: function CheckCredentialsComponent(options) {
+            CheckCredentialsComponent.__super__.constructor.call(this, options);
         },
 
         initialize: function(options) {
@@ -57,7 +57,7 @@ define(function(require) {
         _check: function() {
             this._hideAndClearAlert();
 
-            var data = {
+            const data = {
                 apiLogin: this._apiLoginInput.value,
                 transactionKey: this._transactionKeyInput.value,
                 isTestMode: this._isTestModeInput.checked ? 1 : 0
@@ -80,7 +80,7 @@ define(function(require) {
         },
 
         _initCheckButtonActionListeners: function() {
-            var checkButton = document.querySelector(this._options.checkButtonSelector);
+            const checkButton = document.querySelector(this._options.checkButtonSelector);
             if (checkButton === null) {
                 return;
             }
@@ -93,13 +93,13 @@ define(function(require) {
                 return;
             }
 
-            var handler = this._checkButtonVisibilitySwitcher.bind(this);
+            const handler = this._checkButtonVisibilitySwitcher.bind(this);
             this._apiLoginInput.addEventListener('change', handler);
             this._transactionKeyInput.addEventListener('change', handler);
         },
 
         _checkButtonVisibilitySwitcher: function() {
-            var isHide = _.isEmpty(this._apiLoginInput.value) || _.isEmpty(this._transactionKeyInput.value);
+            const isHide = _.isEmpty(this._apiLoginInput.value) || _.isEmpty(this._transactionKeyInput.value);
             this._container.style.display = isHide ? 'none' : 'block';
 
             if (isHide) {
@@ -108,7 +108,7 @@ define(function(require) {
         },
 
         _showAlert: function(message, isSuccess) {
-            var type = isSuccess ? 'success' : 'error';
+            const type = isSuccess ? 'success' : 'error';
 
             this._alertContainer.style.display = 'block';
 
