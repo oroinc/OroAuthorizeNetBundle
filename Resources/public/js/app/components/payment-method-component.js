@@ -65,6 +65,21 @@ define(function(require) {
         acceptJs: null,
 
         /**
+         * @property {Boolean}
+         */
+        disposable: true,
+
+        listen: {
+            'checkout:payment:method:changed mediator': 'onPaymentMethodChanged',
+            'checkout:payment:before-transit mediator': 'beforeTransit',
+            'checkout:payment:before-hide-filled-form mediator': 'beforeHideFilledForm',
+            'checkout:payment:before-restore-filled-form mediator': 'beforeRestoreFilledForm',
+            'checkout:payment:remove-filled-form mediator': 'removeFilledForm',
+            'checkout-content:initialized mediator': 'refreshPaymentMethod',
+            'checkout:place-order:response mediator': 'placeOrderResponse'
+        },
+
+        /**
          * @inheritDoc
          */
         constructor: function PaymentMethodComponent() {
@@ -83,7 +98,6 @@ define(function(require) {
             $.validator.loadMethod('oropayment/js/validator/credit-card-expiration-date-not-blank');
 
             this.$el = this.options._sourceElement;
-            this.$form = this.$el.find(this.options.selectors.form);
 
             this.$el
                 .on(
@@ -101,17 +115,27 @@ define(function(require) {
                     $.proxy(this.validate, this, this.options.selectors.profileCvv)
                 );
 
-            mediator.on('checkout:payment:method:changed', this.onPaymentMethodChanged, this);
-            mediator.on('checkout:payment:before-transit', this.beforeTransit, this);
-            mediator.on('checkout-content:initialized', this.refreshPaymentMethod, this);
-            mediator.on('checkout:place-order:response', this.placeOrderResponse, this);
+            this.initForm(this.$el.find(this.options.selectors.form));
 
+            this.onProfileChanged();
+            this.onPaymentMethodAlreadySelected();
+        },
+
+        /**
+         * Finds form and store it and its element to properties
+         *
+         * @param {jQuery} $form
+         */
+        initForm: function($form) {
+            if (this.$profileSelector) {
+                this.$profileSelector.off('change.' + this.cid);
+            }
+
+            this.$form = $form;
             this.$paymentDataForm = this.$form.find(this.options.selectors.paymentDataForm);
             this.$profileSelector = this.$form.find(this.options.selectors.profileSelector);
             this.$profileCvv = this.$form.find(this.options.selectors.profileCvv);
             this.$profileSelector.on('change', _.bind(this.onProfileChanged, this));
-            this.onProfileChanged();
-            this.onPaymentMethodAlreadySelected();
         },
 
         onProfileChanged: function() {
@@ -145,17 +169,12 @@ define(function(require) {
         },
 
         dispose: function() {
-            if (this.disposed) {
+            if (this.disposed || !this.disposable) {
                 return;
             }
 
             this.$el.off();
             this.$profileSelector.off();
-
-            mediator.off('checkout-content:initialized', this.refreshPaymentMethod, this);
-            mediator.off('checkout:payment:method:changed', this.onPaymentMethodChanged, this);
-            mediator.off('checkout:payment:before-transit', this.beforeTransit, this);
-            mediator.off('checkout:place-order:response', this.placeOrderResponse, this);
 
             PaymentMethodComponent.__super__.dispose.call(this);
         },
@@ -331,6 +350,24 @@ define(function(require) {
         onPaymentMethodChanged: function(eventData) {
             if (eventData.paymentMethod === this.options.paymentMethod) {
                 this.loadAcceptJsLibrary();
+            }
+        },
+
+        beforeHideFilledForm: function() {
+            this.disposable = false;
+        },
+
+        beforeRestoreFilledForm: function() {
+            if (this.disposable) {
+                this.dispose();
+            }
+        },
+
+        removeFilledForm: function() {
+            // Remove hidden form js component
+            if (!this.disposable) {
+                this.disposable = true;
+                this.dispose();
             }
         },
 
