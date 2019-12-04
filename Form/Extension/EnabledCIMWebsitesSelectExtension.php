@@ -83,8 +83,8 @@ class EnabledCIMWebsitesSelectExtension extends AbstractTypeExtension
     /**
      * {@inheritDoc}
      */
-    public function getExtendedType()
+    public static function getExtendedTypes(): iterable
     {
-        return AuthorizeNetSettingsType::class;
+        return [AuthorizeNetSettingsType::class];
     }
 }
