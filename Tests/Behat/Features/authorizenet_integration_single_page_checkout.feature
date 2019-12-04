@@ -1,3 +1,4 @@
+@ticket-BB-18064
 @regression
 @fixture-OroFlatRateShippingBundle:FlatRateIntegration.yml
 @fixture-OroCheckoutBundle:Shipping.yml
@@ -84,3 +85,26 @@ Feature: AuthorizeNet integration Single Page Checkout
     And I check "Use billing address" on the checkout page
     And I click "Submit Order"
     Then I see the "Thank You" page with "Thank You For Your Purchase!" title
+
+  Scenario: Data from credit card form keeps unchanged after user entered new address
+    Given There are products in the system available for order
+    When I open page with shopping list List 2
+    And I click "Create Order"
+    And I select "Fifth avenue, 10115 Berlin, Germany" from "Select Billing Address"
+    And I check "Flat Rate" on the checkout page
+    And I fill "Credit Card Form" with:
+      | CreditCardNumber | 5424000000000015 |
+      | Month            | 11               |
+      | Year             | 2027             |
+      | CVV              | 123              |
+    And I scroll to top
+    And I check "Use billing address" on the checkout page
+    Then CreditCardFormCreditCardNumber field should has 5424000000000015 value
+    When I click on "Billing Address Select"
+    And I click on "New Address Option"
+    And I fill "New Address Popup Form" with:
+      | Email        | test@example.com |
+    And I click "Continue"
+    And I scroll to top
+    And I wait until all blocks on one step checkout page are reloaded
+    Then CreditCardFormCreditCardNumber field should has 5424000000000015 value
