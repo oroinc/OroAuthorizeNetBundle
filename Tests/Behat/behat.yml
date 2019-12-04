@@ -32,6 +32,10 @@ oro_behat_extension:
           Year: 'oro_authorize_net_credit_card[expirationDate][year]'
           CVV: 'oro_authorize_net_credit_card[CVV2]'
 
+    CreditCardFormCreditCardNumber:
+      selector: 'input[name="oro_authorize_net_credit_card[ACCT]"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+
     Authorize.NetFormCheckoutCreditCardPaymentProfileMethod:
       selector: 'div[data-content="payment_method_form"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
