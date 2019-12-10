@@ -59,7 +59,8 @@ Feature: AuthorizeNet integration guest Checkout
     And I click "product1"
     When I click "Add to Shopping List"
     Then I should see "Product has been added to" flash message
-    When I open page with shopping list "Shopping List"
+    When I open shopping list widget
+    And I click "View List"
     Then I should see "product1"
 
   Scenario: Successful first order payment with AuthorizeNet
@@ -94,12 +95,12 @@ Feature: AuthorizeNet integration guest Checkout
     And I click "product1"
     And I click "Add to Shopping List"
     And I should see "Product has been added to" flash message
-    When I click "Shopping List"
+    When I open shopping list widget
+    And I click "View List"
     Then I should see "product1"
 
   Scenario: Second successful order payment with AuthorizeNet after first order payment
-    Given I click "View Shopping List Details"
-    And I click "Create Order"
+    Given I click "Create Order"
     And I click "Continue as a Guest"
     And I fill form with:
       | First Name      | Tester2          |
