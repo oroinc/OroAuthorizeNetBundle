@@ -18,6 +18,7 @@ class LineItemsTest extends AbstractOptionTest
     public function configureOptionDataProvider()
     {
         $lineItems = [new OrderLineItem()];
+
         return [
             'empty is valid' => [[]],
             'wrong_type' => [
@@ -27,7 +28,7 @@ class LineItemsTest extends AbstractOptionTest
                     InvalidOptionsException::class,
                     sprintf(
                         'The option "%s" with value array is expected to be of type "%s", '.
-                        'but one of the elements is of type "string[]".',
+                        'but one of the elements is of type "string".',
                         Option\LineItems::NAME,
                         sprintf('%s[]', OrderLineItem::class)
                     )
