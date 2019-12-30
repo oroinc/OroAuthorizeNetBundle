@@ -50,7 +50,6 @@ class CustomerProfileAndPaymentProfileVoterTest extends \PHPUnit\Framework\TestC
         $objectClass = \get_class($object);
         $this->voter->setClassName($objectClass);
 
-        $object = new CustomerPaymentProfile();
         $object->setCustomerUser($objectCustomerUser);
 
         $this->token
@@ -62,11 +61,6 @@ class CustomerProfileAndPaymentProfileVoterTest extends \PHPUnit\Framework\TestC
             ->expects($this->once())
             ->method('getUser')
             ->willReturn($tokenUser);
-
-        $this->doctrineHelper->expects($this->once())
-            ->method('getEntityClass')
-            ->with($object)
-            ->will($this->returnValue($objectClass));
 
         $this->doctrineHelper->expects($this->once())
             ->method('getSingleEntityIdentifier')
