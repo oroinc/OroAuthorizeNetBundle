@@ -49,3 +49,9 @@ Authorize.Net has a [Sandbox test server](https://sandbox.authorize.net/) where 
 After registration, you will get an "API Login ID", "Transaction Key" and "Client key" credentials for Authorize.Net sandbox server. Use them when you create an integration, but remember to select the "Test mode" checkbox.
 
 To be able to test CIM integration within sandbox account, the sandbox account must be switched to the "Live" mode. 
+
+Resources
+---------
+
+  * [OroCommerce Documentation](https://doc.oroinc.com)
+  * [Contributing](https://doc.oroinc.com/community/contribute/)
