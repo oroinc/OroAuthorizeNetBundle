@@ -6,7 +6,6 @@ use Oro\Bundle\AuthorizeNetBundle\Entity\CustomerPaymentProfile;
 use Oro\Bundle\AuthorizeNetBundle\Form\Type\PaymentProfileAddressType;
 use Oro\Bundle\AuthorizeNetBundle\Form\Type\PaymentProfileType;
 use Oro\Bundle\FormBundle\Tests\Unit\Stub\StripTagsExtensionStub;
-use Oro\Bundle\UIBundle\Tools\HtmlTagHelper;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -36,7 +35,7 @@ class PaymentProfileTypeTest extends FormIntegrationTestCase
             new PreloadedExtension([
             ], [
                 FormType::class => [
-                    new StripTagsExtensionStub($this->createMock(HtmlTagHelper::class)),
+                    new StripTagsExtensionStub($this),
                 ],
             ]),
             $this->getValidatorExtension(true)

@@ -14,7 +14,6 @@ use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
 use Oro\Bundle\FormBundle\Form\Extension\TooltipFormExtension;
 use Oro\Bundle\FormBundle\Tests\Unit\Stub\StripTagsExtensionStub;
 use Oro\Bundle\TranslationBundle\Translation\Translator;
-use Oro\Bundle\UIBundle\Tools\HtmlTagHelper;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -80,7 +79,7 @@ class CheckoutEcheckProfileTypeTest extends FormIntegrationTestCase
                 ],
                 [
                     FormType::class => [
-                        new StripTagsExtensionStub($this->createMock(HtmlTagHelper::class)),
+                        new StripTagsExtensionStub($this),
                         new TooltipFormExtension($configProvider, $this->translator)
                     ]
                 ]
