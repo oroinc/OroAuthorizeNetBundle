@@ -1,6 +1,6 @@
 datagrids:
     base-frontend-payment-profiles-grid:
-        extended_entity_name: '%oro_authorize_net.entity.customer_payment_profile.class%'
+        extended_entity_name: 'Oro\Bundle\AuthorizeNetBundle\Entity\CustomerPaymentProfile'
         options:
             frontend: true
             entityHint: oro.authorize_net.frontend.payment_profile.datagrid.base-frontend-payment-profiles-grid.entity_hint
@@ -17,7 +17,7 @@ datagrids:
                     - profile.lastDigits
                     - profile.default
                 from:
-                    - { table: '%oro_authorize_net.entity.customer_payment_profile.class%', alias: profile }
+                    - { table: 'Oro\Bundle\AuthorizeNetBundle\Entity\CustomerPaymentProfile', alias: profile }
                 where:
                     and:
                         - 'profile.customerUser = @oro_security.token_accessor->getUserId()'
