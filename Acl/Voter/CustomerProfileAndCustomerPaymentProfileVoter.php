@@ -12,7 +12,7 @@ use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
- * Security voter that prevents access to non owned customer profile & payment profiles on the front store
+ * Prevents access to non owned customer profile & payment profiles on the storefront.
  */
 class CustomerProfileAndCustomerPaymentProfileVoter extends AbstractEntityVoter
 {
