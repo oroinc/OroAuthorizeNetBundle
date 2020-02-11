@@ -43,7 +43,6 @@ class GetCustomerPaymentProfileRequestConfigurator implements RequestConfigurato
 
         // Remove handled options to prevent handling in fallback configurator
         unset(
-
             $options[Option\CustomerProfileId::CUSTOMER_PROFILE_ID],
             $options[Option\CustomerPaymentProfileId::CUSTOMER_PAYMENT_PROFILE_ID]
         );
