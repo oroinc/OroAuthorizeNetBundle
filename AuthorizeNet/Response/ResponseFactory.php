@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response;
 
-use JMS\Serializer\Serializer;
+use JMS\Serializer\ArrayTransformerInterface;
 use net\authorize\api\contract\v1 as AnetAPI;
 
 /**
@@ -11,14 +11,14 @@ use net\authorize\api\contract\v1 as AnetAPI;
 class ResponseFactory
 {
     /**
-     * @var Serializer
+     * @var ArrayTransformerInterface
      */
     protected $serializer;
 
     /**
-     * @param Serializer $serializer
+     * @param ArrayTransformerInterface $serializer
      */
-    public function __construct(Serializer $serializer)
+    public function __construct(ArrayTransformerInterface $serializer)
     {
         $this->serializer = $serializer;
     }
