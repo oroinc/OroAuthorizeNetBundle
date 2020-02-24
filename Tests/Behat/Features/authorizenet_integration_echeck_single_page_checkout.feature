@@ -47,7 +47,7 @@ Feature: AuthorizeNet integration eCheck single page checkout
     Given I proceed as the Buyer
     And I signed in as AmandaRCole@example.org on the store frontend
     And I am on homepage
-    And I click "Account"
+    And I follow "Account"
     And I click "Manage Payment Profiles"
     Then there is no records in "Authorize.NetGrid.eCheckProfile"
     When I open page with shopping list List 2
@@ -65,7 +65,7 @@ Feature: AuthorizeNet integration eCheck single page checkout
       | Save Profile              | true                      |
     And I click "Submit Order"
     Then I see the "Thank You" page with "Thank You For Your Purchase!" title
-    When I click "Account"
+    When I follow "Account"
     And I click "Manage Payment Profiles"
     Then number of records in "Authorize.NetGrid.eCheckProfile" grid should be 1
     And number of records payment profiles in AuthorizeNet account should be 1
