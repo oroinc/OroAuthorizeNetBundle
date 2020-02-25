@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response;
 
-use JMS\Serializer\Serializer;
+use JMS\Serializer\ArrayTransformerInterface;
 use net\authorize\api\contract\v1\ANetApiResponseType;
 
 /**
@@ -21,15 +21,15 @@ class AuthorizeNetSDKResponse implements ResponseInterface
     protected $apiResponseSerialized;
 
     /**
-     * @var Serializer
+     * @var ArrayTransformerInterface
      */
     protected $serializer;
 
     /**
-     * @param Serializer $serializer
+     * @param ArrayTransformerInterface $serializer
      * @param ANetApiResponseType $apiResponse
      */
-    public function __construct(Serializer $serializer, ANetApiResponseType $apiResponse)
+    public function __construct(ArrayTransformerInterface $serializer, ANetApiResponseType $apiResponse)
     {
         $this->serializer = $serializer;
         $this->apiResponse = $apiResponse;

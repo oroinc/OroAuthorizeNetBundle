@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\AuthorizeNet\Client;
 
-use JMS\Serializer\Serializer;
+use JMS\Serializer\ArrayTransformerInterface;
 use net\authorize\api\contract\v1 as AnetAPI;
 use net\authorize\api\controller as AnetController;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\AuthorizeNetSDKClient;
@@ -28,8 +28,8 @@ class AuthorizeNetSDKClientTest extends \PHPUnit\Framework\TestCase
     protected function setUp()
     {
         $this->requestFactory = $this->createMock(AnetSDKRequestFactoryInterface::class);
-        /** @var Serializer|\PHPUnit\Framework\MockObject\MockObject $serializer */
-        $serializer = $this->createMock(Serializer::class);
+        /** @var ArrayTransformerInterface|\PHPUnit\Framework\MockObject\MockObject $serializer */
+        $serializer = $this->createMock(ArrayTransformerInterface::class);
         $logger = $this->createMock(LoggerInterface::class);
         $this->responseFactory = new ResponseFactory($serializer);
         $this->client = new AuthorizeNetSDKClient($this->requestFactory, $this->responseFactory, $logger);

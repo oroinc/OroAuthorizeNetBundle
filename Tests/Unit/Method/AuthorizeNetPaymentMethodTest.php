@@ -3,7 +3,7 @@
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\Method;
 
 use Doctrine\ORM\EntityRepository;
-use JMS\Serializer\Serializer;
+use JMS\Serializer\ArrayTransformerInterface;
 use net\authorize\api\contract\v1\CreateTransactionResponse;
 use net\authorize\api\contract\v1\MessagesType;
 use net\authorize\api\contract\v1\TransactionResponseType;
@@ -54,7 +54,7 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
     /** @var AuthorizeNetConfigInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $paymentConfig;
 
-    /** @var Serializer|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ArrayTransformerInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $serializer;
 
     /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject */
@@ -110,7 +110,7 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
             $this->eventDispatcher
         );
 
-        $this->serializer = $this->createMock(Serializer::class);
+        $this->serializer = $this->createMock(ArrayTransformerInterface::class);
 
         $this->frontendOwner = $this->createMock(CustomerUser::class);
         $this->frontendOwner->expects($this->any())->method('getId')->willReturn(self::CUSTOMER_USER_ID);

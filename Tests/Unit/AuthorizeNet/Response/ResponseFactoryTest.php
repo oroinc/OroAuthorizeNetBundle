@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\AuthorizeNet\Response;
 
-use JMS\Serializer\Serializer;
+use JMS\Serializer\ArrayTransformerInterface;
 use net\authorize\api\contract\v1 as AnetAPI;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response\AuthorizeNetSDKResponse;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response\AuthorizeNetSDKTransactionResponse;
@@ -15,8 +15,8 @@ class ResponseFactoryTest extends \PHPUnit\Framework\TestCase
 
     public function setUp()
     {
-        /** @var Serializer|\PHPUnit\Framework\MockObject\MockObject $serializer */
-        $serializer = $this->createMock(Serializer::class);
+        /** @var ArrayTransformerInterface|\PHPUnit\Framework\MockObject\MockObject $serializer */
+        $serializer = $this->createMock(ArrayTransformerInterface::class);
 
         $this->factory = new ResponseFactory($serializer);
     }

@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\AuthorizeNet\Response;
 
-use JMS\Serializer\Serializer;
+use JMS\Serializer\ArrayTransformerInterface;
 use net\authorize\api\contract\v1\CreateTransactionResponse;
 use net\authorize\api\contract\v1\MessagesType;
 use net\authorize\api\contract\v1\TransactionResponseType;
@@ -13,7 +13,7 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response\AuthorizeNetSDKTransacti
 
 class AuthorizeNetSDKTransactionResponseTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var Serializer|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ArrayTransformerInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $serializer;
 
     /** @var CreateTransactionResponse|\PHPUnit\Framework\MockObject\MockObject */
@@ -24,7 +24,7 @@ class AuthorizeNetSDKTransactionResponseTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp()
     {
-        $this->serializer = $this->createMock(Serializer::class);
+        $this->serializer = $this->createMock(ArrayTransformerInterface::class);
         $this->apiResponse = $this->createMock(CreateTransactionResponse::class);
         $this->authorizeNetSdkResponse = new AuthorizeNetSDKTransactionResponse($this->serializer, $this->apiResponse);
     }

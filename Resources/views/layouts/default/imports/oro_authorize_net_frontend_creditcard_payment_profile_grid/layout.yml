@@ -10,10 +10,6 @@ layout:
             optionValue: frontend-creditcard-payment-profiles-grid
         - '@setOption':
             id: __datagrid
-            optionName: grid_render_parameters.gridViewsOptions.text
-            optionValue: 'oro.authorize_net.frontend.payment_profile.creditcard.plural_label'
-        - '@setOption':
-            id: __datagrid
             optionName: grid_parameters.profileType
             optionValue: 'creditcard'
         - '@add':

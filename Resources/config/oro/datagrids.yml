@@ -69,11 +69,15 @@ datagrids:
         extends: base-frontend-payment-profiles-grid
         options:
             entityHint: oro.authorize_net.frontend.payment_profile.datagrid.frontend-creditcard-payment-profiles-grid.entity_hint
+            gridViews:
+                allLabel: oro.authorize_net.frontend.payment_profile.datagrid.creditcard.entity_grid_all_view_label
 
     frontend-echeck-payment-profiles-grid:
         extends: base-frontend-payment-profiles-grid
         options:
             entityHint: oro.authorize_net.frontend.payment_profile.datagrid.frontend-echeck-payment-profiles-grid.entity_hint
+            gridViews:
+                allLabel: oro.authorize_net.frontend.payment_profile.datagrid.echeck.entity_grid_all_view_label
         columns:
             lastDigits:
                 label: oro.authorize_net.frontend.payment_profile.datagrid.fields.last_account_digits.label

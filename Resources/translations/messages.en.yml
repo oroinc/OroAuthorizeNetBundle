@@ -1,8 +1,15 @@
 oro:
     authorizenet:
-        customerprofile.entity_label: 'Customer Profile'
-        customerpaymentprofile.entity_label: 'Customer Payment Profile'
-        customerpaymentprofile.entity_plural_label: 'Customer Payment Profiles'
+        customerprofile:
+            entity_label: 'Customer Profile'
+            entity_plural_label: 'Customer Profiles'
+            entity_grid_all_view_label: All %entity_plural_label%
+            entity_frontend_grid_all_view_label: All %entity_plural_label%
+        customerpaymentprofile:
+            entity_label: 'Customer Payment Profile'
+            entity_plural_label: 'Customer Payment Profiles'
+            entity_grid_all_view_label: All %entity_plural_label%
+            entity_frontend_grid_all_view_label: All %entity_plural_label%
     authorize_net:
         settings:
             label: 'Authorize.Net'
@@ -101,6 +108,10 @@ oro:
                     base-frontend-payment-profiles-grid.entity_hint: Payment Profiles
                     frontend-creditcard-payment-profiles-grid.entity_hint: Credit card payment profiles
                     frontend-echeck-payment-profiles-grid.entity_hint: Echeck payment profiles
+                    creditcard:
+                        entity_grid_all_view_label: All Credit Card Profiles
+                    echeck:
+                        entity_grid_all_view_label: All Bank Account Profiles
                 form:
                     fields:
                         default.label: 'Set as default'

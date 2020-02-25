@@ -10,10 +10,7 @@ layout:
             id: __datagrid
             optionName: grid_name
             optionValue: frontend-echeck-payment-profiles-grid
-        - '@setOption':
-            id: __datagrid
-            optionName: grid_render_parameters.gridViewsOptions.text
-            optionValue: 'oro.authorize_net.frontend.payment_profile.echeck.plural_label'
+
         - '@appendOption':
             id: __datagrid
             optionName: grid_render_parameters.themeOptions
