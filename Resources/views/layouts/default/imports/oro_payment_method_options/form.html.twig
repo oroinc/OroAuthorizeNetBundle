@@ -7,9 +7,11 @@
         data-page-component-options="{{ paymentMethodComponentOptions|json_encode }}">
 
         <div data-payment-method-form>
-            <ul class="{{ class_prefix }}-form__payment-methods-list">
+            <ul class="{{ class_prefix }}-form__payment-methods-list" aria-label="{{ 'oro_frontend.avaliable_credit_cards.aria_label'|trans }}">
                 {% for cc_name in paymentMethodComponentOptions.allowedCreditCards %}
-                    <li class="{{ class_prefix }}-form__payment-methods-item"><i class="credit-card-icon credit-card-icon_{{ cc_name }}"></i></li>
+                    <li class="{{ class_prefix }}-form__payment-methods-item" aria-label="{{ cc_name }}">
+                        <span class="credit-card-icon credit-card-icon_{{ cc_name }}" aria-hidden="true"></span>
+                    </li>
                 {% endfor %}
             </ul>
             <div class="{{ class_prefix }}-form__payment-methods-form" data-payment-data-form>
@@ -46,7 +48,7 @@
 
 {% block _oro_authorize_net_checkout_creditcard_profile_profile_cvv_label %}
     <label class="label label--full required" for="{{ id }}">
-        {{ label|trans }}<em>*</em>
+        {{ label|trans }}<em aria-hidden="true">*</em>
     </label>
 {% endblock %}
 
@@ -65,7 +67,7 @@
             data-title="{{ tooltip|trans }}"
             data-container="body"
             >
-                <i class="fa fa-question-circle"></i>
+                <span class="fa fa-question-circle" aria-hidden="true"></span>
             </a>
         </span>
     </label>
@@ -95,10 +97,10 @@
 
             <div class="grid__row grid__row--offset-none {{ hidePaymentDataForm ? 'hidden' }}" data-payment-data-form>
                 <div class="grid__column grid__column--12">
-                    <ul class="{{ class_prefix }}-form__payment-methods-list">
+                    <ul class="{{ class_prefix }}-form__payment-methods-list" aria-label="{{ 'oro_frontend.avaliable_credit_cards.aria_label'|trans }}">
                         {% for cc_name in paymentMethodComponentOptions.allowedCreditCards %}
-                            <li class="{{ class_prefix }}-form__payment-methods-item">
-                                <i class="credit-card-icon credit-card-icon_{{ cc_name }}"></i>
+                            <li class="{{ class_prefix }}-form__payment-methods-item" aria-label="{{ cc_name }}">
+                                <span class="credit-card-icon credit-card-icon_{{ cc_name }}" aria-hidden="true"></span>
                             </li>
                         {% endfor %}
                     </ul>
