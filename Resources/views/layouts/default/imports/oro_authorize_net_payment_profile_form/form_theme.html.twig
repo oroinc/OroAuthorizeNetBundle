@@ -50,10 +50,10 @@
             <div class="grid__row grid__row--offset-none">
                 <div class="grid__column grid__column--6">
                     <div class="grid__row">
-                        <ul>
+                        <ul class="clearfix" aria-label="{{ 'oro_frontend.avaliable_credit_cards.aria_label'|trans }}">
                             {% for cc_name in paymentProfileComponentOptions.allowedCreditCards|default([]) %}
-                                <li class="fa pull-left">
-                                    <i class="credit-card-icon credit-card-icon_{{ cc_name }}"></i>
+                                <li class="fa pull-left" aria-label="{{ cc_name }}">
+                                    <span class="credit-card-icon credit-card-icon_{{ cc_name }}" aria-hidden="true"></span>
                                 </li>
                             {% endfor %}
                         </ul>
