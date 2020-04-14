@@ -539,7 +539,7 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
         $transaction = $this->createPaymentTransaction(PaymentMethodInterface::PURCHASE);
         $transaction->getSourcePaymentTransaction()->setTransactionOptions($transactionOptions);
         $result = $this->method->execute($transaction->getAction(), $transaction);
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
     }
 
     public function testCorrectAdditionalDataWithSaveProfile()
@@ -591,7 +591,7 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
         $this->assertArrayHasKey(CreateProfile::NAME, $request);
         $this->assertTrue($request[CreateProfile::NAME]);
 
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
     }
 
     public function testCorrectAdditionalDataWithSaveProfileCIMDisabled()
@@ -640,7 +640,7 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
         $result = $this->method->execute($transaction->getAction(), $transaction);
 
         $this->assertArrayNotHasKey(CreateProfile::NAME, $transaction->getRequest());
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
     }
 
     /**
