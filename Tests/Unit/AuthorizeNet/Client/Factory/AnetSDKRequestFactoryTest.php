@@ -68,12 +68,11 @@ class AnetSDKRequestFactoryTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf($apiRequestClass, $request);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Unsupported request type
-     */
     public function testCreateRequestUnsupportedRequestType()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Unsupported request type');
+
         $this->factory->createRequest('unsupported_request_type');
     }
 
@@ -93,12 +92,11 @@ class AnetSDKRequestFactoryTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf($apiControllerClass, $controller);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Unsupported request class
-     */
     public function testCreateControllerUnsupportedRequest()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Unsupported request class');
+
         $this->factory->createController(new AnetAPI\ANetApiRequestType());
     }
 

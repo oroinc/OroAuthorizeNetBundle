@@ -271,12 +271,11 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('127.0.0.1', $options['customer_ip']);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Unsupported action "wrong_action"
-     */
     public function testExecuteException()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Unsupported action "wrong_action"');
+
         $transaction = new PaymentTransaction();
         $transaction->setAction('wrong_action');
 
@@ -472,10 +471,10 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
      * @dataProvider incorrectAdditionalDataProvider
      * @param string $expectedExceptionMessage
      * @param array|null $transactionOptions
-     * @expectedException \LogicException
      */
     public function testIncorrectAdditionalData($expectedExceptionMessage, array $transactionOptions = null)
     {
+        $this->expectException(\LogicException::class);
         $this->paymentConfig->expects($this->any())
             ->method('getApiLoginId')
             ->willReturn('API_LOGIN_ID');

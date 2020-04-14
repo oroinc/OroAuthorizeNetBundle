@@ -36,12 +36,11 @@ class OriginalTransactionTest extends AbstractOptionTest
         ];
     }
 
-    /**
-     * @expectedException \Symfony\Component\OptionsResolver\Exception\MissingOptionsException
-     * @expectedExceptionMessage The required option "original_transaction" is missing.
-     */
     public function testRequired()
     {
+        $this->expectException(\Symfony\Component\OptionsResolver\Exception\MissingOptionsException::class);
+        $this->expectExceptionMessage('The required option "original_transaction" is missing.');
+
         $originalTransaction = new Option\OriginalTransaction();
 
         $resolver = new Option\OptionsResolver();

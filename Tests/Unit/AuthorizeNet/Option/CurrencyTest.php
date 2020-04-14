@@ -32,12 +32,11 @@ class CurrencyTest extends AbstractOptionTest
         ];
     }
 
-    /**
-     * @expectedException \Symfony\Component\OptionsResolver\Exception\MissingOptionsException
-     * @expectedExceptionMessage The required option "currency" is missing.
-     */
     public function testRequired()
     {
+        $this->expectException(\Symfony\Component\OptionsResolver\Exception\MissingOptionsException::class);
+        $this->expectExceptionMessage('The required option "currency" is missing.');
+
         $resolver = new Option\OptionsResolver();
         $currency = new Option\Currency();
 

@@ -94,11 +94,9 @@ class AuthorizeNetSDKClientTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @expectedException \LogicException
-     */
     public function testSendReturnsUnexpectedResponse()
     {
+        $this->expectException(\LogicException::class);
         $requestOptions = $this->getRequiredOptionsData();
         $requestType = Option\Transaction::CHARGE;
 
@@ -122,12 +120,11 @@ class AuthorizeNetSDKClientTest extends \PHPUnit\Framework\TestCase
         $this->client->send(self::HOST_ADDRESS, $requestType, $requestOptions);
     }
 
-    /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Unexpected Payment Gateway Error
-     */
     public function testSendReturnsUnexpectedException()
     {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Unexpected Payment Gateway Error');
+
         $requestOptions = $this->getRequiredOptionsData();
         $requestType = Option\Transaction::CHARGE;
 
