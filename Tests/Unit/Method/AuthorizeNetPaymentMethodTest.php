@@ -181,6 +181,7 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
      * @param string|null $transId
      * @param array $responseArray
      * @param int|null $profileId
+     * @param bool|null $saveProfile
      */
     public function testPurchaseExecute(
         $purchaseAction,
@@ -189,10 +190,11 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
         $expectedMessage,
         $transId,
         array $responseArray,
-        int $profileId = null
+        int $profileId = null,
+        bool $saveProfile = null
     ) {
         $testMode = false;
-        $transaction = $this->createPaymentTransaction(PaymentMethodInterface::PURCHASE, $profileId);
+        $transaction = $this->createPaymentTransaction(PaymentMethodInterface::PURCHASE, $profileId, $saveProfile);
 
         $request = $this->createMock(Request::class);
         $request->expects($this->any())
@@ -818,6 +820,7 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
                 'expectedMessage' => '(1) success',
                 'transId' => '111',
                 'responseArray' => ['1', 'success', '111'],
+                'profileId' => null,
                 'saveProfile' => true
             ],
         ];
