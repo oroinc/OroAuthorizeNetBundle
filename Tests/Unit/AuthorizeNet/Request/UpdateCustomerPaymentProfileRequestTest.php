@@ -8,7 +8,7 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request\UpdateCustomerPaymentProf
 
 class UpdateCustomerPaymentProfileRequestTest extends AbstractRequestTest
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->request = new UpdateCustomerPaymentProfileRequest();
     }

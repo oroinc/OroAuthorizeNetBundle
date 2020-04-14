@@ -27,7 +27,7 @@ class PaymentProfileGridListenerTest extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->paymentProfileProvider = $this->createMock(PaymentProfileProvider::class);
         $this->customerProfileProvider = $this->createMock(CustomerProfileProvider::class);

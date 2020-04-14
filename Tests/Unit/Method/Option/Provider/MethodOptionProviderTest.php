@@ -47,7 +47,7 @@ class MethodOptionProviderTest extends \PHPUnit\Framework\TestCase
     /** @var MethodOptionProvider */
     private $methodOptionProvider;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->config = $this->createMock(AuthorizeNetConfigInterface::class);
         $this->paymentTransaction = $this->createMock(PaymentTransaction::class);

@@ -21,7 +21,7 @@ class PaymentProfileAddressTypeTest extends AddressFormExtensionTestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $translator = $this->createMock(TranslatorInterface::class);
         $this->formType = new PaymentProfileAddressType(new AddressCountryAndRegionSubscriberStub(), $translator);

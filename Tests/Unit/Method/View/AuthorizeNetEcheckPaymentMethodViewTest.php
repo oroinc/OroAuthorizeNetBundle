@@ -32,7 +32,7 @@ class AuthorizeNetEcheckPaymentMethodViewTest extends \PHPUnit\Framework\TestCas
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->formFactory = $this->createMock(FormFactoryInterface::class);
         $this->paymentConfig = $this->createMock(AuthorizeNetConfigInterface::class);

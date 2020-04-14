@@ -7,7 +7,7 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request\GetCustomerProfileRequest
 
 class GetCustomerProfileRequestTest extends AbstractRequestTest
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->request = new GetCustomerProfileRequest();
     }

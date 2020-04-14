@@ -85,7 +85,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
         AuthorizeNetConfig::TEST_MODE_KEY => true
     ];
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $requestRegistry = new RequestRegistry();
         $requestRegistry->addRequest(new Request\CreateCustomerPaymentProfileRequest());

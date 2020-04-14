@@ -15,7 +15,7 @@ class PaymentProfileMaskedDataTypeTest extends FormIntegrationTestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->formType = new PaymentProfileMaskedDataType();
         parent::setUp();

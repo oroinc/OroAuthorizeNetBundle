@@ -48,7 +48,7 @@ class AuthorizeNetSettingsTypeTest extends FormIntegrationTestCase
      */
     private $cryptedDataTransformerFactory;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->prepareForm();
         parent::setUp();

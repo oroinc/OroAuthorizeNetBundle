@@ -7,7 +7,7 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request\CaptureRequest;
 
 class CaptureRequestTest extends AbstractRequestTest
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->request = new CaptureRequest();
     }

@@ -11,7 +11,7 @@ class AuthorizeNetTransportTest extends \PHPUnit\Framework\TestCase
     /** @var AuthorizeNetTransport */
     private $transport;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->transport = new AuthorizeNetTransport();
     }

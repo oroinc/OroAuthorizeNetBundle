@@ -28,7 +28,7 @@ class PaymentProfileDTOTypeTest extends AddressFormExtensionTestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->formType = new PaymentProfileDTOType();
         parent::setUp();

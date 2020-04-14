@@ -9,7 +9,7 @@ class AuthenticateTestRequestTest extends AbstractRequestTest
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->request = new AuthenticateTestRequest();
     }

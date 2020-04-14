@@ -26,7 +26,7 @@ class TaxProviderTest extends \PHPUnit\Framework\TestCase
     /** @var TaxProvider */
     protected $provider;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->doctrineHelper = $this->createMock(DoctrineHelper::class);
         $this->taxProviderRegistry = $this->createMock(TaxProviderRegistry::class);

@@ -10,7 +10,7 @@ use Oro\Bundle\PaymentBundle\Tests\Unit\Method\Provider\AbstractMethodProviderTe
 
 class AuthorizeNetMethodProviderTest extends AbstractMethodProviderTest
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->factory = $this->createMock(AuthorizeNetPaymentMethodFactoryInterface::class);
         $this->configProvider = $this->createMock(AuthorizeNetConfigProviderInterface::class);

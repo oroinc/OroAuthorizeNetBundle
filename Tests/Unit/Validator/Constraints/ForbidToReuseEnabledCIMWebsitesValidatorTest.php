@@ -39,7 +39,7 @@ class ForbidToReuseEnabledCIMWebsitesValidatorTest extends \PHPUnit\Framework\Te
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->websiteProvider = $this->createMock(WebsiteProviderInterface::class);
         $this->doctrineHelper = $this->createMock(DoctrineHelper::class);

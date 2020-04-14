@@ -7,7 +7,7 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request\DeleteCustomerPaymentProf
 
 class DeleteCustomerPaymentProfileRequestTest extends AbstractRequestTest
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->request = new DeleteCustomerPaymentProfileRequest();
     }

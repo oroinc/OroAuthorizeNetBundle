@@ -33,7 +33,7 @@ class AuthorizeNetEcheckConfigProviderTest extends \PHPUnit\Framework\TestCase
      */
     protected $configProvider;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $channelType = AuthorizeNetChannelType::TYPE;
 

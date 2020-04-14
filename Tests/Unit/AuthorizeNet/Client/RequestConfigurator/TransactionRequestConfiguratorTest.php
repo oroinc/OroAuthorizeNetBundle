@@ -19,12 +19,12 @@ class TransactionRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
      */
     protected $transactionRequestConfigurator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->transactionRequestConfigurator = new TransactionRequestConfigurator();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->transactionRequestConfigurator);
     }

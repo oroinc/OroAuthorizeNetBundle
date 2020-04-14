@@ -18,7 +18,7 @@ class BankAccountTypeTest extends FormIntegrationTestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->translator = $this->createMock(TranslatorInterface::class);
         $this->formType = new BankAccountType($this->translator);

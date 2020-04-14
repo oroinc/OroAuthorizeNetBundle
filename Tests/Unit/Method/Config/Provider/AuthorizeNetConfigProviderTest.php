@@ -37,7 +37,7 @@ class AuthorizeNetConfigProviderTest extends \PHPUnit\Framework\TestCase
      */
     protected $authorizeNetConfigProvider;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->type = 'authorize_net';
 

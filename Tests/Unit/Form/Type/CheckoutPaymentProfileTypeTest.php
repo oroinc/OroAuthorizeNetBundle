@@ -41,7 +41,7 @@ class CheckoutPaymentProfileTypeTest extends FormIntegrationTestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->translator = $this->createMock(Translator::class);
         $this->customerProfileProvider = $this->createMock(CustomerProfileProvider::class);

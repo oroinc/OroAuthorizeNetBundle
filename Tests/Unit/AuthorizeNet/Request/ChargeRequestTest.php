@@ -6,7 +6,7 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request\ChargeRequest;
 
 class ChargeRequestTest extends AbstractAuthChargeRequestTest
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->request = new ChargeRequest();
     }

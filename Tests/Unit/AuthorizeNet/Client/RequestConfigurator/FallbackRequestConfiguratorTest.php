@@ -19,13 +19,13 @@ class FallbackRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
      */
     protected $fallbackRequestConfigurator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->propertyAccessor = PropertyAccess::createPropertyAccessor();
         $this->fallbackRequestConfigurator = new FallbackRequestConfigurator($this->propertyAccessor);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->fallbackRequestConfigurator, $this->propertyAccessor);
     }

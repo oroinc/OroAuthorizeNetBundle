@@ -13,7 +13,7 @@ class OroAuthorizeNetBundleTest extends \PHPUnit\Framework\TestCase
     /** @var OroAuthorizeNetBundle */
     private $bundle;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->bundle = new OroAuthorizeNetBundle();
     }

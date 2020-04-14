@@ -27,7 +27,7 @@ class AddressInfoProviderTest extends \PHPUnit\Framework\TestCase
     /** @var AddressInfoProvider */
     protected $provider;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->doctrineHelper = $this->createMock(DoctrineHelper::class);
         $this->addressExtractor = $this->createMock(AddressExtractor::class);

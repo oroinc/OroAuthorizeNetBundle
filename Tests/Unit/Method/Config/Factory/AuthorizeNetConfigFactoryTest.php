@@ -38,7 +38,7 @@ class AuthorizeNetConfigFactoryTest extends \PHPUnit\Framework\TestCase
      */
     protected $authorizeNetConfigFactory;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->encoder = $this->createMock(SymmetricCrypterInterface::class);
         $this->localizationHelper = $this->createMock(LocalizationHelper::class);

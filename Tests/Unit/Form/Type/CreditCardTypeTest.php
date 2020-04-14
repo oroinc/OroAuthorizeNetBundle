@@ -26,7 +26,7 @@ class CreditCardTypeTest extends FormIntegrationTestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->translator = $this->createMock(Translator::class);
         $this->formType = new CreditCardType();

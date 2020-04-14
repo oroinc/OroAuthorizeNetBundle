@@ -25,7 +25,7 @@ class IntegrationProviderTest extends \PHPUnit\Framework\TestCase
     /** @var IntegrationProvider */
     private $provider;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->doctrineHelper = $this->createMock(DoctrineHelper::class);
         $this->websiteManager = $this->createMock(WebsiteManager::class);

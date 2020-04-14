@@ -25,7 +25,7 @@ class AuthorizeNetSDKClientTest extends \PHPUnit\Framework\TestCase
     /** @var AuthorizeNetSDKClient */
     protected $client;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->requestFactory = $this->createMock(AnetSDKRequestFactoryInterface::class);
         /** @var ArrayTransformerInterface|\PHPUnit\Framework\MockObject\MockObject $serializer */

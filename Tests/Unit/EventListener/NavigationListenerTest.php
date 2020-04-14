@@ -21,7 +21,7 @@ class NavigationListenerTest extends \PHPUnit\Framework\TestCase
     /** @var NavigationListener */
     private $listener;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->configProvider = $this->createMock(AuthorizeNetCIMEnabledConfigProvider::class);
         $this->websiteManager =  $this->createMock(WebsiteManager::class);

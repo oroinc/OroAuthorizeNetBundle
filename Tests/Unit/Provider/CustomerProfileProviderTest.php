@@ -28,7 +28,7 @@ class CustomerProfileProviderTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerProfileProvider */
     private $provider;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->doctrineHelper = $this->createMock(DoctrineHelper::class);
         $this->integrationProvider = $this->createMock(IntegrationProvider::class);

@@ -12,7 +12,7 @@ class RequestConfiguratorRegistryTest extends \PHPUnit\Framework\TestCase
      */
     protected $requestConfiguratorRegistry;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->requestConfiguratorRegistry = new RequestConfiguratorRegistry();
     }

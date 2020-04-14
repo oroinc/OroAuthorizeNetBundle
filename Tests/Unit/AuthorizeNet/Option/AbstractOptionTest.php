@@ -48,12 +48,12 @@ abstract class AbstractOptionTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->options = $this->getOptions();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->options);
     }

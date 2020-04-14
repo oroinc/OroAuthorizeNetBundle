@@ -13,7 +13,7 @@ class ResponseFactoryTest extends \PHPUnit\Framework\TestCase
     /** @var ResponseFactory */
     protected $factory;
 
-    public function setUp()
+    protected function setUp(): void
     {
         /** @var ArrayTransformerInterface|\PHPUnit\Framework\MockObject\MockObject $serializer */
         $serializer = $this->createMock(ArrayTransformerInterface::class);

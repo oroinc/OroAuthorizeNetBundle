@@ -45,7 +45,7 @@ class PaymentProfileDTOFormProviderTest extends \PHPUnit\Framework\TestCase
         AuthorizeNetConfig::ECHECK_ACCOUNT_TYPES => ['test']
     ];
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->mockFormFactory = $this->createMock(FormFactoryInterface::class);
         $this->router = $this->createMock(UrlGeneratorInterface::class);

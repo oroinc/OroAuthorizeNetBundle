@@ -13,7 +13,7 @@ class MerchantAuthenticationRequestConfiguratorTest extends \PHPUnit\Framework\T
      */
     protected $merchantAuthenticationRequestConfigurator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->merchantAuthenticationRequestConfigurator = new MerchantAuthenticationRequestConfigurator();
     }

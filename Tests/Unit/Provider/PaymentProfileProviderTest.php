@@ -20,7 +20,7 @@ class PaymentProfileProviderTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerProfileProvider */
     private $provider;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->requestSender = $this->createMock(RequestSender::class);
         $this->logger = $this->createMock(LoggerInterface::class);

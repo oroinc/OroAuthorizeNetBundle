@@ -29,7 +29,7 @@ class RequiredEnabledCIMWebsitesValidatorTest extends \PHPUnit\Framework\TestCas
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->constraints = new RequiredEnabledCIMWebsites();
         $this->validator = new RequiredEnabledCIMWebsitesValidator();

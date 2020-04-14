@@ -18,13 +18,13 @@ class AnetSDKRequestFactoryTest extends \PHPUnit\Framework\TestCase
     /** @var RequestConfiguratorRegistry|\PHPUnit\Framework\MockObject\MockObject */
     protected $requestConfiguratorRegistry;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->requestConfiguratorRegistry = $this->createMock(RequestConfiguratorRegistry::class);
         $this->factory = new AnetSDKRequestFactory($this->requestConfiguratorRegistry);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->factory, $this->requestConfiguratorRegistry);
     }

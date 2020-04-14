@@ -18,7 +18,7 @@ class PaymentProfileEncodedDataTypeTest extends FormIntegrationTestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->formType = new PaymentProfileEncodedDataType();
         parent::setUp();

@@ -25,7 +25,7 @@ class AuthorizeNetPaymentMethodViewFactoryTest extends \PHPUnit\Framework\TestCa
      */
     protected $tokenAccessor;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->formFactory = $this->createMock(FormFactoryInterface::class);
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);

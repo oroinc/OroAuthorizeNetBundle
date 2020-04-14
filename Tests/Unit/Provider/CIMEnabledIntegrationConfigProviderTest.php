@@ -23,7 +23,7 @@ class CIMEnabledIntegrationConfigProviderTest extends \PHPUnit\Framework\TestCas
     /** @var CIMEnabledIntegrationConfigProvider */
     private $provider;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->configProvider = $this->createMock(AuthorizeNetCIMEnabledConfigProviderInterface::class);
         $this->websiteManager = $this->createMock(WebsiteManager::class);
