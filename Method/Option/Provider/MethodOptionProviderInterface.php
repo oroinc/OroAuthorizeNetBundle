@@ -11,6 +11,7 @@ interface MethodOptionProviderInterface extends
     OpaqueOptionProviderInterface,
     CustomerProfileOptionProviderInterface,
     InternalOptionProviderInterface,
-    PaymentOptionProviderInterface
+    PaymentOptionProviderInterface,
+    HttpRequestOptionProviderInterface
 {
 }

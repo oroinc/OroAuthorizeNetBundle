@@ -15,6 +15,8 @@ use Oro\Bundle\OrderBundle\Entity\Order;
 use Oro\Bundle\OrderBundle\Entity\OrderLineItem;
 use Oro\Bundle\PaymentBundle\Entity\PaymentTransaction;
 use Oro\Component\Testing\Unit\EntityTrait;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
@@ -39,6 +41,9 @@ class MethodOptionProviderTest extends \PHPUnit\Framework\TestCase
     /** @var MerchantCustomerIdGenerator|\PHPUnit\Framework\MockObject\MockObject */
     private $merchantCustomerIdGenerator;
 
+    /** @var \PHPUnit\Framework\MockObject\MockObject|RequestStack */
+    private $requestStack;
+
     /** @var MethodOptionProvider */
     private $methodOptionProvider;
 
@@ -49,12 +54,15 @@ class MethodOptionProviderTest extends \PHPUnit\Framework\TestCase
         $this->customerProfileProvider = $this->createMock(CustomerProfileProvider::class);
         $this->doctrineHelper = $this->createMock(DoctrineHelper::class);
         $this->merchantCustomerIdGenerator = $this->createMock(MerchantCustomerIdGenerator::class);
+        $this->requestStack = $this->createMock(RequestStack::class);
+
         $this->methodOptionProvider = new MethodOptionProvider(
             $this->config,
             $this->paymentTransaction,
             $this->customerProfileProvider,
             $this->doctrineHelper,
-            $this->merchantCustomerIdGenerator
+            $this->merchantCustomerIdGenerator,
+            $this->requestStack
         );
     }
 
@@ -403,5 +411,28 @@ class MethodOptionProviderTest extends \PHPUnit\Framework\TestCase
                 'configEnabled' => true
             ]
         ];
+    }
+
+    public function testGetCustomerIpOptions()
+    {
+        $request = $this->createMock(Request::class);
+        $request->expects($this->once())
+            ->method('getClientIp')
+            ->willReturn('127.0.0.1');
+
+        $this->requestStack->expects($this->once())
+            ->method('getCurrentRequest')
+            ->willReturn($request);
+
+        $this->assertEquals('127.0.0.1', $this->methodOptionProvider->getClientIp());
+    }
+
+    public function testGetCustomerIpOptionsWithoutRequest()
+    {
+        $this->requestStack->expects($this->once())
+            ->method('getCurrentRequest')
+            ->willReturn(null);
+
+        $this->assertNull($this->methodOptionProvider->getClientIp());
     }
 }

@@ -13,6 +13,7 @@ use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\PaymentBundle\Entity\PaymentTransaction;
 use Oro\Bundle\PaymentBundle\Provider\AddressExtractor;
 use Oro\Bundle\TaxBundle\Provider\TaxProviderRegistry;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Create Options Provider for Payment Method requests
@@ -34,6 +35,9 @@ class MethodOptionProviderFactory
     /** @var TaxProviderRegistry */
     private $taxProviderRegistry;
 
+    /** @var RequestStack */
+    private $requestStack;
+
     /**
      * MethodOptionProviderFactory constructor.
      * @param CustomerProfileProvider $customerProfileProvider
@@ -41,19 +45,22 @@ class MethodOptionProviderFactory
      * @param DoctrineHelper $doctrineHelper
      * @param AddressExtractor $addressExtractor
      * @param TaxProviderRegistry $taxProviderRegistry
+     * @param RequestStack $requestStack
      */
     public function __construct(
         CustomerProfileProvider $customerProfileProvider,
         MerchantCustomerIdGenerator $merchantCustomerIdGenerator,
         DoctrineHelper $doctrineHelper,
         AddressExtractor $addressExtractor,
-        TaxProviderRegistry $taxProviderRegistry
+        TaxProviderRegistry $taxProviderRegistry,
+        RequestStack $requestStack
     ) {
         $this->customerProfileProvider = $customerProfileProvider;
         $this->merchantCustomerIdGenerator = $merchantCustomerIdGenerator;
         $this->doctrineHelper = $doctrineHelper;
         $this->addressExtractor = $addressExtractor;
         $this->taxProviderRegistry = $taxProviderRegistry;
+        $this->requestStack = $requestStack;
     }
 
     /**
@@ -70,7 +77,8 @@ class MethodOptionProviderFactory
             $transaction,
             $this->customerProfileProvider,
             $this->doctrineHelper,
-            $this->merchantCustomerIdGenerator
+            $this->merchantCustomerIdGenerator,
+            $this->requestStack
         );
     }
 

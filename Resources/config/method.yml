@@ -116,6 +116,7 @@ services:
             - '@oro_entity.doctrine_helper'
             - '@oro_payment.provider.address_extractor'
             - '@oro_tax.provider.tax_provider_registry'
+            - '@request_stack'
 
     oro_authorize_net.method.option.resolver:
         class: Oro\Bundle\AuthorizeNetBundle\Method\Option\Resolver\MethodOptionResolver

@@ -13,29 +13,33 @@ use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\PaymentBundle\Entity\PaymentTransaction;
 use Oro\Bundle\PaymentBundle\Provider\AddressExtractor;
 use Oro\Bundle\TaxBundle\Provider\TaxProviderRegistry;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class MethodOptionProviderFactoryTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var CustomerProfileProvider */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|CustomerProfileProvider */
     private $customerProfileProvider;
 
-    /** @var MerchantCustomerIdGenerator */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|MerchantCustomerIdGenerator */
     private $merchantCustomerIdGenerator;
 
-    /** @var DoctrineHelper */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|DoctrineHelper */
     private $doctrineHelper;
 
-    /** @var AddressExtractor */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|AddressExtractor */
     protected $addressExtractor;
 
-    /** @var TaxProviderRegistry */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|TaxProviderRegistry */
     private $taxProviderRegistry;
+
+    /** @var \PHPUnit\Framework\MockObject\MockObject|RequestStack */
+    private $requestStack;
+
+    /** @var \PHPUnit\Framework\MockObject\MockObject|PaymentTransaction */
+    private $transaction;
 
     /** @var MethodOptionProviderFactory*/
     private $factory;
-
-    /** @var PaymentTransaction */
-    private $transaction;
 
     public function setUp()
     {
@@ -45,13 +49,15 @@ class MethodOptionProviderFactoryTest extends \PHPUnit\Framework\TestCase
         $this->addressExtractor = $this->createMock(AddressExtractor::class);
         $this->taxProviderRegistry = $this->createMock(TaxProviderRegistry::class);
         $this->transaction = $this->createMock(PaymentTransaction::class);
+        $this->requestStack = $this->createMock(RequestStack::class);
 
         $this->factory = new MethodOptionProviderFactory(
             $this->customerProfileProvider,
             $this->merchantCustomerIdGenerator,
             $this->doctrineHelper,
             $this->addressExtractor,
-            $this->taxProviderRegistry
+            $this->taxProviderRegistry,
+            $this->requestStack
         );
     }
 

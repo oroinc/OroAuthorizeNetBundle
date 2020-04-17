@@ -43,6 +43,8 @@ abstract class AbstractOptionTest extends \PHPUnit\Framework\TestCase
             sort($expectedResult);
             sort($resolvedOptions);
             $this->assertSame($expectedResult, $resolvedOptions);
+        } else {
+            $this->assertEmpty($resolvedOptions);
         }
     }
 

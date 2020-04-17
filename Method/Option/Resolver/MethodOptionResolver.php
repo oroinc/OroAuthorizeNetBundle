@@ -7,6 +7,7 @@ use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfigInterface;
 use Oro\Bundle\AuthorizeNetBundle\Method\Option\Provider\AddressInfoProvider;
 use Oro\Bundle\AuthorizeNetBundle\Method\Option\Provider\CustomerProfileOptionProviderInterface;
 use Oro\Bundle\AuthorizeNetBundle\Method\Option\Provider\Factory\MethodOptionProviderFactory;
+use Oro\Bundle\AuthorizeNetBundle\Method\Option\Provider\HttpRequestOptionProviderInterface;
 use Oro\Bundle\AuthorizeNetBundle\Method\Option\Provider\InternalOptionProviderInterface;
 use Oro\Bundle\AuthorizeNetBundle\Method\Option\Provider\MerchantOptionProviderInterface;
 use Oro\Bundle\AuthorizeNetBundle\Method\Option\Provider\MethodOptionProvider;
@@ -68,7 +69,8 @@ class MethodOptionResolver implements MethodOptionResolverInterface
             $this->getShipToOptions($addressInfoProvider),
             $this->getLineItemsOptions($provider),
             $this->getInvoiceNumberOptions($provider),
-            $this->getTaxAmountOptions($taxProvider)
+            $this->getTaxAmountOptions($taxProvider),
+            $this->getCustomerIpOptions($provider)
         );
 
         if ($this->isOpaqueFlow($provider)) {
@@ -436,6 +438,21 @@ class MethodOptionResolver implements MethodOptionResolverInterface
 
         if ($taxAmount) {
             $options[Option\TaxAmount::NAME] = $taxAmount;
+        }
+
+        return $options;
+    }
+
+    /**
+     * @param HttpRequestOptionProviderInterface $provider
+     * @return array
+     */
+    protected function getCustomerIpOptions(HttpRequestOptionProviderInterface $provider): array
+    {
+        $options = [];
+        $ip = $provider->getClientIp();
+        if ($ip) {
+            $options[Option\CustomerIp::NAME] = $ip;
         }
 
         return $options;

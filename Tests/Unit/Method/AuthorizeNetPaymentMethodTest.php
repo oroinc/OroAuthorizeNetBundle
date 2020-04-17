@@ -104,7 +104,8 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
                     new MerchantCustomerIdGenerator(),
                     $this->doctrineHelper,
                     $this->addressExtractor,
-                    $this->taxProviderRegistry
+                    $this->taxProviderRegistry,
+                    $this->requestStack
                 )
             ),
             $this->eventDispatcher
@@ -193,6 +194,14 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
         $testMode = false;
         $transaction = $this->createPaymentTransaction(PaymentMethodInterface::PURCHASE, $profileId);
 
+        $request = $this->createMock(Request::class);
+        $request->expects($this->any())
+            ->method('getClientIp')
+            ->willReturn('127.0.0.1');
+        $this->requestStack->expects($this->any())
+            ->method('getCurrentRequest')
+            ->willReturn($request);
+
         $this->paymentConfig->expects($this->any())
             ->method('isTestMode')
             ->willReturn($testMode);
@@ -257,6 +266,9 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($requestSuccessful, $transaction->isActive());
         $this->assertSame($transId, $transaction->getReference());
         $this->assertSame($responseArray, $transaction->getResponse());
+        $options = $transaction->getRequest();
+        $this->assertArrayHasKey('customer_ip', $options);
+        $this->assertEquals('127.0.0.1', $options['customer_ip']);
     }
 
     /**
