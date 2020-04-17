@@ -13,6 +13,7 @@ use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\PaymentBundle\Entity\PaymentTransaction;
 use Oro\Bundle\PaymentBundle\Provider\AddressExtractor;
 use Oro\Bundle\TaxBundle\Provider\TaxProviderRegistry;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Create Options Provider for Payment Method requests
@@ -34,26 +35,32 @@ class MethodOptionProviderFactory
     /** @var TaxProviderRegistry */
     private $taxProviderRegistry;
 
-    /**
-     * MethodOptionProviderFactory constructor.
-     * @param CustomerProfileProvider $customerProfileProvider
-     * @param MerchantCustomerIdGenerator $merchantCustomerIdGenerator
-     * @param DoctrineHelper $doctrineHelper
-     * @param AddressExtractor $addressExtractor
-     * @param TaxProviderRegistry $taxProviderRegistry
-     */
+    /** @var RequestStack */
+    private $requestStack;
+
     public function __construct(
         CustomerProfileProvider $customerProfileProvider,
         MerchantCustomerIdGenerator $merchantCustomerIdGenerator,
         DoctrineHelper $doctrineHelper,
         AddressExtractor $addressExtractor,
         TaxProviderRegistry $taxProviderRegistry
+        // Will be added in version 4.2:
+        // RequestStack $requestStack = null
     ) {
         $this->customerProfileProvider = $customerProfileProvider;
         $this->merchantCustomerIdGenerator = $merchantCustomerIdGenerator;
         $this->doctrineHelper = $doctrineHelper;
         $this->addressExtractor = $addressExtractor;
         $this->taxProviderRegistry = $taxProviderRegistry;
+    }
+
+    /**
+     * @deprecated Will be removed in version 4.2, constructor injection will be used instead.
+     */
+    public function setRequestStack(RequestStack $requestStack): self
+    {
+        $this->requestStack = $requestStack;
+        return $this;
     }
 
     /**
@@ -65,13 +72,13 @@ class MethodOptionProviderFactory
         AuthorizeNetConfigInterface $config,
         PaymentTransaction $transaction
     ): MethodOptionProviderInterface {
-        return new MethodOptionProvider(
+        return (new MethodOptionProvider(
             $config,
             $transaction,
             $this->customerProfileProvider,
             $this->doctrineHelper,
             $this->merchantCustomerIdGenerator
-        );
+        ))->setRequestStack($this->requestStack);
     }
 
     /**

@@ -70,7 +70,8 @@ class TransactionRequestConfigurator implements RequestConfiguratorInterface
             $options[Option\Address\FaxNumber::FAX_NUMBER],
             $options[Option\LineItems::NAME],
             $options[Option\InvoiceNumber::NAME],
-            $options[Option\TaxAmount::NAME]
+            $options[Option\TaxAmount::NAME],
+            $options[Option\CustomerIp::NAME]
         );
         // Remove handled options from shipping address as well
         foreach (Option\ShippingAddress::ALL_OPTION_KEYS as $shipingAddresField) {
@@ -91,6 +92,7 @@ class TransactionRequestConfigurator implements RequestConfiguratorInterface
         $amount = $options[Option\Amount::AMOUNT] ?? null;
         $currencyCode = $options[Option\Currency::CURRENCY] ?? null;
         $refTransId = $options[Option\OriginalTransaction::ORIGINAL_TRANSACTION] ?? null;
+        $customerIp = $options[Option\CustomerIp::NAME] ?? null;
 
         $this
             ->setAnetRequestProp($request, $accessor, 'transactionType', $transactionType)
@@ -105,7 +107,8 @@ class TransactionRequestConfigurator implements RequestConfiguratorInterface
             ->setAnetRequestProp($request, $accessor, 'shipTo', $this->getShipTo($options))
             ->setAnetRequestProp($request, $accessor, 'lineItems', $this->getLineItems($options))
             ->setAnetRequestProp($request, $accessor, 'order', $this->getOrder($options))
-            ->setAnetRequestProp($request, $accessor, 'tax', $this->getTax($options));
+            ->setAnetRequestProp($request, $accessor, 'tax', $this->getTax($options))
+            ->setAnetRequestProp($request, $accessor, 'customerIP', $customerIp);
 
         return $request;
     }
