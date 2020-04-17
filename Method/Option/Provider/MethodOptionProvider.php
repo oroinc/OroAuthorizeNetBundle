@@ -11,6 +11,7 @@ use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\OrderBundle\Entity\Order;
 use Oro\Bundle\OrderBundle\Entity\OrderLineItem;
 use Oro\Bundle\PaymentBundle\Entity\PaymentTransaction;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
@@ -19,7 +20,9 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  *   from database
  *   from paymentTransaction->additionalData
  */
-class MethodOptionProvider implements MethodOptionProviderInterface
+class MethodOptionProvider implements
+    MethodOptionProviderInterface,
+    HttpRequestOptionProviderInterface // Will be moved from here to MethodOptionProviderInterface in version 4.2
 {
     // Authorize.Net solution id
     public const SOLUTION_ID = 'AAA171478';
@@ -50,25 +53,32 @@ class MethodOptionProvider implements MethodOptionProviderInterface
     /** @var array */
     private $additionalData;
 
-    /**
-     * @param AuthorizeNetConfigInterface $config
-     * @param PaymentTransaction $paymentTransaction
-     * @param CustomerProfileProvider $customerProfileProvider
-     * @param DoctrineHelper $doctrineHelper
-     * @param MerchantCustomerIdGenerator $merchantCustomerIdGenerator
-     */
+    /** @var RequestStack */
+    private $requestStack;
+
     public function __construct(
         AuthorizeNetConfigInterface $config,
         PaymentTransaction $paymentTransaction,
         CustomerProfileProvider $customerProfileProvider,
         DoctrineHelper $doctrineHelper,
         MerchantCustomerIdGenerator $merchantCustomerIdGenerator
+        // Will be added in version 4.2:
+        // RequestStack $requestStack
     ) {
         $this->config = $config;
         $this->paymentTransaction = $paymentTransaction;
         $this->customerProfileProvider = $customerProfileProvider;
         $this->doctrineHelper = $doctrineHelper;
         $this->merchantCustomerIdGenerator = $merchantCustomerIdGenerator;
+    }
+
+    /**
+     * @deprecated Will be removed in version 4.2, constructor injection will be used instead.
+     */
+    public function setRequestStack(RequestStack $requestStack): self
+    {
+        $this->requestStack = $requestStack;
+        return $this;
     }
 
     /**
@@ -371,5 +381,15 @@ class MethodOptionProvider implements MethodOptionProviderInterface
     public function isCIMEnabled(): bool
     {
         return $this->config->isEnabledCIM();
+    }
+
+    public function getClientIp(): ?string
+    {
+        $request = $this->requestStack->getCurrentRequest();
+        if ($request) {
+            return $request->getClientIp();
+        }
+
+        return null;
     }
 }

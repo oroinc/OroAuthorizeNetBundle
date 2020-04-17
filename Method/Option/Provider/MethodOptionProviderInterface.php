@@ -12,5 +12,7 @@ interface MethodOptionProviderInterface extends
     CustomerProfileOptionProviderInterface,
     InternalOptionProviderInterface,
     PaymentOptionProviderInterface
+    // Will be added in version 4.2:
+    // HttpRequestOptionProviderInterface
 {
 }
