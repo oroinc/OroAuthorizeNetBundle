@@ -16,6 +16,7 @@ abstract class AbstractTransactionRequest extends AbstractRequest
             ->addOption(new Option\Amount())
             ->addOption(new Option\Currency())
             ->addOption(new Option\SolutionId($isRequired = false))
+            ->addOption(new Option\CustomerIp($isRequired = false))
         ;
     }
 

@@ -13,46 +13,27 @@ use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\PaymentBundle\Entity\PaymentTransaction;
 use Oro\Bundle\PaymentBundle\Provider\AddressExtractor;
 use Oro\Bundle\TaxBundle\Provider\TaxProviderRegistry;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class MethodOptionProviderFactoryTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var CustomerProfileProvider */
-    private $customerProfileProvider;
-
-    /** @var MerchantCustomerIdGenerator */
-    private $merchantCustomerIdGenerator;
-
-    /** @var DoctrineHelper */
-    private $doctrineHelper;
-
-    /** @var AddressExtractor */
-    protected $addressExtractor;
-
-    /** @var TaxProviderRegistry */
-    private $taxProviderRegistry;
+    /** @var \PHPUnit\Framework\MockObject\MockObject|PaymentTransaction */
+    private $transaction;
 
     /** @var MethodOptionProviderFactory*/
     private $factory;
 
-    /** @var PaymentTransaction */
-    private $transaction;
-
     public function setUp()
     {
-        $this->customerProfileProvider = $this->createMock(CustomerProfileProvider::class);
-        $this->merchantCustomerIdGenerator = $this->createMock(MerchantCustomerIdGenerator::class);
-        $this->doctrineHelper = $this->createMock(DoctrineHelper::class);
-        $this->addressExtractor = $this->createMock(AddressExtractor::class);
-        $this->taxProviderRegistry = $this->createMock(TaxProviderRegistry::class);
         $this->transaction = $this->createMock(PaymentTransaction::class);
 
-        $this->factory = new MethodOptionProviderFactory(
-            $this->customerProfileProvider,
-            $this->merchantCustomerIdGenerator,
-            $this->doctrineHelper,
-            $this->addressExtractor,
-            $this->taxProviderRegistry
-        );
+        $this->factory = (new MethodOptionProviderFactory(
+            $this->createMock(CustomerProfileProvider::class),
+            $this->createMock(MerchantCustomerIdGenerator::class),
+            $this->createMock(DoctrineHelper::class),
+            $this->createMock(AddressExtractor::class),
+            $this->createMock(TaxProviderRegistry::class),
+        ))->setRequestStack($this->createMock(RequestStack::class));
     }
 
     public function testCreateMethodOptionProvider()
