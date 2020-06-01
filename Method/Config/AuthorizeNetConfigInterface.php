@@ -10,7 +10,9 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
  * Represents Authorize.Net integration parameters as DTO Interface
  * required to manage prepare/send requests to Authorize.Net flow
  */
-interface AuthorizeNetConfigInterface extends PaymentConfigInterface
+interface AuthorizeNetConfigInterface extends
+    PaymentConfigInterface,
+    TransactionHoldConfigInterface
 {
     /**
      * @return string

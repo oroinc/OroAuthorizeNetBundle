@@ -45,6 +45,26 @@ class AuthorizeNetSDKResponseTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->authorizeNetSdkResponse->isSuccessful());
     }
 
+    public function tesIsActiveWithErrorResultCode()
+    {
+        $messages = new MessagesType();
+        $messages->setResultCode('Error');
+        $this->apiResponse->expects($this->once())->method('getMessages')
+            ->willReturn($messages);
+
+        $this->assertFalse($this->authorizeNetSdkResponse->isActive());
+    }
+
+    public function tesIsActiveWithValidResponse()
+    {
+        $messages = new MessagesType();
+        $messages->setResultCode('Ok');
+        $this->apiResponse->expects($this->once())->method('getMessages')
+            ->willReturn($messages);
+
+        $this->assertTrue($this->authorizeNetSdkResponse->isActive());
+    }
+
     public function testGetReference()
     {
         $refId = '111';

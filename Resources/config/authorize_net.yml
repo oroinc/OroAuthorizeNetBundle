@@ -93,6 +93,12 @@ services:
         tags:
             - { name: oro_authorize_net.authorize_net.request }
 
+    oro_authorize_net.authorize_net.request.get_transaction_details:
+        class: 'Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request\GetTransactionDetailsRequest'
+        public: false
+        tags:
+            - { name: oro_authorize_net.authorize_net.request }
+
     oro_authorize_net.authorize_net.client.factory.anet_sdk_request_factory:
         class: 'Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\Factory\AnetSDKRequestFactory'
         public: false
@@ -161,6 +167,12 @@ services:
 
     oro_authorize_net.authorize_net.client.request_configurator.delete_customer_payment_profile_request:
         class: 'Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\RequestConfigurator\DeleteCustomerPaymentProfileRequestConfigurator'
+        public: false
+        tags:
+            - { name: oro_authorize_net.authorize_net.client.request_configurator }
+
+    oro_authorize_net.authorize_net.client.request_configurator.get_transaction_details_request:
+        class: 'Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\RequestConfigurator\GetTransactionDetailsRequestConfigurator'
         public: false
         tags:
             - { name: oro_authorize_net.authorize_net.client.request_configurator }

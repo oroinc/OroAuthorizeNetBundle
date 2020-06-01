@@ -8,7 +8,9 @@ use net\authorize\api\contract\v1\ANetApiResponseType;
 /**
  * General Response class to represent AuthorizeNet API Response
  */
-class AuthorizeNetSDKResponse implements ResponseInterface
+class AuthorizeNetSDKResponse implements
+    ResponseInterface,
+    ResponseActiveTransactionInterface
 {
     /**
      * @var ANetApiResponseType
@@ -39,6 +41,14 @@ class AuthorizeNetSDKResponse implements ResponseInterface
      * {@inheritdoc}
      */
     public function isSuccessful()
+    {
+        return $this->apiResponse->getMessages()->getResultCode() === 'Ok';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isActive()
     {
         return $this->apiResponse->getMessages()->getResultCode() === 'Ok';
     }

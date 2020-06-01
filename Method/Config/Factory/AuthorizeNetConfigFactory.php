@@ -74,6 +74,7 @@ class AuthorizeNetConfigFactory implements AuthorizeNetConfigFactoryInterface
         $params[AuthorizeNetConfig::ECHECK_ENABLED] = $settings->isECheckEnabled();
         $params[AuthorizeNetConfig::ECHECK_ACCOUNT_TYPES] = $settings->getECheckAccountTypes();
         $params[AuthorizeNetConfig::ECHECK_CONFIRMATION_TEXT] = $settings->getECheckConfirmationText();
+        $params[AuthorizeNetConfig::ALLOW_HOLD_TRANSACTION] = $settings->isAllowHoldTransaction();
 
         return new AuthorizeNetConfig($params);
     }
