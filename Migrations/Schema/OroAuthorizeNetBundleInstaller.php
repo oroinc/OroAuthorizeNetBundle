@@ -28,7 +28,7 @@ class OroAuthorizeNetBundleInstaller implements Installation
      */
     public function getMigrationVersion()
     {
-        return 'v1_1';
+        return 'v1_2';
     }
 
     /**
@@ -67,12 +67,13 @@ class OroAuthorizeNetBundleInstaller implements Installation
         $table->addColumn('au_net_client_key', 'string', ['notnull' => false, 'length' => 255]);
         $table->addColumn('au_net_credit_card_action', 'string', ['notnull' => false, 'length' => 255]);
         $table->addColumn('au_net_allowed_card_types', 'array', ['notnull' => false, 'comment' => '(DC2Type:array)']);
-        $table->addColumn('au_net_test_mode', 'boolean', ['default' => '0', 'notnull' => false]);
-        $table->addColumn('au_net_require_cvv_entry', 'boolean', ['default' => '1', 'notnull' => false]);
-        $table->addColumn('au_net_enabled_cim', 'boolean', ['default' => '0', 'notnull' => false]);
+        $table->addColumn('au_net_test_mode', 'boolean', ['default' => false, 'notnull' => false]);
+        $table->addColumn('au_net_require_cvv_entry', 'boolean', ['default' => true, 'notnull' => false]);
+        $table->addColumn('au_net_enabled_cim', 'boolean', ['default' => false, 'notnull' => false]);
+        $table->addColumn('au_net_allow_hold_transaction', 'boolean', ['default' => true, 'notnull' => false]);
 
         $table->addColumn(self::ECHECK_ENABLED_COLUMN, 'boolean', [
-            'default' => '0',
+            'default' => false,
             'notnull' => false
         ]);
         $table->addColumn(self::ECHECK_ACCOUNT_TYPES_COLUMN, 'array', [

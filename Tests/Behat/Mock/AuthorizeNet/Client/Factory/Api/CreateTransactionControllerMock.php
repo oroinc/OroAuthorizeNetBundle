@@ -56,6 +56,8 @@ class CreateTransactionControllerMock extends AbstractControllerMock implements
      * @param null|string $endPoint
      *
      * @return CreateTransactionResponse
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function executeWithApiResponse($endPoint = null): CreateTransactionResponse
     {
@@ -78,8 +80,14 @@ class CreateTransactionControllerMock extends AbstractControllerMock implements
         }
 
         $payment = $this->request->getTransactionRequest()->getPayment();
-        if ($payment && $payment->getOpaqueData()->getDataValue() === 'special_data_value_for_api_error_emulation') {
-            return $this->getInvalidTokenErrorResponse();
+        if ($payment) {
+            $value = $payment->getOpaqueData()->getDataValue();
+            switch ($value) {
+                case 'special_data_value_for_api_error_emulation':
+                    return $this->getInvalidTokenErrorResponse();
+                case 'special_data_value_for_not_approved_emulation':
+                    return $this->getNotApprovedResponse();
+            }
         }
 
         return $this->getSuccessResponse();
@@ -175,6 +183,47 @@ class CreateTransactionControllerMock extends AbstractControllerMock implements
                 (new MessageAType())
                     ->setCode('1')
                     ->setDescription('This transaction has been approved.')
+            );
+        $response->setTransactionResponse($transactionResponse);
+
+        return $response;
+    }
+
+    /**
+     * @return CreateTransactionResponse
+     */
+    private function getNotApprovedResponse(): CreateTransactionResponse
+    {
+        $transId = '60022132422';
+        $transactionRequest = $this->request->getTransactionRequest();
+        if ($transactionRequest->getTransactionType() === 'authCaptureTransaction') {
+            $transId = '60044567889';
+        }
+
+        $response = new CreateTransactionResponse();
+        $messages = new MessagesType();
+        $messages->setResultCode('Ok');
+        $messages->addToMessage(
+            (new MessagesType\MessageAType())
+                ->setCode('I00001')
+                ->setText('Successful.')
+        );
+        $response->setMessages($messages);
+
+        $transactionResponse = new TransactionResponseType();
+        $transactionResponse
+            ->setResponseCode('4')
+            ->setAuthCode('01E43S')
+            ->setAvsResultCode('Y')
+            ->setCavvResultCode('2')
+            ->setTransId($transId)
+            ->setRefTransID('02886C4D3363CFE3E925548C84092F01')
+            ->setTestRequest('0')
+            ->setAccountNumber('123456789')
+            ->addToMessages(
+                (new MessageAType())
+                    ->setCode('252')
+                    ->setDescription('The transaction was accepted, but is being held for merchant review.')
             );
         $response->setTransactionResponse($transactionResponse);
 

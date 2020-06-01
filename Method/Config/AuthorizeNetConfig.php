@@ -24,6 +24,7 @@ class AuthorizeNetConfig extends AbstractParameterBagPaymentConfig implements Au
     const ECHECK_ENABLED = 'echeck_enabled';
     const ECHECK_ACCOUNT_TYPES = 'echeck_account_types';
     const ECHECK_CONFIRMATION_TEXT = 'echeck_confirmation_text';
+    const ALLOW_HOLD_TRANSACTION = 'allow_hold_transaction';
 
     /**
      * {@inheritdoc}
@@ -127,5 +128,13 @@ class AuthorizeNetConfig extends AbstractParameterBagPaymentConfig implements Au
     public function getECheckConfirmationText(): string
     {
         return (string) $this->get(self::ECHECK_CONFIRMATION_TEXT);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isAllowHoldTransaction(): bool
+    {
+        return (bool) $this->get(self::ALLOW_HOLD_TRANSACTION);
     }
 }

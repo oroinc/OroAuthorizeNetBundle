@@ -23,6 +23,13 @@ oro:
             credit_card_short_labels.label: 'Short Label'
             test_mode.label: 'Test Mode'
             require_cvv.label: 'Require CVV Entry'
+            allow_hold_transaction:
+                label: 'Create orders for transactions held for review'
+                tooltip: |
+                    Use this option to enable order creation in OroCommerce
+                    if you configured fraud detection filters in your Authorize.Net account and
+                    set the filter action to "Authorize and hold for review" or "Do not authorize, but hold for review".
+                    The created orders will be authorized only, regardless of the "Payment Action" selection.
             enabled_cim:
                 label: 'Enable CIM'
                 tooltip: 'Enables Customer Information Manager Integration. <a href="https://www.authorize.net/our-features/secure-customer-data" target="_blank">More info</a>'
@@ -102,6 +109,17 @@ oro:
             name_on_account.label: 'Name on Account'
             bank_name.label: 'Bank Name'
 
+        verify_status: 'Verify Status'
+        message:
+            not_approved: 'This transaction has not been approved yet. Please approve it your Authorize.Net account to enable capture.'
+            approved: 'This transaction has been approved. You may initiate the charge by clicking "Capture".'
+            charged: 'This transaction has already been approved and charged. This order will be marked as paid.'
+            declined: 'This transaction was declined.'
+            voided: 'This transaction was voided.'
+            allow_hold_transaction: |
+                Unable to create an order because the transaction limit reached.
+                Please enable "Create Orders For Transactions Held For Review" option.
+
         frontend:
             payment_profile:
                 datagrid:
@@ -160,3 +178,10 @@ oro:
                     save_profile:
                         label: 'Save payment details'
                         tooltip: 'Securely save your payment data for later use'
+
+    payment:
+        paymenttransaction:
+            types:
+                verify.label: Verify
+                voided.label: Voided
+                declined.label: Declined

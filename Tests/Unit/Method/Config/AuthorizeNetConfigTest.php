@@ -30,7 +30,8 @@ class AuthorizeNetConfigTest extends AbstractPaymentConfigTestCase
             AuthorizeNetConfig::API_LOGIN_ID => 'api login id',
             AuthorizeNetConfig::TRANSACTION_KEY => 'trans key',
             AuthorizeNetConfig::INTEGRATION_ID => 4,
-            AuthorizeNetConfig::ECHECK_ENABLED => true
+            AuthorizeNetConfig::ECHECK_ENABLED => true,
+            AuthorizeNetConfig::ALLOW_HOLD_TRANSACTION => true
         ];
 
         return new AuthorizeNetConfig($params);
@@ -74,5 +75,10 @@ class AuthorizeNetConfigTest extends AbstractPaymentConfigTestCase
     public function testIsECheckEnabled()
     {
         $this->assertTrue($this->config->isECheckEnabled());
+    }
+
+    public function tesIsAllowHoldTransaction()
+    {
+        $this->assertTrue($this->config->isAllowHoldTransaction());
     }
 }

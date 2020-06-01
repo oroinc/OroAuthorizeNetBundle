@@ -161,7 +161,8 @@ class AuthorizeNetSettingsTypeTest extends FormIntegrationTestCase
             'eCheckLabels' => [['string' => 'eCheck Label']],
             'eCheckShortLabels' => [['string' => 'eCheck Short']],
             'eCheckAccountTypes' => ['checking'],
-            'eCheckConfirmationText' => 'some text'
+            'eCheckConfirmationText' => 'some text',
+            'allowHoldTransaction' => true
         ];
 
         $this->cryptedDataTransformerFactory
