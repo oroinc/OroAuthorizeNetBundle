@@ -39,4 +39,11 @@ interface MethodOptionResolverInterface
      * @return array
      */
     public function resolveCapture(AuthorizeNetConfigInterface $config, PaymentTransaction $transaction): array;
+
+    /**
+     * @param AuthorizeNetConfigInterface $config
+     * @param PaymentTransaction $transaction
+     * @return array
+     */
+    public function resolveVerify(AuthorizeNetConfigInterface $config, PaymentTransaction $transaction): array;
 }

@@ -137,6 +137,10 @@ class AnetSDKRequestFactoryTest extends \PHPUnit\Framework\TestCase
             'get_customer_profile_request' => [
                 'apiRequestClass' => AnetAPI\GetCustomerProfileRequest::class,
                 'apiControllerClass' => AnetController\GetCustomerProfileController::class
+            ],
+            'get_transaction_details_request' => [
+                'apiRequestClass' => AnetAPI\GetTransactionDetailsRequest::class,
+                'apiControllerClass' => AnetController\GetTransactionDetailsController::class
             ]
         ];
     }
@@ -186,6 +190,10 @@ class AnetSDKRequestFactoryTest extends \PHPUnit\Framework\TestCase
             'get customer profile' => [
                 'requestType' => Request\GetCustomerProfileRequest::REQUEST_TYPE,
                 'apiRequestClass' => AnetAPI\GetCustomerProfileRequest::class
+            ],
+            'get transaction details' => [
+                'requestType' => Request\GetTransactionDetailsRequest::REQUEST_TYPE,
+                'apiRequestClass' => AnetAPI\GetTransactionDetailsRequest::class
             ]
         ];
     }

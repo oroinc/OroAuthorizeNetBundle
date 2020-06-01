@@ -76,4 +76,9 @@ interface AuthorizeNetConfigInterface extends PaymentConfigInterface
      * @return string
      */
     public function getECheckConfirmationText(): string;
+
+    /**
+     * @return bool
+     */
+    public function isAllowHoldTransaction(): bool;
 }

@@ -171,7 +171,13 @@ class AuthorizeNetSettingsType extends AbstractType
                 'attr' => [
                     'placeholder' => 'oro.authorize_net.settings.echeck.confirmation_text.placeholder',
                 ]
-            ]);
+            ])
+            ->add('allowHoldTransaction', CheckboxType::class, [
+                'label' => 'oro.authorize_net.settings.allow_hold_transaction.label',
+                'tooltip' => 'oro.authorize_net.settings.allow_hold_transaction.tooltip',
+                'required' => false
+            ])
+        ;
 
         $this->transformWithEncodedValue($builder, 'apiLoginId');
         $this->transformWithEncodedValue($builder, 'clientKey');

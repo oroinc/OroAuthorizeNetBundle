@@ -46,6 +46,14 @@ class AuthorizeNetSDKResponse implements ResponseInterface
     /**
      * {@inheritdoc}
      */
+    public function isActive()
+    {
+        return $this->apiResponse->getMessages()->getResultCode() === 'Ok';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getReference()
     {
         return $this->apiResponse->getRefId();

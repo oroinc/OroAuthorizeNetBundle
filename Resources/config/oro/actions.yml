@@ -6,3 +6,53 @@ operations:
                   method: isChannelActivationAllowed
                   method_parameters: [$.data]
                   attribute: $.actionAllowed
+
+    oro_order_payment_transaction_verify:
+        label: oro.authorize_net.verify_status
+        button_options:
+            icon: fa-refresh
+        applications: [default]
+        datagrids:
+            - order-payment-transactions-grid
+        order: 20
+        preactions:
+            - '@assign_constant_value':
+                attribute: $.paymentMethodAction
+                value: Oro\Bundle\AuthorizeNetBundle\Method\AuthorizeNetPaymentMethod::VERIFY
+            - '@call_service_method':
+                service: oro_payment.payment_method.composite_provider
+                method: getPaymentMethod
+                method_parameters: [$.data.paymentMethod]
+                attribute: $.paymentMethod
+            - '@find_entity':
+                class: 'Oro\Bundle\OrderBundle\Entity\Order'
+                where:
+                    id: $.data.entityIdentifier
+                attribute: $.order
+        preconditions:
+            '@and':
+                - '@equal': [$.data.action, $.paymentMethodAction]
+                - '@equal': [$.data.entity_class, 'Oro\Bundle\OrderBundle\Entity\Order']
+                - '@equal': [$.data.active, false]
+                - '@equal': [$.data.successful, true]
+                - '@not_empty': $.paymentMethod
+                - '@instanceof': [$.paymentMethod, 'Oro\Bundle\AuthorizeNetBundle\Method\AuthorizeNetPaymentMethod']
+                - '@acl_granted': ['CHARGE_AUTHORIZED_PAYMENTS', $.order]
+                - '@payment_transaction_not_approved':
+                    transaction: $.data
+        actions:
+            - '@payment_transaction_verify':
+                object: $.data
+                paymentMethod: $.data.paymentMethod
+                transactionOptions: []
+                attribute: $.result
+            - '@flash_message':
+                conditions:
+                    '@equal': ['$.result[successful]', false]
+                message: '$.result[message]'
+                type: 'error'
+            - '@flash_message':
+                conditions:
+                    '@equal': ['$.result[successful]', true]
+                message: '$.result[message]'
+                type: 'success'

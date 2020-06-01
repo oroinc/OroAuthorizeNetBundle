@@ -130,7 +130,8 @@ class AuthorizeNetEcheckConfigFactoryTest extends \PHPUnit\Framework\TestCase
             'integration_id' => 1,
             'echeck_enabled' => true,
             'echeck_account_types' => ['type1', 'type2'],
-            'echeck_confirmation_text' => 'text'
+            'echeck_confirmation_text' => 'text',
+            'allow_hold_transaction' => true
 
         ]), $config);
     }

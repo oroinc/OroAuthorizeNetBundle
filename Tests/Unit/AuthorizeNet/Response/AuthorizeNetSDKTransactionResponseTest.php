@@ -10,13 +10,15 @@ use net\authorize\api\contract\v1\TransactionResponseType\ErrorsAType\ErrorAType
 use net\authorize\api\contract\v1\TransactionResponseType\MessagesAType\MessageAType as TransactionMessage;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response\AuthorizeNetSDKResponse;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response\AuthorizeNetSDKTransactionResponse;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class AuthorizeNetSDKTransactionResponseTest extends \PHPUnit\Framework\TestCase
+class AuthorizeNetSDKTransactionResponseTest extends TestCase
 {
-    /** @var ArrayTransformerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ArrayTransformerInterface|MockObject */
     protected $serializer;
 
-    /** @var CreateTransactionResponse|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var CreateTransactionResponse|MockObject */
     protected $apiResponse;
 
     /** @var AuthorizeNetSDKResponse */
@@ -29,40 +31,54 @@ class AuthorizeNetSDKTransactionResponseTest extends \PHPUnit\Framework\TestCase
         $this->authorizeNetSdkResponse = new AuthorizeNetSDKTransactionResponse($this->serializer, $this->apiResponse);
     }
 
-    public function testIsSuccessfulWithNullableTransactionResponse()
+    /**
+     * @dataProvider transactionDataProvider
+     * @param bool $expectedSuccessful
+     * @param bool $expectedActive
+     * @param mixed $transactionResponse
+     */
+    public function testIsSuccessful(bool $expectedSuccessful, bool $expectedActive, $transactionResponse): void
     {
-        $this->apiResponse->expects($this->once())->method('getTransactionResponse')->willReturn(null);
-        $this->assertFalse($this->authorizeNetSdkResponse->isSuccessful());
-    }
-
-    public function testIsSuccessfulWithZeroResponseCode()
-    {
-        $transactionResponse = new TransactionResponseType();
-        $transactionResponse->setResponseCode(0);
-        $this->apiResponse->expects($this->once())->method('getTransactionResponse')
+        $this->apiResponse->expects($this->exactly(2))
+            ->method('getTransactionResponse')
             ->willReturn($transactionResponse);
 
-        $this->assertFalse($this->authorizeNetSdkResponse->isSuccessful());
+        $this->assertEquals($expectedSuccessful, $this->authorizeNetSdkResponse->isSuccessful());
+        $this->assertEquals($expectedActive, $this->authorizeNetSdkResponse->isActive());
     }
 
-    public function testIsSuccessfulWithIntegerResponse()
+    /**
+     * @return array
+     */
+    public function transactionDataProvider(): array
     {
-        $transactionResponse = new TransactionResponseType();
-        $transactionResponse->setResponseCode(1);
-        $this->apiResponse->expects($this->once())->method('getTransactionResponse')
-            ->willReturn($transactionResponse);
-
-        $this->assertFalse($this->authorizeNetSdkResponse->isSuccessful());
-    }
-
-    public function testIsSuccessfulWithValidResponse()
-    {
-        $transactionResponse = new TransactionResponseType();
-        $transactionResponse->setResponseCode('1');
-        $this->apiResponse->expects($this->once())->method('getTransactionResponse')
-            ->willReturn($transactionResponse);
-
-        $this->assertTrue($this->authorizeNetSdkResponse->isSuccessful());
+        return [
+            'nullable_trans_response' => [
+                'expectedSuccessful' => false,
+                'expectedActive' => false,
+                'transactionResponse' => null
+            ],
+            'zero_trans_response' => [
+                'expectedSuccessful' => false,
+                'expectedActive' => false,
+                'transactionResponse' => (new TransactionResponseType())->setResponseCode(0)
+            ],
+            'integer_trans_response' => [
+                'expectedSuccessful' => false,
+                'expectedActive' => false,
+                'transactionResponse' => (new TransactionResponseType())->setResponseCode(1)
+            ],
+            'valid_trans_response' => [
+                'expectedSuccessful' => true,
+                'expectedActive' => true,
+                'transactionResponse' => (new TransactionResponseType())->setResponseCode('1')
+            ],
+            'valid_not_approved_trans_response' => [
+                'expectedSuccessful' => true,
+                'expectedActive' => false,
+                'transactionResponse' => (new TransactionResponseType())->setResponseCode('4')
+            ]
+        ];
     }
 
     public function testGetReferenceWithEmptyTransactionResponse()
@@ -141,7 +157,7 @@ class AuthorizeNetSDKTransactionResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * @return array
      */
-    public function responseArrayDataProvider()
+    public function responseArrayDataProvider(): array
     {
         return [
             [
