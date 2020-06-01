@@ -33,6 +33,7 @@ final class AnetSDKRequestFactoryMock extends AnetSDKRequestFactory implements
         Request\DeleteCustomerPaymentProfileRequest::REQUEST_TYPE => AnetAPI\DeleteCustomerPaymentProfileRequest::class,
         Request\UpdateCustomerPaymentProfileRequest::REQUEST_TYPE => AnetAPI\UpdateCustomerPaymentProfileRequest::class,
         Request\GetCustomerPaymentProfileRequest::REQUEST_TYPE => AnetAPI\GetCustomerPaymentProfileRequest::class,
+        Request\GetTransactionDetailsRequest::REQUEST_TYPE => AnetAPI\GetTransactionDetailsRequest::class,
     ];
 
     /** @var array */
@@ -48,7 +49,9 @@ final class AnetSDKRequestFactoryMock extends AnetSDKRequestFactory implements
         AnetAPI\UpdateCustomerPaymentProfileRequest::class =>
             MockControllers\UpdateCustomerPaymentProfileControllerMock::class,
         AnetAPI\GetCustomerPaymentProfileRequest::class =>
-            MockControllers\GetCustomerPaymentProfileControllerMock::class
+            MockControllers\GetCustomerPaymentProfileControllerMock::class,
+        AnetAPI\GetTransactionDetailsRequest::class =>
+            MockControllers\GetTransactionDetailsControllerMock::class,
     ];
 
     /**
