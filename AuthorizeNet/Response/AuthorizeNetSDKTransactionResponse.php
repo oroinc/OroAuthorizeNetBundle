@@ -11,6 +11,11 @@ use net\authorize\api\contract\v1\TransactionResponseType\MessagesAType\MessageA
  */
 class AuthorizeNetSDKTransactionResponse extends AuthorizeNetSDKResponse
 {
+    protected static $allowResponses = [
+        self::TRANS_SUCCESSFUL_RESPONSE_CODE,
+        self::TRANS_NOT_APPROVED_RESPONSE_CODE
+    ];
+
     /**
      * @var CreateTransactionResponse
      */
@@ -23,7 +28,22 @@ class AuthorizeNetSDKTransactionResponse extends AuthorizeNetSDKResponse
     {
         $transactionResponse = $this->apiResponse->getTransactionResponse();
 
-        return $transactionResponse && $transactionResponse->getResponseCode() === '1';
+        if ($transactionResponse) {
+            return in_array($transactionResponse->getResponseCode(), self::$allowResponses, true);
+        }
+
+        return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isActive()
+    {
+        $transactionResponse = $this->apiResponse->getTransactionResponse();
+
+        return $transactionResponse &&
+            $transactionResponse->getResponseCode() === self::TRANS_SUCCESSFUL_RESPONSE_CODE;
     }
 
     /**

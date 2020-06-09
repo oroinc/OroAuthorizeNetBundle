@@ -201,3 +201,23 @@ services:
             - '@oro_authorize_net.provider.customer_profile'
         tags:
             - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.after.base-frontend-payment-profiles-grid, method: onBuildAfter }
+
+    oro_authorize_net.event_listener.fraud_detection_transaction_listener:
+        class: 'Oro\Bundle\AuthorizeNetBundle\EventListener\FraudDetectionTransactionListener'
+        arguments:
+            - '@oro_authorize_net.method.config.provider'
+            - '@session'
+            - '@translator'
+        tags:
+            - { name: kernel.event_listener, event: oro_authorize_net.transaction_response.received, method: onTransactionResponseReceived }
+
+    oro_authorize_net.condition.payment_transaction_not_approved:
+        class: 'Oro\Bundle\AuthorizeNetBundle\Condition\PaymentTransactionNotApproved'
+        tags:
+            - { name: oro_action.condition, alias: 'payment_transaction_not_approved' }
+
+    oro_authorize_net.action.verify_payment_transaction:
+        class: 'Oro\Bundle\AuthorizeNetBundle\Action\PaymentTransactionVerifyAction'
+        parent: oro_payment.action.payment_method_action.abstract
+        tags:
+            - { name: oro_action.action, alias: payment_transaction_verify }

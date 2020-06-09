@@ -10,7 +10,7 @@ use Oro\Bundle\PaymentBundle\Entity\PaymentTransaction;
  * find/prepare array of options for passing them to Gateway
  * during sending requests to Authorize.Net api
  */
-interface MethodOptionResolverInterface
+interface MethodOptionResolverInterface extends MethodOptionVerifyResolverInterface
 {
     /**
      * @param AuthorizeNetConfigInterface $config
