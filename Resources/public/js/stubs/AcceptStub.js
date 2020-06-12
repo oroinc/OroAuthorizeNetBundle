@@ -40,6 +40,22 @@
                         dataValue: 'special_data_value_for_api_error_emulation'
                     }
                 };
+            } else if (cardData.cardNumber === '4111111111111111') {
+                return {
+                    messages: {
+                        message: [
+                            {
+                                code: 'I_WC_01',
+                                text: 'Successful.'
+                            }
+                        ],
+                        resultCode: 'Ok'
+                    },
+                    opaqueData: {
+                        dataDescriptor: 'COMMON.ACCEPT.INAPP.PAYMENT',
+                        dataValue: 'special_data_value_for_not_approved_emulation'
+                    }
+                };
             }
 
             return {

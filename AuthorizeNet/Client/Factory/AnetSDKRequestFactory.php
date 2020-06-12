@@ -32,6 +32,7 @@ class AnetSDKRequestFactory implements AnetSDKRequestFactoryInterface
         Request\GetCustomerProfileRequest::REQUEST_TYPE => AnetAPI\GetCustomerProfileRequest::class,
         Request\DeleteCustomerPaymentProfileRequest::REQUEST_TYPE => AnetAPI\DeleteCustomerPaymentProfileRequest::class,
         Request\AuthenticateTestRequest::REQUEST_TYPE => AnetAPI\AuthenticateTestRequest::class,
+        Request\GetTransactionDetailsRequest::REQUEST_TYPE => AnetAPI\GetTransactionDetailsRequest::class,
     ];
 
     /** @var array */
@@ -47,7 +48,8 @@ class AnetSDKRequestFactory implements AnetSDKRequestFactoryInterface
         AnetAPI\GetCustomerProfileRequest::class => AnetController\GetCustomerProfileController::class,
         AnetAPI\DeleteCustomerPaymentProfileRequest::class =>
             AnetController\DeleteCustomerPaymentProfileController::class,
-        AnetAPI\AuthenticateTestRequest::class => AnetController\AuthenticateTestController::class
+        AnetAPI\AuthenticateTestRequest::class => AnetController\AuthenticateTestController::class,
+        AnetAPI\GetTransactionDetailsRequest::class => AnetController\GetTransactionDetailsController::class,
     ];
 
     /**

@@ -169,6 +169,28 @@ class MethodOptionResolver implements MethodOptionResolverInterface
     }
 
     /**
+     * @param AuthorizeNetConfigInterface $config
+     * @param PaymentTransaction $transaction
+     * @return array
+     */
+    public function resolveVerify(AuthorizeNetConfigInterface $config, PaymentTransaction $transaction): array
+    {
+        $provider = $this->createOptionProvider($config, $transaction);
+
+        $merchant = [
+            Option\ApiLoginId::API_LOGIN_ID => $provider->getApiLoginId(),
+            Option\TransactionKey::TRANSACTION_KEY => $provider->getTransactionKey(),
+        ];
+
+        $options = array_merge(
+            $merchant,
+            $this->getOriginalTransactionOptions($provider)
+        );
+
+        return $options;
+    }
+
+    /**
      * @param PaymentOptionProviderInterface $provider
      * @return array
      */

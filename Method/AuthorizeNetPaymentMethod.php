@@ -4,8 +4,11 @@ namespace Oro\Bundle\AuthorizeNetBundle\Method;
 
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Gateway;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
+use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request\GetTransactionDetailsRequest;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response\AuthorizeNetSDKTransactionResponse;
+use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response\ResponseInterface;
 use Oro\Bundle\AuthorizeNetBundle\Event\TransactionResponseReceivedEvent;
+use Oro\Bundle\AuthorizeNetBundle\Exception\TransactionLimitReachedException;
 use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfigInterface;
 use Oro\Bundle\AuthorizeNetBundle\Method\Option\Resolver\MethodOptionResolverInterface;
 use Oro\Bundle\PaymentBundle\Context\PaymentContextInterface;
@@ -25,6 +28,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class AuthorizeNetPaymentMethod implements PaymentMethodInterface
 {
     use LoggerAwareTrait;
+
+    /**
+     * Verify action for checking data about the transaction.
+     */
+    public const VERIFY = 'verify';
 
     /** @var Gateway */
     protected $gateway;
@@ -87,7 +95,7 @@ class AuthorizeNetPaymentMethod implements PaymentMethodInterface
     {
         return in_array(
             $actionName,
-            [self::AUTHORIZE, self::CAPTURE, self::CHARGE, self::PURCHASE, self::VALIDATE],
+            [self::AUTHORIZE, self::CAPTURE, self::CHARGE, self::PURCHASE, self::VALIDATE, self::VERIFY],
             true
         );
     }
@@ -103,7 +111,11 @@ class AuthorizeNetPaymentMethod implements PaymentMethodInterface
 
         $this->gateway->setTestMode($this->config->isTestMode());
 
-        return $this->{$action}($paymentTransaction) ?: [];
+        try {
+            return $this->{$action}($paymentTransaction) ?: [];
+        } catch (TransactionLimitReachedException $e) {
+            return [];
+        }
     }
 
     /**
@@ -183,6 +195,24 @@ class AuthorizeNetPaymentMethod implements PaymentMethodInterface
     }
 
     /**
+     * @param PaymentTransaction $paymentTransaction
+     * @return array
+     */
+    protected function verify(PaymentTransaction $paymentTransaction)
+    {
+        $options = $this->methodOptionResolver->resolveVerify($this->config, $paymentTransaction);
+        $response = $this->executeAction(self::VERIFY, $options, $paymentTransaction);
+
+        $data = $response->getData();
+        $data['successful'] = $response->isSuccessful();
+
+        $paymentTransaction->setRequest($options);
+        $paymentTransaction->setReference($options['original_transaction']);
+
+        return $data;
+    }
+
+    /**
      * @param string $action
      * @param array $options
      * @param PaymentTransaction $paymentTransaction
@@ -190,13 +220,31 @@ class AuthorizeNetPaymentMethod implements PaymentMethodInterface
      */
     protected function executePaymentAction(string $action, array $options, PaymentTransaction $paymentTransaction)
     {
+        $response = $this->executeAction($action, $options, $paymentTransaction);
+
+        return [
+            'message' => $response->getMessage(),
+            'successful' => $response->isSuccessful(),
+        ];
+    }
+
+    /**
+     * @param string $action
+     * @param array $options
+     * @param PaymentTransaction $paymentTransaction
+     * @return ResponseInterface
+     */
+    protected function executeAction(string $action, array $options, PaymentTransaction $paymentTransaction)
+    {
         $response = $this->gateway->request($this->getTransactionType($action), $options);
 
-        $this->dispatchTransactionResponseReceivedEvent($response, $paymentTransaction);
+        if ($response instanceof AuthorizeNetSDKTransactionResponse) {
+            $this->dispatchTransactionResponseReceivedEvent($response, $paymentTransaction);
+        }
 
         $paymentTransaction
             ->setSuccessful($response->isSuccessful())
-            ->setActive($response->isSuccessful())
+            ->setActive($response->isActive())
             ->setReference($response->getReference())
             ->setResponse($response->getData());
 
@@ -204,10 +252,7 @@ class AuthorizeNetPaymentMethod implements PaymentMethodInterface
             $this->logger->critical($response->getMessage());
         }
 
-        return [
-            'message' => $response->getMessage(),
-            'successful' => $response->isSuccessful(),
-        ];
+        return $response;
     }
 
     /**
@@ -226,6 +271,9 @@ class AuthorizeNetPaymentMethod implements PaymentMethodInterface
                 break;
             case self::AUTHORIZE:
                 return Option\Transaction::AUTHORIZE;
+                break;
+            case self::VERIFY:
+                return GetTransactionDetailsRequest::REQUEST_TYPE;
                 break;
             default:
                 throw new \InvalidArgumentException(sprintf('Unsupported action "%s"', $action));

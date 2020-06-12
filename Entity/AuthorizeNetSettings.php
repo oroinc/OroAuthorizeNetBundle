@@ -37,6 +37,7 @@ class AuthorizeNetSettings extends Transport
     const ECHECK_SHORT_LABELS_KEY = 'echeck_short_labels';
     const ECHECK_ACCOUNT_TYPES_KEY = 'echeck_account_types';
     const ECHECK_CONFIRMATION_TEXT_KEY = 'echeck_confirmation_text';
+    const ALLOW_HOLD_TRANSACTION = 'allow_hold_transaction';
 
     const ECHECK_ACCOUNT_TYPES = [
         'checking',
@@ -223,6 +224,13 @@ class AuthorizeNetSettings extends Transport
     protected $eCheckConfirmationText;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="au_net_allow_hold_transaction", type="boolean", options={"default": true})
+     */
+    protected $allowHoldTransaction = true;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -256,7 +264,8 @@ class AuthorizeNetSettings extends Transport
                 self::ECHECK_LABELS_KEY => $this->getECheckLabels(),
                 self::ECHECK_SHORT_LABELS_KEY => $this->getECheckShortLabels(),
                 self::ECHECK_ACCOUNT_TYPES_KEY => $this->getECheckAccountTypes(),
-                self::ECHECK_CONFIRMATION_TEXT_KEY => $this->getECheckConfirmationText()
+                self::ECHECK_CONFIRMATION_TEXT_KEY => $this->getECheckConfirmationText(),
+                self::ALLOW_HOLD_TRANSACTION => $this->isAllowHoldTransaction()
             ]);
         }
 
@@ -615,6 +624,25 @@ class AuthorizeNetSettings extends Transport
     public function setECheckConfirmationText(?string $eCheckConfirmationText): AuthorizeNetSettings
     {
         $this->eCheckConfirmationText = $eCheckConfirmationText;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAllowHoldTransaction(): bool
+    {
+        return (bool) $this->allowHoldTransaction;
+    }
+
+    /**
+     * @param bool $allowHoldTransaction
+     * @return AuthorizeNetSettings
+     */
+    public function setAllowHoldTransaction(bool $allowHoldTransaction): AuthorizeNetSettings
+    {
+        $this->allowHoldTransaction = $allowHoldTransaction;
 
         return $this;
     }
