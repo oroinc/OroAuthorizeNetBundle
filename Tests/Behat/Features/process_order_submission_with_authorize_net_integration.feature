@@ -3,7 +3,6 @@
 @fixture-OroCheckoutBundle:Shipping.yml
 @fixture-OroPaymentBundle:ProductsAndShoppingListsForPayments.yml
 Feature: Process order submission with Authorize_Net integration
-  ToDo: BAP-16103 Add missing descriptions to the Behat features
 
   Scenario: Create sessions
     Given sessions active:
