@@ -4,7 +4,6 @@
 @fixture-OroCheckoutBundle:Shipping.yml
 @fixture-OroPaymentBundle:ProductsAndShoppingListsForPayments.yml
 Feature: AuthorizeNet integration Single Page Checkout
-  ToDo: BAP-16103 Add missing descriptions to the Behat features
 
   Scenario: Create new AuthorizeNet Integration
     Given I login as administrator
