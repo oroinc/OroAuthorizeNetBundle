@@ -10,11 +10,6 @@ use net\authorize\api\contract\v1 as AnetAPI;
 interface RequestConfiguratorInterface
 {
     /**
-     * @return int
-     */
-    public function getPriority();
-
-    /**
      * @param AnetAPI\ANetApiRequestType $request
      * @param array $options
      * @return bool

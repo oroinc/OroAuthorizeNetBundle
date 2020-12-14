@@ -13,14 +13,6 @@ class GetTransactionDetailsRequestConfigurator implements RequestConfiguratorInt
     /**
      * {@inheritdoc}
      */
-    public function getPriority(): int
-    {
-        return 0;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function isApplicable(AnetAPI\ANetApiRequestType $request, array $options): bool
     {
         return $request instanceof AnetAPI\GetTransactionDetailsRequest;

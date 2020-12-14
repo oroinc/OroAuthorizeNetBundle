@@ -20,14 +20,6 @@ class GetTransactionDetailsRequestConfiguratorTest extends AbstractRequestConfig
     /**
      * {@inheritdoc}
      */
-    protected function getPriority(): int
-    {
-        return 0;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function isApplicableProvider(): array
     {
         return [

@@ -26,14 +26,6 @@ class FallbackRequestConfigurator implements RequestConfiguratorInterface
     /**
      * {@inheritdoc}
      */
-    public function getPriority()
-    {
-        return -10;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function isApplicable(AnetAPI\ANetApiRequestType $request, array $options)
     {
         return true;

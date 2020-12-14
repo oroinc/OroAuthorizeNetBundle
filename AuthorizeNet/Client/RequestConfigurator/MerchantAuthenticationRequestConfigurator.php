@@ -11,14 +11,6 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 class MerchantAuthenticationRequestConfigurator implements RequestConfiguratorInterface
 {
     /**
-     * {@inheritdoc}
-     */
-    public function getPriority()
-    {
-        return 0;
-    }
-
-    /**
      * @param AnetAPI\ANetApiRequestType $request
      * @param array $options
      * @return bool

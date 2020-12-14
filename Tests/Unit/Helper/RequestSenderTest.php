@@ -34,11 +34,11 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
-    const CUSTOMER_PROFILE_ID = '999';
-    const PAYMENT_PROFILE_ID = '888';
-    const EMAIL = 'example@oroinc.com';
-    const API_LOGIN_ID = 'api_login';
-    const TRANSACTION_KEY = 'transaction_key';
+    private const CUSTOMER_PROFILE_ID = '999';
+    private const PAYMENT_PROFILE_ID = '888';
+    private const EMAIL = 'example@oroinc.com';
+    private const API_LOGIN_ID = 'api_login';
+    private const TRANSACTION_KEY = 'transaction_key';
 
     private static $paymentProfileData = [
         'bill_to' => [
@@ -87,14 +87,15 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
-        $requestRegistry = new RequestRegistry();
-        $requestRegistry->addRequest(new Request\CreateCustomerPaymentProfileRequest());
-        $requestRegistry->addRequest(new Request\UpdateCustomerPaymentProfileRequest());
-        $requestRegistry->addRequest(new Request\DeleteCustomerPaymentProfileRequest());
-        $requestRegistry->addRequest(new Request\CreateCustomerProfileRequest());
-        $requestRegistry->addRequest(new Request\DeleteCustomerProfileRequest());
-        $requestRegistry->addRequest(new Request\GetCustomerPaymentProfileRequest());
-        $requestRegistry->addRequest(new Request\GetCustomerProfileRequest());
+        $requestRegistry = new RequestRegistry([
+            new Request\CreateCustomerPaymentProfileRequest(),
+            new Request\UpdateCustomerPaymentProfileRequest(),
+            new Request\DeleteCustomerPaymentProfileRequest(),
+            new Request\CreateCustomerProfileRequest(),
+            new Request\DeleteCustomerProfileRequest(),
+            new Request\GetCustomerPaymentProfileRequest(),
+            new Request\GetCustomerProfileRequest()
+        ]);
 
         $this->client = $this->createMock(ClientInterface::class);
         $this->gateway = new Gateway($this->client, $requestRegistry);
@@ -102,8 +103,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
         $this->doctrineHelper = $this->createMock(DoctrineHelper::class);
         $this->configProvider = $this->createMock(CIMEnabledIntegrationConfigProvider::class);
 
-        $this->configProvider
-            ->expects($this->once())
+        $this->configProvider->expects($this->once())
             ->method('getConfig')
             ->willReturn(new AuthorizeNetConfig(self::$config));
 
@@ -134,9 +134,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        $this
-            ->client
-            ->expects($this->once())
+        $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\CreateCustomerProfileRequest::REQUEST_TYPE, $options)
             ->willReturn($responseMock);
@@ -165,9 +163,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        $this
-            ->client
-            ->expects($this->once())
+        $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\CreateCustomerProfileRequest::REQUEST_TYPE, $options)
             ->willReturn($responseMock);
@@ -195,9 +191,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        $this
-            ->client
-            ->expects($this->once())
+        $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\DeleteCustomerProfileRequest::REQUEST_TYPE, $options)
             ->willReturn($responseMock);
@@ -225,9 +219,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        $this
-            ->client
-            ->expects($this->once())
+        $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\DeleteCustomerProfileRequest::REQUEST_TYPE, $options)
             ->willReturn($responseMock);
@@ -256,9 +248,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        $this
-            ->client
-            ->expects($this->once())
+        $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\DeleteCustomerPaymentProfileRequest::REQUEST_TYPE, $options)
             ->willReturn($responseMock);
@@ -287,9 +277,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        $this
-            ->client
-            ->expects($this->once())
+        $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\DeleteCustomerPaymentProfileRequest::REQUEST_TYPE, $options)
             ->willReturn($responseMock);
@@ -318,9 +306,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        $this
-            ->client
-            ->expects($this->once())
+        $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\GetCustomerPaymentProfileRequest::REQUEST_TYPE, $options)
             ->willReturn($responseMock);
@@ -349,9 +335,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        $this
-            ->client
-            ->expects($this->once())
+        $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\GetCustomerPaymentProfileRequest::REQUEST_TYPE, $options)
             ->willReturn($responseMock);
@@ -388,9 +372,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
         $responseMock->method('isSuccessful')->willReturn(true);
         $responseMock->method('getData')->willReturn($data);
 
-        $this
-            ->client
-            ->expects($this->once())
+        $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\GetCustomerProfileRequest::REQUEST_TYPE, $options)
             ->willReturn($responseMock);
@@ -418,9 +400,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        $this
-            ->client
-            ->expects($this->once())
+        $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\GetCustomerProfileRequest::REQUEST_TYPE, $options)
             ->willReturn($responseMock);
@@ -453,9 +433,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        $this
-            ->client
-            ->expects($this->once())
+        $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\CreateCustomerPaymentProfileRequest::REQUEST_TYPE, $options)
             ->willReturn($responseMock);
@@ -490,9 +468,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        $this
-            ->client
-            ->expects($this->once())
+        $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\CreateCustomerPaymentProfileRequest::REQUEST_TYPE, $options)
             ->willReturn($responseMock);
@@ -530,9 +506,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        $this
-            ->client
-            ->expects($this->once())
+        $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\UpdateCustomerPaymentProfileRequest::REQUEST_TYPE, $options)
             ->willReturn($responseMock);
@@ -573,9 +547,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        $this
-            ->client
-            ->expects($this->once())
+        $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\UpdateCustomerPaymentProfileRequest::REQUEST_TYPE, $options)
             ->willReturn($responseMock);
@@ -614,9 +586,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        $this
-            ->client
-            ->expects($this->once())
+        $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\UpdateCustomerPaymentProfileRequest::REQUEST_TYPE, $options)
             ->willReturn($responseMock);
@@ -658,9 +628,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        $this
-            ->client
-            ->expects($this->once())
+        $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\UpdateCustomerPaymentProfileRequest::REQUEST_TYPE, $options)
             ->willReturn($responseMock);
@@ -703,9 +671,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
             Option\CustomerPaymentProfileId::CUSTOMER_PAYMENT_PROFILE_ID => self::PAYMENT_PROFILE_ID,
         ];
 
-        $this
-            ->client
-            ->expects($this->once())
+        $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\GetCustomerPaymentProfileRequest::REQUEST_TYPE, $options)
             ->willReturn($responseMock);
@@ -734,9 +700,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
             Option\CustomerPaymentProfileId::CUSTOMER_PAYMENT_PROFILE_ID => self::PAYMENT_PROFILE_ID,
         ];
 
-        $this
-            ->client
-            ->expects($this->once())
+        $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\GetCustomerPaymentProfileRequest::REQUEST_TYPE, $options)
             ->willReturn($responseMock);
@@ -777,9 +741,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        $this
-            ->client
-            ->expects($this->once())
+        $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\UpdateCustomerPaymentProfileRequest::REQUEST_TYPE, $options)
             ->willReturn($responseMock);

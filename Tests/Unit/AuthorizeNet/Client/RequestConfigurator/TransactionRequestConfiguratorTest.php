@@ -29,11 +29,6 @@ class TransactionRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
         unset($this->transactionRequestConfigurator);
     }
 
-    public function testGetPriority()
-    {
-        $this->assertEquals(0, $this->transactionRequestConfigurator->getPriority());
-    }
-
     public function testIsApplicable()
     {
         $transactionRequest = new AnetAPI\CreateTransactionRequest();

@@ -13,11 +13,6 @@ class GetCustomerProfileRequestConfiguratorTest extends AbstractRequestConfigura
         return new RequestConfigurator\GetCustomerProfileRequestConfigurator();
     }
 
-    protected function getPriority()
-    {
-        return 0;
-    }
-
     public function isApplicableProvider()
     {
         return [

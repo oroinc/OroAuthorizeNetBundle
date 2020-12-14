@@ -4,9 +4,9 @@ namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\Factory;
 
 use net\authorize\api\contract\v1 as AnetAPI;
 use net\authorize\api\controller as AnetController;
-use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\RequestConfigurator\RequestConfiguratorRegistry;
+use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\RequestConfigurator\RequestConfiguratorInterface;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option\Transaction;
-use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request as Request;
+use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request;
 
 /**
  * Factory for creating appropriate API request object by request type
@@ -14,11 +14,6 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request as Request;
  */
 class AnetSDKRequestFactory implements AnetSDKRequestFactoryInterface
 {
-    /**
-     * @var RequestConfiguratorRegistry
-     */
-    private $requestConfiguratorRegistry;
-
     /** @var array */
     protected static $requestClassMap = [
         Transaction::AUTHORIZE => AnetAPI\CreateTransactionRequest::class,
@@ -52,12 +47,15 @@ class AnetSDKRequestFactory implements AnetSDKRequestFactoryInterface
         AnetAPI\GetTransactionDetailsRequest::class => AnetController\GetTransactionDetailsController::class,
     ];
 
+    /** @var iterable|RequestConfiguratorInterface[] */
+    private $requestConfigurators;
+
     /**
-     * {@inheritdoc}
+     * @param iterable|RequestConfiguratorInterface[] $requestConfigurators
      */
-    public function __construct(RequestConfiguratorRegistry $requestConfiguratorRegistry)
+    public function __construct(iterable $requestConfigurators)
     {
-        $this->requestConfiguratorRegistry = $requestConfiguratorRegistry;
+        $this->requestConfigurators = $requestConfigurators;
     }
 
     /**
@@ -71,9 +69,7 @@ class AnetSDKRequestFactory implements AnetSDKRequestFactoryInterface
 
         $request = new static::$requestClassMap[$type];
 
-        $configurators = $this->requestConfiguratorRegistry->getRequestConfigurators();
-
-        foreach ($configurators as $configurator) {
+        foreach ($this->requestConfigurators as $configurator) {
             if ($configurator->isApplicable($request, $options)) {
                 $configurator->handle($request, $options);
             }

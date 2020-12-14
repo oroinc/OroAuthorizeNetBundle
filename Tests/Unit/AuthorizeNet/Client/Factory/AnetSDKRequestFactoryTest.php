@@ -6,29 +6,11 @@ use net\authorize\api\contract\v1 as AnetAPI;
 use net\authorize\api\controller as AnetController;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\Factory\AnetSDKRequestFactory;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\RequestConfigurator\RequestConfiguratorInterface;
-use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\RequestConfigurator\RequestConfiguratorRegistry;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option\Transaction;
-use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request as Request;
+use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request;
 
 class AnetSDKRequestFactoryTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var AnetSDKRequestFactory */
-    protected $factory;
-
-    /** @var RequestConfiguratorRegistry|\PHPUnit\Framework\MockObject\MockObject */
-    protected $requestConfiguratorRegistry;
-
-    protected function setUp(): void
-    {
-        $this->requestConfiguratorRegistry = $this->createMock(RequestConfiguratorRegistry::class);
-        $this->factory = new AnetSDKRequestFactory($this->requestConfiguratorRegistry);
-    }
-
-    protected function tearDown(): void
-    {
-        unset($this->factory, $this->requestConfiguratorRegistry);
-    }
-
     /**
      * @dataProvider createRequestDataProvider
      * @param string $requestType
@@ -37,7 +19,6 @@ class AnetSDKRequestFactoryTest extends \PHPUnit\Framework\TestCase
     public function testCreateRequest($requestType, $apiRequestClass)
     {
         $options = [];
-        $requestType = $requestType;
         $transactionRequest = new $apiRequestClass;
 
         $requestConfigurator1 = $this->createMock(RequestConfiguratorInterface::class);
@@ -45,7 +26,6 @@ class AnetSDKRequestFactoryTest extends \PHPUnit\Framework\TestCase
             ->method('isApplicable')
             ->with($transactionRequest, $options)
             ->willReturn(true);
-
         $requestConfigurator1->expects($this->once())
             ->method('handle')
             ->with($transactionRequest, $options);
@@ -55,15 +35,11 @@ class AnetSDKRequestFactoryTest extends \PHPUnit\Framework\TestCase
             ->method('isApplicable')
             ->with($transactionRequest, $options)
             ->willReturn(false);
-
         $requestConfigurator2->expects($this->never())
             ->method('handle');
 
-        $this->requestConfiguratorRegistry->expects($this->once())
-            ->method('getRequestConfigurators')
-            ->willReturn([$requestConfigurator1, $requestConfigurator2]);
-
-        $request = $this->factory->createRequest($requestType, $options);
+        $factory = new AnetSDKRequestFactory([$requestConfigurator1, $requestConfigurator2]);
+        $request = $factory->createRequest($requestType, $options);
 
         $this->assertInstanceOf($apiRequestClass, $request);
     }
@@ -73,7 +49,8 @@ class AnetSDKRequestFactoryTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Unsupported request type');
 
-        $this->factory->createRequest('unsupported_request_type');
+        $factory = new AnetSDKRequestFactory([]);
+        $factory->createRequest('unsupported_request_type');
     }
 
     /**
@@ -83,11 +60,12 @@ class AnetSDKRequestFactoryTest extends \PHPUnit\Framework\TestCase
      */
     public function testCreateController($apiRequestClass, $apiControllerClass)
     {
-        /** @var  $request AnetAPI\ANetApiRequestType */
+        /** @var AnetAPI\ANetApiRequestType $request */
         $request = new $apiRequestClass;
         $request->setMerchantAuthentication(new AnetAPI\MerchantAuthenticationType());
 
-        $controller = $this->factory->createController($request);
+        $factory = new AnetSDKRequestFactory([]);
+        $controller = $factory->createController($request);
 
         $this->assertInstanceOf($apiControllerClass, $controller);
     }
@@ -97,7 +75,8 @@ class AnetSDKRequestFactoryTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Unsupported request class');
 
-        $this->factory->createController(new AnetAPI\ANetApiRequestType());
+        $factory = new AnetSDKRequestFactory([]);
+        $factory->createController(new AnetAPI\ANetApiRequestType());
     }
 
     /**

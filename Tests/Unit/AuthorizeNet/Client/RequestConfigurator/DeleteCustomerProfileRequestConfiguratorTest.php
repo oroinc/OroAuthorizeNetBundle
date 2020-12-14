@@ -13,11 +13,6 @@ class DeleteCustomerProfileRequestConfiguratorTest extends AbstractRequestConfig
         return new RequestConfigurator\DeleteCustomerProfileRequestConfigurator();
     }
 
-    protected function getPriority()
-    {
-        return 0;
-    }
-
     public function isApplicableProvider()
     {
         return [

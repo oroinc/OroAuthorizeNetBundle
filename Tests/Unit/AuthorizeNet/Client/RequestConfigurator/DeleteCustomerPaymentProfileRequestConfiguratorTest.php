@@ -13,11 +13,6 @@ class DeleteCustomerPaymentProfileRequestConfiguratorTest extends AbstractReques
         return new RequestConfigurator\DeleteCustomerPaymentProfileRequestConfigurator();
     }
 
-    protected function getPriority()
-    {
-        return 0;
-    }
-
     public function isApplicableProvider()
     {
         return [

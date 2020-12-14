@@ -13,7 +13,7 @@ services:
         class: 'Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Mock\AuthorizeNet\Client\Factory\AnetSDKRequestFactoryMock'
         public: false
         arguments:
-            - '@oro_authorize_net.authorize_net.client.request_configurator.registry'
+            - !tagged_iterator oro_authorize_net.authorize_net.client.request_configurator
         calls:
             - [ setPaymentProfileIdsStorage, [ '@oro_authorize_net.mock.remote.storage.payment_profile_ids' ] ]
             - [ setPaymentProfileTypesToIDsStorage, ['@oro_authorize_net.mock.remote.storage.payment_profile_types_to_ids']]

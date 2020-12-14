@@ -14,11 +14,6 @@ class CreateCustomerPaymentProfileRequestConfiguratorTest extends AbstractReques
         return new RequestConfigurator\CreateCustomerPaymentProfileRequestConfigurator();
     }
 
-    protected function getPriority()
-    {
-        return 0;
-    }
-
     public function isApplicableProvider()
     {
         return [

@@ -23,16 +23,6 @@ abstract class AbstractRequestConfiguratorTest extends \PHPUnit\Framework\TestCa
     abstract protected function getConfigurator();
 
     /**
-     * @return int
-     */
-    abstract protected function getPriority();
-
-    public function testGetPriority()
-    {
-        $this->assertEquals($this->getPriority(), $this->configurator->getPriority());
-    }
-
-    /**
      * @dataProvider isApplicableProvider
      * @param AnetAPI\ANetApiRequestType $request
      * @param array $options

@@ -23,11 +23,6 @@ class MerchantAuthenticationRequestConfiguratorTest extends \PHPUnit\Framework\T
         unset($this->merchantAuthenticationRequestConfigurator);
     }
 
-    public function testGetPriority()
-    {
-        $this->assertEquals(0, $this->merchantAuthenticationRequestConfigurator->getPriority());
-    }
-
     public function testIsApplicable()
     {
         $request = new CreateTransactionRequest();

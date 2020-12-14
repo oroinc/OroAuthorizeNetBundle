@@ -13,14 +13,6 @@ class UpdateCustomerPaymentProfileRequestConfigurator extends CreateCustomerPaym
     /**
      * {@inheritdoc}
      */
-    public function getPriority()
-    {
-        return 0;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function isApplicable(AnetAPI\ANetApiRequestType $request, array $options)
     {
         return $request instanceof AnetAPI\UpdateCustomerPaymentProfileRequest;

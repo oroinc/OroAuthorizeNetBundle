@@ -30,11 +30,6 @@ class FallbackRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
         unset($this->fallbackRequestConfigurator, $this->propertyAccessor);
     }
 
-    public function testGetPriority()
-    {
-        $this->assertEquals(-10, $this->fallbackRequestConfigurator->getPriority());
-    }
-
     public function testIsApplicable()
     {
         $request = new AnetAPI\CreateTransactionRequest();

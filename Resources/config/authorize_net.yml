@@ -22,10 +22,11 @@ services:
         arguments:
             - '@jms_serializer.serializer'
 
-
     oro_authorize_net.authorize_net.request.registry:
         class: 'Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request\RequestRegistry'
         public: false
+        arguments:
+            - !tagged_iterator oro_authorize_net.authorize_net.request
 
     oro_authorize_net.authorize_net.request.authorize:
         class: 'Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request\AuthorizeRequest'
@@ -103,11 +104,7 @@ services:
         class: 'Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\Factory\AnetSDKRequestFactory'
         public: false
         arguments:
-            - '@oro_authorize_net.authorize_net.client.request_configurator.registry'
-
-    oro_authorize_net.authorize_net.client.request_configurator.registry:
-        class: 'Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\RequestConfigurator\RequestConfiguratorRegistry'
-        public: false
+            - !tagged_iterator oro_authorize_net.authorize_net.client.request_configurator
 
     oro_authorize_net.authorize_net.client.request_configurator.fallback:
         class: 'Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\RequestConfigurator\FallbackRequestConfigurator'
@@ -115,7 +112,7 @@ services:
         arguments:
             - '@property_accessor'
         tags:
-            - { name: oro_authorize_net.authorize_net.client.request_configurator }
+            - { name: oro_authorize_net.authorize_net.client.request_configurator, priority: -10 }
 
     oro_authorize_net.authorize_net.client.request_configurator.merchant_authentication:
         class: 'Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\RequestConfigurator\MerchantAuthenticationRequestConfigurator'
