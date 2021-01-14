@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\Method\Config\Provider;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\AuthorizeNetBundle\Entity\AuthorizeNetSettings;
 use Oro\Bundle\AuthorizeNetBundle\Integration\AuthorizeNetChannelType;
 use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfigInterface;
