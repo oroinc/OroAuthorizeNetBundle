@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\Service;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\AuthorizeNetBundle\Entity\AuthorizeNetSettings;
 use Oro\Bundle\AuthorizeNetBundle\Service\TransactionKeyValueProvider;
 use Oro\Bundle\IntegrationBundle\Entity\Channel;

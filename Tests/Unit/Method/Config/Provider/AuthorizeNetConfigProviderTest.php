@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\Method\Config\Provider;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\AuthorizeNetBundle\Entity\AuthorizeNetSettings;
 use Oro\Bundle\AuthorizeNetBundle\Entity\Repository\AuthorizeNetSettingsRepository;
 use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfig;
