@@ -299,8 +299,8 @@ class AuthorizeNetPaymentMethod implements PaymentMethodInterface
         }
 
         $this->eventDispatcher->dispatch(
-            self::$matchedEvent[$className]::NAME,
-            new self::$matchedEvent[$className]($response, $paymentTransaction)
+            new self::$matchedEvent[$className]($response, $paymentTransaction),
+            self::$matchedEvent[$className]::NAME
         );
     }
 }

@@ -4,7 +4,7 @@ namespace Oro\Bundle\AuthorizeNetBundle\Event;
 
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response\AuthorizeNetSDKTransactionResponse;
 use Oro\Bundle\PaymentBundle\Entity\PaymentTransaction;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * Event on Transaction Response received

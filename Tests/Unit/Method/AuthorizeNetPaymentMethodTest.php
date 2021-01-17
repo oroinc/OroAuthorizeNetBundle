@@ -240,7 +240,7 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
         $this->eventDispatcher
             ->expects($this->once())
             ->method('dispatch')
-            ->with(TransactionResponseReceivedEvent::NAME, $event);
+            ->with($event, TransactionResponseReceivedEvent::NAME);
 
         $taxProvider = $this->createMock(TaxProviderInterface::class);
         $taxProvider->expects($this->once())
