@@ -16,10 +16,10 @@ class IntegrationProviderTest extends \PHPUnit\Framework\TestCase
     /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
     private $websiteManager;
 
-    /** @var  DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject */
     private $doctrineHelper;
 
-    /** @var  AuthorizeNetSettingsRepository|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var AuthorizeNetSettingsRepository|\PHPUnit\Framework\MockObject\MockObject */
     private $repository;
 
     /** @var IntegrationProvider */

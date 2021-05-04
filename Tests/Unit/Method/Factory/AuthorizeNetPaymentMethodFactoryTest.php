@@ -23,7 +23,7 @@ class AuthorizeNetPaymentMethodFactoryTest extends \PHPUnit\Framework\TestCase
      */
     protected $logger;
 
-    /** @var  RequestStack|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject */
     protected $requestStack;
 
     /** @var MethodOptionResolverInterface|\PHPUnit\Framework\MockObject\MockObject */

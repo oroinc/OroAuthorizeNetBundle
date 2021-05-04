@@ -27,7 +27,7 @@ class GetCustomerPaymentProfileControllerMock extends AbstractControllerMock imp
     /** @var PaymentProfileIDs */
     private $paymentProfileIdsStorage;
 
-    /** @var PaymentProfileTypesToIDs $paymentProfileTypesToIDsStorage */
+    /** @var PaymentProfileTypesToIDs */
     private $paymentProfileTypesToIDsStorage;
 
     /**

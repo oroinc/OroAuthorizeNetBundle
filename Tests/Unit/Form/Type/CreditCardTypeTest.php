@@ -13,19 +13,12 @@ use Symfony\Component\Validator\Validation;
 
 class CreditCardTypeTest extends FormIntegrationTestCase
 {
-    /**
-     * @var CreditCardType
-     */
+    /** @var CreditCardType */
     protected $formType;
 
-    /**
-     * @var  Translator|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var Translator|\PHPUnit\Framework\MockObject\MockObject */
     protected $translator;
 
-    /**
-     * {@inheritDoc}
-     */
     protected function setUp(): void
     {
         $this->translator = $this->createMock(Translator::class);

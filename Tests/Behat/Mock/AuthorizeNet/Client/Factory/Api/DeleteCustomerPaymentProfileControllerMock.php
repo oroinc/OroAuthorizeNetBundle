@@ -21,7 +21,7 @@ class DeleteCustomerPaymentProfileControllerMock extends AbstractControllerMock 
     /** @var PaymentProfileIDs */
     private $paymentProfileIdsStorage;
 
-    /** @var PaymentProfileTypesToIDs $paymentProfileTypesToIDsStorage */
+    /** @var PaymentProfileTypesToIDs */
     private $paymentProfileTypesToIDsStorage;
 
     /**

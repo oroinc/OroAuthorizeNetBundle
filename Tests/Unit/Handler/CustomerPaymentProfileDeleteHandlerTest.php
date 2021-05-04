@@ -13,10 +13,10 @@ class CustomerPaymentProfileDeleteHandlerTest extends \PHPUnit\Framework\TestCas
     /** @var RequestSender|\PHPUnit\Framework\MockObject\MockObject */
     private $requestSender;
 
-    /** @var  DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject */
     private $doctrineHelper;
 
-    /** @var  EntityManager|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var EntityManager|\PHPUnit\Framework\MockObject\MockObject */
     private $manager;
 
     /** @var CustomerPaymentProfileDeleteHandler */

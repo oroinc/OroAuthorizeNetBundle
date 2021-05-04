@@ -32,7 +32,7 @@ class CheckoutCreditcardProfileTypeTest extends FormIntegrationTestCase
     /** @var CheckoutCredicardProfileType */
     protected $formType;
 
-    /** @var  Translator|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Translator|\PHPUnit\Framework\MockObject\MockObject */
     private $translator;
 
     /** @var CustomerProfileProvider|\PHPUnit\Framework\MockObject\MockObject */

@@ -15,7 +15,7 @@ class NavigationListenerTest extends \PHPUnit\Framework\TestCase
     /** @var AuthorizeNetCIMEnabledConfigProvider|\PHPUnit\Framework\MockObject\MockObject */
     private $configProvider;
 
-    /** @var  WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
     private $websiteManager;
 
     /** @var NavigationListener */

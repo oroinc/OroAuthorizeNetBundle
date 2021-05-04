@@ -45,7 +45,6 @@ class TransactionRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
      */
     public function testHandle(array $options, AnetAPI\TransactionRequestType $transactionRequestType)
     {
-        /** @var AnetAPI\CreateTransactionRequest|\PHPUnit\Framework\MockObject\MockObject $request * */
         $request = new AnetAPI\CreateTransactionRequest();
 
         $customOptions = ['some_another_options' => 'value'];

@@ -14,10 +14,10 @@ class CIMEnabledIntegrationConfigProviderTest extends \PHPUnit\Framework\TestCas
     /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
     private $websiteManager;
 
-    /** @var  AuthorizeNetCIMEnabledConfigProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var AuthorizeNetCIMEnabledConfigProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $configProvider;
 
-    /** @var  AuthorizeNetSettingsRepository|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var AuthorizeNetSettingsRepository|\PHPUnit\Framework\MockObject\MockObject */
     private $repository;
 
     /** @var CIMEnabledIntegrationConfigProvider */

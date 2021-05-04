@@ -19,7 +19,7 @@ final class AnetSDKRequestFactoryMock extends AnetSDKRequestFactory implements
     /** @var PaymentProfileIDs */
     private $paymentProfileIdsStorage;
 
-    /** @var PaymentProfileTypesToIDs $paymentProfileTypesToIDsStorage */
+    /** @var PaymentProfileTypesToIDs */
     private $paymentProfileTypesToIDsStorage;
 
     /** @var array */

@@ -19,10 +19,10 @@ class CustomerProfileProviderTest extends \PHPUnit\Framework\TestCase
     /** @var TokenAccessor|\PHPUnit\Framework\MockObject\MockObject */
     private $tokenAccessor;
 
-    /** @var  DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject */
     private $doctrineHelper;
 
-    /** @var  EntityRepository|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var EntityRepository|\PHPUnit\Framework\MockObject\MockObject */
     private $repository;
 
     /** @var CustomerProfileProvider */

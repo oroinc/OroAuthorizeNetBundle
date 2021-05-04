@@ -38,7 +38,7 @@ class MethodOptionProviderFactoryTest extends \PHPUnit\Framework\TestCase
     /** @var \PHPUnit\Framework\MockObject\MockObject|PaymentTransaction */
     private $transaction;
 
-    /** @var MethodOptionProviderFactory*/
+    /** @var MethodOptionProviderFactory */
     private $factory;
 
     protected function setUp(): void

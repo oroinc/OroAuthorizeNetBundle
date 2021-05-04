@@ -38,16 +38,16 @@ class PaymentProfileHandlerTest extends \PHPUnit\Framework\TestCase
     /** @var TokenAccessor|\PHPUnit\Framework\MockObject\MockObject */
     private $tokenAccessor;
 
-    /** @var  DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject */
     private $doctrineHelper;
 
-    /** @var  EntityRepository|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var EntityRepository|\PHPUnit\Framework\MockObject\MockObject */
     private $repository;
 
-    /** @var  EntityManager|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var EntityManager|\PHPUnit\Framework\MockObject\MockObject */
     private $manager;
 
-    /** @var  FormInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $form;
 
     /** @var Session|\PHPUnit\Framework\MockObject\MockObject */

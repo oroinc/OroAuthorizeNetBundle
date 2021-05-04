@@ -25,7 +25,7 @@ class CreateTransactionControllerMock extends AbstractControllerMock implements
     /** @var PaymentProfileIDs */
     private $paymentProfileIdsStorage;
 
-    /** @var PaymentProfileTypesToIDs $paymentProfileTypesToIDsStorage */
+    /** @var PaymentProfileTypesToIDs */
     private $paymentProfileTypesToIDsStorage;
 
     /**
