@@ -6,6 +6,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\AuthorizeNetBundle\Entity\AuthorizeNetSettings;
 use Oro\Bundle\AuthorizeNetBundle\Entity\Repository\AuthorizeNetSettingsRepository;
+use Oro\Bundle\AuthorizeNetBundle\Integration\AuthorizeNetChannelType;
 use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfig;
 use Oro\Bundle\AuthorizeNetBundle\Method\Config\Factory\AuthorizeNetConfigFactory;
 use Oro\Bundle\AuthorizeNetBundle\Method\Config\Provider\AuthorizeNetConfigProvider;
@@ -17,71 +18,50 @@ class AuthorizeNetConfigProviderTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
-    /**
-     * @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $doctrine;
+    /** @var AuthorizeNetSettings[] */
+    private $settings;
 
-    /**
-     * @var string
-     */
-    protected $type;
-
-    /**
-     * @var AuthorizeNetSettings[]
-     */
-    protected $settings;
-
-    /**
-     * @var AuthorizeNetConfigProvider
-     */
-    protected $authorizeNetConfigProvider;
+    /** @var AuthorizeNetConfigProvider */
+    private $authorizeNetConfigProvider;
 
     protected function setUp(): void
     {
-        $this->type = 'authorize_net';
-
-        $channel1 = $this->getEntity(Channel::class, ['id' => 1, 'type' => $this->type]);
-        $channel2 = $this->getEntity(Channel::class, ['id' => 2, 'type' => $this->type]);
+        $channel1 = $this->getEntity(Channel::class, ['id' => 1, 'type' => AuthorizeNetChannelType::TYPE]);
+        $channel2 = $this->getEntity(Channel::class, ['id' => 2, 'type' => AuthorizeNetChannelType::TYPE]);
 
         $this->settings[] = $this->getEntity(AuthorizeNetSettings::class, ['id' => 1, 'channel' => $channel1]);
         $this->settings[] = $this->getEntity(AuthorizeNetSettings::class, ['id' => 2, 'channel' => $channel2]);
 
         $config = $this->createMock(AuthorizeNetConfig::class);
-        $config->expects($this->at(0))
+        $config->expects($this->exactly(2))
             ->method('getPaymentMethodIdentifier')
-            ->willReturn('authorize_net_1');
-        $config->expects($this->at(1))
-            ->method('getPaymentMethodIdentifier')
-            ->willReturn('authorize_net_2');
-
-        $this->doctrine = $this->createMock(ManagerRegistry::class);
+            ->willReturnOnConsecutiveCalls('authorize_net_1', 'authorize_net_2');
 
         $objectRepository = $this->createMock(AuthorizeNetSettingsRepository::class);
         $objectRepository->expects($this->once())
             ->method('getEnabledSettingsByType')
-            ->with($this->type)
+            ->with(AuthorizeNetChannelType::TYPE)
             ->willReturn($this->settings);
 
         $objectManager = $this->createMock(ObjectManager::class);
-        $objectManager->expects($this->once())->method('getRepository')->willReturn($objectRepository);
+        $objectManager->expects($this->once())
+            ->method('getRepository')
+            ->willReturn($objectRepository);
 
-        $this->doctrine->expects($this->once())->method('getManagerForClass')->willReturn($objectManager);
+        $doctrine = $this->createMock(ManagerRegistry::class);
+        $doctrine->expects($this->once())
+            ->method('getManagerForClass')
+            ->willReturn($objectManager);
 
-        /** @var AuthorizeNetConfigFactory|\PHPUnit\Framework\MockObject\MockObject $factory */
         $factory = $this->createMock(AuthorizeNetConfigFactory::class);
         $factory->expects($this->exactly(2))
             ->method('createConfig')
             ->willReturn($config);
 
-        /** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject $logger */
-        $logger = $this->createMock(LoggerInterface::class);
-
         $this->authorizeNetConfigProvider = new AuthorizeNetConfigProvider(
-            $this->doctrine,
-            $logger,
-            $factory,
-            $this->type
+            $doctrine,
+            $this->createMock(LoggerInterface::class),
+            $factory
         );
     }
 

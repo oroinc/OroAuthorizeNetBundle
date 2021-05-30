@@ -18,27 +18,16 @@ class AuthorizeNetEcheckConfigProviderTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
-    /**
-     * @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $doctrine;
+    /** @var AuthorizeNetSettings[] */
+    private $settings;
 
-    /**
-     * @var AuthorizeNetSettings[]
-     */
-    protected $settings;
-
-    /**
-     * @var AuthorizeNetEcheckConfigProvider
-     */
-    protected $configProvider;
+    /** @var AuthorizeNetEcheckConfigProvider */
+    private $configProvider;
 
     protected function setUp(): void
     {
-        $channelType = AuthorizeNetChannelType::TYPE;
-
-        $channel1 = $this->getEntity(Channel::class, ['id' => 1, 'type' => $channelType]);
-        $channel2 = $this->getEntity(Channel::class, ['id' => 2, 'type' => $channelType]);
+        $channel1 = $this->getEntity(Channel::class, ['id' => 1, 'type' => AuthorizeNetChannelType::TYPE]);
+        $channel2 = $this->getEntity(Channel::class, ['id' => 2, 'type' => AuthorizeNetChannelType::TYPE]);
 
         $this->settings[] = $this->getEntity(AuthorizeNetSettings::class, [
             'id' => 1,
@@ -52,35 +41,34 @@ class AuthorizeNetEcheckConfigProviderTest extends \PHPUnit\Framework\TestCase
         ]);
 
         $config = $this->createMock(AuthorizeNetConfig::class);
-        $config->expects($this->at(0))
+        $config->expects($this->once())
             ->method('getPaymentMethodIdentifier')
             ->willReturn('authorize_net_echeck_1');
-
-        $this->doctrine = $this->createMock(ManagerRegistry::class);
 
         $objectRepository = $this->createMock(AuthorizeNetSettingsRepository::class);
         $objectRepository->expects($this->once())
             ->method('getEnabledSettingsByType')
-            ->with($channelType)
+            ->with(AuthorizeNetChannelType::TYPE)
             ->willReturn($this->settings);
 
         $objectManager = $this->createMock(ObjectManager::class);
-        $objectManager->expects($this->once())->method('getRepository')->willReturn($objectRepository);
+        $objectManager->expects($this->once())
+            ->method('getRepository')
+            ->willReturn($objectRepository);
 
-        $this->doctrine->expects($this->once())->method('getManagerForClass')->willReturn($objectManager);
+        $doctrine = $this->createMock(ManagerRegistry::class);
+        $doctrine->expects($this->once())
+            ->method('getManagerForClass')
+            ->willReturn($objectManager);
 
-        /** @var AuthorizeNetConfigFactory|\PHPUnit\Framework\MockObject\MockObject $factory */
         $factory = $this->createMock(AuthorizeNetConfigFactory::class);
-        $factory->expects($this->exactly(1))
+        $factory->expects($this->once())
             ->method('createConfig')
             ->willReturn($config);
 
-        /** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject $logger */
-        $logger = $this->createMock(LoggerInterface::class);
-
         $this->configProvider = new AuthorizeNetEcheckConfigProvider(
-            $this->doctrine,
-            $logger,
+            $doctrine,
+            $this->createMock(LoggerInterface::class),
             $factory
         );
     }
