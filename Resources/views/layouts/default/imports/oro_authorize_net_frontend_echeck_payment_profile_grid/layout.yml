@@ -5,7 +5,7 @@ layout:
             root: __root
     actions:
         - '@setBlockTheme':
-            themes: 'OroAuthorizeNetBundle:layouts:default/imports/oro_authorize_net_frontend_echeck_payment_profile_grid/layout.html.twig'
+            themes: '@OroAuthorizeNet/layouts/default/imports/oro_authorize_net_frontend_echeck_payment_profile_grid/layout.html.twig'
         - '@setOption':
             id: __datagrid
             optionName: grid_name

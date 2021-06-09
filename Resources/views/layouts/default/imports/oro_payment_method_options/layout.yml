@@ -2,7 +2,7 @@ layout:
     actions:
         - '@setBlockTheme':
             themes:
-                - 'OroAuthorizeNetBundle:layouts:default/imports/oro_payment_method_options/layout.html.twig'
+                - '@OroAuthorizeNet/layouts/default/imports/oro_payment_method_options/layout.html.twig'
         - '@setFormTheme':
             themes:
-                - 'OroAuthorizeNetBundle:layouts:default/imports/oro_payment_method_options/form.html.twig'
+                - '@OroAuthorizeNet/layouts/default/imports/oro_payment_method_options/form.html.twig'

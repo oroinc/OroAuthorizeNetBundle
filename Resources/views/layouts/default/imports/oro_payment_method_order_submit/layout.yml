@@ -2,4 +2,4 @@ layout:
     actions:
         - '@setBlockTheme':
             themes:
-                - 'OroAuthorizeNetBundle:layouts:default/imports/oro_payment_method_order_submit/layout.html.twig'
+                - '@OroAuthorizeNet/layouts/default/imports/oro_payment_method_order_submit/layout.html.twig'
