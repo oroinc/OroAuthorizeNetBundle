@@ -43,7 +43,7 @@ class CreditCardCvvType extends AbstractType
                     'message' => $this->translator->trans('oro.authorize_net.validator.regex_numeric', [], 'validators')
                 ]),
                 new NotBlank(),
-                new Length(['min' => 3, 'max' => 4])
+                new Length(['min' => 3, 'max' => 4, 'allowEmptyString' => false])
             ],
             'attr' => [
                 'data-card-cvv' => true,
