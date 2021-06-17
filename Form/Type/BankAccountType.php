@@ -71,7 +71,7 @@ class BankAccountType extends AbstractType
                     'message' => $this->translator->trans('oro.authorize_net.validator.regex_numeric', [], 'validators')
                 ]),
                 new NotBlank(),
-                new Length(['min' => '9', 'max' => '9'])
+                new Length(['min' => '9', 'max' => '9', 'allowEmptyString' => false])
             ]
         ])->add('accountNumber', TextType::class, [
             'required' => true,
