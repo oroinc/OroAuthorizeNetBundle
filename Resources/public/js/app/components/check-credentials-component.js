@@ -28,7 +28,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function CheckCredentialsComponent(options) {
             CheckCredentialsComponent.__super__.constructor.call(this, options);
