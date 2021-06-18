@@ -70,14 +70,14 @@ define(function(require) {
         submitted: false,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function PaymentProfileComponent(options) {
             PaymentProfileComponent.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             this.options = _.extend({}, this.options, options);

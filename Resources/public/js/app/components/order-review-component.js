@@ -14,14 +14,14 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function OrderReviewComponent(options) {
             OrderReviewComponent.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             this.options = _.extend({}, this.options, options);
@@ -29,7 +29,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         dispose: function() {
             mediator.off('checkout:place-order:response', this.placeOrderResponse, this);
