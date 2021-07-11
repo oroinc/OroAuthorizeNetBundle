@@ -12,9 +12,9 @@ class AuthenticationCredentialsValidatorTest extends \PHPUnit\Framework\TestCase
 {
     public function testIsValidSuccess()
     {
-        list($apiLogin, $transactionKey) = ['test_api_login', 'test_transaction_key'];
+        [$apiLogin, $transactionKey] = ['test_api_login', 'test_transaction_key'];
 
-        $gateway = $this->createGatewayMock($apiLogin, $transactionKey, true);
+        $gateway = $this->getGateway($apiLogin, $transactionKey, true);
         $validator = new AuthenticationCredentialsValidator($gateway);
 
         self::assertTrue($validator->isValid($apiLogin, $transactionKey, true));
@@ -22,26 +22,23 @@ class AuthenticationCredentialsValidatorTest extends \PHPUnit\Framework\TestCase
 
     public function testIsValidFailed()
     {
-        list($apiLogin, $transactionKey) = ['test_api_login', 'test_transaction_key'];
+        [$apiLogin, $transactionKey] = ['test_api_login', 'test_transaction_key'];
 
-        $gateway = $this->createGatewayMock($apiLogin, $transactionKey, false);
+        $gateway = $this->getGateway($apiLogin, $transactionKey, false);
         $validator = new AuthenticationCredentialsValidator($gateway);
 
         self::assertFalse($validator->isValid($apiLogin, $transactionKey, true));
     }
 
-    private function createGatewayMock(string $apiLogin, string $transactionKey, bool $isResponseSuccessful)
+    private function getGateway(string $apiLogin, string $transactionKey, bool $isResponseSuccessful): Gateway
     {
-        $mock = $this->createMock(Gateway::class);
-
         $response = $this->createMock(ResponseInterface::class);
-        $response
-            ->expects($this->once())
+        $response->expects($this->once())
             ->method('isSuccessful')
             ->willReturn($isResponseSuccessful);
 
-        $mock
-            ->expects($this->once())
+        $gateway = $this->createMock(Gateway::class);
+        $gateway->expects($this->once())
             ->method('request')
             ->with(
                 AuthenticateTestRequest::REQUEST_TYPE,
@@ -51,12 +48,10 @@ class AuthenticationCredentialsValidatorTest extends \PHPUnit\Framework\TestCase
                 ]
             )
             ->willReturn($response);
-
-        $mock
-            ->expects($this->once())
+        $gateway->expects($this->once())
             ->method('setTestMode')
             ->with(true);
 
-        return $mock;
+        return $gateway;
     }
 }

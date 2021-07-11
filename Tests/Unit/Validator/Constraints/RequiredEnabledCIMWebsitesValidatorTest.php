@@ -4,131 +4,101 @@ namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\Validator\Constraints;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Oro\Bundle\AuthorizeNetBundle\Entity\AuthorizeNetSettings;
-use Oro\Bundle\AuthorizeNetBundle\Form\Extension\EnabledCIMWebsitesSelectExtension;
 use Oro\Bundle\AuthorizeNetBundle\Validator\Constraints\RequiredEnabledCIMWebsites;
 use Oro\Bundle\AuthorizeNetBundle\Validator\Constraints\RequiredEnabledCIMWebsitesValidator;
 use Oro\Bundle\IntegrationBundle\Entity\Channel;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
-use Oro\Component\Testing\Unit\EntityTrait;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
-use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
+use Oro\Component\Testing\ReflectionUtil;
+use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
-class RequiredEnabledCIMWebsitesValidatorTest extends \PHPUnit\Framework\TestCase
+class RequiredEnabledCIMWebsitesValidatorTest extends ConstraintValidatorTestCase
 {
-    use EntityTrait;
-
-    /** @var RequiredEnabledCIMWebsites */
-    private $constraints;
-
-    /** @var RequiredEnabledCIMWebsitesValidator */
-    private $validator;
-
-    /** @var ExecutionContextInterface| \PHPUnit\Framework\MockObject\MockObject */
-    private $context;
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function setUp(): void
+    protected function createValidator()
     {
-        $this->constraints = new RequiredEnabledCIMWebsites();
-        $this->validator = new RequiredEnabledCIMWebsitesValidator();
-        $this->context = $this->createMock(ExecutionContextInterface::class);
-        $this->validator->initialize($this->context);
+        return new RequiredEnabledCIMWebsitesValidator();
     }
 
-    /**
-     * @dataProvider validateProvider
-     *
-     * @param bool       $expectedViolation
-     * @param array|null $entityParams
-     */
-    public function testValidate($expectedViolation, array $entityParams = null)
+    private function getAuthorizeNetSettings(int $id): AuthorizeNetSettings
     {
-        $entity = null;
-        if (null !== $entityParams) {
-            $entity = $this->getEntity(
-                AuthorizeNetSettings::class,
-                array_merge($entityParams, ['id' => '111'])
-            );
-        }
+        $settings = new AuthorizeNetSettings();
+        ReflectionUtil::setId($settings, $id);
 
-        if (true === $expectedViolation) {
-            $builder = $this->createMock(ConstraintViolationBuilderInterface::class);
-            $builder->expects($this->once())
-                ->method('atPath')
-                ->with(EnabledCIMWebsitesSelectExtension::FIELD_NAME)
-                ->willReturnSelf();
-            $builder
-                ->expects($this->once())
-                ->method('addViolation');
-
-            $this->context
-                ->expects($this->once())
-                ->method('buildViolation')
-                ->with($this->constraints->message)
-                ->willReturn($builder);
-        } else {
-            $this->context
-                ->expects($this->never())
-                ->method('buildViolation');
-        }
-
-        $this->validator->validate($entity, $this->constraints);
+        return $settings;
     }
 
-    /**
-     * @return array
-     */
-    public function validateProvider()
+    private function getChannel(int $id, bool $enabled): Channel
     {
-        $enabledChannel = $this->getEntity(Channel::class, [
-            'id' => 1,
-            'enabled' => true
-        ]);
+        $channel = new Channel();
+        ReflectionUtil::setId($channel, $id);
+        $channel->setEnabled($enabled);
 
-        $disabledChannel = $this->getEntity(Channel::class, [
-            'id' => 2,
-            'enabled' => false
-        ]);
+        return $channel;
+    }
 
-        return [
-            'Null value' => [
-                'expectedViolation' => false,
-                'entityParams' => null
-            ],
-            'Settings with disabled channel' => [
-                'expectedViolation' => false,
-                'entityParams' => [
-                    'channel' => $disabledChannel,
-                    'enabledCIM' => false
-                ]
-            ],
-            'Settings with enabled channel, but CIM functionality is disabled' => [
-                'expectedViolation' => false,
-                'entityParams' => [
-                    'channel' => $enabledChannel,
-                    'enabledCIM' => false
-                ]
-            ],
-            'Settings with enabled channel and CIM functionality is enabled' => [
-                'expectedViolation' => true,
-                'entityParams' => [
-                    'channel' => $enabledChannel,
-                    'enabledCIM' => true,
-                    'enabledCIMWebsites' => new ArrayCollection([])
-                ]
-            ],
-            'Valid settings' => [
-                'expectedViolation' => false,
-                'entityParams' => [
-                    'channel' => $enabledChannel,
-                    'enabledCIM' => true,
-                    'enabledCIMWebsites' => new ArrayCollection([
-                        $this->getEntity(Website::class, ['id' => 1])
-                    ])
-                ]
-            ],
-        ];
+    private function getWebsite(int $id): Website
+    {
+        $website = new Website();
+        ReflectionUtil::setId($website, $id);
+
+        return $website;
+    }
+
+    public function testValidateNullValue()
+    {
+        $constraint = new RequiredEnabledCIMWebsites();
+        $this->validator->validate(null, $constraint);
+
+        $this->assertNoViolation();
+    }
+
+    public function testValidateForSettingsWithDisabledChannel()
+    {
+        $entity = $this->getAuthorizeNetSettings(111);
+        $entity->setChannel($this->getChannel(1, false));
+        $entity->setEnabledCIM(false);
+
+        $constraint = new RequiredEnabledCIMWebsites();
+        $this->validator->validate($entity, $constraint);
+
+        $this->assertNoViolation();
+    }
+
+    public function testValidateForSettingsWithEnabledChannelButCIMFunctionalityIsDisabled()
+    {
+        $entity = $this->getAuthorizeNetSettings(111);
+        $entity->setChannel($this->getChannel(1, true));
+        $entity->setEnabledCIM(false);
+
+        $constraint = new RequiredEnabledCIMWebsites();
+        $this->validator->validate($entity, $constraint);
+
+        $this->assertNoViolation();
+    }
+
+    public function testValidateForSettingsWithEnabledChannelAndCIMFunctionalityIsEnabledButNoEnabledCIMWebsites()
+    {
+        $entity = $this->getAuthorizeNetSettings(111);
+        $entity->setChannel($this->getChannel(1, true));
+        $entity->setEnabledCIM(true);
+
+        $constraint = new RequiredEnabledCIMWebsites();
+        $this->validator->validate($entity, $constraint);
+
+        $this->buildViolation($constraint->message)
+            ->atPath('property.path.enabledCIMWebsites')
+            ->assertRaised();
+    }
+
+    public function testValidateForSettingsWithEnabledChannelAndCIMFunctionalityIsEnabledAndHaveEnabledCIMWebsites()
+    {
+        $entity = $this->getAuthorizeNetSettings(111);
+        $entity->setChannel($this->getChannel(1, true));
+        $entity->setEnabledCIM(true);
+        $entity->setEnabledCIMWebsites(new ArrayCollection([$this->getWebsite(1)]));
+
+        $constraint = new RequiredEnabledCIMWebsites();
+        $this->validator->validate($entity, $constraint);
+
+        $this->assertNoViolation();
     }
 }
