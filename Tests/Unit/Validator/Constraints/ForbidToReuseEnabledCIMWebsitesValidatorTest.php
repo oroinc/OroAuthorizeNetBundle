@@ -5,7 +5,6 @@ namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\Validator\Constraints;
 use Doctrine\Common\Collections\ArrayCollection;
 use Oro\Bundle\AuthorizeNetBundle\Entity\AuthorizeNetSettings;
 use Oro\Bundle\AuthorizeNetBundle\Entity\Repository\AuthorizeNetSettingsRepository;
-use Oro\Bundle\AuthorizeNetBundle\Form\Extension\EnabledCIMWebsitesSelectExtension;
 use Oro\Bundle\AuthorizeNetBundle\Integration\AuthorizeNetChannelType;
 use Oro\Bundle\AuthorizeNetBundle\Validator\Constraints\ForbidToReuseEnabledCIMWebsites;
 use Oro\Bundle\AuthorizeNetBundle\Validator\Constraints\ForbidToReuseEnabledCIMWebsitesValidator;
@@ -13,107 +12,125 @@ use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\IntegrationBundle\Entity\Channel;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Provider\WebsiteProviderInterface;
-use Oro\Component\Testing\Unit\EntityTrait;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
-use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
+use Oro\Component\Testing\ReflectionUtil;
+use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
-class ForbidToReuseEnabledCIMWebsitesValidatorTest extends \PHPUnit\Framework\TestCase
+class ForbidToReuseEnabledCIMWebsitesValidatorTest extends ConstraintValidatorTestCase
 {
-    use EntityTrait;
-
-    /** @var ForbidToReuseEnabledCIMWebsites */
-    private $constraints;
-
-    /** @var ForbidToReuseEnabledCIMWebsitesValidator */
-    private $validator;
-
-    /** @var ExecutionContextInterface| \PHPUnit\Framework\MockObject\MockObject */
-    private $context;
-
-    /** @var WebsiteProviderInterface| \PHPUnit\Framework\MockObject\MockObject */
-    private $websiteProvider;
-
-    /** @var DoctrineHelper| \PHPUnit\Framework\MockObject\MockObject */
+    /** @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject */
     private $doctrineHelper;
 
-    /**
-     * {@inheritdoc}
-     */
+    /** @var WebsiteProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $websiteProvider;
+
     protected function setUp(): void
     {
-        $this->websiteProvider = $this->createMock(WebsiteProviderInterface::class);
         $this->doctrineHelper = $this->createMock(DoctrineHelper::class);
-        $this->constraints = new ForbidToReuseEnabledCIMWebsites();
-        $this->validator = new ForbidToReuseEnabledCIMWebsitesValidator($this->doctrineHelper, $this->websiteProvider);
-        $this->context = $this->createMock(ExecutionContextInterface::class);
-        $this->validator->initialize($this->context);
+        $this->websiteProvider = $this->createMock(WebsiteProviderInterface::class);
+        parent::setUp();
     }
 
-    /**
-     * @dataProvider validateWithNoApplicableValueProvider
-     *
-     * @param array|null $entityParams
-     */
-    public function testValidateWithNoApplicableValue(array $entityParams = null)
+    protected function createValidator()
     {
-        $entity = null;
-        if (null !== $entityParams) {
-            $entity = $this->getEntity(
-                AuthorizeNetSettings::class,
-                array_merge($entityParams, ['id' => '111'])
-            );
-        }
+        return new ForbidToReuseEnabledCIMWebsitesValidator($this->doctrineHelper, $this->websiteProvider);
+    }
 
-        $this->doctrineHelper
-            ->expects($this->never())
+    private function getAuthorizeNetSettings(int $id): AuthorizeNetSettings
+    {
+        $settings = new AuthorizeNetSettings();
+        ReflectionUtil::setId($settings, $id);
+
+        return $settings;
+    }
+
+    private function getApplicableAuthorizeNetSetting(int $id): AuthorizeNetSettings
+    {
+        $settings = $this->getAuthorizeNetSettings($id);
+        $settings->setChannel($this->getChannel(1, true));
+        $settings->setEnabledCIM(true);
+        $settings->setEnabledCIMWebsites(new ArrayCollection([$this->getWebsite(1, 'Default')]));
+
+        return $settings;
+    }
+
+    private function getChannel(int $id, bool $enabled): Channel
+    {
+        $channel = new Channel();
+        ReflectionUtil::setId($channel, $id);
+        $channel->setEnabled($enabled);
+
+        return $channel;
+    }
+
+    private function getWebsite(int $id, string $name): Website
+    {
+        $website = new Website();
+        ReflectionUtil::setId($website, $id);
+        $website->setName($name);
+
+        return $website;
+    }
+
+    public function testValidateNullValue()
+    {
+        $constraint = new ForbidToReuseEnabledCIMWebsites();
+        $this->validator->validate(null, $constraint);
+
+        $this->assertNoViolation();
+    }
+
+    public function testValidateForSettingsWithDisabledChannel()
+    {
+        $entity = $this->getAuthorizeNetSettings(111);
+        $entity->setChannel($this->getChannel(1, false));
+        $entity->setEnabledCIM(false);
+
+        $this->doctrineHelper->expects($this->never())
             ->method('getEntityRepository');
 
-        $this->websiteProvider
-            ->expects($this->never())
+        $this->websiteProvider->expects($this->never())
             ->method('getWebsiteIds');
 
-        $this->validator->validate($entity, $this->constraints);
+        $constraint = new ForbidToReuseEnabledCIMWebsites();
+        $this->validator->validate($entity, $constraint);
+
+        $this->assertNoViolation();
     }
 
-    /**
-     * @return array
-     */
-    public function validateWithNoApplicableValueProvider()
+    public function testValidateForSettingsWithEnabledChannelButCIMFunctionalityIsDisabled()
     {
-        $enabledChannel = $this->getEntity(Channel::class, [
-            'id' => 1,
-            'enabled' => true
-        ]);
+        $entity = $this->getAuthorizeNetSettings(111);
+        $entity->setChannel($this->getChannel(1, true));
+        $entity->setEnabledCIM(false);
 
-        $disabledChannel = $this->getEntity(Channel::class, [
-            'id' => 2,
-            'enabled' => false
-        ]);
+        $this->doctrineHelper->expects($this->never())
+            ->method('getEntityRepository');
 
-        return [
-            'Null value' => [
-                'entityParams' => null
-            ],
-            'Settings with disabled channel' => [
-                'entityParams' => [
-                    'channel' => $disabledChannel,
-                    'enabledCIM' => false
-                ]
-            ],
-            'Settings with enabled channel, but CIM functionality is disabled' => [
-                'entityParams' => [
-                    'channel' => $enabledChannel,
-                    'enabledCIM' => false
-                ]
-            ],
-            'Settings with enabled channel and CIM functionality is enabled, but without enabled websites' => [
-                'entityParams' => [
-                    'channel' => $enabledChannel,
-                    'enabledCIM' => true,
-                    'enabledCIMWebsites' => new ArrayCollection([])
-                ]
-            ]
-        ];
+        $this->websiteProvider->expects($this->never())
+            ->method('getWebsiteIds');
+
+        $constraint = new ForbidToReuseEnabledCIMWebsites();
+        $this->validator->validate($entity, $constraint);
+
+        $this->assertNoViolation();
+    }
+
+    public function testValidateForSettingsWithEnabledChannelAndCIMFunctionalityIsEnabledButNoEnabledCIMWebsites()
+    {
+        $entity = $this->getAuthorizeNetSettings(111);
+        $entity->setChannel($this->getChannel(1, true));
+        $entity->setEnabledCIM(true);
+
+        $this->doctrineHelper->expects($this->never())
+            ->method('getEntityRepository');
+
+        $this->websiteProvider->expects($this->never())
+            ->method('getWebsiteIds');
+
+        $constraint = new ForbidToReuseEnabledCIMWebsites();
+        $this->validator->validate($entity, $constraint);
+
+        $this->assertNoViolation();
     }
 
     public function testNoEnabledPaymentSettingValidate()
@@ -121,8 +138,7 @@ class ForbidToReuseEnabledCIMWebsitesValidatorTest extends \PHPUnit\Framework\Te
         $entity = $this->getApplicableAuthorizeNetSetting(111);
 
         $repository = $this->createMock(AuthorizeNetSettingsRepository::class);
-        $repository
-            ->expects($this->once())
+        $repository->expects($this->once())
             ->method('getEnabledSettingsWithCIMByTypeAndWebsites')
             ->with(
                 AuthorizeNetChannelType::TYPE,
@@ -131,16 +147,17 @@ class ForbidToReuseEnabledCIMWebsitesValidatorTest extends \PHPUnit\Framework\Te
             )
             ->willReturn([]);
 
-        $this->doctrineHelper
-            ->expects($this->once())
+        $this->doctrineHelper->expects($this->once())
             ->method('getEntityRepository')
             ->willReturn($repository);
 
-        $this->websiteProvider
-            ->expects($this->never())
+        $this->websiteProvider->expects($this->never())
             ->method('getWebsiteIds');
 
-        $this->validator->validate($entity, $this->constraints);
+        $constraint = new ForbidToReuseEnabledCIMWebsites();
+        $this->validator->validate($entity, $constraint);
+
+        $this->assertNoViolation();
     }
 
     public function testInvalidSettingsWithOneWebsite()
@@ -148,8 +165,7 @@ class ForbidToReuseEnabledCIMWebsitesValidatorTest extends \PHPUnit\Framework\Te
         $entity = $this->getApplicableAuthorizeNetSetting(111);
 
         $repository = $this->createMock(AuthorizeNetSettingsRepository::class);
-        $repository
-            ->expects($this->once())
+        $repository->expects($this->once())
             ->method('getEnabledSettingsWithCIMByTypeAndWebsites')
             ->with(
                 AuthorizeNetChannelType::TYPE,
@@ -158,19 +174,20 @@ class ForbidToReuseEnabledCIMWebsitesValidatorTest extends \PHPUnit\Framework\Te
             )
             ->willReturn($this->getApplicableAuthorizeNetSetting(112));
 
-        $this->doctrineHelper
-            ->expects($this->once())
+        $this->doctrineHelper->expects($this->once())
             ->method('getEntityRepository')
             ->willReturn($repository);
 
-        $this->websiteProvider
-            ->expects($this->once())
+        $this->websiteProvider->expects($this->once())
             ->method('getWebsiteIds')
             ->willReturn([1]);
 
-        $this->assertViolationWithMessage($this->constraints->messageSingleWebsite);
+        $constraint = new ForbidToReuseEnabledCIMWebsites();
+        $this->validator->validate($entity, $constraint);
 
-        $this->validator->validate($entity, $this->constraints);
+        $this->buildViolation($constraint->messageSingleWebsite)
+            ->atPath('property.path.enabledCIMWebsites')
+            ->assertRaised();
     }
 
     public function testInvalidSettingsWithMultiWebsite()
@@ -178,8 +195,7 @@ class ForbidToReuseEnabledCIMWebsitesValidatorTest extends \PHPUnit\Framework\Te
         $entity = $this->getApplicableAuthorizeNetSetting(111);
 
         $repository = $this->createMock(AuthorizeNetSettingsRepository::class);
-        $repository
-            ->expects($this->once())
+        $repository->expects($this->once())
             ->method('getEnabledSettingsWithCIMByTypeAndWebsites')
             ->with(
                 AuthorizeNetChannelType::TYPE,
@@ -188,77 +204,20 @@ class ForbidToReuseEnabledCIMWebsitesValidatorTest extends \PHPUnit\Framework\Te
             )
             ->willReturn([$this->getApplicableAuthorizeNetSetting(112)]);
 
-        $this->doctrineHelper
-            ->expects($this->once())
+        $this->doctrineHelper->expects($this->once())
             ->method('getEntityRepository')
             ->willReturn($repository);
 
-        $this->websiteProvider
-            ->expects($this->once())
+        $this->websiteProvider->expects($this->once())
             ->method('getWebsiteIds')
             ->willReturn([1, 2]);
 
-        $this->assertViolationWithMessage(
-            $this->constraints->messageMultiWebsite,
-            '"Default"'
-        );
+        $constraint = new ForbidToReuseEnabledCIMWebsites();
+        $this->validator->validate($entity, $constraint);
 
-        $this->validator->validate($entity, $this->constraints);
-    }
-
-    /**
-     * @param string      $message
-     * @param null|string $messageParameter
-     */
-    private function assertViolationWithMessage($message, $messageParameter = null)
-    {
-        $builder = $this->createMock(ConstraintViolationBuilderInterface::class);
-        $builder->expects($this->once())
-            ->method('atPath')
-            ->with(EnabledCIMWebsitesSelectExtension::FIELD_NAME)
-            ->willReturnSelf();
-
-        $builder
-            ->expects($this->once())
-            ->method('addViolation');
-
-        if (null !== $messageParameter) {
-            $builder
-                ->expects($this->once())
-                ->method('setParameter')
-                ->with('{{ websites }}', $messageParameter)
-                ->willReturnSelf();
-        }
-
-        $this->context
-            ->expects($this->once())
-            ->method('buildViolation')
-            ->with($message)
-            ->willReturn($builder);
-    }
-
-    /**
-     * @param int $id
-     * @return AuthorizeNetSettings
-     */
-    private function getApplicableAuthorizeNetSetting($id)
-    {
-        /** @var AuthorizeNetSettings $entity */
-        $entity = $this->getEntity(
-            AuthorizeNetSettings::class,
-            [
-                'id' => $id,
-                'channel' => $this->getEntity(Channel::class, [
-                    'id' => 1,
-                    'enabled' => true
-                ]),
-                'enabledCIM' => true,
-                'enabledCIMWebsites' => new ArrayCollection([
-                    $this->getEntity(Website::class, ['id' => 1, 'name' => 'Default'])
-                ])
-            ]
-        );
-
-        return $entity;
+        $this->buildViolation($constraint->messageMultiWebsite)
+            ->setParameter('{{ websites }}', '"Default"')
+            ->atPath('property.path.enabledCIMWebsites')
+            ->assertRaised();
     }
 }

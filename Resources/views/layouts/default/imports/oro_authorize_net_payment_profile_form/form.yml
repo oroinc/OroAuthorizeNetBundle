@@ -1,9 +1,9 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'OroAuthorizeNetBundle:layouts:default/imports/oro_authorize_net_payment_profile_form/block_theme.html.twig'
+            themes: '@OroAuthorizeNet/layouts/default/imports/oro_authorize_net_payment_profile_form/block_theme.html.twig'
         - '@setFormTheme':
-            themes: 'OroAuthorizeNetBundle:layouts:default/imports/oro_authorize_net_payment_profile_form/form_theme.html.twig'
+            themes: '@OroAuthorizeNet/layouts/default/imports/oro_authorize_net_payment_profile_form/form_theme.html.twig'
         - '@addTree':
             items:
                 __container:

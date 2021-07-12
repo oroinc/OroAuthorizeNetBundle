@@ -10,7 +10,7 @@ layout:
             namespace: echeck
     actions:
         - '@setBlockTheme':
-            themes: 'OroAuthorizeNetBundle:layouts:default/oro_authorize_net_payment_profile_frontend_index/layout.html.twig'
+            themes: '@OroAuthorizeNet/layouts/default/oro_authorize_net_payment_profile_frontend_index/layout.html.twig'
         - '@setOption':
             id: page_title
             optionName: defaultValue
