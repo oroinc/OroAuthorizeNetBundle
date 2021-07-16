@@ -18,10 +18,6 @@ class TransactionKeyValueProvider
     /**  @var SymmetricCrypterInterface */
     private $crypter;
 
-    /**
-     * @param ManagerRegistry $registry
-     * @param SymmetricCrypterInterface $crypter
-     */
     public function __construct(
         ManagerRegistry $registry,
         SymmetricCrypterInterface $crypter
@@ -30,11 +26,6 @@ class TransactionKeyValueProvider
         $this->crypter = $crypter;
     }
 
-    /**
-     * @param int|null $integrationId
-     * @param string $value
-     * @return string
-     */
     public function fromIntegrationEditFormValue(?int $integrationId, string $value): string
     {
         if ($integrationId === null) {

@@ -14,9 +14,6 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option\Address as AddressOption;
  */
 class ChargeData implements OptionInterface, OptionsDependentInterface
 {
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOption(OptionsResolver $resolver)
     {
         $resolver

@@ -20,17 +20,11 @@ class GetCustomerProfileControllerMock extends AbstractControllerMock implements
     /** @var PaymentProfileIDs */
     private $paymentProfileIdsStorage;
 
-    /**
-     * @param GetCustomerProfileRequest $request
-     */
     public function __construct(GetCustomerProfileRequest $request)
     {
         $this->request = $request;
     }
 
-    /**
-     * @param PaymentProfileIDs $paymentProfileIdsStorage
-     */
     public function setPaymentProfileIdsStorage(PaymentProfileIDs $paymentProfileIdsStorage)
     {
         $this->paymentProfileIdsStorage = $paymentProfileIdsStorage;

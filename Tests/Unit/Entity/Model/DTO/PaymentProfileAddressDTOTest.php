@@ -9,11 +9,6 @@ use Oro\Bundle\AuthorizeNetBundle\Model\DTO\PaymentProfileAddressDTO;
 class PaymentProfileAddressDTOTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @param $iso2code
-     * @param $regionCode
-     * @param $regionName
-     * @param $expectedResult
-     *
      * @dataProvider getRegionStringProvider
      */
     public function testGetRegionString($iso2code, $regionCode, $regionName, $expectedResult)

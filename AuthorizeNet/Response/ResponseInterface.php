@@ -38,7 +38,7 @@ interface ResponseInterface
      * @return string|null
      */
     public function getMessage();
-    
+
     /**
      * @return mixed
      */

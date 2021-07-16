@@ -30,8 +30,6 @@ class FeatureContext extends OroFeatureContext implements KernelAwareContext
     }
 
     /**
-     * @param int $count
-     *
      * @Then /^number of records payment profiles in AuthorizeNet account should be (?P<count>(?:\d+))$/
      */
     public function numberOfPaymentProfilesOnAuthorizeNet(int $count)

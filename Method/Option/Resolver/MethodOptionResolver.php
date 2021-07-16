@@ -32,18 +32,12 @@ class MethodOptionResolver implements MethodOptionResolverInterface
 
     /**
      * MethodOptionResolver constructor.
-     * @param MethodOptionProviderFactory $optionProviderFactory
      */
     public function __construct(MethodOptionProviderFactory $optionProviderFactory)
     {
         $this->optionProviderFactory = $optionProviderFactory;
     }
 
-    /**
-     * @param AuthorizeNetConfigInterface $config
-     * @param PaymentTransaction $transaction
-     * @return MethodOptionProviderInterface
-     */
     protected function createOptionProvider(
         AuthorizeNetConfigInterface $config,
         PaymentTransaction $transaction
@@ -51,11 +45,6 @@ class MethodOptionResolver implements MethodOptionResolverInterface
         return $this->optionProviderFactory->createMethodOptionProvider($config, $transaction);
     }
 
-    /**
-     * @param AuthorizeNetConfigInterface $config
-     * @param PaymentTransaction $transaction
-     * @return array
-     */
     public function resolvePurchase(AuthorizeNetConfigInterface $config, PaymentTransaction $transaction): array
     {
         $addressInfoProvider = $this->optionProviderFactory->createAddressProvider($transaction);
@@ -88,11 +77,6 @@ class MethodOptionResolver implements MethodOptionResolverInterface
         return $this->withExistCustomerProfileId($options, $provider);
     }
 
-    /**
-     * @param array $options
-     * @param MethodOptionProviderInterface $methodOptionsProvider
-     * @return array
-     */
     protected function opaqueFlow(array $options, MethodOptionProviderInterface $methodOptionsProvider): array
     {
         $options = $this->withOpaque($options, $methodOptionsProvider);
@@ -110,11 +94,6 @@ class MethodOptionResolver implements MethodOptionResolverInterface
         return $this->withGenerateCustomerId($options, $methodOptionsProvider);
     }
 
-    /**
-     * @param AuthorizeNetConfigInterface $config
-     * @param PaymentTransaction $transaction
-     * @return array
-     */
     public function resolveAuthorize(AuthorizeNetConfigInterface $config, PaymentTransaction $transaction): array
     {
         $provider = $this->createOptionProvider($config, $transaction);
@@ -127,11 +106,6 @@ class MethodOptionResolver implements MethodOptionResolverInterface
         return $options;
     }
 
-    /**
-     * @param AuthorizeNetConfigInterface $config
-     * @param PaymentTransaction $transaction
-     * @return array
-     */
     public function resolveCharge(AuthorizeNetConfigInterface $config, PaymentTransaction $transaction): array
     {
         $provider = $this->createOptionProvider($config, $transaction);
@@ -144,11 +118,6 @@ class MethodOptionResolver implements MethodOptionResolverInterface
         return $options;
     }
 
-    /**
-     * @param AuthorizeNetConfigInterface $config
-     * @param PaymentTransaction $transaction
-     * @return array
-     */
     public function resolveCapture(AuthorizeNetConfigInterface $config, PaymentTransaction $transaction): array
     {
         $authorizeTransaction = $transaction->getSourcePaymentTransaction();
@@ -168,11 +137,6 @@ class MethodOptionResolver implements MethodOptionResolverInterface
         return $options;
     }
 
-    /**
-     * @param AuthorizeNetConfigInterface $config
-     * @param PaymentTransaction $transaction
-     * @return array
-     */
     public function resolveVerify(AuthorizeNetConfigInterface $config, PaymentTransaction $transaction): array
     {
         $provider = $this->createOptionProvider($config, $transaction);
@@ -189,10 +153,6 @@ class MethodOptionResolver implements MethodOptionResolverInterface
         return $options;
     }
 
-    /**
-     * @param PaymentOptionProviderInterface $provider
-     * @return array
-     */
     protected function getPaymentOptions(PaymentOptionProviderInterface $provider): array
     {
         $options = [];
@@ -202,10 +162,6 @@ class MethodOptionResolver implements MethodOptionResolverInterface
         return $options;
     }
 
-    /**
-     * @param PaymentOptionProviderInterface $provider
-     * @return array
-     */
     protected function getOriginalTransactionOptions(PaymentOptionProviderInterface $provider): array
     {
         $options = [];
@@ -228,11 +184,6 @@ class MethodOptionResolver implements MethodOptionResolverInterface
         return $options;
     }
 
-    /**
-     * @param array $options
-     * @param CustomerProfileOptionProviderInterface $provider
-     * @return array
-     */
     protected function withExistCustomerProfileId(
         array $options,
         CustomerProfileOptionProviderInterface $provider
@@ -242,11 +193,6 @@ class MethodOptionResolver implements MethodOptionResolverInterface
         return $options;
     }
 
-    /**
-     * @param array $options
-     * @param CustomerProfileOptionProviderInterface $provider
-     * @return array
-     */
     protected function withExistCustomerPaymentProfileId(
         array $options,
         CustomerProfileOptionProviderInterface $provider
@@ -258,11 +204,6 @@ class MethodOptionResolver implements MethodOptionResolverInterface
         return $options;
     }
 
-    /**
-     * @param array $options
-     * @param CustomerProfileOptionProviderInterface $provider
-     * @return array
-     */
     protected function withGenerateCustomerId(array $options, CustomerProfileOptionProviderInterface $provider): array
     {
         $options[Option\CustomerDataId::NAME] = $provider->getGeneratedNewCustomerProfileId();
@@ -270,11 +211,6 @@ class MethodOptionResolver implements MethodOptionResolverInterface
         return $options;
     }
 
-    /**
-     * @param array $options
-     * @param CustomerProfileOptionProviderInterface $provider
-     * @return array
-     */
     protected function withEmail(array $options, CustomerProfileOptionProviderInterface $provider): array
     {
         $email = $provider->getEmail();
@@ -285,11 +221,6 @@ class MethodOptionResolver implements MethodOptionResolverInterface
         return $options;
     }
 
-    /**
-     * @param array $options
-     * @param InternalOptionProviderInterface $provider
-     * @return array
-     */
     protected function withCreateProfile(array $options, InternalOptionProviderInterface $provider): array
     {
         if (false === $this->shouldCreateProfile($provider)) {
@@ -301,10 +232,6 @@ class MethodOptionResolver implements MethodOptionResolverInterface
         return $options;
     }
 
-    /**
-     * @param InternalOptionProviderInterface $provider
-     * @return array
-     */
     protected function getCardCodeOptions(InternalOptionProviderInterface $provider): array
     {
         $options = [];
@@ -316,10 +243,6 @@ class MethodOptionResolver implements MethodOptionResolverInterface
         return $options;
     }
 
-    /**
-     * @param MerchantOptionProviderInterface $provider
-     * @return array
-     */
     protected function getMerchantOptions(MerchantOptionProviderInterface $provider): array
     {
         $options = [];
@@ -334,10 +257,6 @@ class MethodOptionResolver implements MethodOptionResolverInterface
         return $options;
     }
 
-    /**
-     * @param AddressInfoProvider $provider
-     * @return array
-     */
     protected function getBillToOptions(AddressInfoProvider $provider): array
     {
         $options = [];
@@ -358,46 +277,26 @@ class MethodOptionResolver implements MethodOptionResolverInterface
         return $options;
     }
 
-    /**
-     * @param PaymentTransaction $transaction
-     * @return array
-     */
     protected function getTransactionRequestOptions(PaymentTransaction $transaction): array
     {
         return $transaction->getRequest();
     }
 
-    /**
-     * @param InternalOptionProviderInterface $provider
-     * @return bool
-     */
     protected function isOpaqueFlow(InternalOptionProviderInterface $provider): bool
     {
         return $provider->getProfileId() === null;
     }
 
-    /**
-     * @param InternalOptionProviderInterface $provider
-     * @return bool
-     */
     protected function shouldCreateProfile(InternalOptionProviderInterface $provider): bool
     {
         return $provider->getCreateProfile() === true && $provider->isCIMEnabled();
     }
 
-    /**
-     * @param CustomerProfileOptionProviderInterface $provider
-     * @return bool
-     */
     protected function isCustomerProfileExists(CustomerProfileOptionProviderInterface $provider): bool
     {
         return $provider->isCustomerProfileExists();
     }
 
-    /**
-     * @param AddressInfoProvider $provider
-     * @return array
-     */
     protected function getShipToOptions(AddressInfoProvider $provider): array
     {
         $options = [];
@@ -416,10 +315,6 @@ class MethodOptionResolver implements MethodOptionResolverInterface
         return $options;
     }
 
-    /**
-     * @param MethodOptionProvider $provider
-     * @return array
-     */
     protected function getLineItemsOptions(MethodOptionProvider $provider): array
     {
         $options = [];
@@ -432,10 +327,6 @@ class MethodOptionResolver implements MethodOptionResolverInterface
         return $options;
     }
 
-    /**
-     * @param MethodOptionProvider $provider
-     * @return array
-     */
     protected function getInvoiceNumberOptions(MethodOptionProvider $provider): array
     {
         $options = [];
@@ -448,10 +339,6 @@ class MethodOptionResolver implements MethodOptionResolverInterface
         return $options;
     }
 
-    /**
-     * @param TaxProvider $provider
-     * @return array
-     */
     protected function getTaxAmountOptions(TaxProvider $provider): array
     {
         $options = [];
@@ -464,10 +351,6 @@ class MethodOptionResolver implements MethodOptionResolverInterface
         return $options;
     }
 
-    /**
-     * @param HttpRequestOptionProviderInterface $provider
-     * @return array
-     */
     protected function getCustomerIpOptions(HttpRequestOptionProviderInterface $provider): array
     {
         $options = [];

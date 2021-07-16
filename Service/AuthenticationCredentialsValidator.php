@@ -14,20 +14,11 @@ class AuthenticationCredentialsValidator
     /** @var Gateway */
     private $gateway;
 
-    /**
-     * @param Gateway $gateway
-     */
     public function __construct(Gateway $gateway)
     {
         $this->gateway = $gateway;
     }
 
-    /**
-     * @param string $apiLogin
-     * @param string $transactionKey
-     * @param bool $isTestMode
-     * @return bool
-     */
     public function isValid(string $apiLogin, string $transactionKey, bool $isTestMode): bool
     {
         $this->gateway->setTestMode($isTestMode);

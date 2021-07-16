@@ -20,19 +20,12 @@ class NavigationListener
     /** @var AuthorizeNetCIMEnabledConfigProvider */
     private $configProvider;
 
-    /**
-     * @param WebsiteManager $websiteManager
-     * @param AuthorizeNetCIMEnabledConfigProvider $configProvider
-     */
     public function __construct(WebsiteManager $websiteManager, AuthorizeNetCIMEnabledConfigProvider $configProvider)
     {
         $this->websiteManager = $websiteManager;
         $this->configProvider = $configProvider;
     }
 
-    /**
-     * @param ConfigureMenuEvent $event
-     */
     public function onNavigationConfigure(ConfigureMenuEvent $event)
     {
         $menuItem = MenuUpdateUtils::findMenuItem($event->getMenu(), self::MENU_ITEM_ID);

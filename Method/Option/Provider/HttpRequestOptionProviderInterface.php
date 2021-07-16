@@ -7,8 +7,5 @@ namespace Oro\Bundle\AuthorizeNetBundle\Method\Option\Provider;
  */
 interface HttpRequestOptionProviderInterface
 {
-    /**
-     * @return string|null
-     */
     public function getClientIp(): ?string;
 }

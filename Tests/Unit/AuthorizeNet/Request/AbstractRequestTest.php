@@ -33,7 +33,6 @@ abstract class AbstractRequestTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider optionsProvider
-     * @param array $options
      */
     public function testConfigureOptions(array $options = [])
     {

@@ -60,7 +60,6 @@ class PaymentProfileDTOFormProviderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param PaymentProfileDTO $paymentProfileDTO
      * @dataProvider paymentProfileDTOProvider
      */
     public function testGetPaymentProfileDTOFormView(PaymentProfileDTO $paymentProfileDTO)
@@ -116,7 +115,6 @@ class PaymentProfileDTOFormProviderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param PaymentProfileDTO $paymentProfileDTO
      * @dataProvider paymentProfileDTOProvider
      */
     public function testGetPaymentProfileDTOForm(PaymentProfileDTO $paymentProfileDTO)

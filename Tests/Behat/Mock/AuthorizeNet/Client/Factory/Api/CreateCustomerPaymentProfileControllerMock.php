@@ -25,25 +25,16 @@ class CreateCustomerPaymentProfileControllerMock extends AbstractControllerMock 
     /** @var PaymentProfileTypesToIDs */
     private $paymentProfileTypesToIDsStorage;
 
-    /**
-     * @param CreateCustomerPaymentProfileRequest $request
-     */
     public function __construct(CreateCustomerPaymentProfileRequest $request)
     {
         $this->request = $request;
     }
 
-    /**
-     * @param PaymentProfileIDs $paymentProfileIdsStorage
-     */
     public function setPaymentProfileIdsStorage(PaymentProfileIDs $paymentProfileIdsStorage)
     {
         $this->paymentProfileIdsStorage = $paymentProfileIdsStorage;
     }
 
-    /**
-     * @param PaymentProfileTypesToIDs $paymentProfileTypesToIDs
-     */
     public function setPaymentProfileTypesToIDsStorage(PaymentProfileTypesToIDs $paymentProfileTypesToIDs)
     {
         $this->paymentProfileTypesToIDsStorage = $paymentProfileTypesToIDs;

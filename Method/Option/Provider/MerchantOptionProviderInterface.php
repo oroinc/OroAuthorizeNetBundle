@@ -7,18 +7,9 @@ namespace Oro\Bundle\AuthorizeNetBundle\Method\Option\Provider;
  */
 interface MerchantOptionProviderInterface
 {
-    /**
-     * @return null|string
-     */
     public function getSolutionId(): ?string;
 
-    /**
-     * @return string
-     */
     public function getApiLoginId(): string;
 
-    /**
-     * @return string
-     */
     public function getTransactionKey(): string;
 }

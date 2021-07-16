@@ -43,12 +43,6 @@ class RequestSender
     /** @var MerchantCustomerIdGenerator */
     private $merchantCustomerIdGenerator;
 
-    /**
-     * @param Gateway $gateway
-     * @param DoctrineHelper $doctrineHelper
-     * @param CIMEnabledIntegrationConfigProvider $configProvider
-     * @param MerchantCustomerIdGenerator $merchantCustomerIdGenerator
-     */
     public function __construct(
         Gateway $gateway,
         DoctrineHelper $doctrineHelper,

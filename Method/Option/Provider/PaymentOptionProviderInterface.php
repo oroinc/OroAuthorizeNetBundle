@@ -7,18 +7,9 @@ namespace Oro\Bundle\AuthorizeNetBundle\Method\Option\Provider;
  */
 interface PaymentOptionProviderInterface
 {
-    /**
-     * @return float
-     */
     public function getAmount(): float;
 
-    /**
-     * @return string
-     */
     public function getCurrency(): string;
 
-    /**
-     * @return null|string
-     */
     public function getOriginalTransaction(): ?string;
 }

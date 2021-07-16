@@ -46,16 +46,6 @@ class PaymentProfileHandler extends FormHandler
     /** @var CustomerProfileProvider */
     private $customerProfileProvider;
 
-    /**
-     * @param EventDispatcherInterface $eventDispatcher
-     * @param DoctrineHelper $doctrineHelper
-     * @param TokenAccessor $tokenAccessor
-     * @param Session $session
-     * @param RequestSender $requestSender
-     * @param TranslatorInterface $translator
-     * @param IntegrationProvider $integrationProvider
-     * @param CustomerProfileProvider $customerProfileProvider
-     */
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
         DoctrineHelper $doctrineHelper,

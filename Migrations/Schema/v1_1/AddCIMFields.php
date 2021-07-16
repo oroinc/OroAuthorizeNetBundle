@@ -18,18 +18,12 @@ class AddCIMFields implements Migration
         $this->addOroAuthorizeNetEnabledCimWebsiteForeignKeys($schema);
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function addEnabledFieldToIntegrationTransport(Schema $schema)
     {
         $table = $schema->getTable('oro_integration_transport');
         $table->addColumn('au_net_enabled_cim', 'boolean', ['default' => '0', 'notnull' => false]);
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function createOroAuthorizeNetEnabledCimWebsiteTable(Schema $schema)
     {
         $table = $schema->createTable('oro_au_net_enabled_cim_website');
@@ -40,7 +34,6 @@ class AddCIMFields implements Migration
 
     /**
      * Add oro_au_net_enabled_cim_website foreign keys.
-     * @param Schema $schema
      */
     protected function addOroAuthorizeNetEnabledCimWebsiteForeignKeys(Schema $schema)
     {

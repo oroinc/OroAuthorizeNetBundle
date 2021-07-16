@@ -21,10 +21,6 @@ class MerchantAuthenticationRequestConfigurator implements RequestConfiguratorIn
             && array_key_exists(Option\TransactionKey::TRANSACTION_KEY, $options);
     }
 
-    /**
-     * @param AnetAPI\ANetApiRequestType $request
-     * @param array $options
-     */
     public function handle(AnetAPI\ANetApiRequestType $request, array &$options)
     {
         $request->setMerchantAuthentication($this->getMerchantAuthenticationType($options));

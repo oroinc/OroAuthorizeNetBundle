@@ -20,10 +20,6 @@ class CIMEnabledIntegrationConfigProvider
     /** @var AuthorizeNetConfigInterface */
     private $config;
 
-    /**
-     * @param AuthorizeNetCIMEnabledConfigProviderInterface $configProvider
-     * @param WebsiteManager $websiteManager
-     */
     public function __construct(
         AuthorizeNetCIMEnabledConfigProviderInterface $configProvider,
         WebsiteManager $websiteManager

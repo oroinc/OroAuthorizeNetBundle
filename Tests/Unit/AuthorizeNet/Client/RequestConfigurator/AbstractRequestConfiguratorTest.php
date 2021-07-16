@@ -24,9 +24,6 @@ abstract class AbstractRequestConfiguratorTest extends \PHPUnit\Framework\TestCa
 
     /**
      * @dataProvider isApplicableProvider
-     * @param AnetAPI\ANetApiRequestType $request
-     * @param array $options
-     * @param bool $expectedResult
      */
     public function testIsApplicable(AnetAPI\ANetApiRequestType $request, array $options, bool $expectedResult)
     {
@@ -40,9 +37,6 @@ abstract class AbstractRequestConfiguratorTest extends \PHPUnit\Framework\TestCa
 
     /**
      * @dataProvider handleProvider
-     * @param AnetAPI\ANetApiRequestType $request
-     * @param array $options
-     * @param AnetAPI\ANetApiRequestType $expectedRequest
      */
     public function testHandle(
         AnetAPI\ANetApiRequestType $request,

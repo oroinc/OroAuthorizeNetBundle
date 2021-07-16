@@ -14,9 +14,6 @@ class AuthorizeNetCIMEnabledConfigProvider implements AuthorizeNetCIMEnabledConf
     /** @var AuthorizeNetConfigProviderInterface */
     private $configProvider;
 
-    /**
-     * @param AuthorizeNetConfigProviderInterface $configProvider
-     */
     public function __construct(AuthorizeNetConfigProviderInterface $configProvider)
     {
         $this->configProvider = $configProvider;

@@ -31,9 +31,6 @@ class AddECheckFields implements Migration
         $this->addOroAuthorizeNetECheckShortLabelForeignKeys($schema);
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function updateOroIntegrationTransportTable(Schema $schema)
     {
         $table = $schema->getTable(self::INTEGRATION_TRANSPORT_TABLE);
@@ -51,9 +48,6 @@ class AddECheckFields implements Migration
         ]);
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function createOroAuthorizeNetECheckLabelTable(Schema $schema)
     {
         $table = $schema->createTable(self::ECHECK_LABEL_TABLE);
@@ -63,9 +57,6 @@ class AddECheckFields implements Migration
         $table->addUniqueIndex(['localized_value_id']);
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function createOroAuthorizeNetECheckShortLabelTable(Schema $schema)
     {
         $table = $schema->createTable(self::ECHECK_SHORT_LABEL_TABLE);
@@ -75,9 +66,6 @@ class AddECheckFields implements Migration
         $table->addUniqueIndex(['localized_value_id']);
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function addOroAuthorizeNetECheckLabelForeignKeys(Schema $schema)
     {
         $table = $schema->getTable(self::ECHECK_LABEL_TABLE);
@@ -95,9 +83,6 @@ class AddECheckFields implements Migration
         );
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function addOroAuthorizeNetECheckShortLabelForeignKeys(Schema $schema)
     {
         $table = $schema->getTable(self::ECHECK_SHORT_LABEL_TABLE);

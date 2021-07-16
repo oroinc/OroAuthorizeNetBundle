@@ -54,14 +54,6 @@ class MethodOptionProvider implements MethodOptionProviderInterface
     /** @var RequestStack */
     private $requestStack;
 
-    /**
-     * @param AuthorizeNetConfigInterface $config
-     * @param PaymentTransaction $paymentTransaction
-     * @param CustomerProfileProvider $customerProfileProvider
-     * @param DoctrineHelper $doctrineHelper
-     * @param MerchantCustomerIdGenerator $merchantCustomerIdGenerator
-     * @param RequestStack $requestStack
-     */
     public function __construct(
         AuthorizeNetConfigInterface $config,
         PaymentTransaction $paymentTransaction,
@@ -78,10 +70,6 @@ class MethodOptionProvider implements MethodOptionProviderInterface
         $this->requestStack = $requestStack;
     }
 
-    /**
-     * @param int $id
-     * @return null|CustomerPaymentProfile
-     */
     private function getCustomerPaymentProfileById(int $id): ?CustomerPaymentProfile
     {
         $repository = $this->doctrineHelper->getEntityRepository(CustomerPaymentProfile::class);
@@ -92,57 +80,36 @@ class MethodOptionProvider implements MethodOptionProviderInterface
         return $profile;
     }
 
-    /**
-     * @return null|string
-     */
     public function getSolutionId(): ?string
     {
         return $this->config->isTestMode() ? null : self::SOLUTION_ID;
     }
 
-    /**
-     * @return string
-     */
     public function getApiLoginId(): string
     {
         return $this->config->getApiLoginId();
     }
 
-    /**
-     * @return string
-     */
     public function getTransactionKey(): string
     {
         return $this->config->getTransactionKey();
     }
 
-    /**
-     * @return string
-     */
     public function getDataDescriptor(): string
     {
         return $this->getAdditionalDataField(self::PARAM_DATA_DESCRIPTOR);
     }
 
-    /**
-     * @return string
-     */
     public function getDataValue(): string
     {
         return $this->getAdditionalDataField(self::PARAM_DATA_VALUE);
     }
 
-    /**
-     * @return bool
-     */
     public function isCustomerProfileExists(): bool
     {
         return null !== $this->getCustomerProfile();
     }
 
-    /**
-     * @return string
-     */
     public function getExistingCustomerProfileId(): string
     {
         $customerProfile = $this->getCustomerProfile();
@@ -153,9 +120,6 @@ class MethodOptionProvider implements MethodOptionProviderInterface
         return $customerProfile->getCustomerProfileId();
     }
 
-    /**
-     * @return string
-     */
     public function getExistingCustomerPaymentProfileId(): string
     {
         $profileId = $this->getProfileId();
@@ -181,9 +145,6 @@ class MethodOptionProvider implements MethodOptionProviderInterface
         return $paymentProfile->getCustomerPaymentProfileId();
     }
 
-    /**
-     * @return string
-     */
     public function getGeneratedNewCustomerProfileId(): string
     {
         if ($this->isCustomerProfileExists()) {
@@ -198,9 +159,6 @@ class MethodOptionProvider implements MethodOptionProviderInterface
         return $this->merchantCustomerIdGenerator->generate($this->config->getIntegrationId(), $frontendOwner->getId());
     }
 
-    /**
-     * @return null|string
-     */
     public function getEmail(): ?string
     {
         $frontendOwner = $this->paymentTransaction->getFrontendOwner();
@@ -211,25 +169,16 @@ class MethodOptionProvider implements MethodOptionProviderInterface
         return $frontendOwner->getEmail();
     }
 
-    /**
-     * @return int|null
-     */
     public function getProfileId(): ?int
     {
         return $this->getAdditionalDataField(self::PARAM_PROFILE_ID, false);
     }
 
-    /**
-     * @return null|string
-     */
     public function getCardCode(): ?string
     {
         return $this->getAdditionalDataField(self::PARAM_CARD_CODE, false);
     }
 
-    /**
-     * @return bool|null
-     */
     public function getCreateProfile(): ?bool
     {
         $createProfile = $this->getAdditionalDataField(self::PARAM_CREATE_PROFILE, false);
@@ -240,33 +189,21 @@ class MethodOptionProvider implements MethodOptionProviderInterface
         return (bool)$createProfile;
     }
 
-    /**
-     * @return float
-     */
     public function getAmount(): float
     {
         return round($this->paymentTransaction->getAmount(), self::AMOUNT_PRECISION);
     }
 
-    /**
-     * @return string
-     */
     public function getCurrency(): string
     {
         return $this->paymentTransaction->getCurrency();
     }
 
-    /**
-     * @return null|string
-     */
     public function getOriginalTransaction(): ?string
     {
         return $this->paymentTransaction->getReference();
     }
 
-    /**
-     * @return null|CustomerProfile
-     */
     private function getCustomerProfile(): ?CustomerProfile
     {
         return $this->customerProfileProvider->findCustomerProfile(
@@ -295,9 +232,6 @@ class MethodOptionProvider implements MethodOptionProviderInterface
         return $additionalData[$fieldName] ?? null;
     }
 
-    /**
-     * @return array
-     */
     private function getAdditionalData(): array
     {
         if (null === $this->additionalData) {
@@ -308,7 +242,6 @@ class MethodOptionProvider implements MethodOptionProviderInterface
     }
 
     /**
-     * @return array
      * @throws \LogicException
      */
     private function extractAdditionalData(): array
@@ -357,9 +290,7 @@ class MethodOptionProvider implements MethodOptionProviderInterface
 
         return $lineItems;
     }
-    /**
-     * @return null|string
-     */
+
     public function getInvoiceNumber(): ?string
     {
         $entity = $this->getEntity();
@@ -372,9 +303,6 @@ class MethodOptionProvider implements MethodOptionProviderInterface
         return $invoiceNumber;
     }
 
-    /**
-     * @return bool
-     */
     public function isCIMEnabled(): bool
     {
         return $this->config->isEnabledCIM();

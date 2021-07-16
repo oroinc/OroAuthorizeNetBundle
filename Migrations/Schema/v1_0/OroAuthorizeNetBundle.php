@@ -22,7 +22,6 @@ class OroAuthorizeNetBundle implements Migration
 
     /**
      * Update oro_integration_transport table
-     * @param Schema $schema
      */
     protected function updateOroIntegrationTransportTable(Schema $schema)
     {
@@ -38,7 +37,6 @@ class OroAuthorizeNetBundle implements Migration
 
     /**
      * Create oro_au_net_credit_card_lbl table
-     * @param Schema $schema
      */
     protected function createOroAuthorizeNetCreditCardLblTable(Schema $schema)
     {
@@ -51,7 +49,6 @@ class OroAuthorizeNetBundle implements Migration
 
     /**
      * Create oro_au_net_credit_card_sh_lbl table
-     * @param Schema $schema
      */
     protected function createOroAuthorizeNetCreditCardShLblTable(Schema $schema)
     {
@@ -64,7 +61,6 @@ class OroAuthorizeNetBundle implements Migration
 
     /**
      * Add oro_au_net_credit_card_lbl foreign keys.
-     * @param Schema $schema
      */
     protected function addOroAuthorizeNetCreditCardLblForeignKeys(Schema $schema)
     {
@@ -85,7 +81,6 @@ class OroAuthorizeNetBundle implements Migration
 
     /**
      * Add oro_au_net_credit_card_sh_lbl foreign keys.
-     * @param Schema $schema
      */
     protected function addOroAuthorizeNetCreditCardShLblForeignKeys(Schema $schema)
     {

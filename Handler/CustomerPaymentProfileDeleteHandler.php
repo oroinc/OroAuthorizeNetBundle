@@ -18,19 +18,12 @@ class CustomerPaymentProfileDeleteHandler
     /** @var RequestSender */
     private $requestSender;
 
-    /**
-     * @param DoctrineHelper $doctrineHelper
-     * @param RequestSender $requestSender
-     */
     public function __construct(DoctrineHelper $doctrineHelper, RequestSender $requestSender)
     {
         $this->doctrineHelper = $doctrineHelper;
         $this->requestSender = $requestSender;
     }
 
-    /**
-     * @param CustomerPaymentProfile $paymentProfile
-     */
     public function handleDelete(CustomerPaymentProfile $paymentProfile)
     {
         $this->requestSender->deleteCustomerPaymentProfile($paymentProfile);

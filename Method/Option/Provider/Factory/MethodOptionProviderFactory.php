@@ -40,12 +40,6 @@ class MethodOptionProviderFactory
 
     /**
      * MethodOptionProviderFactory constructor.
-     * @param CustomerProfileProvider $customerProfileProvider
-     * @param MerchantCustomerIdGenerator $merchantCustomerIdGenerator
-     * @param DoctrineHelper $doctrineHelper
-     * @param AddressExtractor $addressExtractor
-     * @param TaxProviderRegistry $taxProviderRegistry
-     * @param RequestStack $requestStack
      */
     public function __construct(
         CustomerProfileProvider $customerProfileProvider,
@@ -63,11 +57,6 @@ class MethodOptionProviderFactory
         $this->requestStack = $requestStack;
     }
 
-    /**
-     * @param AuthorizeNetConfigInterface $config
-     * @param PaymentTransaction $transaction
-     * @return MethodOptionProviderInterface
-     */
     public function createMethodOptionProvider(
         AuthorizeNetConfigInterface $config,
         PaymentTransaction $transaction
@@ -82,10 +71,6 @@ class MethodOptionProviderFactory
         );
     }
 
-    /**
-     * @param PaymentTransaction $transaction
-     * @return AddressInfoProvider
-     */
     public function createAddressProvider(PaymentTransaction $transaction): AddressInfoProvider
     {
         return new AddressInfoProvider(
@@ -95,10 +80,6 @@ class MethodOptionProviderFactory
         );
     }
 
-    /**
-     * @param PaymentTransaction $transaction
-     * @return TaxProvider
-     */
     public function createTaxProvider(PaymentTransaction $transaction): TaxProvider
     {
         return new TaxProvider(
