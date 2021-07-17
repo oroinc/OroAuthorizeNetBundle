@@ -34,10 +34,6 @@ class PaymentProfileAddressType extends AbstractType
      */
     private $translator;
 
-    /**
-     * @param AddressCountryAndRegionSubscriber $eventListener
-     * @param TranslatorInterface $translator
-     */
     public function __construct(AddressCountryAndRegionSubscriber $eventListener, TranslatorInterface $translator)
     {
         $this->countryAndRegionSubscriber = $eventListener;

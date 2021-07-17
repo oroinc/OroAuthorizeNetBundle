@@ -32,12 +32,6 @@ class AuthorizeNetPaymentMethodFactory implements AuthorizeNetPaymentMethodFacto
     /** @var EventDispatcherInterface */
     protected $eventDispatcher;
 
-    /**
-     * @param Gateway $gateway
-     * @param RequestStack $requestStack
-     * @param MethodOptionResolverInterface $methodOptionResolver
-     * @param EventDispatcherInterface $eventDispatcher
-     */
     public function __construct(
         Gateway $gateway,
         RequestStack $requestStack,

@@ -90,9 +90,6 @@ class CheckoutEcheckProfileTypeTest extends FormIntegrationTestCase
 
     /**
      * @dataProvider formConfigurationProvider
-     * @param array $presentFields
-     * @param array $notPresentFields
-     * @param array $formOptions
      */
     public function testFormConfiguration(array $presentFields, array $notPresentFields, array $formOptions)
     {

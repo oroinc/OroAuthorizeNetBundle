@@ -26,10 +26,6 @@ class ForbidToReuseEnabledCIMWebsitesValidator extends ConstraintValidator
     /** @var WebsiteProviderInterface */
     private $websiteProvider;
 
-    /**
-     * @param DoctrineHelper $doctrineHelper
-     * @param WebsiteProviderInterface $websiteProvider
-     */
     public function __construct(DoctrineHelper $doctrineHelper, WebsiteProviderInterface $websiteProvider)
     {
         $this->doctrineHelper = $doctrineHelper;
@@ -89,7 +85,6 @@ class ForbidToReuseEnabledCIMWebsitesValidator extends ConstraintValidator
     }
 
     /**
-     *
      * @param AuthorizeNetSettings   $entity
      * @param AuthorizeNetSettings[] $enabledSettings
      *

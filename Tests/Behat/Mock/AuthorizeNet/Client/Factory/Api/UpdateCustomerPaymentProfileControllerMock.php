@@ -18,17 +18,11 @@ class UpdateCustomerPaymentProfileControllerMock extends AbstractControllerMock 
     /** @var PaymentProfileIDs */
     private $paymentProfileIdsStorage;
 
-    /**
-     * @param UpdateCustomerPaymentProfileRequest $request
-     */
     public function __construct(UpdateCustomerPaymentProfileRequest $request)
     {
         $this->request = $request;
     }
 
-    /**
-     * @param PaymentProfileIDs $paymentProfileIdsStorage
-     */
     public function setPaymentProfileIdsStorage(PaymentProfileIDs $paymentProfileIdsStorage)
     {
         $this->paymentProfileIdsStorage = $paymentProfileIdsStorage;

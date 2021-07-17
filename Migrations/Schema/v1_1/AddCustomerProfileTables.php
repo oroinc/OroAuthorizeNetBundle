@@ -22,9 +22,6 @@ class AddCustomerProfileTables implements Migration
         $this->addOroAuthorizeNetCustomerPaymentProfileForeignKeys($schema);
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function createOroAuthorizeNetCustomerProfileTable(Schema $schema)
     {
         $table = $schema->createTable(self::CUSTOMER_PROFILE_TABLE);
@@ -36,9 +33,6 @@ class AddCustomerProfileTables implements Migration
         $table->setPrimaryKey(['id']);
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function createOroAuthorizeNetCustomerPaymentProfileTable(Schema $schema)
     {
         $table = $schema->createTable(self::CUSTOMER_PAYMENT_PROFILE_TABLE);
@@ -56,9 +50,6 @@ class AddCustomerProfileTables implements Migration
         $table->addIndex(['type'], 'oro_au_net_payment_profile_type_idx');
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function addOroAuthorizeNetCustomerProfileForeignKeys(Schema $schema)
     {
         $table = $schema->getTable(self::CUSTOMER_PROFILE_TABLE);
@@ -82,9 +73,6 @@ class AddCustomerProfileTables implements Migration
         );
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function addOroAuthorizeNetCustomerPaymentProfileForeignKeys(Schema $schema)
     {
         $table = $schema->getTable(self::CUSTOMER_PAYMENT_PROFILE_TABLE);

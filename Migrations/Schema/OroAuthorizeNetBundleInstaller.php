@@ -57,7 +57,6 @@ class OroAuthorizeNetBundleInstaller implements Installation
 
     /**
      * Update oro_integration_transport table
-     * @param Schema $schema
      */
     protected function updateOroIntegrationTransportTable(Schema $schema)
     {
@@ -87,7 +86,6 @@ class OroAuthorizeNetBundleInstaller implements Installation
 
     /**
      * Create oro_au_net_credit_card_lbl table
-     * @param Schema $schema
      */
     protected function createOroAuthorizeNetCreditCardLblTable(Schema $schema)
     {
@@ -100,7 +98,6 @@ class OroAuthorizeNetBundleInstaller implements Installation
 
     /**
      * Create oro_au_net_credit_card_sh_lbl table
-     * @param Schema $schema
      */
     protected function createOroAuthorizeNetCreditCardShLblTable(Schema $schema)
     {
@@ -113,7 +110,6 @@ class OroAuthorizeNetBundleInstaller implements Installation
 
     /**
      * Create oro_au_net_enabled_cim_website
-     * @param Schema $schema
      */
     protected function createOroAuthorizeNetEnabledCimWebsiteTable(Schema $schema)
     {
@@ -123,9 +119,6 @@ class OroAuthorizeNetBundleInstaller implements Installation
         $table->setPrimaryKey(['transport_id', 'website_id']);
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function createOroAuthorizeNetCustomerProfileTable(Schema $schema)
     {
         $table = $schema->createTable(self::CUSTOMER_PROFILE_TABLE);
@@ -137,9 +130,6 @@ class OroAuthorizeNetBundleInstaller implements Installation
         $table->setPrimaryKey(['id']);
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function createOroAuthorizeNetCustomerPaymentProfileTable(Schema $schema)
     {
         $table = $schema->createTable(self::CUSTOMER_PAYMENT_PROFILE_TABLE);
@@ -159,7 +149,6 @@ class OroAuthorizeNetBundleInstaller implements Installation
 
     /**
      * Add oro_au_net_credit_card_lbl foreign keys.
-     * @param Schema $schema
      */
     protected function addOroAuthorizeNetCreditCardLblForeignKeys(Schema $schema)
     {
@@ -180,7 +169,6 @@ class OroAuthorizeNetBundleInstaller implements Installation
 
     /**
      * Add oro_au_net_credit_card_sh_lbl foreign keys.
-     * @param Schema $schema
      */
     protected function addOroAuthorizeNetCreditCardShLblForeignKeys(Schema $schema)
     {
@@ -201,7 +189,6 @@ class OroAuthorizeNetBundleInstaller implements Installation
 
     /**
      * Add oro_au_net_enabled_cim_website foreign keys.
-     * @param Schema $schema
      */
     protected function addOroAuthorizeNetEnabledCimWebsiteForeignKeys(Schema $schema)
     {
@@ -220,9 +207,6 @@ class OroAuthorizeNetBundleInstaller implements Installation
         );
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function addOroAuthorizeNetCustomerProfileForeignKeys(Schema $schema)
     {
         $table = $schema->getTable(self::CUSTOMER_PROFILE_TABLE);
@@ -246,9 +230,6 @@ class OroAuthorizeNetBundleInstaller implements Installation
         );
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function addOroAuthorizeNetCustomerPaymentProfileForeignKeys(Schema $schema)
     {
         $table = $schema->getTable(self::CUSTOMER_PAYMENT_PROFILE_TABLE);
@@ -272,9 +253,6 @@ class OroAuthorizeNetBundleInstaller implements Installation
         );
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function createOroAuthorizeNetECheckLabelTable(Schema $schema)
     {
         $table = $schema->createTable(self::ECHECK_LABEL_TABLE);
@@ -284,9 +262,6 @@ class OroAuthorizeNetBundleInstaller implements Installation
         $table->addUniqueIndex(['localized_value_id']);
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function createOroAuthorizeNetECheckShortLabelTable(Schema $schema)
     {
         $table = $schema->createTable(self::ECHECK_SHORT_LABEL_TABLE);
@@ -296,9 +271,6 @@ class OroAuthorizeNetBundleInstaller implements Installation
         $table->addUniqueIndex(['localized_value_id']);
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function addOroAuthorizeNetECheckLabelForeignKeys(Schema $schema)
     {
         $table = $schema->getTable(self::ECHECK_LABEL_TABLE);
@@ -316,9 +288,6 @@ class OroAuthorizeNetBundleInstaller implements Installation
         );
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function addOroAuthorizeNetECheckShortLabelForeignKeys(Schema $schema)
     {
         $table = $schema->getTable(self::ECHECK_SHORT_LABEL_TABLE);

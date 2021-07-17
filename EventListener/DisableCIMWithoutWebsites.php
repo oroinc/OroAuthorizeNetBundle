@@ -14,10 +14,6 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
  */
 class DisableCIMWithoutWebsites
 {
-    /**
-     * @param Website $website
-     * @param LifecycleEventArgs $event
-     */
     public function preRemove(Website $website, LifecycleEventArgs $event)
     {
         $em = $event->getEntityManager();

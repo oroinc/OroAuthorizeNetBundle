@@ -58,18 +58,12 @@ class PaymentData implements OptionInterface, OptionsDependentInterface
         }
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     private function addCreditCardOptions(OptionsResolver $resolver)
     {
         $resolver->setRequired(CardNumber::CARD_NUMBER);
         $resolver->setRequired(ExpirationDate::EXPIRATION_DATE);
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     private function addBankAccountOptions(OptionsResolver $resolver)
     {
         $resolver->setRequired(AccountNumber::ACCOUNT_NUMBER);
@@ -79,27 +73,18 @@ class PaymentData implements OptionInterface, OptionsDependentInterface
         $resolver->setRequired(BankName::BANK_NAME);
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     private function addEncodedDataOptions(OptionsResolver $resolver)
     {
         $resolver->setRequired(DataDescriptor::DATA_DESCRIPTOR);
         $resolver->setRequired(DataValue::DATA_VALUE);
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     private function removeCreditCardOptions(OptionsResolver $resolver)
     {
         $resolver->remove(CardNumber::CARD_NUMBER);
         $resolver->remove(ExpirationDate::EXPIRATION_DATE);
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     private function removeBankAccountOptions(OptionsResolver $resolver)
     {
         $resolver->remove(AccountNumber::ACCOUNT_NUMBER);
@@ -109,9 +94,6 @@ class PaymentData implements OptionInterface, OptionsDependentInterface
         $resolver->remove(BankName::BANK_NAME);
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     private function removeEncodedDataOptions(OptionsResolver $resolver)
     {
         $resolver->remove(DataDescriptor::DATA_DESCRIPTOR);

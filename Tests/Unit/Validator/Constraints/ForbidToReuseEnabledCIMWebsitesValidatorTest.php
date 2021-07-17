@@ -51,8 +51,6 @@ class ForbidToReuseEnabledCIMWebsitesValidatorTest extends \PHPUnit\Framework\Te
 
     /**
      * @dataProvider validateWithNoApplicableValueProvider
-     *
-     * @param array|null $entityParams
      */
     public function testValidateWithNoApplicableValue(array $entityParams = null)
     {

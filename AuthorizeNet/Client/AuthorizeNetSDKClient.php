@@ -27,11 +27,6 @@ class AuthorizeNetSDKClient implements ClientInterface
      */
     private $logger;
 
-    /**
-     * @param AnetSDKRequestFactoryInterface $requestFactory
-     * @param ResponseFactory $responseFactory
-     * @param LoggerInterface $logger
-     */
     public function __construct(
         AnetSDKRequestFactoryInterface $requestFactory,
         ResponseFactory $responseFactory,

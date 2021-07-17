@@ -24,25 +24,16 @@ class DeleteCustomerPaymentProfileControllerMock extends AbstractControllerMock 
     /** @var PaymentProfileTypesToIDs $paymentProfileTypesToIDsStorage */
     private $paymentProfileTypesToIDsStorage;
 
-    /**
-     * @param DeleteCustomerPaymentProfileRequest $request
-     */
     public function __construct(DeleteCustomerPaymentProfileRequest $request)
     {
         $this->request = $request;
     }
 
-    /**
-     * @param PaymentProfileIDs $paymentProfileIdsStorage
-     */
     public function setPaymentProfileIdsStorage(PaymentProfileIDs $paymentProfileIdsStorage)
     {
         $this->paymentProfileIdsStorage = $paymentProfileIdsStorage;
     }
 
-    /**
-     * @param PaymentProfileTypesToIDs $paymentProfileTypesToIDs
-     */
     public function setPaymentProfileTypesToIDsStorage(PaymentProfileTypesToIDs $paymentProfileTypesToIDs)
     {
         $this->paymentProfileTypesToIDsStorage = $paymentProfileTypesToIDs;

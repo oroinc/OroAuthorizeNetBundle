@@ -301,8 +301,6 @@ class CreatePaymentProfileFromTransactionResponseTest extends \PHPUnit\Framework
 
     /**
      * @dataProvider notApplicableProvider
-     * @param array $data
-     * @param PaymentTransaction $transaction
      */
     public function testOnTransactionResponseReceivedNotApplicable(array $data, PaymentTransaction $transaction)
     {

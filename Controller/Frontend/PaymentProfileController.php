@@ -189,9 +189,6 @@ class PaymentProfileController extends AbstractController
         return $configProvider->getConfig();
     }
 
-    /**
-     * @param string|null $type
-     */
     private function assertCIMEnabled(string $type = null)
     {
         $config = $this->getCimEnabledConfig();

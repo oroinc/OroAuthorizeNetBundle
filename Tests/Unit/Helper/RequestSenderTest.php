@@ -117,8 +117,6 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param $responseMock
-     *
      * @dataProvider successfulResponseProvider
      */
     public function testCreateCustomerProfile($responseMock)
@@ -144,10 +142,6 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param $responseMock
-     * @param $expectedException
-     * @param $exceptionMessage
-     *
      * @dataProvider unsuccessfulResponseProvider
      */
     public function testCreateCustomerProfileException($responseMock, $expectedException, $exceptionMessage)
@@ -175,8 +169,6 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param $responseMock
-     *
      * @dataProvider successfulResponseProvider
      */
     public function testDeleteCustomerProfile($responseMock)
@@ -201,10 +193,6 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param $responseMock
-     * @param $expectedException
-     * @param $exceptionMessage
-     *
      * @dataProvider unsuccessfulResponseProvider
      */
     public function testDeleteCustomerProfileException($responseMock, $expectedException, $exceptionMessage)
@@ -231,8 +219,6 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param $responseMock
-     *
      * @dataProvider successfulResponseProvider
      */
     public function testDeleteCustomerPaymentProfile($responseMock)
@@ -258,10 +244,6 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param $responseMock
-     * @param $expectedException
-     * @param $exceptionMessage
-     *
      * @dataProvider unsuccessfulResponseProvider
      */
     public function testDeleteCustomerPaymentProfileException($responseMock, $expectedException, $exceptionMessage)
@@ -289,8 +271,6 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param $responseMock
-     *
      * @dataProvider successfulResponseProvider
      */
     public function testGetCustomerPaymentProfile($responseMock)
@@ -316,10 +296,6 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param $responseMock
-     * @param $expectedException
-     * @param $exceptionMessage
-     *
      * @dataProvider unsuccessfulResponseProvider
      */
     public function testGetCustomerPaymentProfileException($responseMock, $expectedException, $exceptionMessage)
@@ -382,10 +358,6 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param $responseMock
-     * @param $expectedException
-     * @param $exceptionMessage
-     *
      * @dataProvider unsuccessfulResponseProvider
      */
     public function testGetCustomerProfileException($responseMock, $expectedException, $exceptionMessage)
@@ -410,8 +382,6 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param $responseMock
-     *
      * @dataProvider successfulResponseProvider
      */
     public function testCreateCustomerPaymentProfile($responseMock)
@@ -443,10 +413,6 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param $responseMock
-     * @param $expectedException
-     * @param $exceptionMessage
-     *
      * @dataProvider unsuccessfulResponseProvider
      */
     public function testCreateCustomerPaymentProfileException($responseMock, $expectedException, $exceptionMessage)
@@ -480,8 +446,6 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param $responseMock
-     *
      * @dataProvider successfulResponseProvider
      */
     public function testUpdateCustomerPaymentProfileNoCreditCardUpdate($responseMock)
@@ -516,10 +480,6 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param $responseMock
-     * @param $expectedException
-     * @param $exceptionMessage
-     *
      * @dataProvider unsuccessfulResponseProvider
      */
     public function testUpdateCustomerPaymentProfileNoCreditCardUpdateException(
@@ -559,8 +519,6 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param $responseMock
-     *
      * @dataProvider successfulResponseProvider
      */
     public function testUpdateCustomerPaymentProfileWithCreditCardUpdate($responseMock)
@@ -596,10 +554,6 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param $responseMock
-     * @param $expectedException
-     * @param $exceptionMessage
-     *
      * @dataProvider unsuccessfulResponseProvider
      */
     public function testUpdateCustomerPaymentProfileWithCreditCardUpdateException(
@@ -640,8 +594,6 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param $responseMock
-     *
      * @dataProvider successfulResponseProvider
      */
     public function testGetPaymentProfileAddressDTO($responseMock)
@@ -683,8 +635,6 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param $responseMock
-     *
      * @dataProvider successfulResponseProvider
      */
     public function testGetPaymentProfileMaskedDataDTO($responseMock)
@@ -712,8 +662,6 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param $responseMock
-     *
      * @dataProvider successfulResponseProvider
      */
     public function testUpdateCustomerPaymentProfileNoBankAccountUpdate($responseMock)

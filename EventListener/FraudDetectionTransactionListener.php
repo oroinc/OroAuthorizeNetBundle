@@ -31,11 +31,6 @@ class FraudDetectionTransactionListener
      */
     protected $translator;
 
-    /**
-     * @param AuthorizeNetConfigProviderInterface $configProvider
-     * @param SessionInterface $session
-     * @param TranslatorInterface $translator
-     */
     public function __construct(
         AuthorizeNetConfigProviderInterface $configProvider,
         SessionInterface $session,
@@ -46,9 +41,6 @@ class FraudDetectionTransactionListener
         $this->translator = $translator;
     }
 
-    /**
-     * @param TransactionResponseReceivedEvent $event
-     */
     public function onTransactionResponseReceived(TransactionResponseReceivedEvent $event): void
     {
         $response = $event->getResponse();
@@ -71,10 +63,6 @@ class FraudDetectionTransactionListener
             ->setAction(AuthorizeNetPaymentMethod::VERIFY);
     }
 
-    /**
-     * @param array $data
-     * @return bool
-     */
     protected function isNotApprovedTransaction(array $data): bool
     {
         $response = $data['transaction_response'] ?? null;

@@ -83,7 +83,6 @@ class PaymentTransactionVerifyActionTest extends AbstractActionTest
 
     /**
      * @dataProvider executeDataProvider
-     * @param array $response
      */
     public function testExecuteAction(array $response): void
     {
@@ -144,9 +143,6 @@ class PaymentTransactionVerifyActionTest extends AbstractActionTest
         $this->assertEquals($transaction->getAction(), $response['action']);
     }
 
-    /**
-     * @return array
-     */
     public function executeDataProvider(): array
     {
         return [

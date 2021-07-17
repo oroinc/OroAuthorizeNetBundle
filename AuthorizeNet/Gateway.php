@@ -30,10 +30,6 @@ class Gateway
      */
     protected $testMode = false;
 
-    /**
-     * @param ClientInterface $client
-     * @param RequestRegistry $requestRegistry
-     */
     public function __construct(ClientInterface $client, RequestRegistry $requestRegistry)
     {
         $this->client = $client;

@@ -7,23 +7,11 @@ namespace Oro\Bundle\AuthorizeNetBundle\Method\Option\Provider;
  */
 interface InternalOptionProviderInterface
 {
-    /**
-     * @return int|null
-     */
     public function getProfileId(): ?int;
 
-    /**
-     * @return null|string
-     */
     public function getCardCode(): ?string;
 
-    /**
-     * @return null|bool
-     */
     public function getCreateProfile(): ?bool;
 
-    /**
-     * @return bool
-     */
     public function isCIMEnabled(): bool;
 }

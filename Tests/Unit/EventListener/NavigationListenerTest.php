@@ -30,8 +30,6 @@ class NavigationListenerTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider onNavigationConfigureDataProvider
-     * @param $cimEnabled
-     * @param $expectedIsDisplayed
      */
     public function testOnNavigationConfigure(bool $cimEnabled, bool $expectedIsDisplayed)
     {

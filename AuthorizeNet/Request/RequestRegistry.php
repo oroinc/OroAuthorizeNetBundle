@@ -21,11 +21,6 @@ class RequestRegistry
         $this->requests = $requests;
     }
 
-    /**
-     * @param string $type
-     *
-     * @return RequestInterface
-     */
     public function getRequest(string $type): RequestInterface
     {
         if (null === $this->loadedRequests) {

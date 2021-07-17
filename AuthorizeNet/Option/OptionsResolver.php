@@ -56,9 +56,6 @@ class OptionsResolver extends BaseOptionsResolver
         return $this;
     }
 
-    /**
-     * @param array $options
-     */
     protected function handleDependentOptions(array $options)
     {
         foreach ($this->dependentOptions as $dependentOption) {

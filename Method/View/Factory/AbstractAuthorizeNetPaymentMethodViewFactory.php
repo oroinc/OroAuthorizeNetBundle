@@ -21,10 +21,6 @@ abstract class AbstractAuthorizeNetPaymentMethodViewFactory implements Authorize
      */
     protected $tokenAccessor;
 
-    /**
-     * @param FormFactoryInterface $formFactory
-     * @param TokenAccessorInterface $tokenAccessor
-     */
     public function __construct(FormFactoryInterface $formFactory, TokenAccessorInterface $tokenAccessor)
     {
         $this->formFactory = $formFactory;
