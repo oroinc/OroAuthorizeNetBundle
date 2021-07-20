@@ -29,11 +29,6 @@ class CheckoutPaymentProfileType extends AbstractType
     /** @var TranslatorInterface */
     private $translator;
 
-    /**
-     * @param CustomerProfileProvider $customerProfileProvider
-     * @param PaymentProfileProvider $paymentProfileProvider
-     * @param TranslatorInterface $translator
-     */
     public function __construct(
         CustomerProfileProvider $customerProfileProvider,
         PaymentProfileProvider $paymentProfileProvider,

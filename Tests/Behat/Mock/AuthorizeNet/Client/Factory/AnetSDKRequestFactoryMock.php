@@ -54,17 +54,11 @@ final class AnetSDKRequestFactoryMock extends AnetSDKRequestFactory implements
             MockControllers\GetTransactionDetailsControllerMock::class,
     ];
 
-    /**
-     * @param PaymentProfileIDs $paymentProfileIdsStorage
-     */
     public function setPaymentProfileIdsStorage(PaymentProfileIDs $paymentProfileIdsStorage)
     {
         $this->paymentProfileIdsStorage = $paymentProfileIdsStorage;
     }
 
-    /**
-     * @param PaymentProfileTypesToIDs $paymentProfileTypesToIDsStorage
-     */
     public function setPaymentProfileTypesToIDsStorage(PaymentProfileTypesToIDs $paymentProfileTypesToIDsStorage)
     {
         $this->paymentProfileTypesToIDsStorage = $paymentProfileTypesToIDsStorage;

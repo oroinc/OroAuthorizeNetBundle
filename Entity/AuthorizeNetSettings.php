@@ -295,9 +295,6 @@ class AuthorizeNetSettings extends Transport
         return $this->allowedCreditCardTypes;
     }
 
-    /**
-     * @param array $allowedCreditCardTypes
-     */
     public function setAllowedCreditCardTypes(array $allowedCreditCardTypes)
     {
         $this->allowedCreditCardTypes = $allowedCreditCardTypes;
@@ -470,17 +467,11 @@ class AuthorizeNetSettings extends Transport
         return $this->authNetRequireCVVEntry;
     }
 
-    /**
-     * @return bool
-     */
     public function isEnabledCIM(): bool
     {
         return $this->enabledCIM;
     }
 
-    /**
-     * @param bool $enabledCIM
-     */
     public function setEnabledCIM(bool $enabledCIM)
     {
         $this->enabledCIM = $enabledCIM;
@@ -502,9 +493,6 @@ class AuthorizeNetSettings extends Transport
         $this->enabledCIMWebsites = $enabledCIMWebsites;
     }
 
-    /**
-     * @return bool
-     */
     public function isECheckEnabled(): bool
     {
         return $this->eCheckEnabled;
@@ -589,9 +577,6 @@ class AuthorizeNetSettings extends Transport
         return $this;
     }
 
-    /**
-     * @return null|array
-     */
     public function getECheckAccountTypes(): ?array
     {
         return $this->eCheckAccountTypes;
@@ -608,18 +593,11 @@ class AuthorizeNetSettings extends Transport
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getECheckConfirmationText(): ?string
     {
         return $this->eCheckConfirmationText;
     }
 
-    /**
-     * @param null|string $eCheckConfirmationText
-     * @return AuthorizeNetSettings
-     */
     public function setECheckConfirmationText(?string $eCheckConfirmationText): AuthorizeNetSettings
     {
         $this->eCheckConfirmationText = $eCheckConfirmationText;
@@ -627,18 +605,11 @@ class AuthorizeNetSettings extends Transport
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isAllowHoldTransaction(): bool
     {
         return (bool) $this->allowHoldTransaction;
     }
 
-    /**
-     * @param bool $allowHoldTransaction
-     * @return AuthorizeNetSettings
-     */
     public function setAllowHoldTransaction(bool $allowHoldTransaction): AuthorizeNetSettings
     {
         $this->allowHoldTransaction = $allowHoldTransaction;

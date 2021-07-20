@@ -272,9 +272,6 @@ class PaymentProfileAddressDTO
         return $this->region_text;
     }
 
-    /**
-     * @param string $region_text
-     */
     public function setRegionText(string $region_text)
     {
         $this->region_text = $region_text;

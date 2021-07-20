@@ -24,9 +24,6 @@ class PaymentProfileDTO
     /** @var PaymentProfileMaskedDataDTO */
     protected $maskedData;
 
-    /**
-     * @param CustomerPaymentProfile|null $profile
-     */
     public function __construct(CustomerPaymentProfile $profile = null)
     {
         $this->profile = $profile ?: new CustomerPaymentProfile();

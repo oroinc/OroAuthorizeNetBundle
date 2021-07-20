@@ -28,25 +28,16 @@ class CreateTransactionControllerMock extends AbstractControllerMock implements
     /** @var PaymentProfileTypesToIDs */
     private $paymentProfileTypesToIDsStorage;
 
-    /**
-     * @param CreateTransactionRequest $request
-     */
     public function __construct(CreateTransactionRequest $request)
     {
         $this->request = $request;
     }
 
-    /**
-     * @param PaymentProfileIDs $paymentProfileIdsStorage
-     */
     public function setPaymentProfileIdsStorage(PaymentProfileIDs $paymentProfileIdsStorage)
     {
         $this->paymentProfileIdsStorage = $paymentProfileIdsStorage;
     }
 
-    /**
-     * @param PaymentProfileTypesToIDs $paymentProfileTypesToIDs
-     */
     public function setPaymentProfileTypesToIDsStorage(PaymentProfileTypesToIDs $paymentProfileTypesToIDs)
     {
         $this->paymentProfileTypesToIDsStorage = $paymentProfileTypesToIDs;
@@ -93,9 +84,6 @@ class CreateTransactionControllerMock extends AbstractControllerMock implements
         return $this->getSuccessResponse();
     }
 
-    /**
-     * @return CreateTransactionResponse
-     */
     private function getCreateProfileResponse(): CreateTransactionResponse
     {
         $paymentProfileId = (string)uniqid();
@@ -134,9 +122,6 @@ class CreateTransactionControllerMock extends AbstractControllerMock implements
         return $transactionResponse;
     }
 
-    /**
-     * @return CreateTransactionResponse
-     */
     private function getInvalidTokenErrorResponse(): CreateTransactionResponse
     {
         $response = new CreateTransactionResponse();
@@ -155,9 +140,6 @@ class CreateTransactionControllerMock extends AbstractControllerMock implements
         return $response;
     }
 
-    /**
-     * @return CreateTransactionResponse
-     */
     private function getSuccessResponse(): CreateTransactionResponse
     {
         $response = new CreateTransactionResponse();
@@ -189,9 +171,6 @@ class CreateTransactionControllerMock extends AbstractControllerMock implements
         return $response;
     }
 
-    /**
-     * @return CreateTransactionResponse
-     */
     private function getNotApprovedResponse(): CreateTransactionResponse
     {
         $transId = '60022132422';
@@ -230,9 +209,6 @@ class CreateTransactionControllerMock extends AbstractControllerMock implements
         return $response;
     }
 
-    /**
-     * @return CreateTransactionResponse
-     */
     private function getEcheckSuccessResponse(): CreateTransactionResponse
     {
         $response = new CreateTransactionResponse();
@@ -267,9 +243,6 @@ class CreateTransactionControllerMock extends AbstractControllerMock implements
         return $response;
     }
 
-    /**
-     * @return CreateTransactionResponse
-     */
     private function getCreditCardSuccessResponse(): CreateTransactionResponse
     {
         $response = new CreateTransactionResponse();

@@ -16,9 +16,5 @@ interface RequestConfiguratorInterface
      */
     public function isApplicable(AnetAPI\ANetApiRequestType $request, array $options);
 
-    /**
-     * @param AnetAPI\ANetApiRequestType $request
-     * @param array $options
-     */
     public function handle(AnetAPI\ANetApiRequestType $request, array &$options);
 }

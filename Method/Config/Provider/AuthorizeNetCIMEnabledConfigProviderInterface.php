@@ -18,7 +18,6 @@ interface AuthorizeNetCIMEnabledConfigProviderInterface
      */
     public function hasPaymentWithEnabledCIMByWebsite(Website $website);
 
-
     /**
      * @param Website $website
      *

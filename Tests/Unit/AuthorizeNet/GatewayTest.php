@@ -30,8 +30,6 @@ class GatewayTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider requestDataProvider
-     * @param $testMode
-     * @param $expectedHostAddress
      */
     public function testRequest($testMode, $expectedHostAddress)
     {

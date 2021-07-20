@@ -15,9 +15,6 @@ class ResponseFactory
      */
     protected $serializer;
 
-    /**
-     * @param ArrayTransformerInterface $serializer
-     */
     public function __construct(ArrayTransformerInterface $serializer)
     {
         $this->serializer = $serializer;

@@ -27,10 +27,6 @@ class EnabledCIMWebsitesSelectExtension extends AbstractTypeExtension
     /** @var WebsiteManager */
     private $websiteManager;
 
-    /**
-     * @param WebsiteProviderInterface $websiteProvider
-     * @param WebsiteManager $websiteManager
-     */
     public function __construct(WebsiteProviderInterface $websiteProvider, WebsiteManager $websiteManager)
     {
         $this->websiteProvider = $websiteProvider;

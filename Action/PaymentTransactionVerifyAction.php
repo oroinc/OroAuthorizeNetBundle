@@ -93,10 +93,6 @@ class PaymentTransactionVerifyAction extends AbstractPaymentMethodAction
         $this->setAttributeValue($context, $result);
     }
 
-    /**
-     * @param string $status
-     * @return array
-     */
     protected function handleStatus(string $status): array
     {
         if (!array_key_exists($status, self::$matchedStatusMessage)) {
@@ -113,9 +109,6 @@ class PaymentTransactionVerifyAction extends AbstractPaymentMethodAction
     }
 
     /**
-     * @param PaymentTransaction $paymentTransaction
-     * @param int $responseCode
-     * @param string $status
      * @throws \Throwable
      */
     protected function updateTransaction(
@@ -138,10 +131,6 @@ class PaymentTransactionVerifyAction extends AbstractPaymentMethodAction
         $this->paymentTransactionProvider->savePaymentTransaction($paymentTransaction);
     }
 
-    /**
-     * @param array $data
-     * @return bool
-     */
     protected function isValidTransaction(array $data): bool
     {
         $transaction = $data['transaction'] ?? null;

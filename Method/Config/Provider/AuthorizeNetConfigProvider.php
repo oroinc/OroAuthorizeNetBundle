@@ -34,11 +34,6 @@ class AuthorizeNetConfigProvider implements AuthorizeNetConfigProviderInterface
      */
     protected $logger;
 
-    /**
-     * @param ManagerRegistry $doctrine
-     * @param LoggerInterface $logger
-     * @param AuthorizeNetConfigFactoryInterface $configFactory
-     */
     public function __construct(
         ManagerRegistry $doctrine,
         LoggerInterface $logger,

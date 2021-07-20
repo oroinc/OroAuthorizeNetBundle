@@ -72,9 +72,6 @@ class FraudDetectionTransactionListenerTest extends TestCase
 
     /**
      * @dataProvider getOptionsProvider
-     * @param string $responseCode
-     * @param bool $holdTransaction
-     * @param string $action
      */
     public function testOnTransactionResponseReceived(
         string $responseCode,
@@ -107,9 +104,6 @@ class FraudDetectionTransactionListenerTest extends TestCase
         $this->assertEquals($transaction->getAction(), $action);
     }
 
-    /**
-     * @return array
-     */
     public function getOptionsProvider(): array
     {
         return [

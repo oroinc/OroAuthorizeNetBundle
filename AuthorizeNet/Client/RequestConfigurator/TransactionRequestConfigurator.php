@@ -132,8 +132,6 @@ class TransactionRequestConfigurator implements RequestConfiguratorInterface
      *    <id>oro-x-xxx</id>
      *    <email>email@email.com</email>
      * </customer>
-     * @param array $options
-     * @return CustomerDataType|null
      */
     protected function getCustomerData(array $options): ?CustomerDataType
     {
@@ -157,10 +155,6 @@ class TransactionRequestConfigurator implements RequestConfiguratorInterface
         return null;
     }
 
-    /**
-     * @param array $options
-     * @return AnetAPI\PaymentProfileType|null
-     */
     protected function getPaymentProfile(array $options): ?AnetAPI\PaymentProfileType
     {
         $chargeType = $options[Option\ChargeType::NAME] ?? null;
@@ -178,10 +172,6 @@ class TransactionRequestConfigurator implements RequestConfiguratorInterface
         return $paymentProfile;
     }
 
-    /**
-     * @param array $options
-     * @return CustomerAddressType|null
-     */
     protected function getBillTo(array $options): ?CustomerAddressType
     {
         $chargeType = $options[Option\ChargeType::NAME] ?? null;
@@ -219,10 +209,6 @@ class TransactionRequestConfigurator implements RequestConfiguratorInterface
         return null;
     }
 
-    /**
-     * @param array $options
-     * @return NameAndAddressType|null
-     */
     protected function getShipTo(array $options): ?NameAndAddressType
     {
         $propertyAccessor = new PropertyAccessor();
@@ -266,8 +252,6 @@ class TransactionRequestConfigurator implements RequestConfiguratorInterface
      *         <cardCode>123</cardCode>
      *      </paymentProfile>
      *  </profile>
-     * @param array $options
-     * @return AnetAPI\CustomerProfilePaymentType|null
      */
     protected function getProfile(array $options): ?AnetAPI\CustomerProfilePaymentType
     {
@@ -294,10 +278,6 @@ class TransactionRequestConfigurator implements RequestConfiguratorInterface
         return $profile;
     }
 
-    /**
-     * @param array $options
-     * @return AnetAPI\PaymentType|null
-     */
     protected function getPaymentType(array $options): ?AnetAPI\PaymentType
     {
         $dataDescriptor = $options[Option\DataDescriptor::DATA_DESCRIPTOR] ?? null;
@@ -369,10 +349,6 @@ class TransactionRequestConfigurator implements RequestConfiguratorInterface
         return \mb_substr($string, 0, $length);
     }
 
-    /**
-     * @param array $options
-     * @return null|AnetAPI\OrderType
-     */
     protected function getOrder(array $options): ?AnetAPI\OrderType
     {
         /** @var string $invoiceNumber */
@@ -387,10 +363,6 @@ class TransactionRequestConfigurator implements RequestConfiguratorInterface
         return $order;
     }
 
-    /**
-     * @param array $options
-     * @return null|AnetAPI\ExtendedAmountType
-     */
     protected function getTax(array $options): ?AnetAPI\ExtendedAmountType
     {
         /** @var string $taxAmount */

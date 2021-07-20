@@ -48,12 +48,6 @@ class AuthorizeNetSettingsType extends AbstractType
      */
     protected $cryptedDataTransformerFactory;
 
-    /**
-     * @param TranslatorInterface                    $translator
-     * @param CryptedDataTransformerFactoryInterface $cryptedDataTransformerFactory
-     * @param CardTypesDataProviderInterface         $cardTypesDataProvider
-     * @param PaymentActionsDataProviderInterface    $paymentActionsDataProvider
-     */
     public function __construct(
         TranslatorInterface $translator,
         CryptedDataTransformerFactoryInterface $cryptedDataTransformerFactory,

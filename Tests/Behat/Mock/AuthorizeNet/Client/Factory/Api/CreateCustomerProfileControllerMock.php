@@ -15,9 +15,6 @@ class CreateCustomerProfileControllerMock extends AbstractControllerMock
     /** @var AnetApiRequestType */
     private $request;
 
-    /**
-     * @param CreateCustomerProfileRequest $request
-     */
     public function __construct(CreateCustomerProfileRequest $request)
     {
         $this->request = $request;

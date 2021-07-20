@@ -28,11 +28,6 @@ abstract class AbstractAuthorizeNetPaymentMethodView implements PaymentMethodVie
      */
     protected $tokenAccessor;
 
-    /**
-     * @param FormFactoryInterface $formFactory
-     * @param TokenAccessorInterface $tokenAccessor
-     * @param AuthorizeNetConfigInterface $config
-     */
     public function __construct(
         FormFactoryInterface $formFactory,
         TokenAccessorInterface $tokenAccessor,
