@@ -21,11 +21,6 @@ class CustomerProfileProvider
     /** @var TokenAccessor */
     protected $tokenAccessor;
 
-    /**
-     * @param DoctrineHelper $doctrineHelper
-     * @param IntegrationProvider $integrationProvider
-     * @param TokenAccessor $tokenAccessor
-     */
     public function __construct(
         DoctrineHelper $doctrineHelper,
         IntegrationProvider $integrationProvider,

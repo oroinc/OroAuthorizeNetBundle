@@ -16,9 +16,6 @@ abstract class AbstractOptionTest extends \PHPUnit\Framework\TestCase
     abstract protected function getOptions();
 
     /**
-     * @param array $options
-     * @param array $expectedResult
-     * @param array $exceptionAndMessage
      * @dataProvider configureOptionDataProvider
      */
     public function testConfigureOption(

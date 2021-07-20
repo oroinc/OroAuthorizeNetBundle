@@ -47,9 +47,6 @@ class AuthorizeNetSDKTransactionResponseTest extends TestCase
         $this->assertEquals($expectedActive, $this->authorizeNetSdkResponse->isActive());
     }
 
-    /**
-     * @return array
-     */
     public function transactionDataProvider(): array
     {
         return [
@@ -143,8 +140,6 @@ class AuthorizeNetSDKTransactionResponseTest extends TestCase
 
     /**
      * @dataProvider responseArrayDataProvider
-     * @param $entryData
-     * @param $expectedData
      */
     public function testGetData($entryData, $expectedData)
     {
@@ -154,9 +149,6 @@ class AuthorizeNetSDKTransactionResponseTest extends TestCase
         $this->assertSame($expectedData, $this->authorizeNetSdkResponse->getData());
     }
 
-    /**
-     * @return array
-     */
     public function responseArrayDataProvider(): array
     {
         return [

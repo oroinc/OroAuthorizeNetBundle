@@ -66,9 +66,6 @@ class MethodOptionProviderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @param array $additionalData
-     */
     private function setupTransactionAdditionalData(array $additionalData): void
     {
         $sourceTransaction = $this->createMock(PaymentTransaction::class);
@@ -125,9 +122,6 @@ class MethodOptionProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedTransactionKey, $this->methodOptionProvider->getTransactionKey());
     }
 
-    /**
-     * @return array
-     */
     public function opaqueDataProvider(): array
     {
         return [
@@ -151,9 +145,6 @@ class MethodOptionProviderTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider opaqueDataProvider
-     * @param null|string $exceptionClass
-     * @param null|string $exceptionMessage
-     * @param array $additionalData
      */
     public function testOpaqueOptions(
         ?string $exceptionClass,

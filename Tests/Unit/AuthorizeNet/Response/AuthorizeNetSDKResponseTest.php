@@ -108,8 +108,6 @@ class AuthorizeNetSDKResponseTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider responseArrayDataProvider
-     * @param $entryData
-     * @param $expectedData
      */
     public function testGetData($entryData, $expectedData)
     {

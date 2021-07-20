@@ -40,8 +40,6 @@ class TransactionRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider handleProvider
-     * @param array $options
-     * @param AnetAPI\TransactionRequestType $transactionRequestType
      */
     public function testHandle(array $options, AnetAPI\TransactionRequestType $transactionRequestType)
     {
@@ -58,9 +56,6 @@ class TransactionRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($transactionRequestType, $request->getTransactionRequest());
     }
 
-    /**
-     * @return array
-     */
     public function handleProvider(): array
     {
         $opaqueData = (new AnetAPI\OpaqueDataType())
@@ -122,10 +117,6 @@ class TransactionRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @param AnetAPI\PaymentType $paymentType
-     * @return array
-     */
     protected function getOpaqueHandleData(AnetAPI\PaymentType $paymentType): array
     {
         return [
@@ -152,9 +143,6 @@ class TransactionRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     protected function getCustomerPaymentProfileHandleData(): array
     {
         return [
@@ -194,9 +182,6 @@ class TransactionRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     protected function getCreateProfileCustomerProfileExistsData(): array
     {
         return [
@@ -225,9 +210,6 @@ class TransactionRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     protected function getCreateProfileGenerateCustomerIdHandleData(): array
     {
         return [
@@ -263,9 +245,6 @@ class TransactionRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     protected function getBillingAddressHandleData(): array
     {
         return [
@@ -306,11 +285,6 @@ class TransactionRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @param AnetAPI\PaymentType $paymentType
-     * @param AnetAPI\SolutionType $solutionType
-     * @return array
-     */
     protected function getAllChargeCreditCardHandleData(
         AnetAPI\PaymentType $paymentType,
         AnetApi\SolutionType $solutionType
@@ -338,10 +312,6 @@ class TransactionRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @param AnetAPI\SolutionType $solutionType
-     * @return array
-     */
     protected function getAllChargeCustomerProfileHandleData(AnetApi\SolutionType $solutionType): array
     {
         return [
@@ -376,9 +346,6 @@ class TransactionRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     protected function getShippingAddressHandleData(): array
     {
         return [
@@ -433,9 +400,6 @@ class TransactionRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     protected function getInvoiceNumberHandleData(): array
     {
         return [
@@ -459,9 +423,6 @@ class TransactionRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     protected function getTaxAmountHandleData(): array
     {
         return [
@@ -486,9 +447,6 @@ class TransactionRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     protected function getLineItemsHandleData(): array
     {
         $repearString = function ($multiplier) {

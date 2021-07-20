@@ -106,25 +106,16 @@ class AuthorizeNetConfig extends AbstractParameterBagPaymentConfig implements Au
         return $this->getInt(self::INTEGRATION_ID);
     }
 
-    /**
-     * @return bool
-     */
     public function isECheckEnabled(): bool
     {
         return $this->getBoolean(self::ECHECK_ENABLED);
     }
 
-    /**
-     * @return array
-     */
     public function getECheckAccountTypes(): array
     {
         return (array) $this->get(self::ECHECK_ACCOUNT_TYPES);
     }
 
-    /**
-     * @return string
-     */
     public function getECheckConfirmationText(): string
     {
         return (string) $this->get(self::ECHECK_CONFIRMATION_TEXT);

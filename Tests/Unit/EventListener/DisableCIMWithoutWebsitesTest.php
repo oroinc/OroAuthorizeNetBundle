@@ -29,9 +29,6 @@ class DisableCIMWithoutWebsitesTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider preRemoveDataProvider
-     * @param Website $website
-     * @param AuthorizeNetSettings $settings
-     * @param bool $expectedEnabledCIM
      */
     public function testPreRemove(Website $website, AuthorizeNetSettings $settings, bool $expectedEnabledCIM)
     {

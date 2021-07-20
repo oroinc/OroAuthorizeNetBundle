@@ -22,11 +22,6 @@ class PaymentProfileDTOFormProvider extends AbstractFormProvider
     /** @var CIMEnabledIntegrationConfigProvider */
     private $configProvider;
 
-    /**
-     * @param FormFactoryInterface $formFactory
-     * @param UrlGeneratorInterface $router
-     * @param CIMEnabledIntegrationConfigProvider $configProvider
-     */
     public function __construct(
         FormFactoryInterface $formFactory,
         UrlGeneratorInterface $router,

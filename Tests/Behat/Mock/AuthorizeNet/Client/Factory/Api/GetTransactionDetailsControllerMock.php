@@ -17,9 +17,6 @@ class GetTransactionDetailsControllerMock extends AbstractControllerMock
      */
     private $request;
 
-    /**
-     * @param GetTransactionDetailsRequest $request
-     */
     public function __construct(GetTransactionDetailsRequest $request)
     {
         $this->request = $request;
@@ -47,10 +44,6 @@ class GetTransactionDetailsControllerMock extends AbstractControllerMock
         return $this->getSuccessResponse($status);
     }
 
-    /**
-     * @param string $status
-     * @return GetTransactionDetailsResponse
-     */
     private function getSuccessResponse(string $status): GetTransactionDetailsResponse
     {
         $messages = new MessagesType();

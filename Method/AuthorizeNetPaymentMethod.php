@@ -56,13 +56,6 @@ class AuthorizeNetPaymentMethod implements PaymentMethodInterface
         AuthorizeNetSDKResponse::class => SDKResponseReceivedEvent::class
     ];
 
-    /**
-     * @param Gateway $gateway
-     * @param AuthorizeNetConfigInterface $config
-     * @param RequestStack $requestStack
-     * @param MethodOptionResolverInterface $methodOptionResolver
-     * @param EventDispatcherInterface $eventDispatcher
-     */
     public function __construct(
         Gateway $gateway,
         AuthorizeNetConfigInterface $config,
@@ -285,10 +278,6 @@ class AuthorizeNetPaymentMethod implements PaymentMethodInterface
         }
     }
 
-    /**
-     * @param ResponseInterface $response
-     * @param PaymentTransaction $paymentTransaction
-     */
     protected function dispatchResponseReceivedEvent(
         ResponseInterface $response,
         PaymentTransaction $paymentTransaction

@@ -56,10 +56,6 @@ class AddressInfoProvider
         );
     }
 
-    /**
-     * @param string $property
-     * @return OrderAddress|null
-     */
     private function getAddress(string $property): ?OrderAddress
     {
         try {
@@ -76,10 +72,6 @@ class AddressInfoProvider
         return $address;
     }
 
-    /**
-     * @param string $property
-     * @return null|PaymentProfileAddressDTO
-     */
     private function getAddressDto(string $property): ?PaymentProfileAddressDTO
     {
         $funcTruncate = function (?string $value, int $length) {
@@ -103,17 +95,11 @@ class AddressInfoProvider
             ->setPhoneNumber($address->getPhone());
     }
 
-    /**
-     * @return null|PaymentProfileAddressDTO
-     */
     public function getBillingAddressDto(): ?PaymentProfileAddressDTO
     {
         return $this->getAddressDto(self::BILLING_ADDRESS_PROPERTY);
     }
 
-    /**
-     * @return null|PaymentProfileAddressDTO
-     */
     public function getShippingAddressDto(): ?PaymentProfileAddressDTO
     {
         return $this->getAddressDto(self::SHIPPING_ADDRESS_PROPERTY);

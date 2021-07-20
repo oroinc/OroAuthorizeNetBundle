@@ -20,10 +20,6 @@ class PaymentProfileProvider
     /** @var array */
     private $paymentProfileIds;
 
-    /**
-     * @param RequestSender $requestSender
-     * @param LoggerInterface $logger
-     */
     public function __construct(RequestSender $requestSender, LoggerInterface $logger)
     {
         $this->requestSender = $requestSender;
@@ -67,10 +63,6 @@ class PaymentProfileProvider
         return $paymentProfileIds;
     }
 
-    /**
-     * @param CustomerProfile $customerProfile
-     * @param array $paymentProfileIds
-     */
     private function checkPaymentProfiles(CustomerProfile $customerProfile, array $paymentProfileIds)
     {
         foreach ($customerProfile->getPaymentProfiles() as $paymentProfile) {

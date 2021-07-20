@@ -32,12 +32,6 @@ class CreatePaymentProfileFromTransactionResponse
     /** @var TranslatorInterface */
     private $translator;
 
-    /**
-     * @param DoctrineHelper $doctrineHelper
-     * @param IntegrationProvider $integrationProvider
-     * @param Session $session
-     * @param TranslatorInterface $translator
-     */
     public function __construct(
         DoctrineHelper $doctrineHelper,
         IntegrationProvider $integrationProvider,
@@ -50,9 +44,6 @@ class CreatePaymentProfileFromTransactionResponse
         $this->translator = $translator;
     }
 
-    /**
-     * @param TransactionResponseReceivedEvent $event
-     */
     public function onTransactionResponseReceived(TransactionResponseReceivedEvent $event)
     {
         if (!$this->isApplicable($event)) {
@@ -71,7 +62,6 @@ class CreatePaymentProfileFromTransactionResponse
             : CustomerPaymentProfile::TYPE_CREDITCARD;
         $accountNumber = $transactionData['account_number'];
         $lastDigits = substr($accountNumber, -4);
-
 
         /** @var CustomerProfile $customerProfile */
         $customerProfile = $this
@@ -145,9 +135,6 @@ class CreatePaymentProfileFromTransactionResponse
         return $applicable;
     }
 
-    /**
-     * @param array $messages
-     */
     private function showErrorMessage(array $messages)
     {
         $messages = array_map(function ($item) {

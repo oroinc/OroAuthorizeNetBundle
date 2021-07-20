@@ -8,13 +8,7 @@ namespace Oro\Bundle\AuthorizeNetBundle\Method\Option\Provider;
  */
 interface OpaqueOptionProviderInterface
 {
-    /**
-     * @return string
-     */
     public function getDataDescriptor(): string;
 
-    /**
-     * @return string
-     */
     public function getDataValue(): string;
 }

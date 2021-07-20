@@ -19,10 +19,6 @@ class TransactionResponseReceivedEvent extends Event
     /** @var PaymentTransaction */
     private $paymentTransaction;
 
-    /**
-     * @param AuthorizeNetSDKTransactionResponse $response
-     * @param PaymentTransaction $paymentTransaction
-     */
     public function __construct(AuthorizeNetSDKTransactionResponse $response, PaymentTransaction $paymentTransaction)
     {
         $this->response = $response;

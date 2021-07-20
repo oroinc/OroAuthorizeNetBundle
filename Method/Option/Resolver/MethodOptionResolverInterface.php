@@ -12,38 +12,13 @@ use Oro\Bundle\PaymentBundle\Entity\PaymentTransaction;
  */
 interface MethodOptionResolverInterface
 {
-    /**
-     * @param AuthorizeNetConfigInterface $config
-     * @param PaymentTransaction $transaction
-     * @return array
-     */
     public function resolvePurchase(AuthorizeNetConfigInterface $config, PaymentTransaction $transaction): array;
 
-    /**
-     * @param AuthorizeNetConfigInterface $config
-     * @param PaymentTransaction $transaction
-     * @return array
-     */
     public function resolveAuthorize(AuthorizeNetConfigInterface $config, PaymentTransaction $transaction): array;
 
-    /**
-     * @param AuthorizeNetConfigInterface $config
-     * @param PaymentTransaction $transaction
-     * @return array
-     */
     public function resolveCharge(AuthorizeNetConfigInterface $config, PaymentTransaction $transaction): array;
 
-    /**
-     * @param AuthorizeNetConfigInterface $config
-     * @param PaymentTransaction $transaction
-     * @return array
-     */
     public function resolveCapture(AuthorizeNetConfigInterface $config, PaymentTransaction $transaction): array;
 
-    /**
-     * @param AuthorizeNetConfigInterface $config
-     * @param PaymentTransaction $transaction
-     * @return array
-     */
     public function resolveVerify(AuthorizeNetConfigInterface $config, PaymentTransaction $transaction): array;
 }

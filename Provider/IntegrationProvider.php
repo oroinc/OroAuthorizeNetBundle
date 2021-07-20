@@ -21,10 +21,6 @@ class IntegrationProvider
     /** @var  DoctrineHelper */
     protected $doctrineHelper;
 
-    /**
-     * @param WebsiteManager $websiteManager
-     * @param DoctrineHelper $doctrineHelper
-     */
     public function __construct(WebsiteManager $websiteManager, DoctrineHelper $doctrineHelper)
     {
         $this->websiteManager = $websiteManager;

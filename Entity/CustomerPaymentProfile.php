@@ -124,9 +124,6 @@ class CustomerPaymentProfile extends ExtendCustomerPaymentProfile implements Org
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getType(): string
     {
         return $this->type;
@@ -210,9 +207,6 @@ class CustomerPaymentProfile extends ExtendCustomerPaymentProfile implements Org
         return $this->customerProfile;
     }
 
-    /**
-     * @param CustomerProfile $customerProfile
-     */
     public function setCustomerProfile(CustomerProfile $customerProfile)
     {
         $this->customerProfile = $customerProfile;

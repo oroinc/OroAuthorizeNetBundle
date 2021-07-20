@@ -18,10 +18,6 @@ class AuthorizeNetMethodViewProvider extends AbstractPaymentMethodViewProvider
     /** @var AuthorizeNetConfigProviderInterface */
     private $configProvider;
 
-    /**
-     * @param AuthorizeNetPaymentMethodViewFactoryInterface $paymentMethodFactory
-     * @param AuthorizeNetConfigProviderInterface $configProvider
-     */
     public function __construct(
         AuthorizeNetPaymentMethodViewFactoryInterface $paymentMethodFactory,
         AuthorizeNetConfigProviderInterface $configProvider
@@ -43,9 +39,6 @@ class AuthorizeNetMethodViewProvider extends AbstractPaymentMethodViewProvider
         }
     }
 
-    /**
-     * @param AuthorizeNetConfigInterface $config
-     */
     protected function addPaymentMethodView(AuthorizeNetConfigInterface $config)
     {
         $this->addView(

@@ -25,10 +25,6 @@ class AuthorizeNetSDKResponse implements ResponseInterface
      */
     protected $serializer;
 
-    /**
-     * @param ArrayTransformerInterface $serializer
-     * @param ANetApiResponseType $apiResponse
-     */
     public function __construct(ArrayTransformerInterface $serializer, ANetApiResponseType $apiResponse)
     {
         $this->serializer = $serializer;

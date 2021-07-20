@@ -22,10 +22,6 @@ class PaymentProfileGridListener
      */
     protected $customerProfileProvider;
 
-    /**
-     * @param PaymentProfileProvider $paymentProfileProvider
-     * @param CustomerProfileProvider $customerProfileProvider
-     */
     public function __construct(
         PaymentProfileProvider $paymentProfileProvider,
         CustomerProfileProvider $customerProfileProvider
@@ -34,9 +30,6 @@ class PaymentProfileGridListener
         $this->customerProfileProvider = $customerProfileProvider;
     }
 
-    /**
-     * @param BuildAfter $event
-     */
     public function onBuildAfter(BuildAfter $event)
     {
         $datasource = $event->getDatagrid()->getDatasource();

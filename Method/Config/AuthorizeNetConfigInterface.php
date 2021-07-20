@@ -57,28 +57,13 @@ interface AuthorizeNetConfigInterface extends PaymentConfigInterface
      */
     public function getEnabledCIMWebsites();
 
-    /**
-     * @return int
-     */
     public function getIntegrationId(): int;
 
-    /**
-     * @return bool
-     */
     public function isECheckEnabled(): bool;
 
-    /**
-     * @return array
-     */
     public function getECheckAccountTypes(): array;
 
-    /**
-     * @return string
-     */
     public function getECheckConfirmationText(): string;
 
-    /**
-     * @return bool
-     */
     public function isAllowHoldTransaction(): bool;
 }
