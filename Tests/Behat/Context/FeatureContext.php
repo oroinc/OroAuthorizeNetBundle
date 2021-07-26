@@ -2,23 +2,24 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Context;
 
-use Behat\Symfony2Extension\Context\KernelAwareContext;
-use Behat\Symfony2Extension\Context\KernelDictionary;
 use Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Mock\Remote\Storage\PaymentProfileIDs;
 use Oro\Bundle\TestFrameworkBundle\Behat\Context\OroFeatureContext;
 
-class FeatureContext extends OroFeatureContext implements KernelAwareContext
+class FeatureContext extends OroFeatureContext
 {
-    use KernelDictionary;
+    private PaymentProfileIDs $remotePaymentProfileIdsManager;
+
+    public function __construct(PaymentProfileIDs $remotePaymentProfileIdsManager)
+    {
+        $this->remotePaymentProfileIdsManager = $remotePaymentProfileIdsManager;
+    }
 
     /**
      * @Given /^(?:|I )remove last added payment profile from AuthorizeNet account$/
      */
     public function iRemoveLastAddedPaymentProfileFromAuthorizeNet()
     {
-        $managerPaymentProfileIds = $this->getRemotePaymentProfileIdsManager();
-
-        $paymentProfileIds = $managerPaymentProfileIds->all();
+        $paymentProfileIds = $this->remotePaymentProfileIdsManager->all();
         if (0 === count($paymentProfileIds)) {
             self::assertNotEmpty(
                 $paymentProfileIds,
@@ -26,7 +27,7 @@ class FeatureContext extends OroFeatureContext implements KernelAwareContext
             );
         }
 
-        $managerPaymentProfileIds->remove(end($paymentProfileIds));
+        $this->remotePaymentProfileIdsManager->remove(end($paymentProfileIds));
     }
 
     /**
@@ -34,8 +35,7 @@ class FeatureContext extends OroFeatureContext implements KernelAwareContext
      */
     public function numberOfPaymentProfilesOnAuthorizeNet(int $count)
     {
-        $managerPaymentProfileIds = $this->getRemotePaymentProfileIdsManager();
-        $profileIds = $managerPaymentProfileIds->all();
+        $profileIds = $this->remotePaymentProfileIdsManager->all();
 
         self::assertCount(
             $count,
@@ -46,13 +46,5 @@ class FeatureContext extends OroFeatureContext implements KernelAwareContext
                 count($profileIds)
             )
         );
-    }
-
-    /**
-     * @return PaymentProfileIDs
-     */
-    private function getRemotePaymentProfileIdsManager()
-    {
-        return $this->getContainer()->get('oro_authorize_net.mock.remote.storage.payment_profile_ids');
     }
 }

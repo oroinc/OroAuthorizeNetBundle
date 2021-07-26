@@ -136,18 +136,17 @@ oro_behat_extension:
     OroAuthorizeNetBundle:
       contexts:
         - Oro\Bundle\TestFrameworkBundle\Tests\Behat\Context\OroMainContext
-        - OroApplicationBundle::CommerceMainContext
-        - OroFormBundle::FeatureContext
-        - OroFormBundle::FormContext
-        - OroConfigBundle::FeatureContext
-        - OroProductBundle::FeatureContext
-        - OroCheckoutBundle::FeatureContext
-        - OroShoppingListBundle::ShoppingListContext
-        - OroShoppingListBundle::FeatureContext
-        - OroDataGridBundle::GridContext
-        - OroWorkflowBundle::FeatureContext
-        - OroPaymentBundle::FeatureContext
-        - OroDataGridBundle::GridContext
-        - OroAuthorizeNetBundle::FeatureContext
+        - Oro\Bundle\ApplicationBundle\Tests\Behat\Context\CommerceMainContext
+        - Oro\Bundle\FormBundle\Tests\Behat\Context\FeatureContext
+        - Oro\Bundle\FormBundle\Tests\Behat\Context\FormContext
+        - Oro\Bundle\ConfigBundle\Tests\Behat\Context\FeatureContext
+        - Oro\Bundle\ProductBundle\Tests\Behat\Context\FeatureContext
+        - Oro\Bundle\CheckoutBundle\Tests\Behat\Context\FeatureContext
+        - Oro\Bundle\ShoppingListBundle\Tests\Behat\Context\ShoppingListContext
+        - Oro\Bundle\ShoppingListBundle\Tests\Behat\Context\FeatureContext
+        - Oro\Bundle\DataGridBundle\Tests\Behat\Context\GridContext
+        - Oro\Bundle\WorkflowBundle\Tests\Behat\Context\FeatureContext
+        - Oro\Bundle\PaymentBundle\Tests\Behat\Context\FeatureContext
+        - Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Context\FeatureContext
       paths:
         - '@OroAuthorizeNetBundle/Tests/Behat/Features'
