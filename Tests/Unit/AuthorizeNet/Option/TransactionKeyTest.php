@@ -30,7 +30,7 @@ class TransactionKeyTest extends AbstractOptionTest
                 [
                     'Symfony\Component\OptionsResolver\Exception\InvalidOptionsException',
                     'The option "transaction_key" with value 12345 is expected to be of type "string", but is of type '.
-                    '"integer".',
+                    '"int".',
                 ],
             ],
             'valid' => [

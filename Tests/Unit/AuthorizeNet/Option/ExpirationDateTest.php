@@ -30,7 +30,7 @@ class ExpirationDateTest extends AbstractOptionTest
                 [
                     'Symfony\Component\OptionsResolver\Exception\InvalidOptionsException',
                     'The option "expiration_date" with value 12345 is expected to be of type "string", but is of '.
-                    'type "integer".',
+                    'type "int".',
                 ],
             ],
             'valid' => [

@@ -26,7 +26,7 @@ class SolutionIdTest extends AbstractOptionTest
                 [
                     'Symfony\Component\OptionsResolver\Exception\InvalidOptionsException',
                     'The option "solution_id" with value 12345 is expected to be of type "string", but is of type '.
-                    '"integer".',
+                    '"int".',
                 ],
             ],
             'valid' => [

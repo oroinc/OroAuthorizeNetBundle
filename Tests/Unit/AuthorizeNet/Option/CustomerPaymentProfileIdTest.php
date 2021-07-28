@@ -35,7 +35,7 @@ class CustomerPaymentProfileIdTest extends AbstractOptionTest
                     'Symfony\Component\OptionsResolver\Exception\InvalidOptionsException',
                     'The option "customer_payment_profile_id" with value 12345 is expected'.
                     ' to be of type "string", but is of type '.
-                    '"integer".',
+                    '"int".',
                 ],
             ],
             'valid' => [

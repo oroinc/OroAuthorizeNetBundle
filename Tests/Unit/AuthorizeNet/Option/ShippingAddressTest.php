@@ -45,7 +45,7 @@ class ShippingAddressTest extends AbstractOptionTest
                     'Symfony\Component\OptionsResolver\Exception\InvalidOptionsException',
                     sprintf(
                         'The option "%s" with value 0 is expected to be of type "string", ' .
-                        'but is of type "integer".',
+                        'but is of type "int".',
                         ShippingAddress::FIRST_NAME
                     )
                 ],
