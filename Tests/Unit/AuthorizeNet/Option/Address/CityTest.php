@@ -31,7 +31,7 @@ class CityTest extends AbstractOptionTest
                 [
                     'Symfony\Component\OptionsResolver\Exception\InvalidOptionsException',
                     'The option "city" with value 12345 is expected to be of type "string", but is of type '.
-                    '"integer".',
+                    '"int".',
                 ],
             ],
             'valid' => [

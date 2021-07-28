@@ -30,7 +30,7 @@ class UpdatePaymentDataTest extends AbstractOptionTest
                 [
                     'Symfony\Component\OptionsResolver\Exception\InvalidOptionsException',
                     'The option "update_payment_data" with value 0 is expected to be of type "bool", '.
-                    'but is of type "integer".',
+                    'but is of type "int".',
                 ],
             ],
             'valid' => [

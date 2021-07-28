@@ -29,7 +29,7 @@ class IsDefaultTest extends AbstractOptionTest
                 [],
                 [
                     'Symfony\Component\OptionsResolver\Exception\InvalidOptionsException',
-                    'The option "is_default" with value 0 is expected to be of type "bool", but is of type "integer".',
+                    'The option "is_default" with value 0 is expected to be of type "bool", but is of type "int".',
                 ],
             ],
             'valid' => [

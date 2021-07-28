@@ -34,7 +34,7 @@ class MerchantCustomerIdTest extends AbstractOptionTest
                 [
                     'Symfony\Component\OptionsResolver\Exception\InvalidOptionsException',
                     'The option "merchant_customer_id" with value 12345 is expected '.
-                    'to be of type "string", but is of type "integer".',
+                    'to be of type "string", but is of type "int".',
                 ],
             ],
             'valid' => [

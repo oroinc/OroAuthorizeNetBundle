@@ -22,7 +22,7 @@ class OriginalTransactionTest extends AbstractOptionTest
                 [
                     'Symfony\Component\OptionsResolver\Exception\InvalidOptionsException',
                     'The option "original_transaction" with value 123.456 is expected to be of type '.
-                    '"integer" or "string", but is of type "double".',
+                    '"integer" or "string", but is of type "float".',
                 ],
             ],
             'valid_string' => [

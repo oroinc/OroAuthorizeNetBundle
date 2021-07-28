@@ -31,7 +31,7 @@ class LastNameTest extends AbstractOptionTest
                 [
                     'Symfony\Component\OptionsResolver\Exception\InvalidOptionsException',
                     'The option "last_name" with value 12345 is expected to be of type "string", but is of type '.
-                    '"integer".',
+                    '"int".',
                 ],
             ],
             'valid' => [
