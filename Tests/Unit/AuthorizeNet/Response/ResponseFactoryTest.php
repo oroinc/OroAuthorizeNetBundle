@@ -10,43 +10,53 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response\ResponseFactory;
 
 class ResponseFactoryTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var ResponseFactory */
-    protected $factory;
-
-    protected function setUp(): void
+    public function testCreateResponseForCreateTransactionResponse()
     {
-        /** @var ArrayTransformerInterface|\PHPUnit\Framework\MockObject\MockObject $serializer */
+        $apiResponse = new AnetAPI\CreateTransactionResponse();
+
+        $factory = new ResponseFactory();
+        $response = $factory->createResponse($apiResponse);
+
+        $this->assertInstanceOf(AuthorizeNetSDKTransactionResponse::class, $response);
+    }
+
+    public function testCreateResponseForAnotherApiResponse()
+    {
+        $apiResponse = new AnetAPI\CreateCustomerProfileResponse();
+
+        $factory = new ResponseFactory();
+        $response = $factory->createResponse($apiResponse);
+
+        $this->assertInstanceOf(AuthorizeNetSDKResponse::class, $response);
+    }
+
+    public function testShouldBePossibleToGetApiResponseDataUsingDefaultSerializer()
+    {
+        $apiResponse = new AnetAPI\CreateCustomerProfileResponse();
+        $apiResponse->setRefId('test_ref_id');
+
+        $factory = new ResponseFactory();
+        $response = $factory->createResponse($apiResponse);
+
+        self::assertInstanceOf(AuthorizeNetSDKResponse::class, $response);
+        self::assertEquals(['ref_id' => 'test_ref_id'], $response->getData());
+    }
+
+    public function testShouldBePossibleToProvideCustomSerializer()
+    {
+        $apiResponse = new AnetAPI\CreateCustomerProfileResponse();
+        $serializedApiResponse = ['key' => 'val'];
+
         $serializer = $this->createMock(ArrayTransformerInterface::class);
+        $serializer->expects(self::once())
+            ->method('toArray')
+            ->with(self::identicalTo($apiResponse))
+            ->willReturn($serializedApiResponse);
 
-        $this->factory = new ResponseFactory($serializer);
-    }
+        $factory = new ResponseFactory($serializer);
+        $response = $factory->createResponse($apiResponse);
 
-    /**
-     * @dataProvider createResponseDataProvider
-     * @param string $apiResponseClass
-     * @param $expectedResponseClass
-     */
-    public function testCreateResponse($apiResponseClass, $expectedResponseClass)
-    {
-        /** @var AnetAPI\ANetApiResponseType $apiResponse */
-        $apiResponse = new $apiResponseClass;
-        $this->assertInstanceOf($expectedResponseClass, $this->factory->createResponse($apiResponse));
-    }
-
-    /**
-     * @return array
-     */
-    public function createResponseDataProvider()
-    {
-        return [
-            'CreateTransactionResponse' => [
-                'apiResponseClass' => AnetAPI\CreateTransactionResponse::class,
-                'expectedResponseClass' => AuthorizeNetSDKTransactionResponse::class
-            ],
-            'CreateCustomerProfileResponse' => [
-                'apiResponseClass' => AnetAPI\CreateCustomerProfileResponse::class,
-                'expectedResponseClass' => AuthorizeNetSDKResponse::class
-            ],
-        ];
+        self::assertInstanceOf(AuthorizeNetSDKResponse::class, $response);
+        self::assertEquals($serializedApiResponse, $response->getData());
     }
 }

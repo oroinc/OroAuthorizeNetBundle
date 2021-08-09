@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\AuthorizeNet\Client;
 
-use JMS\Serializer\ArrayTransformerInterface;
 use net\authorize\api\contract\v1 as AnetAPI;
 use net\authorize\api\controller as AnetController;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\AuthorizeNetSDKClient;
@@ -14,36 +13,34 @@ use Psr\Log\LoggerInterface;
 
 class AuthorizeNetSDKClientTest extends \PHPUnit\Framework\TestCase
 {
-    const HOST_ADDRESS = 'http://example.local/api';
-
-    /** @var ResponseFactory */
-    protected $responseFactory;
+    private const HOST_ADDRESS = 'http://example.local/api';
 
     /** @var AnetSDKRequestFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $requestFactory;
+    private $requestFactory;
 
     /** @var AuthorizeNetSDKClient */
-    protected $client;
+    private $client;
 
     protected function setUp(): void
     {
         $this->requestFactory = $this->createMock(AnetSDKRequestFactoryInterface::class);
-        /** @var ArrayTransformerInterface|\PHPUnit\Framework\MockObject\MockObject $serializer */
-        $serializer = $this->createMock(ArrayTransformerInterface::class);
-        $logger = $this->createMock(LoggerInterface::class);
-        $this->responseFactory = new ResponseFactory($serializer);
-        $this->client = new AuthorizeNetSDKClient($this->requestFactory, $this->responseFactory, $logger);
+
+        $this->client = new AuthorizeNetSDKClient(
+            $this->requestFactory,
+            new ResponseFactory(),
+            $this->createMock(LoggerInterface::class)
+        );
     }
 
     /**
      * @dataProvider sendDataProvider
-     * @param string $requestType
-     * @param string $apiRequestClass
-     * @param string $apiControllerClass
-     * @param string $apiResponseClass
      */
-    public function testSend($requestType, $apiRequestClass, $apiControllerClass, $apiResponseClass)
-    {
+    public function testSend(
+        string $requestType,
+        string $apiRequestClass,
+        string $apiControllerClass,
+        string $apiResponseClass
+    ) {
         $requestOptions = $this->getRequiredOptionsData();
 
         $request = $this->createMock($apiRequestClass);
@@ -54,7 +51,8 @@ class AuthorizeNetSDKClientTest extends \PHPUnit\Framework\TestCase
 
         $transactionResponse = new $apiResponseClass;
         $controller = $this->createMock($apiControllerClass);
-        $controller->expects($this->once())->method('executeWithApiResponse')
+        $controller->expects($this->once())
+            ->method('executeWithApiResponse')
             ->with(self::HOST_ADDRESS)
             ->willReturn($transactionResponse);
 
@@ -67,10 +65,7 @@ class AuthorizeNetSDKClientTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf(AuthorizeNetSDKResponse::class, $response);
     }
 
-    /**
-     * @return array
-     */
-    public function sendDataProvider()
+    public function sendDataProvider(): array
     {
         return [
             'charge type' => [
@@ -97,6 +92,7 @@ class AuthorizeNetSDKClientTest extends \PHPUnit\Framework\TestCase
     public function testSendReturnsUnexpectedResponse()
     {
         $this->expectException(\LogicException::class);
+
         $requestOptions = $this->getRequiredOptionsData();
         $requestType = Option\Transaction::CHARGE;
 
@@ -108,7 +104,8 @@ class AuthorizeNetSDKClientTest extends \PHPUnit\Framework\TestCase
 
         $errorResponse = new AnetAPI\ErrorResponse();
         $controller = $this->createMock(AnetController\CreateTransactionController::class);
-        $controller->expects($this->once())->method('executeWithApiResponse')
+        $controller->expects($this->once())
+            ->method('executeWithApiResponse')
             ->with(self::HOST_ADDRESS)
             ->willReturn($errorResponse);
 
@@ -135,7 +132,8 @@ class AuthorizeNetSDKClientTest extends \PHPUnit\Framework\TestCase
             ->willReturn($request);
 
         $controller = $this->createMock(AnetController\CreateTransactionController::class);
-        $controller->expects($this->once())->method('executeWithApiResponse')
+        $controller->expects($this->once())
+            ->method('executeWithApiResponse')
             ->with(self::HOST_ADDRESS)
             ->willThrowException(new \Exception('Unexpected Exception'));
 
@@ -147,10 +145,7 @@ class AuthorizeNetSDKClientTest extends \PHPUnit\Framework\TestCase
         $this->client->send(self::HOST_ADDRESS, $requestType, $requestOptions);
     }
 
-    /**
-     * @return array
-     */
-    protected function getRequiredOptionsData()
+    private function getRequiredOptionsData(): array
     {
         return [
             Option\ApiLoginId::API_LOGIN_ID => 'some_login_id',

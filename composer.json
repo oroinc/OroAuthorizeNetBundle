@@ -15,6 +15,7 @@
   },
   "require": {
     "oro/commerce": "5.0.*",
+    "jms/serializer": "^1.2|^2.0|^3.0",
     "authorizenet/authorizenet": "~1.9.2"
   },
   "repositories": {
