@@ -55,8 +55,3 @@ services:
         class: 'Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Mock\Remote\Storage\PaymentProfileTypesToIDs'
         arguments:
             - '@oro_authorize_net.cache.mock.customer_payment_profiles'
-
-    Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Context\FeatureContext:
-        public: true
-        arguments:
-            - '@oro_authorize_net.mock.remote.storage.payment_profile_ids'
