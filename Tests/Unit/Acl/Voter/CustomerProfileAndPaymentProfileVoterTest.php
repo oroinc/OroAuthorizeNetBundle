@@ -2,29 +2,20 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\Acl\Voter;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Oro\Bundle\AuthorizeNetBundle\Acl\Voter\CustomerProfileAndCustomerPaymentProfileVoter;
 use Oro\Bundle\AuthorizeNetBundle\Entity\CustomerPaymentProfile;
 use Oro\Bundle\AuthorizeNetBundle\Entity\CustomerProfile;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
-use Oro\Bundle\SecurityBundle\Authentication\TokenAccessor;
 use Oro\Bundle\UserBundle\Entity\User;
-use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 class CustomerProfileAndPaymentProfileVoterTest extends \PHPUnit\Framework\TestCase
 {
-    use EntityTrait;
-
     /** @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject */
     private $doctrineHelper;
-
-    /** @var TokenAccessor|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenAccessor;
-
-    /** @var CustomerProfileAndCustomerPaymentProfileVoter */
-    private $voter;
 
     /** @var TokenInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $token;
@@ -32,110 +23,106 @@ class CustomerProfileAndPaymentProfileVoterTest extends \PHPUnit\Framework\TestC
     protected function setUp(): void
     {
         $this->doctrineHelper = $this->createMock(DoctrineHelper::class);
-        $this->tokenAccessor = $this->createMock(TokenAccessor::class);
         $this->token = $this->createMock(TokenInterface::class);
+    }
 
-        $this->voter = new CustomerProfileAndCustomerPaymentProfileVoter($this->doctrineHelper, $this->tokenAccessor);
+    private function getVoter(string $className): CustomerProfileAndCustomerPaymentProfileVoter
+    {
+        return new CustomerProfileAndCustomerPaymentProfileVoter($this->doctrineHelper, $className);
+    }
+
+    public function testVoteWithoutUser()
+    {
+        $this->token->expects($this->once())
+            ->method('getUser')
+            ->willReturn(null);
+
+        $voter = $this->getVoter(CustomerPaymentProfile::class);
+        $this->assertSame(
+            VoterInterface::ACCESS_DENIED,
+            $voter->vote($this->token, new CustomerPaymentProfile(), ['ANY'])
+        );
+    }
+
+    public function testVoteWithNonCustomerUser()
+    {
+        $this->token->expects($this->once())
+            ->method('getUser')
+            ->willReturn(new User());
+
+        $voter = $this->getVoter(CustomerPaymentProfile::class);
+        $this->assertSame(
+            VoterInterface::ACCESS_ABSTAIN,
+            $voter->vote($this->token, new CustomerPaymentProfile(), ['ANY'])
+        );
     }
 
     /**
      * @dataProvider voteDataProvider
-     * @param CustomerPaymentProfile|CustomerProfile $object
-     * @param CustomerUser $objectCustomerUser
-     * @param CustomerUser|User|null $tokenUser
-     * @param int $expectedResult
      */
-    public function testVote($object, CustomerUser $objectCustomerUser, $tokenUser, $expectedResult)
-    {
-        $objectClass = \get_class($object);
-        $this->voter->setClassName($objectClass);
+    public function testVote(
+        CustomerPaymentProfile|CustomerProfile $object,
+        CustomerUser $objectCustomerUser,
+        CustomerUser $tokenUser,
+        int $expectedResult
+    ) {
+        $objectClass = get_class($object);
+        $objectIdentifier = 1;
 
         $object->setCustomerUser($objectCustomerUser);
 
-        $this->token
-            ->expects($this->once())
-            ->method('getUser')
-            ->willReturn(new CustomerUser());
-
-        $this->tokenAccessor
-            ->expects($this->once())
+        $this->token->expects($this->once())
             ->method('getUser')
             ->willReturn($tokenUser);
 
         $this->doctrineHelper->expects($this->once())
             ->method('getSingleEntityIdentifier')
             ->with($object, false)
-            ->willReturn(1);
+            ->willReturn($objectIdentifier);
 
-        $repository = $this->createMock(EntityRepository::class);
-
-        $repository->expects($this->once())
+        $em = $this->createMock(EntityManagerInterface::class);
+        $em->expects($this->once())
             ->method('find')
-            ->with(1)
+            ->with($objectClass, $objectIdentifier)
             ->willReturn($object);
 
         $this->doctrineHelper->expects($this->once())
-            ->method('getEntityRepository')
+            ->method('getEntityManagerForClass')
             ->with($objectClass)
-            ->willReturn($repository);
+            ->willReturn($em);
 
-        $this->assertEquals($expectedResult, $this->voter->vote($this->token, $object, ['ANY']));
+        $voter = $this->getVoter($objectClass);
+        $this->assertEquals($expectedResult, $voter->vote($this->token, $object, ['ANY']));
     }
 
-    public function testVoteWithNonCustomerUser()
+    public function voteDataProvider(): array
     {
-        $this->token
-            ->expects($this->once())
-            ->method('getUser')
-            ->willReturn(new User());
-
-        $actualResult = $this->voter->vote($this->token, new CustomerPaymentProfile(), ['ANY']);
-        $this->assertEquals(CustomerProfileAndCustomerPaymentProfileVoter::ACCESS_ABSTAIN, $actualResult);
-    }
-
-    public function voteDataProvider()
-    {
-        $customerUser1 = new CustomerUser();
-        $customerUser2 = new CustomerUser();
-        $customerPaymentProfile = new CustomerPaymentProfile();
-        $customerProfile = new CustomerProfile();
+        $customerUser = new CustomerUser();
 
         return [
             'payment profile granted' => [
-                'object' => $customerPaymentProfile,
-                'objectCustomerUser' => $customerUser1,
-                'tokenUser' => $customerUser1,
-                'expectedResult' => CustomerProfileAndCustomerPaymentProfileVoter::ACCESS_GRANTED
+                'object' => new CustomerPaymentProfile(),
+                'objectCustomerUser' => $customerUser,
+                'tokenUser' => $customerUser,
+                'expectedResult' => VoterInterface::ACCESS_GRANTED
             ],
             'payment profile denied' => [
-                'object' => $customerPaymentProfile,
-                'objectCustomerUser' => $customerUser1,
-                'tokenUser' => $customerUser2,
-                'expectedResult' => CustomerProfileAndCustomerPaymentProfileVoter::ACCESS_DENIED
-            ],
-            'payment profile denied (token accessor user == null)' => [
-                'object' => $customerPaymentProfile,
-                'objectCustomerUser' => $customerUser1,
-                'tokenUser' => null,
-                'expectedResult' => CustomerProfileAndCustomerPaymentProfileVoter::ACCESS_DENIED
+                'object' => new CustomerPaymentProfile(),
+                'objectCustomerUser' => $customerUser,
+                'tokenUser' => new CustomerUser(),
+                'expectedResult' => VoterInterface::ACCESS_DENIED
             ],
             'customer profile granted' => [
-                'object' => $customerProfile,
-                'objectCustomerUser' => $customerUser1,
-                'tokenUser' => $customerUser1,
-                'expectedResult' => CustomerProfileAndCustomerPaymentProfileVoter::ACCESS_GRANTED
+                'object' => new CustomerProfile(),
+                'objectCustomerUser' => $customerUser,
+                'tokenUser' => $customerUser,
+                'expectedResult' => VoterInterface::ACCESS_GRANTED
             ],
             'customer profile denied' => [
-                'object' => $customerProfile,
-                'objectCustomerUser' => $customerUser1,
-                'tokenUser' => $customerUser2,
-                'expectedResult' => CustomerProfileAndCustomerPaymentProfileVoter::ACCESS_DENIED
-            ],
-            'customer profile denied (token accessor user == null)' => [
-                'object' => $customerProfile,
-                'objectCustomerUser' => $customerUser1,
-                'tokenUser' => null,
-                'expectedResult' => CustomerProfileAndCustomerPaymentProfileVoter::ACCESS_DENIED
+                'object' => new CustomerProfile(),
+                'objectCustomerUser' => $customerUser,
+                'tokenUser' => new CustomerUser(),
+                'expectedResult' => VoterInterface::ACCESS_DENIED
             ]
         ];
     }

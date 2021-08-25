@@ -47,27 +47,19 @@ services:
         tags:
             - { name: kernel.event_listener, event: oro_menu.configure.oro_customer_menu, method: onNavigationConfigure }
 
-    oro_authorize_net.security.acl.voter.abstract_profile:
-        class: Oro\Bundle\AuthorizeNetBundle\Acl\Voter\CustomerProfileAndCustomerPaymentProfileVoter
-        abstract: true
-        public: false
-        arguments:
-            - "@oro_entity.doctrine_helper"
-            - "@oro_security.token_accessor"
-
     oro_authorize_net.security.acl.voter.customer_profile:
         class: Oro\Bundle\AuthorizeNetBundle\Acl\Voter\CustomerProfileAndCustomerPaymentProfileVoter
-        parent: oro_authorize_net.security.acl.voter.abstract_profile
-        calls:
-            - [setClassName, ['Oro\Bundle\AuthorizeNetBundle\Entity\CustomerProfile']]
+        arguments:
+            - '@oro_entity.doctrine_helper'
+            - 'Oro\Bundle\AuthorizeNetBundle\Entity\CustomerProfile'
         tags:
             - { name: security.voter, priority: 50 }
 
     oro_authorize_net.security.acl.voter.customer_payment_profile:
         class: Oro\Bundle\AuthorizeNetBundle\Acl\Voter\CustomerProfileAndCustomerPaymentProfileVoter
-        parent: oro_authorize_net.security.acl.voter.abstract_profile
-        calls:
-            - [setClassName, ['Oro\Bundle\AuthorizeNetBundle\Entity\CustomerPaymentProfile']]
+        arguments:
+            - '@oro_entity.doctrine_helper'
+            - 'Oro\Bundle\AuthorizeNetBundle\Entity\CustomerPaymentProfile'
         tags:
             - { name: security.voter, priority: 100 }
 
