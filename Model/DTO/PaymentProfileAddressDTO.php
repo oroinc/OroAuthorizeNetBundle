@@ -6,227 +6,146 @@ use Oro\Bundle\AddressBundle\Entity\Country;
 use Oro\Bundle\AddressBundle\Entity\Region;
 
 /**
- * DTO/form model for payment profile address)
+ * DTO/form model for payment profile address
  */
 class PaymentProfileAddressDTO
 {
-    /** @var string */
-    protected $firstName;
+    protected ?string $firstName = null;
 
-    /** @var string */
-    protected $lastName;
+    protected ?string $lastName = null;
 
-    /** @var string */
-    protected $company;
+    protected ?string $company = null;
 
-    /** @var string */
-    protected $street;
+    protected ?string $street = null;
 
-    /** @var Country|null */
-    protected $country;
+    protected ?Country $country = null;
 
-    /** @var Region|null */
-    protected $region;
+    protected ?Region $region = null;
 
-    /** @var string */
-    protected $region_text;
+    protected ?string $region_text = null;
 
-    /** @var string */
-    protected $city;
+    protected ?string $city = null;
 
-    /** @var string */
-    protected $zip;
+    protected ?string $zip = null;
 
-    /** @var string */
-    protected $phoneNumber;
+    protected ?string $phoneNumber = null;
 
-    /** @var string */
-    protected $faxNumber;
+    protected ?string $faxNumber = null;
 
-    /**
-     * @return string
-     */
-    public function getFirstName()
+    public function getFirstName(): ?string
     {
         return $this->firstName;
     }
 
-    /**
-     * @param string $firstName
-     * @return $this
-     */
-    public function setFirstName($firstName)
+    public function setFirstName(?string $firstName): self
     {
         $this->firstName = $firstName;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getLastName()
+    public function getLastName(): ?string
     {
         return $this->lastName;
     }
 
-    /**
-     * @param string $lastName
-     * @return $this
-     */
-    public function setLastName($lastName)
+    public function setLastName(?string $lastName): self
     {
         $this->lastName = $lastName;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getCompany()
+    public function getCompany(): ?string
     {
         return $this->company;
     }
 
-    /**
-     * @param string $company
-     * @return $this
-     */
-    public function setCompany($company)
+    public function setCompany(?string $company): self
     {
         $this->company = $company;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getStreet()
+    public function getStreet(): ?string
     {
         return $this->street;
     }
 
-    /**
-     * @param string $street
-     * @return $this
-     */
-    public function setStreet($street)
+    public function setStreet(string $street): self
     {
         $this->street = $street;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getCity()
+    public function getCity(): ?string
     {
         return $this->city;
     }
 
-    /**
-     * @param string $city
-     * @return $this
-     */
-    public function setCity($city)
+    public function setCity(string $city): self
     {
         $this->city = $city;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getZip()
+    public function getZip(): ?string
     {
         return $this->zip;
     }
 
-    /**
-     * @param string $zip
-     * @return $this
-     */
-    public function setZip($zip)
+    public function setZip(string $zip): self
     {
         $this->zip = $zip;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getPhoneNumber()
+    public function getPhoneNumber(): ?string
     {
         return $this->phoneNumber;
     }
 
-    /**
-     * @param string $phoneNumber
-     * @return $this
-     */
-    public function setPhoneNumber($phoneNumber)
+    public function setPhoneNumber(?string $phoneNumber): self
     {
         $this->phoneNumber = $phoneNumber;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getFaxNumber()
+    public function getFaxNumber(): ?string
     {
         return $this->faxNumber;
     }
 
-    /**
-     * @param string $faxNumber
-     * @return $this
-     */
-    public function setFaxNumber($faxNumber)
+    public function setFaxNumber(?string $faxNumber): self
     {
         $this->faxNumber = $faxNumber;
 
         return $this;
     }
 
-    /**
-     * @return Country|null
-     */
-    public function getCountry()
+    public function getCountry(): ?Country
     {
         return $this->country;
     }
 
-    /**
-     * @param Country $country
-     * @return $this
-     */
-    public function setCountry(Country $country)
+    public function setCountry(Country $country): self
     {
         $this->country = $country;
 
         return $this;
     }
 
-    /**
-     * @return Region
-     */
-    public function getRegion()
+    public function getRegion(): ?Region
     {
         return $this->region;
     }
 
-    /**
-     * @param Region $region
-     * @return $this
-     */
-    public function setRegion(Region $region)
+    public function setRegion(?Region $region): self
     {
         $this->region = $region;
 
@@ -234,46 +153,34 @@ class PaymentProfileAddressDTO
     }
 
     /**
-     * get region string depend on country (name or code for US)
-     * @return string
+     * Get region string depend on country (name or code for US)
      */
-    public function getRegionString()
+    public function getRegionString(): string
     {
-        $region = $this->region;
-        $regionString = '';
-
-        if ($region) {
-            if ($region->getCountryIso2Code() === 'US') {
-                $regionString = $region->getCode();
-            } else {
-                $regionString = $region->getName();
-            }
+        if (!$this->region) {
+            return '';
         }
 
-        return $regionString;
+        return $this->region->getCountryIso2Code() === 'US' ? $this->region->getCode() : $this->region->getName();
     }
 
     /**
-     * get country string (Country::Iso3Code)
-     * @return string
+     * Get country string (Country::Iso3Code)
      */
-    public function getCountryCode()
+    public function getCountryCode(): string
     {
-        $country = $this->country;
-
-        return $country ? $country->getIso3Code() : '';
+        return $this->country ? $this->country->getIso3Code() : '';
     }
 
-    /**
-     * @return string
-     */
-    public function getRegionText()
+    public function getRegionText(): ?string
     {
         return $this->region_text;
     }
 
-    public function setRegionText(string $region_text)
+    public function setRegionText(string $region_text): self
     {
         $this->region_text = $region_text;
+
+        return $this;
     }
 }
