@@ -1,3 +1,5 @@
 styles:
     inputs:
-        - 'bundles/oroauthorizenet/default/scss/style.scss'
+        - 'bundles/oroauthorizenet/default/scss/variables/authorizenet-payment-profile-list-config.scss'
+
+        - 'bundles/oroauthorizenet/default/scss/styles.scss'

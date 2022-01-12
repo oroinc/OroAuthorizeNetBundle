@@ -50,9 +50,9 @@
             <div class="grid__row grid__row--offset-none">
                 <div class="grid__column grid__column--6">
                     <div class="grid__row">
-                        <ul class="clearfix" aria-label="{{ 'oro_frontend.avaliable_credit_cards.aria_label'|trans }}">
+                        <ul class="authorizenet-payment-profile-list list-unstyled" aria-label="{{ 'oro_frontend.avaliable_credit_cards.aria_label'|trans }}">
                             {% for cc_name in paymentProfileComponentOptions.allowedCreditCards|default([]) %}
-                                <li class="fa pull-left" aria-label="{{ cc_name }}">
+                                <li class="authorizenet-payment-profile-list__item" aria-label="{{ cc_name }}">
                                     <span class="credit-card-icon credit-card-icon_{{ cc_name }}" aria-hidden="true"></span>
                                 </li>
                             {% endfor %}
@@ -67,7 +67,7 @@
             </div>
             <div class="grid__row grid__row--offset-none">
                 <div class="grid__column grid__column--3">
-                    {{ form_row(form.expirationDate, {'disabled': false}) }}
+                    {{ form_row(form.expirationDate, {'disabled': false, 'row_attr': {'class': 'form-row--offset-none'} }) }}
                 </div>
                 {% if form.CVV2 is defined %}
                     <div class="grid__column grid__column--3">
@@ -93,11 +93,15 @@
         }
     } %}
     <div class="grid__row grid__row--offset-none" data-validation="{{ validation|json_encode }}" data-validation-ignore-onblur="true">
-        <div class="grid__column grid__column--6 grid__column--no-gutters-l">
-            {{ form_widget(form.month, {'disabled': false, 'attr': {'data-expiration-date-month': true, 'data-sensitive-data': true}}) }}
+        <div class="grid__column grid__column--6 grid__column--no-gutters-l grid__column--mobile-landscape-no-gutters">
+            <div class="form-row">
+                {{ form_widget(form.month, {'disabled': false, 'attr': {'data-expiration-date-month': true, 'data-sensitive-data': true}}) }}
+            </div>
         </div>
-        <div class="grid__column grid__column--6 grid__column--no-gutters-r">
-            {{ form_widget(form.year, {'disabled': false, 'attr': {'data-expiration-date-year': true, 'data-sensitive-data': true}}) }}
+        <div class="grid__column grid__column--6 grid__column--no-gutters-r grid__column--mobile-landscape-no-gutters">
+            <div class="form-row">
+                {{ form_widget(form.year, {'disabled': false, 'attr': {'data-expiration-date-year': true, 'data-sensitive-data': true}}) }}
+            </div>
         </div>
     </div>
 {%- endblock %}
