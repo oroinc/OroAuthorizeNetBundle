@@ -2,16 +2,16 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Mock\Remote\Storage;
 
-use Doctrine\Common\Cache\CacheProvider;
+use Psr\Cache\CacheItemInterface;
+use Psr\Cache\CacheItemPoolInterface;
 
 class PaymentProfileIDs
 {
     const CUSTOMER_PAYMENT_PROFILE_IDS = 'oro_au_net_mock_customer_payment_profile_ids';
 
-    /** @var CacheProvider */
-    private $cache;
+    private CacheItemPoolInterface $cache;
 
-    public function __construct(CacheProvider $cache)
+    public function __construct(CacheItemPoolInterface $cache)
     {
         $this->cache = $cache;
     }
@@ -22,11 +22,11 @@ class PaymentProfileIDs
      */
     public function save(string $customerPaymentProfileId)
     {
-        $paymentProfileIDsCached = $this->cache->fetch(self::CUSTOMER_PAYMENT_PROFILE_IDS);
-        if (false === $paymentProfileIDsCached) {
+        $paymentProfileIDsCachedItem = $this->getCachedItem();
+        if (!$paymentProfileIDsCachedItem->isHit()) {
             $paymentProfileIDs = [];
         } else {
-            $paymentProfileIDs = \json_decode($paymentProfileIDsCached, true);
+            $paymentProfileIDs = \json_decode($paymentProfileIDsCachedItem->get(), true);
         }
 
         if (\in_array($customerPaymentProfileId, $paymentProfileIDs, true)) {
@@ -34,8 +34,8 @@ class PaymentProfileIDs
         }
 
         $paymentProfileIDs[] = $customerPaymentProfileId;
-
-        $this->cache->save(self::CUSTOMER_PAYMENT_PROFILE_IDS, \json_encode($paymentProfileIDs));
+        $paymentProfileIDsCachedItem->set(\json_encode($paymentProfileIDs));
+        $this->saveCachedItem($paymentProfileIDsCachedItem);
 
         return true;
     }
@@ -45,12 +45,12 @@ class PaymentProfileIDs
      */
     public function all()
     {
-        $paymentProfileIDsCached = $this->cache->fetch(self::CUSTOMER_PAYMENT_PROFILE_IDS);
-        if (false === $paymentProfileIDsCached) {
+        $paymentProfileIDsCachedItem = $this->getCachedItem();
+        if (!$paymentProfileIDsCachedItem->isHit()) {
             return [];
         }
 
-        return \json_decode($paymentProfileIDsCached, true);
+        return \json_decode($paymentProfileIDsCachedItem->get(), true);
     }
 
     /**
@@ -59,12 +59,12 @@ class PaymentProfileIDs
      */
     public function exists(string $customerPaymentProfileId)
     {
-        $paymentProfileIDsCached = $this->cache->fetch(self::CUSTOMER_PAYMENT_PROFILE_IDS);
-        if (false === $paymentProfileIDsCached) {
+        $paymentProfileIDsCachedItem = $this->getCachedItem();
+        if (!$paymentProfileIDsCachedItem->isHit()) {
             return false;
         }
 
-        $paymentProfileIds = \json_decode($paymentProfileIDsCached, true);
+        $paymentProfileIds = \json_decode($paymentProfileIDsCachedItem->get(), true);
 
         return \in_array($customerPaymentProfileId, $paymentProfileIds, true);
     }
@@ -75,24 +75,32 @@ class PaymentProfileIDs
      */
     public function remove(string $customerPaymentProfileId)
     {
-        $paymentProfileIDsCached = $this->cache->fetch(self::CUSTOMER_PAYMENT_PROFILE_IDS);
-        if (false === $paymentProfileIDsCached) {
+        $paymentProfileIDsCachedItem = $this->getCachedItem();
+        if (!$paymentProfileIDsCachedItem->isHit()) {
             return false;
         }
 
-        $paymentProfileIds = \json_decode($paymentProfileIDsCached, true);
+        $paymentProfileIds = \json_decode($paymentProfileIDsCachedItem->get(), true);
 
         if (in_array($customerPaymentProfileId, $paymentProfileIds, true)) {
-            $this->cache->save(
-                self::CUSTOMER_PAYMENT_PROFILE_IDS,
-                \json_encode(
-                    \array_diff($paymentProfileIds, [$customerPaymentProfileId])
-                )
-            );
+            $paymentProfileIDsCachedItem->set(\json_encode(
+                \array_diff($paymentProfileIds, [$customerPaymentProfileId])
+            ));
+            $this->saveCachedItem($paymentProfileIDsCachedItem);
 
             return true;
         }
 
         return false;
+    }
+
+    private function getCachedItem() : CacheItemInterface
+    {
+        return $this->cache->getItem(self::CUSTOMER_PAYMENT_PROFILE_IDS);
+    }
+
+    private function saveCachedItem(CacheItemInterface $item) : void
+    {
+        $this->cache->save($item);
     }
 }

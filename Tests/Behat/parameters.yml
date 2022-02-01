@@ -41,9 +41,9 @@ services:
             - { name: layout.data_provider, alias: oro_authorize_net_payment_profile_dto_form }
 
     oro_authorize_net.cache.mock.customer_payment_profiles:
-        parent: oro.cache.abstract
-        calls:
-            - [ setNamespace, [ 'oro_au_net_mock_customer_payment_profiles' ] ]
+        parent: oro.data.cache
+        tags:
+            - { name: 'cache.pool', namespace: 'oro_au_net_mock_customer_payment_profiles' }
 
     oro_authorize_net.mock.remote.storage.payment_profile_ids:
         class: 'Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Mock\Remote\Storage\PaymentProfileIDs'

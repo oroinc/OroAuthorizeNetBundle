@@ -2,17 +2,17 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Mock\Remote\Storage;
 
-use Doctrine\Common\Cache\CacheProvider;
+use Psr\Cache\CacheItemInterface;
+use Psr\Cache\CacheItemPoolInterface;
 
 class PaymentProfileTypesToIDs
 {
     /** @var string */
     const CUSTOMER_PAYMENT_PROFILE_TYPES_TO_IDS = 'oro_au_net_mock_customer_payment_profile_types_to_ids';
 
-    /** @var CacheProvider */
-    private $cache;
+    private CacheItemPoolInterface $cache;
 
-    public function __construct(CacheProvider $cache)
+    public function __construct(CacheItemPoolInterface $cache)
     {
         $this->cache = $cache;
     }
@@ -23,11 +23,12 @@ class PaymentProfileTypesToIDs
      */
     public function getType(string $customerPaymentProfileId)
     {
-        $paymentProfileTypesToIDsCached = $this->cache->fetch(self::CUSTOMER_PAYMENT_PROFILE_TYPES_TO_IDS);
-        if (false === $paymentProfileTypesToIDsCached) {
+        $paymentProfileTypesToIDsCachedItem = $this->getCachedItem();
+        if (!$paymentProfileTypesToIDsCachedItem->isHit()) {
             throw new \LogicException('No payment profiles found in storage "Type to IDs"!');
         }
 
+        $paymentProfileTypesToIDsCached = $paymentProfileTypesToIDsCachedItem->get();
         $usedType = null;
         $paymentProfileTypesToIDs = \json_decode($paymentProfileTypesToIDsCached, true);
         foreach ($paymentProfileTypesToIDs as $type => $ids) {
@@ -57,9 +58,9 @@ class PaymentProfileTypesToIDs
     public function saveType(string $customerPaymentProfileId, string $profileType)
     {
         $paymentProfileTypesToIDs = [];
-        $paymentProfileTypesToIDsCached = $this->cache->fetch(self::CUSTOMER_PAYMENT_PROFILE_TYPES_TO_IDS);
-        if (false !== $paymentProfileTypesToIDsCached) {
-            $paymentProfileTypesToIDs = \json_decode($paymentProfileTypesToIDsCached, true);
+        $paymentProfileTypesToIDsCachedItem = $this->getCachedItem();
+        if ($paymentProfileTypesToIDsCachedItem->isHit()) {
+            $paymentProfileTypesToIDs = \json_decode($paymentProfileTypesToIDsCachedItem->get(), true);
         }
 
         if (!\array_key_exists($profileType, $paymentProfileTypesToIDs)) {
@@ -67,10 +68,8 @@ class PaymentProfileTypesToIDs
         }
 
         $paymentProfileTypesToIDs[$profileType][] = $customerPaymentProfileId;
-        $this->cache->save(
-            self::CUSTOMER_PAYMENT_PROFILE_TYPES_TO_IDS,
-            \json_encode($paymentProfileTypesToIDs)
-        );
+        $paymentProfileTypesToIDsCachedItem->set(\json_encode($paymentProfileTypesToIDs));
+        $this->cache->save($paymentProfileTypesToIDsCachedItem);
 
         return true;
     }
@@ -81,15 +80,15 @@ class PaymentProfileTypesToIDs
      */
     public function removeId(string $customerPaymentProfileId)
     {
-        $paymentProfileTypesToIDsCached = $this->cache->fetch(self::CUSTOMER_PAYMENT_PROFILE_TYPES_TO_IDS);
-        if (false === $paymentProfileTypesToIDsCached) {
+        $paymentProfileTypesToIDsCachedItem = $this->getCachedItem();
+        if (!$paymentProfileTypesToIDsCachedItem->isHit()) {
             throw new \LogicException(
                 'Can\'t remove payment profile, no payment profiles found in storage "Type to IDs"!'
             );
         }
 
         $removed = false;
-        $paymentProfileTypesToIDs = \json_decode($paymentProfileTypesToIDsCached, true);
+        $paymentProfileTypesToIDs = \json_decode($paymentProfileTypesToIDsCachedItem->get(), true);
         foreach ($paymentProfileTypesToIDs as $type => &$customerPaymentProfileIDs) {
             if (\in_array($customerPaymentProfileId, $customerPaymentProfileIDs, true)) {
                 $customerPaymentProfileIDs = \array_diff($customerPaymentProfileIDs, [$customerPaymentProfileId]);
@@ -114,12 +113,17 @@ class PaymentProfileTypesToIDs
      */
     public function getIdsByType(string $profileType)
     {
-        $paymentProfileTypesToIDsCached = $this->cache->fetch(self::CUSTOMER_PAYMENT_PROFILE_TYPES_TO_IDS);
-        if (false === $paymentProfileTypesToIDsCached) {
+        $paymentProfileTypesToIDsCachedItem = $this->getCachedItem();
+        if (!$paymentProfileTypesToIDsCachedItem->isHit()) {
             return [];
         }
 
-        $paymentProfileTypesToIDs = \json_decode($paymentProfileTypesToIDsCached, true);
+        $paymentProfileTypesToIDs = \json_decode($paymentProfileTypesToIDsCachedItem->get(), true);
         return $paymentProfileTypesToIDs[$profileType] ?? [];
+    }
+
+    private function getCachedItem() : CacheItemInterface
+    {
+        return $this->cache->getItem(self::CUSTOMER_PAYMENT_PROFILE_TYPES_TO_IDS);
     }
 }
