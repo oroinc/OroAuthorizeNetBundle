@@ -5,29 +5,29 @@ namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\Form\Type;
 use Oro\Bundle\AuthorizeNetBundle\Form\Type\CreditCardCvvType;
 use Oro\Bundle\AuthorizeNetBundle\Form\Type\CreditCardExpirationDateType;
 use Oro\Bundle\AuthorizeNetBundle\Form\Type\CreditCardType;
-use Oro\Bundle\TranslationBundle\Translation\Translator;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\Validator\Validation;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CreditCardTypeTest extends FormIntegrationTestCase
 {
-    /** @var CreditCardType */
-    protected $formType;
+    /** @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $translator;
 
-    /** @var Translator|\PHPUnit\Framework\MockObject\MockObject */
-    protected $translator;
+    /** @var CreditCardType */
+    private $formType;
 
     protected function setUp(): void
     {
-        $this->translator = $this->createMock(Translator::class);
+        $this->translator = $this->createMock(TranslatorInterface::class);
         $this->formType = new CreditCardType();
         parent::setUp();
     }
 
     /**
-     * @return array
+     * {@inheritDoc}
      */
     protected function getExtensions()
     {
