@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\Form\Type;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Oro\Bundle\AuthorizeNetBundle\Entity\CustomerPaymentProfile;
 use Oro\Bundle\AuthorizeNetBundle\Entity\CustomerProfile;
 use Oro\Bundle\AuthorizeNetBundle\Form\Type\BankAccountType;
@@ -10,32 +9,31 @@ use Oro\Bundle\AuthorizeNetBundle\Form\Type\CheckoutEcheckProfileType;
 use Oro\Bundle\AuthorizeNetBundle\Form\Type\CheckoutPaymentProfileType;
 use Oro\Bundle\AuthorizeNetBundle\Provider\CustomerProfileProvider;
 use Oro\Bundle\AuthorizeNetBundle\Provider\PaymentProfileProvider;
-use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
-use Oro\Bundle\FormBundle\Form\Extension\TooltipFormExtension;
 use Oro\Bundle\FormBundle\Tests\Unit\Stub\StripTagsExtensionStub;
-use Oro\Bundle\TranslationBundle\Translation\Translator;
+use Oro\Bundle\FormBundle\Tests\Unit\Stub\TooltipFormExtensionStub;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\Validator\Validation;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CheckoutEcheckProfileTypeTest extends FormIntegrationTestCase
 {
     use EntityTrait;
 
-    const PROFILE_LABEL_MASK = '%s (ends with %s)';
-    const NEW_LABEL = 'new card';
-    const PROFILE_TYPE = CustomerPaymentProfile::TYPE_ECHECK;
-    const FORM_OPTIONS = [
+    private const PROFILE_LABEL_MASK = '%s (ends with %s)';
+    private const NEW_LABEL = 'new card';
+    private const PROFILE_TYPE = CustomerPaymentProfile::TYPE_ECHECK;
+    private const FORM_OPTIONS = [
         'profile_type' => self::PROFILE_TYPE
     ];
 
     /** @var CheckoutEcheckProfileType */
-    protected $formType;
+    private $formType;
 
-    /** @var Translator|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $translator;
 
     /** @var CustomerProfileProvider|\PHPUnit\Framework\MockObject\MockObject */
@@ -44,12 +42,9 @@ class CheckoutEcheckProfileTypeTest extends FormIntegrationTestCase
     /** @var PaymentProfileProvider|\PHPUnit\Framework\MockObject\MockObject */
     private $paymentProfileProvider;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
-        $this->translator = $this->createMock(Translator::class);
+        $this->translator = $this->createMock(TranslatorInterface::class);
         $this->customerProfileProvider = $this->createMock(CustomerProfileProvider::class);
         $this->paymentProfileProvider = $this->createMock(PaymentProfileProvider::class);
 
@@ -60,27 +55,23 @@ class CheckoutEcheckProfileTypeTest extends FormIntegrationTestCase
     /**
      * {@inheritdoc}
      */
-    public function getExtensions()
+    protected function getExtensions(): array
     {
-        /** @var ConfigProvider|\PHPUnit\Framework\MockObject\MockObject $configProvider */
-        $configProvider = $this->createMock(ConfigProvider::class);
-
         return [
             new PreloadedExtension(
                 [
-                    BankAccountType::class => new BankAccountType($this->translator),
-                    CheckoutPaymentProfileType::class =>
-                        new CheckoutPaymentProfileType(
-                            $this->customerProfileProvider,
-                            $this->paymentProfileProvider,
-                            $this->translator
-                        ),
-                    CheckoutEcheckProfileType::class => $this->formType
+                    $this->formType,
+                    new BankAccountType($this->translator),
+                    new CheckoutPaymentProfileType(
+                        $this->customerProfileProvider,
+                        $this->paymentProfileProvider,
+                        $this->translator
+                    )
                 ],
                 [
                     FormType::class => [
                         new StripTagsExtensionStub($this),
-                        new TooltipFormExtension($configProvider, $this->translator)
+                        new TooltipFormExtensionStub($this)
                     ]
                 ]
             ),
@@ -95,12 +86,12 @@ class CheckoutEcheckProfileTypeTest extends FormIntegrationTestCase
     {
         $form = $this->factory->create(CheckoutEcheckProfileType::class, null, $formOptions);
 
-        foreach ($presentFields as $fieldname) {
-            $this->assertTrue($form->has($fieldname));
+        foreach ($presentFields as $fieldName) {
+            $this->assertTrue($form->has($fieldName));
         }
 
-        foreach ($notPresentFields as $fieldname) {
-            $this->assertFalse($form->has($fieldname));
+        foreach ($notPresentFields as $fieldName) {
+            $this->assertFalse($form->has($fieldName));
         }
     }
 
@@ -111,8 +102,7 @@ class CheckoutEcheckProfileTypeTest extends FormIntegrationTestCase
         $lastPaymentProfile = $customerProfile->getPaymentProfilesByType(self::PROFILE_TYPE)->last();
         $lastPaymentProfile->setDefault(true);
 
-        $this->customerProfileProvider
-            ->expects($this->once())
+        $this->customerProfileProvider->expects($this->once())
             ->method('findCustomerProfile')
             ->willReturn($customerProfile);
 
@@ -121,8 +111,7 @@ class CheckoutEcheckProfileTypeTest extends FormIntegrationTestCase
                 return $paymentProfile->getCustomerPaymentProfileId();
             })->toArray();
 
-        $this->paymentProfileProvider
-            ->expects($this->once())
+        $this->paymentProfileProvider->expects($this->once())
             ->method('getPaymentProfileExternalIds')
             ->willReturn($externalIds);
 
@@ -139,8 +128,7 @@ class CheckoutEcheckProfileTypeTest extends FormIntegrationTestCase
 
     public function testProfileFieldDefaultValueNoCustomerProfile()
     {
-        $this->customerProfileProvider
-            ->expects($this->once())
+        $this->customerProfileProvider->expects($this->once())
             ->method('findCustomerProfile')
             ->willReturn(null);
 
@@ -158,8 +146,7 @@ class CheckoutEcheckProfileTypeTest extends FormIntegrationTestCase
         /** @var CustomerPaymentProfile $lastPaymentProfile */
         $firstPaymentProfile = $customerProfile->getPaymentProfilesByType(self::PROFILE_TYPE)->first();
 
-        $this->customerProfileProvider
-            ->expects($this->once())
+        $this->customerProfileProvider->expects($this->once())
             ->method('findCustomerProfile')
             ->willReturn($customerProfile);
 
@@ -168,8 +155,7 @@ class CheckoutEcheckProfileTypeTest extends FormIntegrationTestCase
                 return $paymentProfile->getCustomerPaymentProfileId();
             })->toArray();
 
-        $this->paymentProfileProvider
-            ->expects($this->once())
+        $this->paymentProfileProvider->expects($this->once())
             ->method('getPaymentProfileExternalIds')
             ->willReturn($externalIds);
 
@@ -188,8 +174,7 @@ class CheckoutEcheckProfileTypeTest extends FormIntegrationTestCase
     {
         $customerProfile = $this->buildCustomerProfile();
 
-        $this->customerProfileProvider
-            ->expects($this->once())
+        $this->customerProfileProvider->expects($this->once())
             ->method('findCustomerProfile')
             ->willReturn($customerProfile);
 
@@ -198,12 +183,11 @@ class CheckoutEcheckProfileTypeTest extends FormIntegrationTestCase
                 return $paymentProfile->getCustomerPaymentProfileId();
             })->toArray();
 
-        $this->paymentProfileProvider
-            ->expects($this->once())
+        $this->paymentProfileProvider->expects($this->once())
             ->method('getPaymentProfileExternalIds')
             ->willReturn($externalIds);
 
-        $this->translator
+        $this->translator->expects($this->any())
             ->method('trans')
             ->willReturnMap($this->buildTranslationMap($customerProfile));
 
@@ -224,10 +208,7 @@ class CheckoutEcheckProfileTypeTest extends FormIntegrationTestCase
         $this->assertEquals($expectedLabels, $actualLabels);
     }
 
-    /**
-     * @return array
-     */
-    public function formConfigurationProvider()
+    public function formConfigurationProvider(): array
     {
         return [
             'field list' => [
@@ -239,24 +220,17 @@ class CheckoutEcheckProfileTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * @param array $submittedData
-     * @param mixed $expectedData
-     * @param mixed $defaultData
-     * @param array $options
-     * @param bool $isValid
-     * @param CustomerProfile|null $customerProfile
      * @dataProvider submitProvider
      */
     public function testSubmit(
-        $submittedData,
-        $expectedData,
-        $defaultData = null,
-        $options = [],
-        $isValid = true,
+        array $submittedData,
+        array $expectedData,
+        array $defaultData = null,
+        array $options = [],
+        bool $isValid = true,
         CustomerProfile $customerProfile = null
     ) {
-        $this->customerProfileProvider
-            ->expects($this->once())
+        $this->customerProfileProvider->expects($this->once())
             ->method('findCustomerProfile')
             ->willReturn($customerProfile);
 
@@ -265,12 +239,11 @@ class CheckoutEcheckProfileTypeTest extends FormIntegrationTestCase
                 return $paymentProfile->getCustomerPaymentProfileId();
             })->toArray();
 
-        $this->paymentProfileProvider
-            ->expects($this->once())
+        $this->paymentProfileProvider->expects($this->once())
             ->method('getPaymentProfileExternalIds')
             ->willReturn($externalIds);
 
-        $this->translator
+        $this->translator->expects($this->any())
             ->method('trans')
             ->willReturnMap($this->buildTranslationMap($customerProfile));
 
@@ -284,10 +257,7 @@ class CheckoutEcheckProfileTypeTest extends FormIntegrationTestCase
         $this->assertEquals($expectedData, $form->getData());
     }
 
-    /**
-     * @return array
-     */
-    public function submitProvider()
+    public function submitProvider(): array
     {
         $customerProfile = $this->buildCustomerProfile();
 
@@ -341,11 +311,7 @@ class CheckoutEcheckProfileTypeTest extends FormIntegrationTestCase
         ];
     }
 
-    /**
-     * @param CustomerProfile $customerProfile
-     * @return array
-     */
-    private function buildTranslationMap(CustomerProfile $customerProfile)
+    private function buildTranslationMap(CustomerProfile $customerProfile): array
     {
         $map[] = [
             'oro.authorize_net.frontend.payment_profile.checkout.new_echeck_choice.label',
@@ -374,10 +340,7 @@ class CheckoutEcheckProfileTypeTest extends FormIntegrationTestCase
         return $map;
     }
 
-    /**
-     * @return CustomerProfile
-     */
-    private function buildCustomerProfile()
+    private function buildCustomerProfile(): CustomerProfile
     {
         $paymentProfile1 = $this->getEntity(CustomerPaymentProfile::class, [
             'id' => 1,
@@ -403,9 +366,10 @@ class CheckoutEcheckProfileTypeTest extends FormIntegrationTestCase
             'type' => CustomerPaymentProfile::TYPE_CREDITCARD
         ]);
 
-        $customerProfile = $this->getEntity(CustomerProfile::class, [
-            'paymentProfiles' => new ArrayCollection([$paymentProfile1, $paymentProfile2, $paymentProfile3])
-        ]);
+        $customerProfile = new CustomerProfile();
+        $customerProfile->addPaymentProfile($paymentProfile1);
+        $customerProfile->addPaymentProfile($paymentProfile2);
+        $customerProfile->addPaymentProfile($paymentProfile3);
 
         return $customerProfile;
     }
