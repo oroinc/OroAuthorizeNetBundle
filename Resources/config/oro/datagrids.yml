@@ -5,9 +5,9 @@ datagrids:
             frontend: true
             entityHint: oro.authorize_net.frontend.payment_profile.datagrid.base-frontend-payment-profiles-grid.entity_hint
             entity_pagination: true
-            mass_actions:
-                delete:
-                    enabled: false
+        mass_actions:
+            delete:
+                disabled: true
         source:
             type: orm
             query:
