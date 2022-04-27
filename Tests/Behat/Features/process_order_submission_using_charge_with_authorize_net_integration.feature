@@ -3,9 +3,6 @@
 @fixture-OroCheckoutBundle:Shipping.yml
 @fixture-OroPaymentBundle:ProductsAndShoppingListsForPayments.yml
 Feature: Process order submission using Charge with Authorize_Net integration
-  In order to ...
-  As an ...
-  I should be able to ...
 
   Scenario: Create new AuthorizeNet Integration
     Given I login as AmandaRCole@example.org the "Buyer" at "first_session" session
