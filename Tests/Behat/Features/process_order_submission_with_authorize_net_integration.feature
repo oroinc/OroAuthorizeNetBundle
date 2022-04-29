@@ -3,9 +3,6 @@
 @fixture-OroCheckoutBundle:Shipping.yml
 @fixture-OroPaymentBundle:ProductsAndShoppingListsForPayments.yml
 Feature: Process order submission with Authorize_Net integration
-  In order to ...
-  As an ...
-  I should be able to ...
 
   Scenario: Create sessions
     Given sessions active:
