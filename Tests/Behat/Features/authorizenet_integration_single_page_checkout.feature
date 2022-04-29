@@ -4,9 +4,6 @@
 @fixture-OroCheckoutBundle:Shipping.yml
 @fixture-OroPaymentBundle:ProductsAndShoppingListsForPayments.yml
 Feature: AuthorizeNet integration Single Page Checkout
-  In order to ...
-  As an ...
-  I should be able to ...
 
   Scenario: Create new AuthorizeNet Integration
     Given I login as administrator
