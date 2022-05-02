@@ -9,8 +9,6 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class OroAuthorizeNetExtension extends Extension
 {
-    const ALIAS = 'oro_authorize_net';
-
     /**
      * {@inheritDoc}
      */
@@ -22,13 +20,5 @@ class OroAuthorizeNetExtension extends Extension
         $loader->load('method.yml');
         $loader->load('authorize_net.yml');
         $loader->load('controllers.yml');
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getAlias()
-    {
-        return self::ALIAS;
     }
 }
