@@ -53,15 +53,9 @@
 {% endblock %}
 
 {% block oro_authorize_net_checkout_save_profile_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' custom-checkbox__input'
-    }) %}
-    <label class="label label--full custom-checkbox" for="{{ id }}" >
+    <label class="checkbox-label" for="{{ id }}" >
         <input type="checkbox" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
-        <span class="custom-checkbox__icon"></span>
-        <span class="custom-checkbox__text">
-            {{ label|trans }}
-
+        <span>{{ label|trans }}
             <a href="#"
             data-toggle="tooltip"
             data-title="{{ tooltip|trans }}"
