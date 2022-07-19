@@ -1,6 +1,8 @@
 layout:
     imports:
         -
+            id: oro_customer_page
+        -
             id: oro_authorize_net_payment_profile_form
             namespace: payment_profile_form
             root: page_content

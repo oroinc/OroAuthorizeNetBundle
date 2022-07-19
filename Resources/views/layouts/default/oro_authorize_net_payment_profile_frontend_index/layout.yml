@@ -1,6 +1,8 @@
 layout:
     imports:
         -
+            id: oro_customer_page
+        -
             id: oro_authorize_net_frontend_creditcard_payment_profile_grid
             root: creditcard_payment_profile
             namespace: creditcard
