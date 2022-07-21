@@ -77,34 +77,32 @@
 
         {% set hidePaymentDataForm  = form.profile.vars.value %}
 
-        <div data-payment-method-form>
-            <div class="grid__row grid__row--offset-none" data-profile-form>
-                <div class="grid__column grid__column--7">
+        <div class="grid" data-payment-method-form>
+            <div class="grid grid-col-12" data-profile-form>
+                <div class="grid-col-7 grid-col-mobile-landscape-12">
                     {{ form_row(form.profile) }}
                 </div>
                 {% if form.profileCVV is defined %}
-                    <div class="grid__column grid__column--5 {{ not hidePaymentDataForm ? 'hidden' }}" data-profile-cvv>
+                    <div class="grid-col-5 grid-col-mobile-landscape-12 {{ not hidePaymentDataForm ? 'hidden' }}" data-profile-cvv>
                         {{ form_row(form.profileCVV) }}
                     </div>
                 {% endif %}
             </div>
 
-            <div class="grid__row grid__row--offset-none {{ hidePaymentDataForm ? 'hidden' }}" data-payment-data-form>
-                <div class="grid__column grid__column--12">
-                    <ul class="{{ class_prefix }}-form__payment-methods-list" aria-label="{{ 'oro_frontend.avaliable_credit_cards.aria_label'|trans }}">
-                        {% for cc_name in paymentMethodComponentOptions.allowedCreditCards %}
-                            <li class="{{ class_prefix }}-form__payment-methods-item" aria-label="{{ cc_name }}">
-                                <span class="credit-card-icon credit-card-icon_{{ cc_name }}" aria-hidden="true"></span>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                    <div class="{{ class_prefix }}-form__payment-methods-form">
-                        {% for child in form.paymentData.children %}
-                            {{ form_row(child, {class_prefix: class_prefix}) }}
-                        {% endfor %}
+            <div class="grid-col-12{{ hidePaymentDataForm ? ' hidden' }}" data-payment-data-form>
+                <ul class="{{ class_prefix }}-form__payment-methods-list" aria-label="{{ 'oro_frontend.avaliable_credit_cards.aria_label'|trans }}">
+                    {% for cc_name in paymentMethodComponentOptions.allowedCreditCards %}
+                        <li class="{{ class_prefix }}-form__payment-methods-item" aria-label="{{ cc_name }}">
+                            <span class="credit-card-icon credit-card-icon_{{ cc_name }}" aria-hidden="true"></span>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <div class="{{ class_prefix }}-form__payment-methods-form">
+                    {% for child in form.paymentData.children %}
+                        {{ form_row(child, {class_prefix: class_prefix}) }}
+                    {% endfor %}
 
-                        {{ form_row(form.saveProfile) }}
-                    </div>
+                    {{ form_row(form.saveProfile) }}
                 </div>
             </div>
         </div>
@@ -121,27 +119,21 @@
 
         {% set hidePaymentDataForm  = form.profile.vars.value %}
 
-        <div data-payment-method-form>
-            <div class="grid__row grid__row--offset-none" data-profile-form>
-                <div class="grid__column grid__column--12">
-                    {{ form_row(form.profile) }}
-                </div>
+        <div class="grid" data-payment-method-form>
+            <div class="grid-col-12" data-profile-form>
+                {{ form_row(form.profile) }}
             </div>
-            <div class="grid__row grid__row--offset-none {{ hidePaymentDataForm ? 'hidden' }}" data-payment-data-form>
-                <div class="grid__column grid__column--12">
-                    <div class="{{ class_prefix }}-form__payment-methods-form">
-                        {% for child in form.paymentData.children %}
-                            {{ form_row(child, {class_prefix: class_prefix}) }}
-                        {% endfor %}
+            <div class="grid-col-12 {{ hidePaymentDataForm ? 'hidden' }}" data-payment-data-form>
+                <div class="{{ class_prefix }}-form__payment-methods-form">
+                    {% for child in form.paymentData.children %}
+                        {{ form_row(child, {class_prefix: class_prefix}) }}
+                    {% endfor %}
 
-                        {{ form_row(form.saveProfile) }}
-                    </div>
+                    {{ form_row(form.saveProfile) }}
                 </div>
             </div>
-            <div class="grid__row grid__row--offset-none">
-                <div class="grid__column grid__column--12 echeck-confirmation-text">
+            <div class="grid-col-12 echeck-confirmation-text">
                 {{ form.paymentData.vars.confirmation_text|default('') }}
-                </div>
             </div>
         </div>
     </div>
