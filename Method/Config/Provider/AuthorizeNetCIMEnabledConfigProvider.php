@@ -6,7 +6,7 @@ use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfigInterface;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 /**
- * Contains methods that help to check website on enabled CIM functionality and
+ * Contains methods that help check website on enabled CIM functionality and
  * get config of payment method with enabled CIM functionality.
  */
 class AuthorizeNetCIMEnabledConfigProvider implements AuthorizeNetCIMEnabledConfigProviderInterface
