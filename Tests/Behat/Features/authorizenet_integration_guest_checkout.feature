@@ -58,7 +58,7 @@ Feature: AuthorizeNet integration guest Checkout
     And I click "Search Button"
     And I click "product1"
     When I click "Add to Shopping List"
-    Then I should see "Product has been added to" flash message
+    Then I should see "Product has been added to" flash message and I close it
     When I open shopping list widget
     And I click "View List"
     Then I should see "product1"
@@ -94,7 +94,7 @@ Feature: AuthorizeNet integration guest Checkout
     And I click "Search Button"
     And I click "product1"
     And I click "Add to Shopping List"
-    And I should see "Product has been added to" flash message
+    And I should see "Product has been added to" flash message and I close it
     When I open shopping list widget
     And I click "View List"
     Then I should see "product1"
