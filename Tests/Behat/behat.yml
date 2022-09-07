@@ -118,7 +118,7 @@ oro_behat_extension:
           GridToolbarPaginator: 'Authorize.NetGridCreditCardProfile Paginator'
 
     Authorize.NetGridCreditCardProfilePaginator:
-      selector: 'div[data-page-component-name="frontend-creditcard-payment-profiles-grid"] div.oro-items-counter'
+      selector: 'div[data-page-component-name="frontend-creditcard-payment-profiles-grid"] div.visible-items-counter'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\GridToolbarPaginator
 
     Authorize.NetGrid.eCheckProfile:
@@ -129,7 +129,7 @@ oro_behat_extension:
           GridToolbarPaginator: 'Authorize.NetGrid.eCheckProfile Paginator'
 
     Authorize.NetGrid.eCheckProfilePaginator:
-      selector: 'div[data-page-component-name="frontend-echeck-payment-profiles-grid"] div.oro-items-counter'
+      selector: 'div[data-page-component-name="frontend-echeck-payment-profiles-grid"] div.visible-items-counter'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\GridToolbarPaginator
 
   suites:
