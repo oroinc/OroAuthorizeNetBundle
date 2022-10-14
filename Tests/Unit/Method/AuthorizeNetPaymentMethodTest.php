@@ -30,7 +30,7 @@ use Oro\Bundle\PaymentBundle\Provider\AddressExtractor;
 use Oro\Bundle\TaxBundle\Model\Result;
 use Oro\Bundle\TaxBundle\Provider\TaxProviderInterface;
 use Oro\Bundle\TaxBundle\Provider\TaxProviderRegistry;
-use Oro\Component\Testing\Unit\EntityTrait;
+use Oro\Component\Testing\ReflectionUtil;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -41,40 +41,38 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
 {
-    use EntityTrait;
-
     private const INTEGRATION_ID = 4;
     private const CUSTOMER_USER_ID = 77;
 
     /** @var Gateway|\PHPUnit\Framework\MockObject\MockObject */
-    protected $gateway;
+    private $gateway;
 
     /** @var AuthorizeNetPaymentMethod */
-    protected $method;
+    private $method;
 
     /** @var AuthorizeNetConfigInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $paymentConfig;
+    private $paymentConfig;
 
     /** @var ArrayTransformerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $serializer;
+    private $serializer;
 
     /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject */
-    protected $requestStack;
+    private $requestStack;
 
     /** @var CustomerProfileProvider|\PHPUnit\Framework\MockObject\MockObject */
-    protected $customerProfileProvider;
+    private $customerProfileProvider;
 
     /** @var CustomerUser|\PHPUnit\Framework\MockObject\MockObject */
-    protected $frontendOwner;
+    private $frontendOwner;
 
     /** @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject */
-    protected $doctrineHelper;
+    private $doctrineHelper;
 
     /** @var AddressExtractor|\PHPUnit\Framework\MockObject\MockObject */
-    protected $addressExtractor;
+    private $addressExtractor;
 
     /** @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $eventDispatcher;
+    private $eventDispatcher;
 
     /** @var TaxProviderRegistry */
     private $taxProviderRegistry;
@@ -83,17 +81,22 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
     {
         $this->gateway = $this->createMock(Gateway::class);
         $this->paymentConfig = $this->createMock(AuthorizeNetConfigInterface::class);
-        $this->paymentConfig->expects($this->any())
-            ->method('getIntegrationId')
-            ->willReturn(self::INTEGRATION_ID);
         $this->requestStack = $this->createMock(RequestStack::class);
-        $this->customerProfileProvider = $this->createMock(
-            CustomerProfileProvider::class
-        );
+        $this->customerProfileProvider = $this->createMock(CustomerProfileProvider::class);
         $this->doctrineHelper = $this->createMock(DoctrineHelper::class);
         $this->addressExtractor = $this->createMock(AddressExtractor::class);
         $this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
         $this->taxProviderRegistry = $this->createMock(TaxProviderRegistry::class);
+        $this->serializer = $this->createMock(ArrayTransformerInterface::class);
+        $this->frontendOwner = $this->createMock(CustomerUser::class);
+
+        $this->paymentConfig->expects($this->any())
+            ->method('getIntegrationId')
+            ->willReturn(self::INTEGRATION_ID);
+
+        $this->frontendOwner->expects($this->any())
+            ->method('getId')
+            ->willReturn(self::CUSTOMER_USER_ID);
 
         $this->method = new AuthorizeNetPaymentMethod(
             $this->gateway,
@@ -111,88 +114,52 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
             ),
             $this->eventDispatcher
         );
-
-        $this->serializer = $this->createMock(ArrayTransformerInterface::class);
-
-        $this->frontendOwner = $this->createMock(CustomerUser::class);
-        $this->frontendOwner->expects($this->any())->method('getId')->willReturn(self::CUSTOMER_USER_ID);
     }
 
-    /**
-     * @param string $customerProfileId
-     * @param CustomerUser $customerUser
-     *
-     * @return CustomerProfile
-     */
-    protected function createCustomerProfile(string $customerProfileId, CustomerUser $customerUser)
+    private function createCustomerProfile(string $customerProfileId, CustomerUser $customerUser): CustomerProfile
     {
-        /** @var CustomerProfile $customerProfile */
-        $customerProfile = $this->getEntity(CustomerProfile::class, [
-            'customerProfileId' => $customerProfileId,
-            'customerUser' => $customerUser
-        ]);
+        $customerProfile = new CustomerProfile();
+        $customerProfile->setCustomerProfileId($customerProfileId);
+        $customerProfile->setCustomerUser($customerUser);
 
         $this->customerProfileProvider->expects($this->once())
             ->method('findCustomerProfile')
             ->with($customerUser)
-            ->willReturn($customerProfile)
-        ;
+            ->willReturn($customerProfile);
 
         return $customerProfile;
     }
 
-    /**
-     * @param int $oroId
-     * @param string $remoteId
-     * @param CustomerProfile $customerProfile
-     *
-     * @return CustomerProfile
-     */
-    protected function createCustomerPaymentProfile(int $oroId, string $remoteId, CustomerProfile $customerProfile)
+    private function createCustomerPaymentProfile(int $oroId, string $remoteId, CustomerProfile $customerProfile): void
     {
-        /** @var CustomerPaymentProfile $customerPaymentProfile */
-        $customerPaymentProfile = $this->getEntity(CustomerPaymentProfile::class, [
-            'id' => $oroId,
-            'customerPaymentProfileId' => $remoteId,
-            'customerProfile' => $customerProfile
-        ]);
+        $customerPaymentProfile = new CustomerPaymentProfile();
+        ReflectionUtil::setId($customerPaymentProfile, $oroId);
+        $customerPaymentProfile->setCustomerPaymentProfileId($remoteId);
+        $customerPaymentProfile->setCustomerProfile($customerProfile);
 
         $repositoryMock = $this->createMock(EntityRepository::class);
         $repositoryMock->expects($this->any())
             ->method('find')
             ->with($oroId)
-            ->willReturn($customerPaymentProfile)
-        ;
-        $this->doctrineHelper
-            ->expects($this->any())
+            ->willReturn($customerPaymentProfile);
+        $this->doctrineHelper->expects($this->any())
             ->method('getEntityRepository')
             ->with(CustomerPaymentProfile::class)
-            ->willReturn($repositoryMock)
-        ;
-
-        return $customerPaymentProfile;
+            ->willReturn($repositoryMock);
     }
 
     /**
      * @dataProvider purchaseExecuteProvider
-     * @param string $purchaseAction
-     * @param string $gatewayTransactionType
-     * @param bool $requestSuccessful
-     * @param string $expectedMessage
-     * @param string|null $transId
-     * @param array $responseArray
-     * @param int|null $profileId
-     * @param bool|null $saveProfile
      */
     public function testPurchaseExecute(
-        $purchaseAction,
-        $gatewayTransactionType,
-        $requestSuccessful,
-        $expectedMessage,
-        $transId,
+        string $purchaseAction,
+        string $gatewayTransactionType,
+        bool $requestSuccessful,
+        string $expectedMessage,
+        ?string $transId,
         array $responseArray,
-        int $profileId = null,
-        bool $saveProfile = null
+        ?int $profileId = null,
+        ?bool $saveProfile = null
     ) {
         $testMode = false;
         $transaction = $this->createPaymentTransaction(PaymentMethodInterface::PURCHASE, $profileId, $saveProfile);
@@ -208,19 +175,15 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
         $this->paymentConfig->expects($this->any())
             ->method('isTestMode')
             ->willReturn($testMode);
-
         $this->paymentConfig->expects($this->any())
             ->method('getPurchaseAction')
             ->willReturn($purchaseAction);
-
         $this->paymentConfig->expects($this->any())
             ->method('getApiLoginId')
             ->willReturn('API_LOGIN_ID');
-
         $this->paymentConfig->expects($this->any())
             ->method('getTransactionKey')
             ->willReturn('API_TRANSACTION_KEY');
-
         $this->paymentConfig->expects($this->any())
             ->method('isEnabledCIM')
             ->willReturn(true);
@@ -237,8 +200,7 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
             ->willReturn($response);
 
         $event = new TransactionResponseReceivedEvent($response, $transaction);
-        $this->eventDispatcher
-            ->expects($this->once())
+        $this->eventDispatcher->expects($this->once())
             ->method('dispatch')
             ->with($event, TransactionResponseReceivedEvent::NAME);
 
@@ -247,8 +209,7 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
             ->method('getTax')
             ->willReturn(Result::jsonDeserialize(null));
 
-        $this->taxProviderRegistry
-            ->expects($this->once())
+        $this->taxProviderRegistry->expects($this->once())
             ->method('getEnabledProvider')
             ->willReturn($taxProvider);
 
@@ -287,23 +248,15 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider executeProvider
-     * @param string $paymentAction
-     * @param string $gatewayTransactionType
-     * @param bool $requestSuccessful
-     * @param string $expectedMessage
-     * @param string|null $transId
-     * @param array $responseArray
-     * @param string|null $responseCode
-     * @param bool $active
      */
     public function testExecute(
-        $paymentAction,
-        $gatewayTransactionType,
+        string $paymentAction,
+        string $gatewayTransactionType,
         bool $requestSuccessful,
-        $expectedMessage,
-        $transId,
+        string $expectedMessage,
+        ?string $transId,
         array $responseArray,
-        $responseCode,
+        ?string $responseCode,
         bool $active
     ) {
         $testMode = false;
@@ -312,11 +265,9 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
         $this->paymentConfig->expects($this->any())
             ->method('isTestMode')
             ->willReturn($testMode);
-
         $this->paymentConfig->expects($this->any())
             ->method('getApiLoginId')
             ->willReturn('API_LOGIN_ID');
-
         $this->paymentConfig->expects($this->any())
             ->method('getTransactionKey')
             ->willReturn('API_TRANSACTION_KEY');
@@ -346,10 +297,7 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($responseArray, $transaction->getResponse());
     }
 
-    /**
-     * @return array
-     */
-    public function executeProvider()
+    public function executeProvider(): array
     {
         return [
             'successful charge' => [
@@ -405,11 +353,9 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
         $this->paymentConfig->expects($this->any())
             ->method('isTestMode')
             ->willReturn($testMode);
-
         $this->paymentConfig->expects($this->any())
             ->method('getApiLoginId')
             ->willReturn('API_LOGIN_ID');
-
         $this->paymentConfig->expects($this->any())
             ->method('getTransactionKey')
             ->willReturn('API_TRANSACTION_KEY');
@@ -441,11 +387,9 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
         $this->paymentConfig->expects($this->any())
             ->method('isTestMode')
             ->willReturn($testMode);
-
         $this->paymentConfig->expects($this->any())
             ->method('getApiLoginId')
             ->willReturn('API_LOGIN_ID');
-
         $this->paymentConfig->expects($this->any())
             ->method('getTransactionKey')
             ->willReturn('API_TRANSACTION_KEY');
@@ -480,15 +424,12 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
         $this->paymentConfig->expects($this->any())
             ->method('isTestMode')
             ->willReturn($testMode);
-
         $this->paymentConfig->expects($this->any())
             ->method('getPurchaseAction')
             ->willReturn(PaymentMethodInterface::CAPTURE);
-
         $this->paymentConfig->expects($this->any())
             ->method('getApiLoginId')
             ->willReturn('API_LOGIN_ID');
-
         $this->paymentConfig->expects($this->any())
             ->method('getTransactionKey')
             ->willReturn('API_TRANSACTION_KEY');
@@ -557,7 +498,6 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
         $this->gateway->expects($this->once())
             ->method('setTestMode')
             ->with($testMode);
-
         $this->gateway->expects($this->never())
             ->method('request');
 
@@ -571,16 +511,14 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider incorrectAdditionalDataProvider
-     * @param string $expectedExceptionMessage
-     * @param array|null $transactionOptions
      */
-    public function testIncorrectAdditionalData($expectedExceptionMessage, array $transactionOptions = null)
+    public function testIncorrectAdditionalData(string $expectedExceptionMessage, ?array $transactionOptions)
     {
         $this->expectException(\LogicException::class);
+
         $this->paymentConfig->expects($this->any())
             ->method('getApiLoginId')
             ->willReturn('API_LOGIN_ID');
-
         $this->paymentConfig->expects($this->any())
             ->method('getTransactionKey')
             ->willReturn('API_TRANSACTION_KEY');
@@ -590,8 +528,7 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
             ->method('getTax')
             ->willReturn(Result::jsonDeserialize(null));
 
-        $this->taxProviderRegistry
-            ->expects($this->any())
+        $this->taxProviderRegistry->expects($this->any())
             ->method('getEnabledProvider')
             ->willReturn($taxProvider);
 
@@ -608,7 +545,7 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
             'additionalData' => json_encode([
                 'dataDescriptor' => 'dataDescriptorValue',
                 'dataValue' => 'dataValueValue',
-            ])
+            ], JSON_THROW_ON_ERROR)
         ];
 
         $response = $this->prepareSDKResponse(true);
@@ -619,11 +556,9 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
         $this->paymentConfig->expects($this->any())
             ->method('getPurchaseAction')
             ->willReturn(PaymentMethodInterface::AUTHORIZE);
-
         $this->paymentConfig->expects($this->any())
             ->method('getApiLoginId')
             ->willReturn('API_LOGIN_ID');
-
         $this->paymentConfig->expects($this->any())
             ->method('getTransactionKey')
             ->willReturn('API_TRANSACTION_KEY');
@@ -633,8 +568,7 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
             ->method('getTax')
             ->willReturn(Result::jsonDeserialize(null));
 
-        $this->taxProviderRegistry
-            ->expects($this->once())
+        $this->taxProviderRegistry->expects($this->once())
             ->method('getEnabledProvider')
             ->willReturn($taxProvider);
 
@@ -647,11 +581,11 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
     public function testCorrectAdditionalDataWithSaveProfile()
     {
         $transactionOptions = [
-            'additionalData' => \json_encode([
+            'additionalData' => json_encode([
                 'dataDescriptor' => 'dataDescriptorValue',
                 'dataValue' => 'dataValueValue',
                 'saveProfile' => true
-            ])
+            ], JSON_THROW_ON_ERROR)
         ];
 
         $response = $this->prepareSDKResponse(true);
@@ -662,15 +596,12 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
         $this->paymentConfig->expects($this->any())
             ->method('getPurchaseAction')
             ->willReturn(PaymentMethodInterface::AUTHORIZE);
-
         $this->paymentConfig->expects($this->any())
             ->method('getApiLoginId')
             ->willReturn('API_LOGIN_ID');
-
         $this->paymentConfig->expects($this->any())
             ->method('getTransactionKey')
             ->willReturn('API_TRANSACTION_KEY');
-
         $this->paymentConfig->expects($this->any())
             ->method('isEnabledCIM')
             ->willReturn(true);
@@ -680,8 +611,7 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
             ->method('getTax')
             ->willReturn(Result::jsonDeserialize(null));
 
-        $this->taxProviderRegistry
-            ->expects($this->once())
+        $this->taxProviderRegistry->expects($this->once())
             ->method('getEnabledProvider')
             ->willReturn($taxProvider);
 
@@ -699,11 +629,11 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
     public function testCorrectAdditionalDataWithSaveProfileCIMDisabled()
     {
         $transactionOptions = [
-            'additionalData' => \json_encode([
+            'additionalData' => json_encode([
                 'dataDescriptor' => 'dataDescriptorValue',
                 'dataValue' => 'dataValueValue',
                 'saveProfile' => true
-            ])
+            ], JSON_THROW_ON_ERROR)
         ];
 
         $response = $this->prepareSDKResponse(true);
@@ -714,15 +644,12 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
         $this->paymentConfig->expects($this->any())
             ->method('getPurchaseAction')
             ->willReturn(PaymentMethodInterface::AUTHORIZE);
-
         $this->paymentConfig->expects($this->any())
             ->method('getApiLoginId')
             ->willReturn('API_LOGIN_ID');
-
         $this->paymentConfig->expects($this->any())
             ->method('getTransactionKey')
             ->willReturn('API_TRANSACTION_KEY');
-
         $this->paymentConfig->expects($this->any())
             ->method('isEnabledCIM')
             ->willReturn(false);
@@ -732,8 +659,7 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
             ->method('getTax')
             ->willReturn(Result::jsonDeserialize(null));
 
-        $this->taxProviderRegistry
-            ->expects($this->once())
+        $this->taxProviderRegistry->expects($this->once())
             ->method('getEnabledProvider')
             ->willReturn($taxProvider);
 
@@ -746,12 +672,9 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param bool $expected
-     * @param string $actionName
-     *
      * @dataProvider supportsDataProvider
      */
-    public function testSupports($expected, $actionName)
+    public function testSupports(bool $expected, string $actionName)
     {
         $this->assertEquals($expected, $this->method->supports($actionName));
     }
@@ -768,7 +691,6 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
             ->method('getCurrentRequest')
             ->willReturn($request);
 
-        /** @var PaymentContextInterface|\PHPUnit\Framework\MockObject\MockObject $context */
         $context = $this->createMock(PaymentContextInterface::class);
         $this->assertTrue($this->method->isApplicable($context));
     }
@@ -779,7 +701,6 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
             ->method('getCurrentRequest')
             ->willReturn(null);
 
-        /** @var PaymentContextInterface|\PHPUnit\Framework\MockObject\MockObject $context */
         $context = $this->createMock(PaymentContextInterface::class);
         $this->assertTrue($this->method->isApplicable($context));
     }
@@ -793,23 +714,20 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('authorize_net', $this->method->getIdentifier());
     }
 
-    /**
-     * @param bool $requestSuccessful
-     * @param string|null $responseCode
-     * @return AuthorizeNetSDKTransactionResponse
-     */
-    protected function prepareSDKResponse(bool $requestSuccessful, string $responseCode = null)
-    {
+    private function prepareSDKResponse(
+        bool $requestSuccessful,
+        string $responseCode = null
+    ): AuthorizeNetSDKTransactionResponse {
         $transactionResponse = new TransactionResponseType();
         if ($requestSuccessful === true) {
-            $resultCode  = 'Ok';
+            $resultCode = 'Ok';
             $responseCode = $responseCode ?? '1';
             $message = 'success';
             $transactionId = '111';
 
             $transactionResponse->setMessages([]);
         } else {
-            $resultCode  = 'Error';
+            $resultCode = 'Error';
             $responseCode = $responseCode ?? '0';
             $message = 'fail';
             $transactionId = null;
@@ -823,7 +741,6 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
         $transactionResponse->setResponseCode($responseCode);
         $transactionResponse->setTransId($transactionId);
 
-        /** @var CreateTransactionResponse|\PHPUnit\Framework\MockObject\MockObject $apiResponse */
         $apiResponse = $this->createMock(CreateTransactionResponse::class);
         $apiResponse->expects($this->any())
             ->method('getMessages')
@@ -841,14 +758,11 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
         return new AuthorizeNetSDKTransactionResponse($this->serializer, $apiResponse);
     }
 
-    /**
-     * @param string $paymentAction
-     * @param int $profileId
-     * @param bool $saveProfile
-     * @return PaymentTransaction
-     */
-    protected function createPaymentTransaction($paymentAction, int $profileId = null, bool $saveProfile = null)
-    {
+    private function createPaymentTransaction(
+        string $paymentAction,
+        ?int $profileId = null,
+        ?bool $saveProfile = null
+    ): PaymentTransaction {
         $sourcePaymentTransaction = new PaymentTransaction();
 
         $additionalData = [];
@@ -862,23 +776,21 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
             $additionalData['dataValue'] = 'data_value_value';
         }
 
-        $sourcePaymentTransaction->setTransactionOptions(['additionalData' => \json_encode($additionalData)]);
+        $sourcePaymentTransaction->setTransactionOptions([
+            'additionalData' => json_encode($additionalData, JSON_THROW_ON_ERROR)
+        ]);
 
         $paymentTransaction = new PaymentTransaction();
         $paymentTransaction
             ->setCurrency('USD')
             ->setAction($paymentAction)
             ->setSourcePaymentTransaction($sourcePaymentTransaction->setFrontendOwner($this->frontendOwner))
-            ->setFrontendOwner($this->frontendOwner)
-        ;
+            ->setFrontendOwner($this->frontendOwner);
 
         return $paymentTransaction;
     }
 
-    /**
-     * @return array
-     */
-    public function purchaseExecuteProvider()
+    public function purchaseExecuteProvider(): array
     {
         return [
             'successful charge' => [
@@ -927,10 +839,7 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function supportsDataProvider()
+    public function supportsDataProvider(): array
     {
         return [
             [true, PaymentMethodInterface::AUTHORIZE],
@@ -942,10 +851,7 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function incorrectAdditionalDataProvider()
+    public function incorrectAdditionalDataProvider(): array
     {
         return [
             'nullable transaction options' => [
@@ -966,11 +872,15 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
             ],
             'json additional data only with dataDescriptor' => [
                 'expectedExceptionMessage' => 'Can not find field "dataValue" in additional data',
-                'transactionOptions' => ['additionalData' => json_encode(['dataDescriptor' => 'value'])]
+                'transactionOptions' => [
+                    'additionalData' => json_encode(['dataDescriptor' => 'value'], JSON_THROW_ON_ERROR)
+                ]
             ],
             'json additional data only with dataValue' => [
                 'expectedExceptionMessage' => 'Can not find field "dataDescriptor" in additional data',
-                'transactionOptions' => ['additionalData' => json_encode(['dataValue' => 'value'])]
+                'transactionOptions' => [
+                    'additionalData' => json_encode(['dataValue' => 'value'], JSON_THROW_ON_ERROR)
+                ]
             ],
         ];
     }
