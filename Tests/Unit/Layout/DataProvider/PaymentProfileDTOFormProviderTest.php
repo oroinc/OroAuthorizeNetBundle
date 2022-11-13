@@ -21,22 +21,22 @@ class PaymentProfileDTOFormProviderTest extends \PHPUnit\Framework\TestCase
     use EntityTrait;
 
     /** @var PaymentProfileDTOFormProvider */
-    protected $provider;
+    private $provider;
 
     /** @var FormFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $mockFormFactory;
+    private $formFactory;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject|UrlGeneratorInterface */
-    protected $router;
+    private $router;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject|CIMEnabledIntegrationConfigProvider */
-    protected $configProvider;
+    private $configProvider;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject|WebsiteManager */
-    protected $websiteManager;
+    private $websiteManager;
 
     /** @var array */
-    protected static $config = [
+    private static $config = [
         AuthorizeNetConfig::API_LOGIN_ID => 'login',
         AuthorizeNetConfig::CLIENT_KEY => 'key',
         AuthorizeNetConfig::TEST_MODE_KEY => true,
@@ -47,13 +47,13 @@ class PaymentProfileDTOFormProviderTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
-        $this->mockFormFactory = $this->createMock(FormFactoryInterface::class);
+        $this->formFactory = $this->createMock(FormFactoryInterface::class);
         $this->router = $this->createMock(UrlGeneratorInterface::class);
 
         $this->configProvider = $this->createMock(CIMEnabledIntegrationConfigProvider::class);
 
         $this->provider = new PaymentProfileDTOFormProvider(
-            $this->mockFormFactory,
+            $this->formFactory,
             $this->router,
             $this->configProvider
         );
@@ -64,17 +64,14 @@ class PaymentProfileDTOFormProviderTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetPaymentProfileDTOFormView(PaymentProfileDTO $paymentProfileDTO)
     {
-        $this->configProvider
-            ->expects($this->any())
+        $this->configProvider->expects($this->any())
             ->method('getConfig')
             ->willReturn(new AuthorizeNetConfig(self::$config));
 
         $paymentProfile = $paymentProfileDTO->getProfile();
         $type = $paymentProfile->getType();
         $id = $paymentProfile->getId();
-        $this
-            ->router
-            ->expects($this->any())
+        $this->router->expects($this->any())
             ->method('generate')
             ->willReturnMap([
                 [PaymentProfileDTOFormProvider::PAYMENT_PROFILE_CREATE_ROUTE_NAME, ['type' => $type], 1, 'create_link'],
@@ -94,17 +91,17 @@ class PaymentProfileDTOFormProviderTest extends \PHPUnit\Framework\TestCase
             ]
         ];
 
-        $mockFormView = $this->createMock(FormView::class);
+        $formView = $this->createMock(FormView::class);
 
-        $mockForm = $this->getMockBuilder(FormInterface::class)->getMock();
-        $mockForm->expects($this->once())
+        $form = $this->createMock(FormInterface::class);
+        $form->expects($this->once())
             ->method('createView')
-            ->willReturn($mockFormView);
+            ->willReturn($formView);
 
-        $this->mockFormFactory->expects($this->once())
+        $this->formFactory->expects($this->once())
             ->method('create')
             ->with(PaymentProfileDTOType::class, $paymentProfileDTO, $expectedOptions)
-            ->willReturn($mockForm);
+            ->willReturn($form);
 
         $form = $this->provider->getPaymentProfileDTOFormView($paymentProfileDTO);
 
@@ -119,17 +116,14 @@ class PaymentProfileDTOFormProviderTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetPaymentProfileDTOForm(PaymentProfileDTO $paymentProfileDTO)
     {
-        $this->configProvider
-            ->expects($this->any())
+        $this->configProvider->expects($this->any())
             ->method('getConfig')
             ->willReturn(new AuthorizeNetConfig(self::$config));
 
         $paymentProfile = $paymentProfileDTO->getProfile();
         $type = $paymentProfile->getType();
         $id = $paymentProfile->getId();
-        $this
-            ->router
-            ->expects($this->any())
+        $this->router->expects($this->any())
             ->method('generate')
             ->willReturnMap([
                 [PaymentProfileDTOFormProvider::PAYMENT_PROFILE_CREATE_ROUTE_NAME, ['type' => $type], 1, 'create_link'],
@@ -149,12 +143,12 @@ class PaymentProfileDTOFormProviderTest extends \PHPUnit\Framework\TestCase
             ]
         ];
 
-        $mockForm = $this->createMock(Form::class);
+        $form = $this->createMock(Form::class);
 
-        $this->mockFormFactory->expects($this->once())
+        $this->formFactory->expects($this->once())
             ->method('create')
             ->with(PaymentProfileDTOType::class, $paymentProfileDTO, $expectedOptions)
-            ->willReturn($mockForm);
+            ->willReturn($form);
 
         $form = $this->provider->getPaymentProfileDTOForm($paymentProfileDTO);
 
@@ -164,14 +158,10 @@ class PaymentProfileDTOFormProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($form, $formSecondCall);
     }
 
-    /**
-     * @return array
-     */
-    public function paymentProfileDTOProvider()
+    public function paymentProfileDTOProvider(): array
     {
         $newDTO = new PaymentProfileDTO();
         $existingDTO = new PaymentProfileDTO();
-        /** @var CustomerPaymentProfile $profile */
         $profile = $this->getEntity(CustomerPaymentProfile::class, ['id' => 1]);
         $profile->setName('test');
         $existingDTO->setProfile($profile);
