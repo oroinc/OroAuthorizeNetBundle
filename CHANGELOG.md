@@ -2,8 +2,17 @@ The upgrade instructions are available at [Oro documentation website](https://do
 
 The current file describes significant changes in the code that may affect the upgrade of your customizations.
 
-## 5.0.0-beta.2 (2021-09-30)
-[Show detailed list of changes](incompatibilities-5-0-beta-2.md)
+## Changes in the Authorizenet package versions
+
+- [5.0.0](#500-2022-01-26)
+- [4.2.0](#420-2020-01-29)
+- [4.1.0](#410-2020-01-31)
+- [4.0.0](#400-2019-07-31)
+- [3.1.0](#310-2019-01-30)
+
+
+## 5.0.0 (2022-01-26)
+[Show detailed list of changes](incompatibilities-5-0.md)
 
 ## 4.2.0 (2020-01-29)
 [Show detailed list of changes](incompatibilities-4-2.md)
@@ -14,14 +23,14 @@ The current file describes significant changes in the code that may affect the u
   Use the `priority` attribute of the `oro_authorize_net.authorize_net.client.request_configurator` DIC tag
   to manage the order of request configurators.
 
-## 4.2.0-alpha.2 (2020-05-29)
-[Show detailed list of changes](incompatibilities-4-2-alpha-2.md)
 
 ## 4.1.0 (2020-01-31)
 
+[Show detailed list of changes](incompatibilities-4-1.md)
+
 ### Removed
-* `*.class` parameters for all entities were removed from the dependency injection container.
-The entity class names should be used directly, e.g. `'Oro\Bundle\EmailBundle\Entity\Email'`
+* The `*.class` parameters for all entities were removed from the dependency injection container.
+The entity class names should be used directly, e.g., `'Oro\Bundle\EmailBundle\Entity\Email'`
 instead of `'%oro_email.email.entity.class%'` (in service definitions, datagrid config files, placeholders, etc.), and
 `\Oro\Bundle\EmailBundle\Entity\Email::class` instead of `$container->getParameter('oro_email.email.entity.class')`
 (in PHP code).
