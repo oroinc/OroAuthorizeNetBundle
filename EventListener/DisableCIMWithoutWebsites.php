@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\EventListener;
 
-use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Oro\Bundle\AuthorizeNetBundle\Entity\AuthorizeNetSettings;
 use Oro\Bundle\AuthorizeNetBundle\Entity\Repository\AuthorizeNetSettingsRepository;
 use Oro\Bundle\AuthorizeNetBundle\Integration\AuthorizeNetChannelType;
@@ -16,7 +16,7 @@ class DisableCIMWithoutWebsites
 {
     public function preRemove(Website $website, LifecycleEventArgs $event)
     {
-        $em = $event->getEntityManager();
+        $em = $event->getObjectManager();
 
         /** @var AuthorizeNetSettingsRepository $repository */
         $repository = $em->getRepository(AuthorizeNetSettings::class);

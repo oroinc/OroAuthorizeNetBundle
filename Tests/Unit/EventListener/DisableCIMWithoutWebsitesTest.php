@@ -4,7 +4,7 @@ namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\EventListener;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Oro\Bundle\AuthorizeNetBundle\Entity\AuthorizeNetSettings;
 use Oro\Bundle\AuthorizeNetBundle\Entity\Repository\AuthorizeNetSettingsRepository;
 use Oro\Bundle\AuthorizeNetBundle\EventListener\DisableCIMWithoutWebsites;
