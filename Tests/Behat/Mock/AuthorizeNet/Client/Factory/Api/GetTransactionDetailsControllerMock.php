@@ -61,7 +61,7 @@ class GetTransactionDetailsControllerMock extends AbstractControllerMock
             ->setTransId('60022132422')
             ->setRefTransID('02886C4D3363CFE3E925548C84092F01')
             ->setTransactionStatus($status)
-            ;
+        ;
 
         $response = new GetTransactionDetailsResponse();
         $response->setTransaction($transaction);
