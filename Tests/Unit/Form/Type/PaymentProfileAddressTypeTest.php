@@ -4,58 +4,47 @@ namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\Form\Type;
 
 use Oro\Bundle\AddressBundle\Entity\Country;
 use Oro\Bundle\AddressBundle\Entity\Region;
+use Oro\Bundle\AddressBundle\Tests\Unit\Form\EventListener\Stub\AddressCountryAndRegionSubscriberStub;
+use Oro\Bundle\AddressBundle\Tests\Unit\Form\Type\AddressFormExtensionTestCase;
 use Oro\Bundle\AuthorizeNetBundle\Form\Type\PaymentProfileAddressType;
 use Oro\Bundle\AuthorizeNetBundle\Model\DTO\PaymentProfileAddressDTO;
-use Oro\Component\Testing\Unit\AddressFormExtensionTestCase;
-use Oro\Component\Testing\Unit\Form\EventListener\Stub\AddressCountryAndRegionSubscriberStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PaymentProfileAddressTypeTest extends AddressFormExtensionTestCase
 {
-    /**
-     * @var PaymentProfileAddressType
-     */
-    protected $formType;
+    private PaymentProfileAddressType $formType;
 
-    /**
-     * {@inheritDoc}
-     */
     protected function setUp(): void
     {
-        $translator = $this->createMock(TranslatorInterface::class);
-        $this->formType = new PaymentProfileAddressType(new AddressCountryAndRegionSubscriberStub(), $translator);
+        $this->formType = new PaymentProfileAddressType(
+            new AddressCountryAndRegionSubscriberStub(),
+            $this->createMock(TranslatorInterface::class)
+        );
         parent::setUp();
     }
 
     /**
-     * @return array
+     * {@inheritDoc}
      */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
         return array_merge(parent::getExtensions(), [
-            new PreloadedExtension(
-                [
-                    PaymentProfileAddressType::class => $this->formType
-                ],
-                [
-                ]
-            ),
+            new PreloadedExtension([$this->formType], []),
             $this->getValidatorExtension(true)
         ]);
     }
 
     /**
-     * @param array $submittedData
-     * @param mixed $expectedData
-     * @param mixed $defaultData
-     * @param array $options
-     * @param bool $isValid
-     *
      * @dataProvider submitProvider
      */
-    public function testSubmit($submittedData, $expectedData, $defaultData = null, $options = [], $isValid = true)
-    {
+    public function testSubmit(
+        array $submittedData,
+        mixed $expectedData,
+        mixed $defaultData = null,
+        array $options = [],
+        bool $isValid = true
+    ) {
         $form = $this->factory->create(PaymentProfileAddressType::class, $defaultData, $options);
 
         $this->assertEquals($defaultData, $form->getData());
@@ -66,10 +55,7 @@ class PaymentProfileAddressTypeTest extends AddressFormExtensionTestCase
         $this->assertEquals($expectedData, $form->getData());
     }
 
-    /**
-     * @return array
-     */
-    public function submitProvider()
+    public function submitProvider(): array
     {
         $country = new Country(self::COUNTRY_WITH_REGION);
         $region = new Region(self::REGION_WITH_COUNTRY);

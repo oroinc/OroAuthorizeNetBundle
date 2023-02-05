@@ -3,7 +3,6 @@
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\Form\Type;
 
 use Oro\Bundle\AuthorizeNetBundle\Entity\CustomerPaymentProfile;
-use Oro\Bundle\AuthorizeNetBundle\Form\Type\PaymentProfileAddressType;
 use Oro\Bundle\AuthorizeNetBundle\Form\Type\PaymentProfileType;
 use Oro\Bundle\FormBundle\Tests\Unit\Stub\StripTagsExtensionStub;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
@@ -12,14 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 
 class PaymentProfileTypeTest extends FormIntegrationTestCase
 {
-    /**
-     * @var PaymentProfileAddressType
-     */
-    protected $formType;
+    private PaymentProfileType $formType;
 
-    /**
-     * {@inheritDoc}
-     */
     protected function setUp(): void
     {
         $this->formType = new PaymentProfileType();
@@ -27,32 +20,29 @@ class PaymentProfileTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * @return array
+     * {@inheritDoc}
      */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
         return array_merge(parent::getExtensions(), [
-            new PreloadedExtension([
-            ], [
-                FormType::class => [
-                    new StripTagsExtensionStub($this),
-                ],
-            ]),
+            new PreloadedExtension(
+                [$this->formType],
+                [FormType::class => [new StripTagsExtensionStub($this)]]
+            ),
             $this->getValidatorExtension(true)
         ]);
     }
 
     /**
-     * @param array $submittedData
-     * @param mixed $expectedData
-     * @param mixed $defaultData
-     * @param array $options
-     * @param bool $isValid
-     *
      * @dataProvider submitProvider
      */
-    public function testSubmit($submittedData, $expectedData, $defaultData = null, $options = [], $isValid = true)
-    {
+    public function testSubmit(
+        array $submittedData,
+        mixed $expectedData,
+        mixed $defaultData = null,
+        array $options = [],
+        bool $isValid = true
+    ) {
         $form = $this->factory->create(PaymentProfileType::class, $defaultData, $options);
 
         $this->assertEquals($defaultData, $form->getData());
@@ -63,10 +53,7 @@ class PaymentProfileTypeTest extends FormIntegrationTestCase
         $this->assertEquals($expectedData, $form->getData());
     }
 
-    /**
-     * @return array
-     */
-    public function submitProvider()
+    public function submitProvider(): array
     {
         $filledProfile = new CustomerPaymentProfile();
         $filledProfile->setName('name_stripped');

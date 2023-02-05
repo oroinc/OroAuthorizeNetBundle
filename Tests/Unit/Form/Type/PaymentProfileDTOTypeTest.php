@@ -4,6 +4,8 @@ namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\Form\Type;
 
 use Oro\Bundle\AddressBundle\Entity\Country;
 use Oro\Bundle\AddressBundle\Entity\Region;
+use Oro\Bundle\AddressBundle\Tests\Unit\Form\EventListener\Stub\AddressCountryAndRegionSubscriberStub;
+use Oro\Bundle\AddressBundle\Tests\Unit\Form\Type\AddressFormExtensionTestCase;
 use Oro\Bundle\AuthorizeNetBundle\Entity\CustomerPaymentProfile;
 use Oro\Bundle\AuthorizeNetBundle\Form\Type\CreditCardExpirationDateType;
 use Oro\Bundle\AuthorizeNetBundle\Form\Type\CreditCardType;
@@ -13,21 +15,13 @@ use Oro\Bundle\AuthorizeNetBundle\Model\DTO\PaymentProfileAddressDTO;
 use Oro\Bundle\AuthorizeNetBundle\Model\DTO\PaymentProfileDTO;
 use Oro\Bundle\AuthorizeNetBundle\Model\DTO\PaymentProfileEncodedDataDTO;
 use Oro\Bundle\AuthorizeNetBundle\Model\DTO\PaymentProfileMaskedDataDTO;
-use Oro\Component\Testing\Unit\AddressFormExtensionTestCase;
-use Oro\Component\Testing\Unit\Form\EventListener\Stub\AddressCountryAndRegionSubscriberStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PaymentProfileDTOTypeTest extends AddressFormExtensionTestCase
 {
-    /**
-     * @var PaymentProfileAddressType
-     */
-    protected $formType;
+    private PaymentProfileDTOType $formType;
 
-    /**
-     * {@inheritDoc}
-     */
     protected function setUp(): void
     {
         $this->formType = new PaymentProfileDTOType();
@@ -35,16 +29,17 @@ class PaymentProfileDTOTypeTest extends AddressFormExtensionTestCase
     }
 
     /**
-     * @return array
+     * {@inheritDoc}
      */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
         return array_merge(parent::getExtensions(), [
             new PreloadedExtension(
                 [
-                    CreditCardType::class => new CreditCardType(),
-                    CreditCardExpirationDateType::class => new CreditCardExpirationDateType(),
-                    PaymentProfileAddressType::class => new PaymentProfileAddressType(
+                    $this->formType,
+                    new CreditCardType(),
+                    new CreditCardExpirationDateType(),
+                    new PaymentProfileAddressType(
                         new AddressCountryAndRegionSubscriberStub(),
                         $this->createMock(TranslatorInterface::class)
                     )
@@ -56,16 +51,15 @@ class PaymentProfileDTOTypeTest extends AddressFormExtensionTestCase
     }
 
     /**
-     * @param array $submittedData
-     * @param mixed $expectedData
-     * @param mixed $defaultData
-     * @param array $options
-     * @param bool $isValid
-     *
      * @dataProvider submitProvider
      */
-    public function testSubmit($submittedData, $expectedData, $defaultData = null, $options = [], $isValid = true)
-    {
+    public function testSubmit(
+        array $submittedData,
+        mixed $expectedData,
+        mixed $defaultData = null,
+        array $options = [],
+        bool $isValid = true
+    ) {
         $form = $this->factory->create(PaymentProfileDTOType::class, $defaultData, $options);
 
         $this->assertEquals($defaultData, $form->getData());
@@ -76,10 +70,7 @@ class PaymentProfileDTOTypeTest extends AddressFormExtensionTestCase
         $this->assertEquals($expectedData, $form->getData());
     }
 
-    /**
-     * @return array
-     */
-    public function submitProvider()
+    public function submitProvider(): array
     {
         $country = new Country(self::COUNTRY_WITH_REGION);
         $region = new Region(self::REGION_WITH_COUNTRY);

@@ -15,7 +15,7 @@ use Oro\Bundle\SecurityBundle\Encoder\SymmetricCrypterInterface;
 use Oro\Bundle\SecurityBundle\Form\DataTransformer\Factory\CryptedDataTransformerFactoryInterface;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Bundle\WebsiteBundle\Provider\WebsiteProviderInterface;
-use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType as EntityTypeStub;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityTypeStub;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -84,7 +84,7 @@ class AuthorizeNetSettingsTypeTest extends FormIntegrationTestCase
                 [
                     $this->formType,
                     new OroEncodedPlaceholderPasswordType($this->createMock(SymmetricCrypterInterface::class)),
-                    EntityType::class => new EntityTypeStub([]),
+                    EntityType::class => new EntityTypeStub(),
                     LocalizedFallbackValueCollectionType::class => new LocalizedFallbackValueCollectionTypeStub(),
                 ],
                 [

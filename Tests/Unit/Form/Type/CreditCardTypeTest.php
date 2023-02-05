@@ -29,17 +29,14 @@ class CreditCardTypeTest extends FormIntegrationTestCase
     /**
      * {@inheritDoc}
      */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
         return [
-            new PreloadedExtension(
-                [
-                    $this->formType,
-                    CreditCardExpirationDateType::class => new CreditCardExpirationDateType(),
-                    CreditCardCvvType::class => new CreditCardCvvType($this->translator)
-                ],
-                []
-            ),
+            new PreloadedExtension([
+                $this->formType,
+                new CreditCardExpirationDateType(),
+                new CreditCardCvvType($this->translator)
+            ], []),
             new ValidatorExtension(Validation::createValidator()),
         ];
     }

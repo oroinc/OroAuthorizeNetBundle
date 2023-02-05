@@ -9,49 +9,35 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class BankAccountTypeTest extends FormIntegrationTestCase
 {
-    /** @var BankAccountType */
-    protected $formType;
+    private BankAccountType $formType;
 
-    /** @var TranslatorInterface */
-    private $translator;
-
-    /**
-     * {@inheritDoc}
-     */
     protected function setUp(): void
     {
-        $this->translator = $this->createMock(TranslatorInterface::class);
-        $this->formType = new BankAccountType($this->translator);
+        $this->formType = new BankAccountType($this->createMock(TranslatorInterface::class));
         parent::setUp();
     }
 
     /**
-     * @return array
+     * {@inheritDoc}
      */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
         return array_merge(parent::getExtensions(), [
-            new PreloadedExtension(
-                [
-                    BankAccountType::class => $this->formType
-                ],
-                []
-            ),
+            new PreloadedExtension([$this->formType], []),
             $this->getValidatorExtension(true)
         ]);
     }
 
     /**
-     * @param array $submittedData
-     * @param mixed $expectedData
-     * @param mixed $defaultData
-     * @param array $options
-     * @param bool $isValid
-     *
      * @dataProvider submitProvider
      */
-    public function testSubmit($submittedData, $expectedData, $defaultData = null, $options = [], $isValid = true)
-    {
+    public function testSubmit(
+        array $submittedData,
+        mixed $expectedData,
+        mixed $defaultData = null,
+        array $options = [],
+        bool $isValid = true
+    ) {
         $form = $this->factory->create(BankAccountType::class, $defaultData, $options);
 
         $this->assertEquals($defaultData, $form->getData());
@@ -62,10 +48,7 @@ class BankAccountTypeTest extends FormIntegrationTestCase
         $this->assertEquals($expectedData, $form->getData());
     }
 
-    /**
-     * @return array
-     */
-    public function submitProvider()
+    public function submitProvider(): array
     {
         return [
             'empty data not valid' => [

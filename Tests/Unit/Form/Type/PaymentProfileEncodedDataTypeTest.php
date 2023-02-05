@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\Form\Type;
 
-use Oro\Bundle\AuthorizeNetBundle\Form\Type\PaymentProfileAddressType;
 use Oro\Bundle\AuthorizeNetBundle\Form\Type\PaymentProfileEncodedDataType;
 use Oro\Bundle\AuthorizeNetBundle\Model\DTO\PaymentProfileEncodedDataDTO;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
@@ -10,14 +9,8 @@ use Oro\Component\Testing\Unit\PreloadedExtension;
 
 class PaymentProfileEncodedDataTypeTest extends FormIntegrationTestCase
 {
-    /**
-     * @var PaymentProfileAddressType
-     */
-    protected $formType;
+    private PaymentProfileEncodedDataType $formType;
 
-    /**
-     * {@inheritDoc}
-     */
     protected function setUp(): void
     {
         $this->formType = new PaymentProfileEncodedDataType();
@@ -25,26 +18,25 @@ class PaymentProfileEncodedDataTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * @return array
+     * {@inheritDoc}
      */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
         return array_merge(parent::getExtensions(), [
-            new PreloadedExtension([], [])
+            new PreloadedExtension([$this->formType], [])
         ]);
     }
 
     /**
-     * @param array $submittedData
-     * @param mixed $expectedData
-     * @param mixed $defaultData
-     * @param array $options
-     * @param bool $isValid
-     *
      * @dataProvider submitProvider
      */
-    public function testSubmit($submittedData, $expectedData, $defaultData = null, $options = [], $isValid = true)
-    {
+    public function testSubmit(
+        array $submittedData,
+        mixed $expectedData,
+        mixed $defaultData = null,
+        array $options = [],
+        bool $isValid = true
+    ) {
         $form = $this->factory->create(PaymentProfileEncodedDataType::class, $defaultData, $options);
 
         $this->assertEquals($defaultData, $form->getData());
@@ -55,10 +47,7 @@ class PaymentProfileEncodedDataTypeTest extends FormIntegrationTestCase
         $this->assertEquals($expectedData, $form->getData());
     }
 
-    /**
-     * @return array
-     */
-    public function submitProvider()
+    public function submitProvider(): array
     {
         $filledDTO = new PaymentProfileEncodedDataDTO();
         $filledDTO->setDescriptor('encoded descriptor');

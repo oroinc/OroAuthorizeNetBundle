@@ -10,16 +10,10 @@ use Symfony\Component\Form\Test\FormIntegrationTestCase;
 
 class CreditCardExpirationDateTypeTest extends FormIntegrationTestCase
 {
-    const YEAR_PERIOD = 10;
+    private const YEAR_PERIOD = 10;
 
-    /**
-     * @var CreditCardExpirationDateType
-     */
-    protected $formType;
+    private CreditCardExpirationDateType $formType;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->formType = new CreditCardExpirationDateType();
@@ -27,19 +21,16 @@ class CreditCardExpirationDateTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getExtensions()
+    protected function getExtensions(): array
     {
         return [
             new PreloadedExtension([$this->formType], [])
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function formConfigurationProvider()
+    public function formConfigurationProvider(): array
     {
         return [
             [
@@ -84,7 +75,7 @@ class CreditCardExpirationDateTypeTest extends FormIntegrationTestCase
         }
     }
 
-    protected function assertFormOptions(FormConfigInterface $formConfig, array $formOptions)
+    private function assertFormOptions(FormConfigInterface $formConfig, array $formOptions): void
     {
         $options = $formConfig->getOptions();
         foreach ($formOptions as $formOptionName => $formOptionData) {
