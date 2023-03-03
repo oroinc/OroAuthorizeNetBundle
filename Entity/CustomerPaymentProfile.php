@@ -3,9 +3,10 @@
 namespace Oro\Bundle\AuthorizeNetBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Oro\Bundle\AuthorizeNetBundle\Model\ExtendCustomerPaymentProfile;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 use Oro\Bundle\OrganizationBundle\Entity\OrganizationAwareInterface;
 use Oro\Bundle\OrganizationBundle\Entity\Ownership\OrganizationAwareTrait;
 
@@ -38,9 +39,10 @@ use Oro\Bundle\OrganizationBundle\Entity\Ownership\OrganizationAwareTrait;
  *      }
  * )
  */
-class CustomerPaymentProfile extends ExtendCustomerPaymentProfile implements OrganizationAwareInterface
+class CustomerPaymentProfile implements OrganizationAwareInterface, ExtendEntityInterface
 {
     use OrganizationAwareTrait;
+    use ExtendEntityTrait;
 
     const TYPE_CREDITCARD = 'creditcard';
     const TYPE_ECHECK = 'echeck';

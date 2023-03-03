@@ -21,7 +21,7 @@ use Oro\Bundle\AuthorizeNetBundle\Model\DTO\PaymentProfileEncodedDataDTO;
 use Oro\Bundle\AuthorizeNetBundle\Model\DTO\PaymentProfileMaskedDataDTO;
 use Oro\Bundle\AuthorizeNetBundle\Provider\CIMEnabledIntegrationConfigProvider;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
-use Oro\Component\PropertyAccess\PropertyAccessor;
+use Oro\Bundle\EntityExtendBundle\PropertyAccess;
 
 /**
  * Request sender (helper to compose & send specific authorize net api request)
@@ -200,7 +200,7 @@ class RequestSender
     {
         $addressDTO = new PaymentProfileAddressDTO();
 
-        $propertyAccessor = new PropertyAccessor();
+        $propertyAccessor = PropertyAccess::createPropertyAccessor();
         $optionKeys = [
             AddressOption\FirstName::FIRST_NAME,
             AddressOption\LastName::LAST_NAME,
@@ -208,7 +208,7 @@ class RequestSender
             AddressOption\City::CITY,
             AddressOption\Zip::ZIP,
             AddressOption\PhoneNumber::PHONE_NUMBER,
-            AddressOption\FaxNumber::FAX_NUMBER
+            AddressOption\FaxNumber::FAX_NUMBER,
         ];
 
         $addressOptionKey = AddressOption\Address::ADDRESS;

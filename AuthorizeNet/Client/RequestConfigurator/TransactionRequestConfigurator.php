@@ -8,6 +8,7 @@ use net\authorize\api\contract\v1\CustomerDataType;
 use net\authorize\api\contract\v1\NameAndAddressType;
 use net\authorize\api\contract\v1\TransactionRequestType as AnetRequest;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
+use Oro\Bundle\EntityExtendBundle\PropertyAccess;
 use Oro\Bundle\OrderBundle\Entity\OrderLineItem;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
@@ -78,7 +79,7 @@ class TransactionRequestConfigurator implements RequestConfiguratorInterface
     protected function getTransactionRequest(array $options)
     {
         $request = new AnetRequest();
-        $accessor = new PropertyAccessor();
+        $accessor = PropertyAccess::createPropertyAccessor();
 
         $transactionType = $options[Option\Transaction::TRANSACTION_TYPE] ?? null;
         $amount = $options[Option\Amount::AMOUNT] ?? null;
@@ -179,7 +180,7 @@ class TransactionRequestConfigurator implements RequestConfiguratorInterface
             return null;
         }
 
-        $propertyAccessor = new PropertyAccessor();
+        $propertyAccessor = PropertyAccess::createPropertyAccessor();
         $customerAddress = new CustomerAddressType();
         $optionKeys = [
             Option\Address\FirstName::FIRST_NAME,
@@ -211,7 +212,7 @@ class TransactionRequestConfigurator implements RequestConfiguratorInterface
 
     protected function getShipTo(array $options): ?NameAndAddressType
     {
-        $propertyAccessor = new PropertyAccessor();
+        $propertyAccessor = PropertyAccess::createPropertyAccessor();
         $address = new NameAndAddressType();
 
         $hasAddress = false;

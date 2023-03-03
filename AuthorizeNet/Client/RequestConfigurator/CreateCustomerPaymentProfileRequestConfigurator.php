@@ -5,7 +5,7 @@ namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\RequestConfigurator;
 use net\authorize\api\contract\v1 as AnetAPI;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option\Address as AddressOption;
-use Oro\Component\PropertyAccess\PropertyAccessor;
+use Oro\Bundle\EntityExtendBundle\PropertyAccess;
 
 /**
  * request configurator for createCustomerPaymentProfile request
@@ -95,7 +95,7 @@ class CreateCustomerPaymentProfileRequestConfigurator implements RequestConfigur
      */
     protected function getCustomerAddress(array $options)
     {
-        $propertyAccessor = new PropertyAccessor();
+        $propertyAccessor = PropertyAccess::createPropertyAccessor();
         $customerAddress = new AnetAPI\CustomerAddressType();
         $optionKeys = [
             AddressOption\FirstName::FIRST_NAME,

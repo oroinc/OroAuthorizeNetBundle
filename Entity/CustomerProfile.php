@@ -4,9 +4,10 @@ namespace Oro\Bundle\AuthorizeNetBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Oro\Bundle\AuthorizeNetBundle\Model\ExtendCustomerProfile;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 use Oro\Bundle\IntegrationBundle\Entity\Channel as Integration;
 use Oro\Bundle\OrganizationBundle\Entity\OrganizationAwareInterface;
 use Oro\Bundle\OrganizationBundle\Entity\Ownership\OrganizationAwareTrait;
@@ -33,9 +34,10 @@ use Oro\Bundle\OrganizationBundle\Entity\Ownership\OrganizationAwareTrait;
  *      }
  * )
  */
-class CustomerProfile extends ExtendCustomerProfile implements OrganizationAwareInterface
+class CustomerProfile implements OrganizationAwareInterface, ExtendEntityInterface
 {
     use OrganizationAwareTrait;
+    use ExtendEntityTrait;
 
     /**
      * @var int
