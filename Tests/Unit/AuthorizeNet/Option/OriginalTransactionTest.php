@@ -3,31 +3,37 @@
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\AuthorizeNet\Option;
 
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
+use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
+use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 
 class OriginalTransactionTest extends AbstractOptionTest
 {
-    /** {@inheritdoc} */
-    protected function getOptions()
+    /**
+     * {@inheritDoc}
+     */
+    protected function getOptions(): array
     {
         return [new Option\OriginalTransaction(false)];
     }
 
-    /** {@inheritdoc} */
-    public function configureOptionDataProvider()
+    /**
+     * {@inheritDoc}
+     */
+    public function configureOptionDataProvider(): array
     {
         return [
             'invalid type' => [
                 ['original_transaction' => 123.456],
                 [],
                 [
-                    'Symfony\Component\OptionsResolver\Exception\InvalidOptionsException',
+                    InvalidOptionsException::class,
                     'The option "original_transaction" with value 123.456 is expected to be of type '.
                     '"integer" or "string", but is of type "float".',
                 ],
             ],
             'valid_string' => [
-                ['original_transaction' => "1"],
-                ['original_transaction' => "1"],
+                ['original_transaction' => '1'],
+                ['original_transaction' => '1'],
             ],
             'valid_integer' => [
                 ['original_transaction' => 1],
@@ -38,7 +44,7 @@ class OriginalTransactionTest extends AbstractOptionTest
 
     public function testRequired()
     {
-        $this->expectException(\Symfony\Component\OptionsResolver\Exception\MissingOptionsException::class);
+        $this->expectException(MissingOptionsException::class);
         $this->expectExceptionMessage('The required option "original_transaction" is missing.');
 
         $originalTransaction = new Option\OriginalTransaction();
