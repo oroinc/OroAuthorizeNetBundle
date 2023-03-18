@@ -5,28 +5,58 @@ namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\Action;
 use Oro\Bundle\AuthorizeNetBundle\Action\PaymentTransactionVerifyAction;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response\ResponseInterface;
 use Oro\Bundle\AuthorizeNetBundle\Method\AuthorizeNetPaymentMethod;
-use Oro\Bundle\PaymentBundle\Action\AbstractPaymentMethodAction;
 use Oro\Bundle\PaymentBundle\Entity\PaymentTransaction;
 use Oro\Bundle\PaymentBundle\Method\PaymentMethodInterface;
-use Oro\Bundle\PaymentBundle\Tests\Unit\Action\AbstractActionTest;
-use PHPUnit\Framework\MockObject\MockObject;
+use Oro\Bundle\PaymentBundle\Method\Provider\PaymentMethodProviderInterface;
+use Oro\Bundle\PaymentBundle\Provider\PaymentTransactionProvider;
+use Oro\Component\ConfigExpression\ContextAccessor;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\PropertyAccess\PropertyPath;
+use Symfony\Component\Routing\RouterInterface;
 
-class PaymentTransactionVerifyActionTest extends AbstractActionTest
+class PaymentTransactionVerifyActionTest extends \PHPUnit\Framework\TestCase
 {
     public const PAYMENT_METHOD = 'authorize_net_4';
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function getAction(): AbstractPaymentMethodAction
+    /** @var ContextAccessor|\PHPUnit\Framework\MockObject\MockObject */
+    private $contextAccessor;
+
+    /** @var PaymentMethodProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $paymentMethodProvider;
+
+    /** @var PaymentTransactionProvider|\PHPUnit\Framework\MockObject\MockObject */
+    private $paymentTransactionProvider;
+
+    /** @var RouterInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $router;
+
+    /** @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $dispatcher;
+
+    /** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $logger;
+
+    /** @var PaymentTransactionVerifyAction */
+    private $action;
+
+    protected function setUp(): void
     {
-        return new PaymentTransactionVerifyAction(
+        $this->contextAccessor = $this->createMock(ContextAccessor::class);
+        $this->paymentMethodProvider = $this->createMock(PaymentMethodProviderInterface::class);
+        $this->paymentTransactionProvider = $this->createMock(PaymentTransactionProvider::class);
+        $this->router = $this->createMock(RouterInterface::class);
+        $this->logger = $this->createMock(LoggerInterface::class);
+        $this->dispatcher = $this->createMock(EventDispatcherInterface::class);
+
+        $this->action = new PaymentTransactionVerifyAction(
             $this->contextAccessor,
             $this->paymentMethodProvider,
             $this->paymentTransactionProvider,
             $this->router
         );
+        $this->action->setLogger($this->logger);
+        $this->action->setDispatcher($this->dispatcher);
     }
 
     public function testExecuteFailedAction(): void
@@ -43,28 +73,24 @@ class PaymentTransactionVerifyActionTest extends AbstractActionTest
             'paymentMethod' => self::PAYMENT_METHOD
         ];
 
-        $this->contextAccessor
-            ->expects(static::any())
+        $this->contextAccessor->expects(self::any())
             ->method('getValue')
-            ->will($this->returnArgument(1));
+            ->willReturnArgument(1);
 
         $this->action->initialize($options);
 
-        /** @var AuthorizeNetPaymentMethod|MockObject $paymentMethod */
         $paymentMethod = $this->createMock(AuthorizeNetPaymentMethod::class);
-        $paymentMethod->expects($this->once())
+        $paymentMethod->expects(self::once())
             ->method('execute')
             ->with($transaction->getAction(), $transaction)
             ->willReturn(['successful' => false]);
 
-        $this->paymentMethodProvider
-            ->expects($this->atLeastOnce())
+        $this->paymentMethodProvider->expects(self::atLeastOnce())
             ->method('hasPaymentMethod')
             ->with($options['paymentMethod'])
             ->willReturn(true);
 
-        $this->paymentMethodProvider
-            ->expects($this->atLeastOnce())
+        $this->paymentMethodProvider->expects(self::atLeastOnce())
             ->method('getPaymentMethod')
             ->with($options['paymentMethod'])
             ->willReturn($paymentMethod);
@@ -73,8 +99,7 @@ class PaymentTransactionVerifyActionTest extends AbstractActionTest
             'successful' => false,
             'message' => 'oro.payment.message.error'
         ];
-        $this->contextAccessor
-            ->expects($this->once())
+        $this->contextAccessor->expects(self::once())
             ->method('setValue')
             ->with($context, $options['attribute'], $data);
 
@@ -98,28 +123,24 @@ class PaymentTransactionVerifyActionTest extends AbstractActionTest
             'paymentMethod' => self::PAYMENT_METHOD
         ];
 
-        $this->contextAccessor
-            ->expects($this->any())
+        $this->contextAccessor->expects(self::any())
             ->method('getValue')
             ->willReturnArgument(1);
 
         $this->action->initialize($options);
 
-        /** @var AuthorizeNetPaymentMethod|MockObject $paymentMethod */
         $paymentMethod = $this->createMock(AuthorizeNetPaymentMethod::class);
-        $paymentMethod->expects($this->once())
+        $paymentMethod->expects(self::once())
             ->method('execute')
             ->with($transaction->getAction(), $transaction)
             ->willReturn($response);
 
-        $this->paymentMethodProvider
-            ->expects($this->atLeastOnce())
+        $this->paymentMethodProvider->expects(self::atLeastOnce())
             ->method('hasPaymentMethod')
             ->with($options['paymentMethod'])
             ->willReturn(true);
 
-        $this->paymentMethodProvider
-            ->expects($this->atLeastOnce())
+        $this->paymentMethodProvider->expects(self::atLeastOnce())
             ->method('getPaymentMethod')
             ->with($options['paymentMethod'])
             ->willReturn($paymentMethod);
@@ -128,19 +149,17 @@ class PaymentTransactionVerifyActionTest extends AbstractActionTest
             'successful' => $response['received_successful'],
             'message' => $response['message']
         ];
-        $this->contextAccessor
-            ->expects($this->once())
+        $this->contextAccessor->expects(self::once())
             ->method('setValue')
             ->with($context, $options['attribute'], $data);
 
-        $this->paymentTransactionProvider
-            ->expects($this->any())
+        $this->paymentTransactionProvider->expects(self::any())
             ->method('savePaymentTransaction')
             ->with($transaction);
 
         $this->action->execute($context);
 
-        $this->assertEquals($transaction->getAction(), $response['action']);
+        self::assertEquals($transaction->getAction(), $response['action']);
     }
 
     public function executeDataProvider(): array
