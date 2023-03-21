@@ -39,8 +39,7 @@ class PaymentProfileProviderTest extends \PHPUnit\Framework\TestCase
         $customerProfile->addPaymentProfile($paymentProfile1);
         $customerProfile->addPaymentProfile($paymentProfile2);
 
-        $this->requestSender
-            ->expects($this->once())
+        $this->requestSender->expects($this->once())
             ->method('getCustomerProfile')
             ->willReturn(
                 [
@@ -50,8 +49,7 @@ class PaymentProfileProviderTest extends \PHPUnit\Framework\TestCase
                 ]
             );
 
-        $this->logger
-            ->expects($this->once())
+        $this->logger->expects($this->once())
             ->method('warning');
 
         $result = $this->provider->getPaymentProfileExternalIds($customerProfile);
@@ -70,13 +68,11 @@ class PaymentProfileProviderTest extends \PHPUnit\Framework\TestCase
 
         $customerProfile->addPaymentProfile($paymentProfile);
 
-        $this->requestSender
-            ->expects($this->once())
+        $this->requestSender->expects($this->once())
             ->method('getCustomerProfile')
             ->willReturn([]);
 
-        $this->logger
-            ->expects($this->once())
+        $this->logger->expects($this->once())
             ->method('warning');
 
         $result = $this->provider->getPaymentProfileExternalIds($customerProfile);
@@ -85,12 +81,10 @@ class PaymentProfileProviderTest extends \PHPUnit\Framework\TestCase
 
     public function testGetPaymentProfileExternalIdsNoCustomerProfile()
     {
-        $this->requestSender
-            ->expects($this->never())
+        $this->requestSender->expects($this->never())
             ->method('getCustomerProfile');
 
-        $this->logger
-            ->expects($this->never())
+        $this->logger->expects($this->never())
             ->method('warning');
 
         $result = $this->provider->getPaymentProfileExternalIds(null);
@@ -99,12 +93,10 @@ class PaymentProfileProviderTest extends \PHPUnit\Framework\TestCase
 
     public function testGetPaymentProfileExternalIdsEmptyPaymentProfiles()
     {
-        $this->requestSender
-            ->expects($this->never())
+        $this->requestSender->expects($this->never())
             ->method('getCustomerProfile');
 
-        $this->logger
-            ->expects($this->never())
+        $this->logger->expects($this->never())
             ->method('warning');
 
         $result = $this->provider->getPaymentProfileExternalIds(new CustomerProfile());

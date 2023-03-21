@@ -16,12 +16,8 @@ class DisableCIMWithoutWebsitesTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
-    /** @var DisableCIMWithoutWebsites */
-    private $eventListener;
+    private DisableCIMWithoutWebsites $eventListener;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->eventListener = new DisableCIMWithoutWebsites();
@@ -71,12 +67,10 @@ class DisableCIMWithoutWebsitesTest extends \PHPUnit\Framework\TestCase
         $this->eventListener->preRemove($website, $event);
     }
 
-    /**
-     * @return array
-     */
-    public function preRemoveDataProvider()
+    public function preRemoveDataProvider(): array
     {
         $searchWebsite = $this->getEntity(Website::class, ['id' => 1]);
+
         return [
             'one website (disable CIM)' => [
                 'website' => $searchWebsite,

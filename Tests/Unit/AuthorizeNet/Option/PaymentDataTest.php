@@ -3,27 +3,33 @@
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\AuthorizeNet\Option;
 
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
+use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
+use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
 
 /**
  * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
  */
 class PaymentDataTest extends AbstractOptionTest
 {
-    /** {@inheritdoc} */
-    protected function getOptions()
+    /**
+     * {@inheritDoc}
+     */
+    protected function getOptions(): array
     {
         return [new Option\PaymentData()];
     }
 
-    /** {@inheritdoc} */
-    public function configureOptionDataProvider()
+    /**
+     * {@inheritDoc}
+     */
+    public function configureOptionDataProvider(): array
     {
         return [
             'required' => [
                 [],
                 [],
                 [
-                    'Symfony\Component\OptionsResolver\Exception\MissingOptionsException',
+                    MissingOptionsException::class,
                     'The required options "card_number", "expiration_date", "profile_type", '.
                     '"update_payment_data" are missing.',
                 ],
@@ -32,7 +38,7 @@ class PaymentDataTest extends AbstractOptionTest
                 ['not_existing_option' => 'some value'],
                 [],
                 [
-                    'Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException',
+                    UndefinedOptionsException::class,
                     'The option "not_existing_option" does not exist. Defined options are: '.
                     '"card_number", "expiration_date", "profile_type", "update_payment_data".'
                 ],
@@ -73,7 +79,7 @@ class PaymentDataTest extends AbstractOptionTest
                 ],
                 [],
                 [
-                    'Symfony\Component\OptionsResolver\Exception\MissingOptionsException',
+                    MissingOptionsException::class,
                     'The required option "data_value" is missing.'
                 ]
             ],
@@ -99,7 +105,7 @@ class PaymentDataTest extends AbstractOptionTest
                 ],
                 [],
                 [
-                    'Symfony\Component\OptionsResolver\Exception\MissingOptionsException',
+                    MissingOptionsException::class,
                     'The required option "update_payment_data" is missing.'
                 ]
             ],
@@ -112,7 +118,7 @@ class PaymentDataTest extends AbstractOptionTest
                 ],
                 [],
                 [
-                    'Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException',
+                    UndefinedOptionsException::class,
                     'The options "card_number", "expiration_date" do not exist. ' .
                     'Defined options are: "account_number", "account_type", "bank_name", '.
                     '"name_on_account", "profile_type",'.
@@ -130,7 +136,7 @@ class PaymentDataTest extends AbstractOptionTest
                 ],
                 [],
                 [
-                    'Symfony\Component\OptionsResolver\Exception\MissingOptionsException',
+                    MissingOptionsException::class,
                     'The required option "name_on_account" is missing.'
                 ]
             ]

@@ -12,10 +12,7 @@ use net\authorize\api\contract\v1\TransactionDetailsType;
  */
 class GetTransactionDetailsControllerMock extends AbstractControllerMock
 {
-    /**
-     * @var GetTransactionDetailsRequest
-     */
-    private $request;
+    private GetTransactionDetailsRequest $request;
 
     public function __construct(GetTransactionDetailsRequest $request)
     {
@@ -60,8 +57,7 @@ class GetTransactionDetailsControllerMock extends AbstractControllerMock
             ->setAuthCode('01E43S')
             ->setTransId('60022132422')
             ->setRefTransID('02886C4D3363CFE3E925548C84092F01')
-            ->setTransactionStatus($status)
-        ;
+            ->setTransactionStatus($status);
 
         $response = new GetTransactionDetailsResponse();
         $response->setTransaction($transaction);

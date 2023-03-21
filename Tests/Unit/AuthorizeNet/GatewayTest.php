@@ -10,36 +10,34 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request\RequestRegistry;
 
 class GatewayTest extends \PHPUnit\Framework\TestCase
 {
-    const CONFIGURABLE_OPTION = 'CONFIGURABLE_OPTION';
+    private const CONFIGURABLE_OPTION = 'CONFIGURABLE_OPTION';
 
     /** @var ClientInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $client;
+    private $client;
 
     /** @var RequestRegistry|\PHPUnit\Framework\MockObject\MockObject */
-    protected $requestRegistry;
+    private $requestRegistry;
 
     /** @var Gateway */
-    protected $gateway;
+    private $gateway;
 
     protected function setUp(): void
     {
         $this->client = $this->createMock(ClientInterface::class);
         $this->requestRegistry = $this->createMock(RequestRegistry::class);
+
         $this->gateway = new Gateway($this->client, $this->requestRegistry);
     }
 
     /**
      * @dataProvider requestDataProvider
      */
-    public function testRequest($testMode, $expectedHostAddress)
+    public function testRequest(bool $testMode, string $expectedHostAddress)
     {
         $request = $this->createMock(RequestInterface::class);
-        $request
-            ->expects($this->once())
+        $request->expects($this->once())
             ->method('configureOptions')
-            ->with(
-                $this->isInstanceOf(OptionsResolver::class)
-            )
+            ->with($this->isInstanceOf(OptionsResolver::class))
             ->willReturnCallback(function (OptionsResolver $resolver) {
                 $resolver->setDefined(self::CONFIGURABLE_OPTION);
             });
@@ -50,25 +48,20 @@ class GatewayTest extends \PHPUnit\Framework\TestCase
             self::CONFIGURABLE_OPTION => 'value',
         ];
 
-        $this->requestRegistry
-            ->expects($this->once())
+        $this->requestRegistry->expects($this->once())
             ->method('getRequest')
             ->with($transactionType)
             ->willReturn($request);
 
         $this->gateway->setTestMode($testMode);
-        $this->client
-            ->expects($this->once())
+        $this->client->expects($this->once())
             ->method('send')
             ->with($expectedHostAddress, $transactionType, $options);
 
         $this->gateway->request($transactionType, $options);
     }
 
-    /**
-     * @return array
-     */
-    public function requestDataProvider()
+    public function requestDataProvider(): array
     {
         return [
             [false, Gateway::ADDRESS_PRODUCTION],

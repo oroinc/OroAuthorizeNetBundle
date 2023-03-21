@@ -48,27 +48,20 @@ class CustomerProfileProviderTest extends \PHPUnit\Framework\TestCase
         $integration = new Channel();
         $customerProfile = new CustomerProfile();
 
-        $this->tokenAccessor
-            ->expects($this->once())
+        $this->tokenAccessor->expects($this->once())
             ->method('getUser')
             ->willReturn($customerUser);
 
-        $this->repository
-            ->expects($this->once())
+        $this->repository->expects($this->once())
             ->method('findOneBy')
-            ->with([
-                'customerUser' => $customerUser,
-                'integration' => $integration
-            ])
+            ->with(['customerUser' => $customerUser, 'integration' => $integration])
             ->willReturn($customerProfile);
 
-        $this->integrationProvider
-            ->expects($this->once())
+        $this->integrationProvider->expects($this->once())
             ->method('getIntegration')
             ->willReturn($integration);
 
-        $this->doctrineHelper
-            ->expects($this->once())
+        $this->doctrineHelper->expects($this->once())
             ->method('getEntityRepository')
             ->with(CustomerProfile::class)
             ->willReturn($this->repository);

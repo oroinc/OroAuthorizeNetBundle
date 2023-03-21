@@ -5,29 +5,16 @@ namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\AuthorizeNet\Client\RequestCo
 use net\authorize\api\contract\v1 as AnetAPI;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\RequestConfigurator\FallbackRequestConfigurator;
 use Oro\Bundle\EntityExtendBundle\PropertyAccess;
-use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class FallbackRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var PropertyAccessor
-     */
-    protected $propertyAccessor;
-
-    /**
-     * @var FallbackRequestConfigurator
-     */
-    protected $fallbackRequestConfigurator;
+    private FallbackRequestConfigurator $fallbackRequestConfigurator;
 
     protected function setUp(): void
     {
-        $this->propertyAccessor = PropertyAccess::createPropertyAccessor();
-        $this->fallbackRequestConfigurator = new FallbackRequestConfigurator($this->propertyAccessor);
-    }
-
-    protected function tearDown(): void
-    {
-        unset($this->fallbackRequestConfigurator, $this->propertyAccessor);
+        $this->fallbackRequestConfigurator = new FallbackRequestConfigurator(
+            PropertyAccess::createPropertyAccessor()
+        );
     }
 
     public function testIsApplicable()

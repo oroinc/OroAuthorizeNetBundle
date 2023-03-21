@@ -10,19 +10,17 @@ use net\authorize\api\contract\v1\TransactionResponseType\ErrorsAType\ErrorAType
 use net\authorize\api\contract\v1\TransactionResponseType\MessagesAType\MessageAType as TransactionMessage;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response\AuthorizeNetSDKResponse;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response\AuthorizeNetSDKTransactionResponse;
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
 
-class AuthorizeNetSDKTransactionResponseTest extends TestCase
+class AuthorizeNetSDKTransactionResponseTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var ArrayTransformerInterface|MockObject */
-    protected $serializer;
+    /** @var ArrayTransformerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $serializer;
 
-    /** @var CreateTransactionResponse|MockObject */
-    protected $apiResponse;
+    /** @var CreateTransactionResponse|\PHPUnit\Framework\MockObject\MockObject */
+    private $apiResponse;
 
     /** @var AuthorizeNetSDKResponse */
-    protected $authorizeNetSdkResponse;
+    private $authorizeNetSdkResponse;
 
     protected function setUp(): void
     {
@@ -33,11 +31,8 @@ class AuthorizeNetSDKTransactionResponseTest extends TestCase
 
     /**
      * @dataProvider transactionDataProvider
-     * @param bool $expectedSuccessful
-     * @param bool $expectedActive
-     * @param mixed $transactionResponse
      */
-    public function testIsSuccessful(bool $expectedSuccessful, bool $expectedActive, $transactionResponse): void
+    public function testIsSuccessful(bool $expectedSuccessful, bool $expectedActive, mixed $transactionResponse): void
     {
         $this->apiResponse->expects($this->exactly(2))
             ->method('getTransactionResponse')
@@ -80,7 +75,9 @@ class AuthorizeNetSDKTransactionResponseTest extends TestCase
 
     public function testGetReferenceWithEmptyTransactionResponse()
     {
-        $this->apiResponse->expects($this->once())->method('getTransactionResponse')->willReturn(null);
+        $this->apiResponse->expects($this->once())
+            ->method('getTransactionResponse')
+            ->willReturn(null);
         $this->assertNull($this->authorizeNetSdkResponse->getReference());
     }
 
@@ -89,7 +86,8 @@ class AuthorizeNetSDKTransactionResponseTest extends TestCase
         $transId = '111';
         $transactionResponse = new TransactionResponseType();
         $transactionResponse->setTransId($transId);
-        $this->apiResponse->expects($this->once())->method('getTransactionResponse')
+        $this->apiResponse->expects($this->once())
+            ->method('getTransactionResponse')
             ->willReturn($transactionResponse);
 
         $this->assertSame($transId, $this->authorizeNetSdkResponse->getReference());
@@ -106,8 +104,11 @@ class AuthorizeNetSDKTransactionResponseTest extends TestCase
         $apiMessage = (new MessagesType\MessageAType)->setCode(255)->setText('Will be force with you!');
         $apiMessageType = (new MessagesType)->setResultCode('Ok')->setMessage([$apiMessage]);
 
-        $this->apiResponse->expects($this->once())->method('getMessages')->willReturn($apiMessageType);
-        $this->apiResponse->expects($this->exactly(2))->method('getTransactionResponse')
+        $this->apiResponse->expects($this->once())
+            ->method('getMessages')
+            ->willReturn($apiMessageType);
+        $this->apiResponse->expects($this->exactly(2))
+            ->method('getTransactionResponse')
             ->willReturn($transactionResponse);
 
         $this->assertSame(
@@ -128,8 +129,11 @@ class AuthorizeNetSDKTransactionResponseTest extends TestCase
         $apiMessage = (new MessagesType\MessageAType)->setCode(408)->setText('The Dark Side is strong in you!');
         $apiMessageType = (new MessagesType)->setResultCode('Error')->setMessage([$apiMessage]);
 
-        $this->apiResponse->expects($this->once())->method('getMessages')->willReturn($apiMessageType);
-        $this->apiResponse->expects($this->exactly(2))->method('getTransactionResponse')
+        $this->apiResponse->expects($this->once())
+            ->method('getMessages')
+            ->willReturn($apiMessageType);
+        $this->apiResponse->expects($this->exactly(2))
+            ->method('getTransactionResponse')
             ->willReturn($transactionResponse);
 
         $this->assertSame(
@@ -141,10 +145,12 @@ class AuthorizeNetSDKTransactionResponseTest extends TestCase
     /**
      * @dataProvider responseArrayDataProvider
      */
-    public function testGetData($entryData, $expectedData)
+    public function testGetData(array $entryData, array $expectedData)
     {
-        $this->serializer->expects($this->once())->method('toArray')
-            ->with($this->apiResponse)->willReturn($entryData);
+        $this->serializer->expects($this->once())
+            ->method('toArray')
+            ->with($this->apiResponse)
+            ->willReturn($entryData);
 
         $this->assertSame($expectedData, $this->authorizeNetSdkResponse->getData());
     }

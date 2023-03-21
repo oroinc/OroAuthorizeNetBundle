@@ -37,13 +37,11 @@ class CIMEnabledIntegrationConfigProviderTest extends \PHPUnit\Framework\TestCas
         $website = new Website();
         $config = new AuthorizeNetConfig();
 
-        $this->websiteManager
-            ->expects($this->once())
+        $this->websiteManager->expects($this->once())
             ->method('getCurrentWebsite')
             ->willReturn($website);
 
-        $this->configProvider
-            ->expects($this->once())
+        $this->configProvider->expects($this->once())
             ->method('getPaymentConfigWithEnabledCIMByWebsite')
             ->with($website)
             ->willReturn($config);

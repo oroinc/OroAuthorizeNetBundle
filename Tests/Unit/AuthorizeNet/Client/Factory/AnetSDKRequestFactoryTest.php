@@ -13,10 +13,8 @@ class AnetSDKRequestFactoryTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider createRequestDataProvider
-     * @param string $requestType
-     * @param string $apiRequestClass
      */
-    public function testCreateRequest($requestType, $apiRequestClass)
+    public function testCreateRequest(string $requestType, string $apiRequestClass)
     {
         $options = [];
         $transactionRequest = new $apiRequestClass;
@@ -55,10 +53,8 @@ class AnetSDKRequestFactoryTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider createControllerDataProvider
-     * @param string $apiRequestClass
-     * @param string $apiControllerClass
      */
-    public function testCreateController($apiRequestClass, $apiControllerClass)
+    public function testCreateController(string $apiRequestClass, string $apiControllerClass)
     {
         /** @var AnetAPI\ANetApiRequestType $request */
         $request = new $apiRequestClass;
@@ -79,10 +75,7 @@ class AnetSDKRequestFactoryTest extends \PHPUnit\Framework\TestCase
         $factory->createController(new AnetAPI\ANetApiRequestType());
     }
 
-    /**
-     * @return array
-     */
-    public function createControllerDataProvider()
+    public function createControllerDataProvider(): array
     {
         return [
             'create_transaction_request' => [
@@ -124,10 +117,7 @@ class AnetSDKRequestFactoryTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function createRequestDataProvider()
+    public function createRequestDataProvider(): array
     {
         return [
             'charge type' => [

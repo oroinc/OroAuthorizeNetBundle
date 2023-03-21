@@ -10,13 +10,13 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response\AuthorizeNetSDKResponse;
 class AuthorizeNetSDKResponseTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ArrayTransformerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $serializer;
+    private $serializer;
 
     /** @var ANetApiResponseType|\PHPUnit\Framework\MockObject\MockObject */
-    protected $apiResponse;
+    private $apiResponse;
 
     /** @var AuthorizeNetSDKResponse */
-    protected $authorizeNetSdkResponse;
+    private $authorizeNetSdkResponse;
 
     protected function setUp(): void
     {
@@ -29,7 +29,8 @@ class AuthorizeNetSDKResponseTest extends \PHPUnit\Framework\TestCase
     {
         $messages = new MessagesType();
         $messages->setResultCode('Error');
-        $this->apiResponse->expects($this->once())->method('getMessages')
+        $this->apiResponse->expects($this->once())
+            ->method('getMessages')
             ->willReturn($messages);
 
         $this->assertFalse($this->authorizeNetSdkResponse->isSuccessful());
@@ -39,7 +40,8 @@ class AuthorizeNetSDKResponseTest extends \PHPUnit\Framework\TestCase
     {
         $messages = new MessagesType();
         $messages->setResultCode('Ok');
-        $this->apiResponse->expects($this->once())->method('getMessages')
+        $this->apiResponse->expects($this->once())
+            ->method('getMessages')
             ->willReturn($messages);
 
         $this->assertTrue($this->authorizeNetSdkResponse->isSuccessful());
@@ -49,7 +51,8 @@ class AuthorizeNetSDKResponseTest extends \PHPUnit\Framework\TestCase
     {
         $messages = new MessagesType();
         $messages->setResultCode('Error');
-        $this->apiResponse->expects($this->once())->method('getMessages')
+        $this->apiResponse->expects($this->once())
+            ->method('getMessages')
             ->willReturn($messages);
 
         $this->assertFalse($this->authorizeNetSdkResponse->isActive());
@@ -59,7 +62,8 @@ class AuthorizeNetSDKResponseTest extends \PHPUnit\Framework\TestCase
     {
         $messages = new MessagesType();
         $messages->setResultCode('Ok');
-        $this->apiResponse->expects($this->once())->method('getMessages')
+        $this->apiResponse->expects($this->once())
+            ->method('getMessages')
             ->willReturn($messages);
 
         $this->assertTrue($this->authorizeNetSdkResponse->isActive());
@@ -68,7 +72,8 @@ class AuthorizeNetSDKResponseTest extends \PHPUnit\Framework\TestCase
     public function testGetReference()
     {
         $refId = '111';
-        $this->apiResponse->expects($this->once())->method('getRefId')
+        $this->apiResponse->expects($this->once())
+            ->method('getRefId')
             ->willReturn($refId);
 
         $this->assertSame($refId, $this->authorizeNetSdkResponse->getReference());
@@ -79,8 +84,7 @@ class AuthorizeNetSDKResponseTest extends \PHPUnit\Framework\TestCase
         $apiMessage = (new MessagesType\MessageAType)->setCode(255)->setText('Will be force with you!');
         $apiMessageType = (new MessagesType)->setResultCode('Ok')->setMessage([$apiMessage]);
 
-        $this->apiResponse
-            ->expects($this->exactly(2))
+        $this->apiResponse->expects($this->exactly(2))
             ->method('getMessages')
             ->willReturn($apiMessageType);
 
@@ -95,8 +99,7 @@ class AuthorizeNetSDKResponseTest extends \PHPUnit\Framework\TestCase
         $apiMessage = (new MessagesType\MessageAType)->setCode(408)->setText('The Dark Side is strong in you!');
         $apiMessageType = (new MessagesType)->setResultCode('Error')->setMessage([$apiMessage]);
 
-        $this->apiResponse
-            ->expects($this->exactly(2))
+        $this->apiResponse->expects($this->exactly(2))
             ->method('getMessages')
             ->willReturn($apiMessageType);
 
@@ -109,18 +112,17 @@ class AuthorizeNetSDKResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider responseArrayDataProvider
      */
-    public function testGetData($entryData, $expectedData)
+    public function testGetData(array $entryData, array $expectedData)
     {
-        $this->serializer->expects($this->once())->method('toArray')
-            ->with($this->apiResponse)->willReturn($entryData);
+        $this->serializer->expects($this->once())
+            ->method('toArray')
+            ->with($this->apiResponse)
+            ->willReturn($entryData);
 
         $this->assertSame($expectedData, $this->authorizeNetSdkResponse->getData());
     }
 
-    /**
-     * @return array
-     */
-    public function responseArrayDataProvider()
+    public function responseArrayDataProvider(): array
     {
         return [
             [

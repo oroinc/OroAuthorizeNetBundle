@@ -7,8 +7,7 @@ use Psr\Cache\CacheItemPoolInterface;
 
 class PaymentProfileTypesToIDs
 {
-    /** @var string */
-    const CUSTOMER_PAYMENT_PROFILE_TYPES_TO_IDS = 'oro_au_net_mock_customer_payment_profile_types_to_ids';
+    private const CUSTOMER_PAYMENT_PROFILE_TYPES_TO_IDS = 'oro_au_net_mock_customer_payment_profile_types_to_ids';
 
     private CacheItemPoolInterface $cache;
 
@@ -17,11 +16,7 @@ class PaymentProfileTypesToIDs
         $this->cache = $cache;
     }
 
-    /**
-     * @param string $customerPaymentProfileId
-     * @return string
-     */
-    public function getType(string $customerPaymentProfileId)
+    public function getType(string $customerPaymentProfileId): string
     {
         $paymentProfileTypesToIDsCachedItem = $this->getCachedItem();
         if (!$paymentProfileTypesToIDsCachedItem->isHit()) {
@@ -30,7 +25,7 @@ class PaymentProfileTypesToIDs
 
         $paymentProfileTypesToIDsCached = $paymentProfileTypesToIDsCachedItem->get();
         $usedType = null;
-        $paymentProfileTypesToIDs = \json_decode($paymentProfileTypesToIDsCached, true);
+        $paymentProfileTypesToIDs = json_decode($paymentProfileTypesToIDsCached, true);
         foreach ($paymentProfileTypesToIDs as $type => $ids) {
             if (\in_array($customerPaymentProfileId, $ids, true)) {
                 $usedType = $type;
@@ -50,17 +45,12 @@ class PaymentProfileTypesToIDs
         return $usedType;
     }
 
-    /**
-     * @param string $customerPaymentProfileId
-     * @param string $profileType
-     * @return bool
-     */
-    public function saveType(string $customerPaymentProfileId, string $profileType)
+    public function saveType(string $customerPaymentProfileId, string $profileType): bool
     {
         $paymentProfileTypesToIDs = [];
         $paymentProfileTypesToIDsCachedItem = $this->getCachedItem();
         if ($paymentProfileTypesToIDsCachedItem->isHit()) {
-            $paymentProfileTypesToIDs = \json_decode($paymentProfileTypesToIDsCachedItem->get(), true);
+            $paymentProfileTypesToIDs = json_decode($paymentProfileTypesToIDsCachedItem->get(), true);
         }
 
         if (!\array_key_exists($profileType, $paymentProfileTypesToIDs)) {
@@ -68,17 +58,13 @@ class PaymentProfileTypesToIDs
         }
 
         $paymentProfileTypesToIDs[$profileType][] = $customerPaymentProfileId;
-        $paymentProfileTypesToIDsCachedItem->set(\json_encode($paymentProfileTypesToIDs));
+        $paymentProfileTypesToIDsCachedItem->set(json_encode($paymentProfileTypesToIDs));
         $this->cache->save($paymentProfileTypesToIDsCachedItem);
 
         return true;
     }
 
-    /**
-     * @param string $customerPaymentProfileId
-     * @return bool
-     */
-    public function removeId(string $customerPaymentProfileId)
+    public function removeId(string $customerPaymentProfileId): bool
     {
         $paymentProfileTypesToIDsCachedItem = $this->getCachedItem();
         if (!$paymentProfileTypesToIDsCachedItem->isHit()) {
@@ -88,7 +74,7 @@ class PaymentProfileTypesToIDs
         }
 
         $removed = false;
-        $paymentProfileTypesToIDs = \json_decode($paymentProfileTypesToIDsCachedItem->get(), true);
+        $paymentProfileTypesToIDs = json_decode($paymentProfileTypesToIDsCachedItem->get(), true);
         foreach ($paymentProfileTypesToIDs as $type => &$customerPaymentProfileIDs) {
             if (\in_array($customerPaymentProfileId, $customerPaymentProfileIDs, true)) {
                 $customerPaymentProfileIDs = \array_diff($customerPaymentProfileIDs, [$customerPaymentProfileId]);
@@ -107,18 +93,14 @@ class PaymentProfileTypesToIDs
         return true;
     }
 
-    /**
-     * @param string $profileType
-     * @return array
-     */
-    public function getIdsByType(string $profileType)
+    public function getIdsByType(string $profileType): array
     {
         $paymentProfileTypesToIDsCachedItem = $this->getCachedItem();
         if (!$paymentProfileTypesToIDsCachedItem->isHit()) {
             return [];
         }
 
-        $paymentProfileTypesToIDs = \json_decode($paymentProfileTypesToIDsCachedItem->get(), true);
+        $paymentProfileTypesToIDs = json_decode($paymentProfileTypesToIDsCachedItem->get(), true);
         return $paymentProfileTypesToIDs[$profileType] ?? [];
     }
 

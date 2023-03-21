@@ -13,9 +13,9 @@ class DeleteCustomerPaymentProfileRequestTest extends AbstractRequestTest
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function optionsProvider()
+    public function optionsProvider(): array
     {
         return [
             'default' => [

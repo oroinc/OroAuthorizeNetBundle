@@ -18,20 +18,17 @@ class AuthorizeNetEcheckPaymentMethodViewTest extends \PHPUnit\Framework\TestCas
     use EntityTrait;
 
     /** @var FormFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $formFactory;
+    private $formFactory;
 
     /** @var AuthorizeNetEcheckPaymentMethodView */
-    protected $methodView;
+    private $methodView;
 
     /** @var AuthorizeNetConfigInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $paymentConfig;
+    private $paymentConfig;
 
     /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $tokenAccessor;
+    private $tokenAccessor;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->formFactory = $this->createMock(FormFactoryInterface::class);
@@ -46,10 +43,9 @@ class AuthorizeNetEcheckPaymentMethodViewTest extends \PHPUnit\Framework\TestCas
     }
 
     /**
-     * @param bool $isEnabledCIM
      * @dataProvider getOptionsProvider
      */
-    public function testGetOptions($isEnabledCIM)
+    public function testGetOptions(bool $isEnabledCIM)
     {
         [$formView, $context] = $this->prepareMocks($isEnabledCIM);
 
@@ -107,18 +103,15 @@ class AuthorizeNetEcheckPaymentMethodViewTest extends \PHPUnit\Framework\TestCas
         $this->assertEquals('_payment_methods_authorize_net_widget', $this->methodView->getBlock());
     }
 
-    /**
-     * @param bool $isEnabledCIM
-     * @return array|\PHPUnit\Framework\MockObject\MockObject[]
-     */
-    protected function prepareMocks($isEnabledCIM)
+    private function prepareMocks(bool $isEnabledCIM): array
     {
         $formView = $this->createMock(FormView::class);
         $form = $this->createMock(FormInterface::class);
-        $form->expects($this->once())->method('createView')->willReturn($formView);
+        $form->expects($this->once())
+            ->method('createView')
+            ->willReturn($formView);
 
-        $this->tokenAccessor
-            ->expects($this->once())
+        $this->tokenAccessor->expects($this->once())
             ->method('hasUser')
             ->willReturn(true);
 
@@ -160,16 +153,12 @@ class AuthorizeNetEcheckPaymentMethodViewTest extends \PHPUnit\Framework\TestCas
             ->method('getECheckAccountTypes')
             ->willReturn(['test']);
 
-        /** @var PaymentContextInterface|\PHPUnit\Framework\MockObject\MockObject $context */
         $context = $this->createMock(PaymentContextInterface::class);
 
-        return array($formView, $context);
+        return [$formView, $context];
     }
 
-    /**
-     * @return array
-     */
-    public function getOptionsProvider()
+    public function getOptionsProvider(): array
     {
         return [
             'cim disabled' => [

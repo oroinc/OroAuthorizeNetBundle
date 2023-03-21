@@ -12,49 +12,32 @@ use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfigInterface;
 use Oro\Bundle\AuthorizeNetBundle\Method\Config\Provider\AuthorizeNetConfigProviderInterface;
 use Oro\Bundle\PaymentBundle\Entity\PaymentTransaction;
 use Oro\Bundle\PaymentBundle\Method\PaymentMethodInterface;
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class FraudDetectionTransactionListenerTest extends TestCase
+class FraudDetectionTransactionListenerTest extends \PHPUnit\Framework\TestCase
 {
     public const PAYMENT_METHOD = 'authorize_net_4';
 
-    /**
-     * @var FraudDetectionTransactionListener
-     */
+    /** @var FraudDetectionTransactionListener */
     private $eventListener;
 
-    /**
-     * @var AuthorizeNetConfigProviderInterface|MockObject
-     */
+    /** @var AuthorizeNetConfigProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $configProvider;
 
-    /**
-     * @var Session|MockObject
-     */
+    /** @var Session|\PHPUnit\Framework\MockObject\MockObject */
     private $session;
 
-    /**
-     * @var TranslatorInterface|MockObject
-     */
+    /** @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $translator;
 
-    /**
-     * @var ResponseInterface|MockObject
-     */
+    /** @var ResponseInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $response;
 
-    /**
-     * @var AuthorizeNetConfigInterface|MockObject
-     */
+    /** @var AuthorizeNetConfigInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $paymentConfig;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->configProvider = $this->createMock(AuthorizeNetConfigProviderInterface::class);
@@ -82,17 +65,14 @@ class FraudDetectionTransactionListenerTest extends TestCase
             ->setPaymentMethod(self::PAYMENT_METHOD)
             ->setAction(PaymentMethodInterface::AUTHORIZE);
 
-        $this->paymentConfig
-            ->expects($this->any())
+        $this->paymentConfig->expects($this->any())
             ->method('isAllowHoldTransaction')
             ->willReturn($holdTransaction);
-        $this->configProvider
-            ->expects($this->any())
+        $this->configProvider->expects($this->any())
             ->method('getPaymentConfig')
             ->willReturn($this->paymentConfig);
 
-        $this->response
-            ->expects($this->once())
+        $this->response->expects($this->once())
             ->method('getData')
             ->willReturn([
                 'transaction_response' => ['response_code' => $responseCode]
@@ -126,36 +106,30 @@ class FraudDetectionTransactionListenerTest extends TestCase
             ->setPaymentMethod(self::PAYMENT_METHOD)
             ->setAction(PaymentMethodInterface::AUTHORIZE);
 
-        $this->paymentConfig
-            ->expects($this->any())
+        $this->paymentConfig->expects($this->any())
             ->method('isAllowHoldTransaction')
             ->willReturn(false);
-        $this->configProvider
-            ->expects($this->once())
+        $this->configProvider->expects($this->once())
             ->method('getPaymentConfig')
             ->willReturn($this->paymentConfig);
 
-        $this->response
-            ->expects($this->once())
+        $this->response->expects($this->once())
             ->method('getData')
             ->willReturn([
                 'transaction_response' => ['response_code' => '4']
             ]);
 
         $message = 'error_message';
-        $this->translator
-            ->expects($this->once())
+        $this->translator->expects($this->once())
             ->method('trans')
             ->willReturn($message);
 
         $flashBag = $this->createMock(FlashBagInterface::class);
-        $flashBag
-            ->expects($this->once())
+        $flashBag->expects($this->once())
             ->method('add')
             ->with('warning', $message);
 
-        $this->session
-            ->expects($this->once())
+        $this->session->expects($this->once())
             ->method('getFlashBag')
             ->willReturn($flashBag);
 

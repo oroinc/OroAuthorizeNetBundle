@@ -93,43 +93,36 @@ class PaymentProfileHandlerTest extends \PHPUnit\Framework\TestCase
         $paymentProfile = $paymentProfileDTO->getProfile();
         $customerProfile = new CustomerProfile();
 
-        $this->customerProfileProvider
-            ->expects($this->once())
+        $this->customerProfileProvider->expects($this->once())
             ->method('findCustomerProfile')
             ->with($customerUser)
             ->willReturn($customerProfile);
 
-        $this->tokenAccessor
-            ->expects($this->once())
+        $this->tokenAccessor->expects($this->once())
             ->method('getUser')
             ->willReturn($customerUser);
 
-        $this->manager
-            ->expects($this->once())
+        $this->manager->expects($this->once())
             ->method('persist')
             ->with($paymentProfile);
 
-        $this->manager
-            ->expects($this->once())
+        $this->manager->expects($this->once())
             ->method('flush');
 
-        $this->doctrineHelper
+        $this->doctrineHelper->expects($this->any())
             ->method('getEntityManager')
             ->withAnyParameters()
             ->willReturn($this->manager);
 
-        $this->form
-            ->expects($this->once())
+        $this->form->expects($this->once())
             ->method('isSubmitted')
             ->willReturn(true);
 
-        $this->form
-            ->expects($this->once())
+        $this->form->expects($this->once())
             ->method('isValid')
             ->willReturn(true);
 
-        $this->requestSender
-            ->expects($this->once())
+        $this->requestSender->expects($this->once())
             ->method('createCustomerPaymentProfile')
             ->with($paymentProfileDTO)
             ->willReturn('NEW');
@@ -148,47 +141,38 @@ class PaymentProfileHandlerTest extends \PHPUnit\Framework\TestCase
         $paymentProfile = $paymentProfileDTO->getProfile();
         $customerProfileId = 'NEW_CUSTOMER_PROFILE_ID';
 
-        $this->tokenAccessor
-            ->expects($this->exactly(2))
+        $this->tokenAccessor->expects($this->exactly(2))
             ->method('getUser')
             ->willReturn($customerUser);
 
-        $this->integrationProvider
-            ->expects($this->once())
+        $this->integrationProvider->expects($this->once())
             ->method('getIntegration')
             ->willReturn($integration);
 
-        $this->manager
-            ->expects($this->exactly(2))
+        $this->manager->expects($this->exactly(2))
             ->method('persist');
 
-        $this->manager
-            ->expects($this->exactly(2))
+        $this->manager->expects($this->exactly(2))
             ->method('flush');
 
-        $this->doctrineHelper
-            ->expects($this->exactly(2))
+        $this->doctrineHelper->expects($this->exactly(2))
             ->method('getEntityManager')
             ->withAnyParameters()
             ->willReturn($this->manager);
 
-        $this->form
-            ->expects($this->once())
+        $this->form->expects($this->once())
             ->method('isSubmitted')
             ->willReturn(true);
 
-        $this->form
-            ->expects($this->once())
+        $this->form->expects($this->once())
             ->method('isValid')
             ->willReturn(true);
 
-        $this->requestSender
-            ->expects($this->once())
+        $this->requestSender->expects($this->once())
             ->method('createCustomerProfile')
             ->willReturn($customerProfileId);
 
-        $this->requestSender
-            ->expects($this->once())
+        $this->requestSender->expects($this->once())
             ->method('createCustomerPaymentProfile')
             ->with($paymentProfileDTO)
             ->willReturn('NEW');
@@ -209,41 +193,34 @@ class PaymentProfileHandlerTest extends \PHPUnit\Framework\TestCase
         $paymentProfile->setCustomerProfile(new CustomerProfile());
         $paymentProfile->setCustomerPaymentProfileId('UPDATED');
 
-        $this->customerProfileProvider
-            ->expects($this->never())
+        $this->customerProfileProvider->expects($this->never())
             ->method('findCustomerProfile');
 
-        $this->tokenAccessor
-            ->expects($this->once())
+        $this->tokenAccessor->expects($this->once())
             ->method('getUser')
             ->willReturn($customerUser);
 
-        $this->manager
-            ->expects($this->once())
+        $this->manager->expects($this->once())
             ->method('persist')
             ->with($paymentProfile);
 
-        $this->manager
-            ->expects($this->once())
+        $this->manager->expects($this->once())
             ->method('flush');
 
-        $this->doctrineHelper
+        $this->doctrineHelper->expects($this->any())
             ->method('getEntityManager')
             ->withAnyParameters()
             ->willReturn($this->manager);
 
-        $this->form
-            ->expects($this->once())
+        $this->form->expects($this->once())
             ->method('isSubmitted')
             ->willReturn(true);
 
-        $this->form
-            ->expects($this->once())
+        $this->form->expects($this->once())
             ->method('isValid')
             ->willReturn(true);
 
-        $this->requestSender
-            ->expects($this->once())
+        $this->requestSender->expects($this->once())
             ->method('updateCustomerPaymentProfile')
             ->with($paymentProfileDTO)
             ->willReturn(true);
@@ -259,13 +236,11 @@ class PaymentProfileHandlerTest extends \PHPUnit\Framework\TestCase
         $paymentProfileDTO = new PaymentProfileDTO();
         $customerProfileId = 'NEW_CUSTOMER_PROFILE_ID';
 
-        $this->tokenAccessor
-            ->expects($this->exactly(2))
+        $this->tokenAccessor->expects($this->exactly(2))
             ->method('getUser')
             ->willReturn($customerUser);
 
-        $this->integrationProvider
-            ->expects($this->once())
+        $this->integrationProvider->expects($this->once())
             ->method('getIntegration')
             ->willReturn($integration);
 
@@ -273,43 +248,37 @@ class PaymentProfileHandlerTest extends \PHPUnit\Framework\TestCase
             $this->assertEquals($customerProfileId, $customerProfile->getCustomerProfileId());
         };
 
-        $this->manager
-            ->expects($this->once())
+        $this->manager->expects($this->once())
             ->method('persist')
             ->willReturnCallback($customerProfileCallback);
 
-        $this->manager
-            ->expects($this->once())
+        $this->manager->expects($this->once())
             ->method('flush')
             ->willReturnCallback($customerProfileCallback);
 
-        $this->doctrineHelper
+        $this->doctrineHelper->expects($this->any())
             ->method('getEntityManager')
             ->withAnyParameters()
             ->willReturn($this->manager);
 
-        $this->form
-            ->expects($this->once())
+        $this->form->expects($this->once())
             ->method('isSubmitted')
             ->willReturn(true);
 
-        $this->form
-            ->expects($this->once())
+        $this->form->expects($this->once())
             ->method('isValid')
             ->willReturn(true);
 
-        $this->requestSender
-            ->expects($this->once())
+        $this->requestSender->expects($this->once())
             ->method('createCustomerProfile')
             ->willReturn($customerProfileId);
 
-        $this->requestSender
-            ->expects($this->once())
+        $this->requestSender->expects($this->once())
             ->method('createCustomerPaymentProfile')
             ->with($paymentProfileDTO)
             ->willThrowException(new \LogicException('api error'));
 
-        $this->session
+        $this->session->expects($this->any())
             ->method('getFlashBag')
             ->willReturn(new FlashBag());
 
@@ -326,45 +295,38 @@ class PaymentProfileHandlerTest extends \PHPUnit\Framework\TestCase
         $integration = new Channel();
         $paymentProfileDTO = new PaymentProfileDTO();
 
-        $this->tokenAccessor
-            ->expects($this->exactly(2))
+        $this->tokenAccessor->expects($this->exactly(2))
             ->method('getUser')
             ->willReturn($customerUser);
 
-        $this->integrationProvider
-            ->expects($this->once())
+        $this->integrationProvider->expects($this->once())
             ->method('getIntegration')
             ->willReturn($integration);
 
-        $this->manager
-            ->expects($this->never())
+        $this->manager->expects($this->never())
             ->method('persist');
 
-        $this->manager
-            ->expects($this->never())
+        $this->manager->expects($this->never())
             ->method('flush');
 
-        $this->doctrineHelper
+        $this->doctrineHelper->expects($this->any())
             ->method('getEntityManager')
             ->withAnyParameters()
             ->willReturn($this->manager);
 
-        $this->form
-            ->expects($this->once())
+        $this->form->expects($this->once())
             ->method('isSubmitted')
             ->willReturn(true);
 
-        $this->form
-            ->expects($this->once())
+        $this->form->expects($this->once())
             ->method('isValid')
             ->willReturn(true);
 
-        $this->requestSender
-            ->expects($this->once())
+        $this->requestSender->expects($this->once())
             ->method('createCustomerProfile')
             ->willThrowException(new \LogicException('api error'));
 
-        $this->session
+        $this->session->expects($this->any())
             ->method('getFlashBag')
             ->willReturn(new FlashBag());
 
@@ -381,41 +343,35 @@ class PaymentProfileHandlerTest extends \PHPUnit\Framework\TestCase
         $paymentProfile->setCustomerProfile(new CustomerProfile());
         $paymentProfile->setCustomerPaymentProfileId('UPDATED');
 
-        $this->tokenAccessor
-            ->expects($this->once())
+        $this->tokenAccessor->expects($this->once())
             ->method('getUser')
             ->willReturn($customerUser);
 
-        $this->manager
-            ->expects($this->never())
+        $this->manager->expects($this->never())
             ->method('persist');
 
-        $this->manager
-            ->expects($this->never())
+        $this->manager->expects($this->never())
             ->method('flush');
 
-        $this->doctrineHelper
+        $this->doctrineHelper->expects($this->any())
             ->method('getEntityManager')
             ->withAnyParameters()
             ->willReturn($this->manager);
 
-        $this->form
-            ->expects($this->once())
+        $this->form->expects($this->once())
             ->method('isSubmitted')
             ->willReturn(true);
 
-        $this->form
-            ->expects($this->once())
+        $this->form->expects($this->once())
             ->method('isValid')
             ->willReturn(true);
 
-        $this->requestSender
-            ->expects($this->once())
+        $this->requestSender->expects($this->once())
             ->method('updateCustomerPaymentProfile')
             ->with($paymentProfileDTO)
             ->willThrowException(new \LogicException('api error'));
 
-        $this->session
+        $this->session->expects($this->any())
             ->method('getFlashBag')
             ->willReturn(new FlashBag());
 
@@ -427,8 +383,7 @@ class PaymentProfileHandlerTest extends \PHPUnit\Framework\TestCase
     {
         $paymentProfileDTO = new PaymentProfileDTO();
 
-        $this->form
-            ->expects($this->exactly(2))
+        $this->form->expects($this->exactly(2))
             ->method('isSubmitted')
             ->willReturn(false);
 
@@ -440,13 +395,11 @@ class PaymentProfileHandlerTest extends \PHPUnit\Framework\TestCase
     {
         $paymentProfileDTO = new PaymentProfileDTO();
 
-        $this->form
-            ->expects($this->exactly(2))
+        $this->form->expects($this->exactly(2))
             ->method('isSubmitted')
             ->willReturn(true);
 
-        $this->form
-            ->expects($this->once())
+        $this->form->expects($this->once())
             ->method('isValid')
             ->willReturn(false);
 
@@ -459,8 +412,7 @@ class PaymentProfileHandlerTest extends \PHPUnit\Framework\TestCase
         $paymentProfile = $this->getEntity(CustomerPaymentProfile::class, ['id' => 1]);
         $paymentProfileDTO = new PaymentProfileDTO($paymentProfile);
 
-        $this->form
-            ->expects($this->exactly(2))
+        $this->form->expects($this->exactly(2))
             ->method('isSubmitted')
             ->willReturn(false);
 
@@ -489,25 +441,21 @@ class PaymentProfileHandlerTest extends \PHPUnit\Framework\TestCase
         $maskedDataDTOFromApi->setAccountType('account type');
         $maskedDataDTOFromApi->setBankName('bank name');
 
-        $this->requestSender
-            ->expects($this->once())
+        $this->requestSender->expects($this->once())
             ->method('getCustomerPaymentProfile')
             ->with($paymentProfile)
             ->willReturn($paymentProfileData);
 
-        $this->requestSender
-            ->expects($this->once())
+        $this->requestSender->expects($this->once())
             ->method('getPaymentProfileMaskedDataDTO')
             ->willReturn($maskedDataDTOFromApi);
 
-        $this->requestSender
-            ->expects($this->once())
+        $this->requestSender->expects($this->once())
             ->method('getPaymentProfileAddressDTO')
             ->with($paymentProfileData['bill_to'])
             ->willReturn($addressDTOFromApi);
 
-        $this->form
-            ->expects($this->once())
+        $this->form->expects($this->once())
             ->method('setData')
             ->with($paymentProfileDTO);
 

@@ -18,13 +18,13 @@ class TaxProviderTest extends \PHPUnit\Framework\TestCase
     private $doctrineHelper;
 
     /** @var TaxProviderRegistry|\PHPUnit\Framework\MockObject\MockObject */
-    protected $taxProviderRegistry;
+    private $taxProviderRegistry;
 
     /** @var PaymentTransaction|\PHPUnit\Framework\MockObject\MockObject */
-    protected $paymentTransaction;
+    private $paymentTransaction;
 
     /** @var TaxProvider */
-    protected $provider;
+    private $provider;
 
     protected function setUp(): void
     {
@@ -50,13 +50,12 @@ class TaxProviderTest extends \PHPUnit\Framework\TestCase
             ->method('getTax')
             ->willReturn(Result::jsonDeserialize(['total' => ['taxAmount' => $expectedTaxAmount]]));
 
-        $this->taxProviderRegistry
-            ->expects($this->once())
+        $this->taxProviderRegistry->expects($this->once())
             ->method('getEnabledProvider')
             ->willReturn($taxProvider);
 
         $actualTaxAmount = $this->provider->getTaxAmount();
         $this->assertEquals($expectedTaxAmount, $actualTaxAmount);
-        $this->assertTrue(\is_float($actualTaxAmount));
+        $this->assertIsFloat($actualTaxAmount);
     }
 }

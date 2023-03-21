@@ -7,17 +7,19 @@ use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 
 class ChargeDataTest extends AbstractOptionTest
 {
-    /** @return array */
-    protected function getOptions()
+    /**
+     * {@inheritDoc}
+     */
+    protected function getOptions(): array
     {
         return [new Option\ChargeData()];
     }
 
     /**
-     * @return Option\OptionInterface[]
+     * {@inheritDoc}
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
-    public function configureOptionDataProvider()
+    public function configureOptionDataProvider(): array
     {
         $profileOptions = [
             Option\CreateProfile::NAME => true,
@@ -38,18 +40,18 @@ class ChargeDataTest extends AbstractOptionTest
 
         return [
             'requiredChargeType' => [
-                \array_merge(
+                array_merge(
                     $profileOptions,
                     $addressOptions
                 ),
                 [],
                 [
                     MissingOptionsException::class,
-                    \sprintf('The required option "%s" is missing.', Option\ChargeType::NAME)
+                    sprintf('The required option "%s" is missing.', Option\ChargeType::NAME)
                 ]
             ],
             'requiredForChargeCreditCard' => [
-                \array_merge(
+                array_merge(
                     $profileOptions,
                     $addressOptions,
                     [Option\ChargeType::NAME => Option\ChargeType::TYPE_CREDIT_CARD]
@@ -57,7 +59,7 @@ class ChargeDataTest extends AbstractOptionTest
                 [],
                 [
                     MissingOptionsException::class,
-                    \sprintf(
+                    sprintf(
                         'The required options "%s", "%s" are missing.',
                         Option\DataDescriptor::DATA_DESCRIPTOR,
                         Option\DataValue::DATA_VALUE
@@ -69,7 +71,7 @@ class ChargeDataTest extends AbstractOptionTest
                 [],
                 [
                     MissingOptionsException::class,
-                    \sprintf(
+                    sprintf(
                         'The required options "%s", "%s" are missing.',
                         Option\CustomerPaymentProfileId::CUSTOMER_PAYMENT_PROFILE_ID,
                         Option\CustomerProfileId::CUSTOMER_PROFILE_ID
@@ -77,7 +79,7 @@ class ChargeDataTest extends AbstractOptionTest
                 ]
             ],
             'validChargeCreditCard' => [
-                \array_merge(
+                array_merge(
                     $profileOptions,
                     $addressOptions,
                     [
@@ -86,7 +88,7 @@ class ChargeDataTest extends AbstractOptionTest
                         Option\DataValue::DATA_VALUE => 'data value'
                     ]
                 ),
-                \array_merge(
+                array_merge(
                     $profileOptions,
                     $addressOptions,
                     [
@@ -97,7 +99,7 @@ class ChargeDataTest extends AbstractOptionTest
                 )
             ],
             'validChargeCustomerProfileNoCardCode' => [
-                \array_merge(
+                array_merge(
                     $profileOptions,
                     [
                         Option\ChargeType::NAME => Option\ChargeType::TYPE_PAYMENT_PROFILE,
@@ -105,7 +107,7 @@ class ChargeDataTest extends AbstractOptionTest
                         Option\CustomerProfileId::CUSTOMER_PROFILE_ID => '888'
                     ]
                 ),
-                \array_merge(
+                array_merge(
                     $profileOptions,
                     [
                         Option\ChargeType::NAME => Option\ChargeType::TYPE_PAYMENT_PROFILE,
@@ -115,7 +117,7 @@ class ChargeDataTest extends AbstractOptionTest
                 )
             ],
             'validChargeCustomerProfileHasCardCode' => [
-                \array_merge(
+                array_merge(
                     $profileOptions,
                     [
                         Option\ChargeType::NAME => Option\ChargeType::TYPE_PAYMENT_PROFILE,
@@ -124,7 +126,7 @@ class ChargeDataTest extends AbstractOptionTest
                         Option\CardCode::NAME => '123'
                     ]
                 ),
-                \array_merge(
+                array_merge(
                     $profileOptions,
                     [
                         Option\ChargeType::NAME => Option\ChargeType::TYPE_PAYMENT_PROFILE,

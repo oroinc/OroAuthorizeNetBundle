@@ -18,31 +18,24 @@ class AuthorizeNetConfigFactoryTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
-    /**
-     * @var SymmetricCrypterInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $encoder;
+    /** @var SymmetricCrypterInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $encoder;
 
-    /**
-     * @var LocalizationHelper|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $localizationHelper;
+    /** @var LocalizationHelper|\PHPUnit\Framework\MockObject\MockObject */
+    private $localizationHelper;
 
-    /**
-     * @var IntegrationIdentifierGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var IntegrationIdentifierGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $identifierGenerator;
 
-    /**
-     * @var AuthorizeNetConfigFactory
-     */
-    protected $authorizeNetConfigFactory;
+    /** @var AuthorizeNetConfigFactory */
+    private $authorizeNetConfigFactory;
 
     protected function setUp(): void
     {
         $this->encoder = $this->createMock(SymmetricCrypterInterface::class);
         $this->localizationHelper = $this->createMock(LocalizationHelper::class);
         $this->identifierGenerator = $this->createMock(IntegrationIdentifierGeneratorInterface::class);
+
         $this->authorizeNetConfigFactory = new AuthorizeNetConfigFactory(
             $this->encoder,
             $this->localizationHelper,
@@ -54,15 +47,12 @@ class AuthorizeNetConfigFactoryTest extends \PHPUnit\Framework\TestCase
     {
         $this->encoder->expects($this->any())
             ->method('decryptData')
-            ->willReturnMap(
-                [
-                    ['api login id', 'api login id'],
-                    ['trans key', 'trans key'],
-                    ['client key', 'client key'],
-                ]
-            );
+            ->willReturnMap([
+                ['api login id', 'api login id'],
+                ['trans key', 'trans key'],
+                ['client key', 'client key'],
+            ]);
 
-        /** @var Channel $channel */
         $channel = $this->getEntity(
             Channel::class,
             ['id' => 1, 'name' => 'authorize_net']
@@ -85,18 +75,15 @@ class AuthorizeNetConfigFactoryTest extends \PHPUnit\Framework\TestCase
             'echeck_account_types' => ['type1', 'type2'],
             'echeck_confirmation_text' => 'text'
         ];
-        /** @var AuthorizeNetSettings $authorizeNetSettings */
         $authorizeNetSettings = $this->getEntity(AuthorizeNetSettings::class, $bag);
         $authorizeNetSettings->setAuthNetTestMode(true);
 
         $this->localizationHelper->expects($this->exactly(2))
             ->method('getLocalizedValue')
-            ->willReturnMap(
-                [
-                    [$authorizeNetSettings->getCreditCardLabels(), null, 'test label'],
-                    [$authorizeNetSettings->getCreditCardShortLabels(), null, 'test short label'],
-                ]
-            );
+            ->willReturnMap([
+                [$authorizeNetSettings->getCreditCardLabels(), null, 'test label'],
+                [$authorizeNetSettings->getCreditCardShortLabels(), null, 'test short label'],
+            ]);
 
         $this->identifierGenerator->expects($this->once())
             ->method('generateIdentifier')

@@ -69,21 +69,18 @@ class MethodOptionProviderTest extends \PHPUnit\Framework\TestCase
     private function setupTransactionAdditionalData(array $additionalData): void
     {
         $sourceTransaction = $this->createMock(PaymentTransaction::class);
-        $options = ['additionalData' => \json_encode($additionalData)];
-        $sourceTransaction
+        $options = ['additionalData' => json_encode($additionalData, JSON_THROW_ON_ERROR)];
+        $sourceTransaction->expects($this->any())
             ->method('getTransactionOptions')
-            ->willReturn($options)
-        ;
-        $this->paymentTransaction
+            ->willReturn($options);
+        $this->paymentTransaction->expects($this->any())
             ->method('getSourcePaymentTransaction')
-            ->willReturn($sourceTransaction)
-        ;
+            ->willReturn($sourceTransaction);
     }
 
     public function testGetSolutionIdLiveMode()
     {
-        $this->config
-            ->expects($this->once())
+        $this->config->expects($this->once())
             ->method('isTestMode')
             ->willReturn(false);
 
@@ -92,8 +89,7 @@ class MethodOptionProviderTest extends \PHPUnit\Framework\TestCase
 
     public function testGetSolutionIdTestMode()
     {
-        $this->config
-            ->expects($this->once())
+        $this->config->expects($this->once())
             ->method('isTestMode')
             ->willReturn(true);
 
@@ -103,8 +99,7 @@ class MethodOptionProviderTest extends \PHPUnit\Framework\TestCase
     public function testGetApiLoginId()
     {
         $expectedApiLoginId = 'API_LOGIN_ID';
-        $this->config
-            ->expects($this->once())
+        $this->config->expects($this->once())
             ->method('getApiLoginId')
             ->willReturn($expectedApiLoginId);
 
@@ -114,8 +109,7 @@ class MethodOptionProviderTest extends \PHPUnit\Framework\TestCase
     public function testGetTransactionKey()
     {
         $expectedTransactionKey = 'TRANS_KEY';
-        $this->config
-            ->expects($this->once())
+        $this->config->expects($this->once())
             ->method('getTransactionKey')
             ->willReturn($expectedTransactionKey);
 
@@ -170,27 +164,31 @@ class MethodOptionProviderTest extends \PHPUnit\Framework\TestCase
     public function testCustomerExistsOptions()
     {
         $frontendOwner = $this->getEntity(CustomerUser::class, ['id' => 77, 'email' => 'test@ggmail.com']);
-        $this->paymentTransaction->method('getFrontendOwner')->willReturn($frontendOwner);
-        $this->customerProfileProvider->method('findCustomerProfile')->willReturn(
-            $this->getEntity(
-                CustomerProfile::class,
-                ['customerProfileId' => 'x1y2z3']
-            )
-        );
+        $this->paymentTransaction->expects($this->any())
+            ->method('getFrontendOwner')
+            ->willReturn($frontendOwner);
+        $this->customerProfileProvider->expects($this->any())
+            ->method('findCustomerProfile')
+            ->willReturn($this->getEntity(CustomerProfile::class, ['customerProfileId' => 'x1y2z3']));
         $this->setupTransactionAdditionalData(['profileId' => 1]);
         $repositoryMock = $this->createMock(EntityRepository::class);
         $customerProfile = $this->getEntity(CustomerProfile::class, ['customerUser' => $frontendOwner]);
-        $repositoryMock->method('find')->with(1)->willReturn(
-            $this->getEntity(
-                CustomerPaymentProfile::class,
-                [
-                    'customerPaymentProfileId' => 'zzz888',
-                    'customerProfile' => $customerProfile,
-                    'customerUser' => $frontendOwner
-                ]
-            )
-        );
-        $this->doctrineHelper->method('getEntityRepository')->willReturn($repositoryMock);
+        $repositoryMock->expects($this->any())
+            ->method('find')
+            ->with(1)
+            ->willReturn(
+                $this->getEntity(
+                    CustomerPaymentProfile::class,
+                    [
+                        'customerPaymentProfileId' => 'zzz888',
+                        'customerProfile' => $customerProfile,
+                        'customerUser' => $frontendOwner
+                    ]
+                )
+            );
+        $this->doctrineHelper->expects($this->any())
+            ->method('getEntityRepository')
+            ->willReturn($repositoryMock);
 
         $actualIsCustomerProfileExists = $this->methodOptionProvider->isCustomerProfileExists();
         $actualExistingCustomerProfileId = $this->methodOptionProvider->getExistingCustomerProfileId();
@@ -216,17 +214,29 @@ class MethodOptionProviderTest extends \PHPUnit\Framework\TestCase
         $this->expectExceptionMessage('Can not find customer payment profile with id #5');
 
         $repositoryMock = $this->createMock(EntityRepository::class);
-        $repositoryMock->method('find')->with(5)->willReturn(null);
-        $this->doctrineHelper->method('getEntityRepository')->willReturn($repositoryMock);
+        $repositoryMock->expects($this->any())
+            ->method('find')
+            ->with(5)
+            ->willReturn(null);
+        $this->doctrineHelper->expects($this->any())
+            ->method('getEntityRepository')
+            ->willReturn($repositoryMock);
         $this->methodOptionProvider->getExistingCustomerPaymentProfileId();
     }
 
     public function testProfileIdAbsentException()
     {
-        $this->customerProfileProvider->method('findCustomerProfile')->willReturn(null);
+        $this->customerProfileProvider->expects($this->any())
+            ->method('findCustomerProfile')
+            ->willReturn(null);
         $repositoryMock = $this->createMock(EntityRepository::class);
-        $repositoryMock->method('find')->with(1)->willReturn(null);
-        $this->doctrineHelper->method('getEntityRepository')->willReturn($repositoryMock);
+        $repositoryMock->expects($this->any())
+            ->method('find')
+            ->with(1)
+            ->willReturn(null);
+        $this->doctrineHelper->expects($this->any())
+            ->method('getEntityRepository')
+            ->willReturn($repositoryMock);
 
         $actualIsCustomerProfileExists = $this->methodOptionProvider->isCustomerProfileExists();
         $this->assertFalse($actualIsCustomerProfileExists);
@@ -238,7 +248,9 @@ class MethodOptionProviderTest extends \PHPUnit\Framework\TestCase
     public function testAccessDeniedException()
     {
         $frontendOwner = $this->getEntity(CustomerUser::class, ['id' => 77]);
-        $this->paymentTransaction->method('getFrontendOwner')->willReturn($frontendOwner);
+        $this->paymentTransaction->expects($this->any())
+            ->method('getFrontendOwner')
+            ->willReturn($frontendOwner);
         $this->setupTransactionAdditionalData(['profileId' => 5]);
         $this->expectException(AccessDeniedException::class);
         $this->expectExceptionMessage('Access to customer profile denied');
@@ -249,28 +261,30 @@ class MethodOptionProviderTest extends \PHPUnit\Framework\TestCase
             CustomerProfile::class,
             ['customerUser' => $otherFrontendUser]
         );
-        $repositoryMock->method('find')->with(5)->willReturn(
-            $this->getEntity(
-                CustomerPaymentProfile::class,
-                [
-                    'customerPaymentProfileId' => 'zzz888',
-                    'customerProfile' => $customerProfile,
-                    'customerUser' => $otherFrontendUser
-                ]
-            )
-        );
-        $this->doctrineHelper->method('getEntityRepository')->willReturn($repositoryMock);
+        $repositoryMock->expects($this->any())
+            ->method('find')
+            ->with(5)
+            ->willReturn(
+                $this->getEntity(
+                    CustomerPaymentProfile::class,
+                    [
+                        'customerPaymentProfileId' => 'zzz888',
+                        'customerProfile' => $customerProfile,
+                        'customerUser' => $otherFrontendUser
+                    ]
+                )
+            );
+        $this->doctrineHelper->expects($this->any())
+            ->method('getEntityRepository')
+            ->willReturn($repositoryMock);
         $this->methodOptionProvider->getExistingCustomerPaymentProfileId();
     }
 
     public function testNewCustomerProfileIdExistsException()
     {
-        $this->customerProfileProvider->method('findCustomerProfile')->willReturn(
-            $this->getEntity(
-                CustomerProfile::class,
-                ['customerProfileId' => 'x1y2z3']
-            )
-        );
+        $this->customerProfileProvider->expects($this->any())
+            ->method('findCustomerProfile')
+            ->willReturn($this->getEntity(CustomerProfile::class, ['customerProfileId' => 'x1y2z3']));
 
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Customer profile already exists');
@@ -280,8 +294,12 @@ class MethodOptionProviderTest extends \PHPUnit\Framework\TestCase
 
     public function testNewCustomerProfileIdFronendOwnerAbsentException()
     {
-        $this->customerProfileProvider->method('findCustomerProfile')->willReturn(null);
-        $this->paymentTransaction->method('getFrontendOwner')->willReturn(null);
+        $this->customerProfileProvider->expects($this->any())
+            ->method('findCustomerProfile')
+            ->willReturn(null);
+        $this->paymentTransaction->expects($this->any())
+            ->method('getFrontendOwner')
+            ->willReturn(null);
 
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Customer User not defined');
@@ -291,15 +309,21 @@ class MethodOptionProviderTest extends \PHPUnit\Framework\TestCase
 
     public function testNewCustomerProfileIdGenerateOk()
     {
-        $this->customerProfileProvider->method('findCustomerProfile')->willReturn(null);
+        $this->customerProfileProvider->expects($this->any())
+            ->method('findCustomerProfile')
+            ->willReturn(null);
         $frontendOwner = $this->getEntity(CustomerUser::class, ['id' => 77, 'email' => 'test@ggmail.com']);
-        $this->paymentTransaction->method('getFrontendOwner')->willReturn($frontendOwner);
-        $this->config->method('getIntegrationId')->willReturn(101);
-        $this->merchantCustomerIdGenerator->expects($this->once())->method('generate')->willReturnCallback(
-            function (int $integrationId, int $frontendOwnerId) {
+        $this->paymentTransaction->expects($this->any())
+            ->method('getFrontendOwner')
+            ->willReturn($frontendOwner);
+        $this->config->expects($this->any())
+            ->method('getIntegrationId')
+            ->willReturn(101);
+        $this->merchantCustomerIdGenerator->expects($this->once())
+            ->method('generate')
+            ->willReturnCallback(function (int $integrationId, int $frontendOwnerId) {
                 return sprintf('oro-%d-%d', $integrationId, $frontendOwnerId);
-            }
-        );
+            });
 
         $generatedId = $this->methodOptionProvider->getGeneratedNewCustomerProfileId();
         $actualEmail = $this->methodOptionProvider->getEmail();
@@ -320,9 +344,15 @@ class MethodOptionProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(123, $this->methodOptionProvider->getCardCode());
         $this->assertEquals(true, $this->methodOptionProvider->getCreateProfile());
 
-        $this->paymentTransaction->expects($this->once())->method('getAmount')->willReturn(10);
-        $this->paymentTransaction->expects($this->once())->method('getCurrency')->willReturn('USD');
-        $this->paymentTransaction->expects($this->once())->method('getReference')->willReturn('x1y2');
+        $this->paymentTransaction->expects($this->once())
+            ->method('getAmount')
+            ->willReturn(10);
+        $this->paymentTransaction->expects($this->once())
+            ->method('getCurrency')
+            ->willReturn('USD');
+        $this->paymentTransaction->expects($this->once())
+            ->method('getReference')
+            ->willReturn('x1y2');
         $this->assertEquals(10, $this->methodOptionProvider->getAmount());
         $this->assertEquals('USD', $this->methodOptionProvider->getCurrency());
         $this->assertEquals('x1y2', $this->methodOptionProvider->getOriginalTransaction());
@@ -333,8 +363,7 @@ class MethodOptionProviderTest extends \PHPUnit\Framework\TestCase
         $order = new Order();
         $order->setIdentifier('ORDER-IDENTIFIER');
 
-        $this->doctrineHelper
-            ->expects($this->once())
+        $this->doctrineHelper->expects($this->once())
             ->method('getEntityReference')
             ->willReturn($order);
 
@@ -343,8 +372,7 @@ class MethodOptionProviderTest extends \PHPUnit\Framework\TestCase
 
     public function testGetInvoiceNumberNotOrderEntity()
     {
-        $this->doctrineHelper
-            ->expects($this->once())
+        $this->doctrineHelper->expects($this->once())
             ->method('getEntityReference')
             ->willReturn(new \stdClass());
 
@@ -357,8 +385,7 @@ class MethodOptionProviderTest extends \PHPUnit\Framework\TestCase
         $order->addLineItem(new OrderLineItem());
         $order->addLineItem(new OrderLineItem());
 
-        $this->doctrineHelper
-            ->expects($this->once())
+        $this->doctrineHelper->expects($this->once())
             ->method('getEntityReference')
             ->willReturn($order);
 
@@ -367,8 +394,7 @@ class MethodOptionProviderTest extends \PHPUnit\Framework\TestCase
 
     public function testGetLineItemsNotOrderEntity()
     {
-        $this->doctrineHelper
-            ->expects($this->once())
+        $this->doctrineHelper->expects($this->once())
             ->method('getEntityReference')
             ->willReturn(new \stdClass());
 
@@ -377,22 +403,17 @@ class MethodOptionProviderTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider isCIMEnabledProvider
-     * @param bool $configEnabled
      */
-    public function testIsCIMEnabled($configEnabled)
+    public function testIsCIMEnabled(bool $configEnabled)
     {
-        $this->config
-            ->expects($this->once())
+        $this->config->expects($this->once())
             ->method('isEnabledCIM')
             ->willReturn($configEnabled);
 
         $this->assertEquals($configEnabled, $this->methodOptionProvider->isCIMEnabled());
     }
 
-    /**
-     * @return array
-     */
-    public function isCIMEnabledProvider()
+    public function isCIMEnabledProvider(): array
     {
         return [
             'cim enabled' => [

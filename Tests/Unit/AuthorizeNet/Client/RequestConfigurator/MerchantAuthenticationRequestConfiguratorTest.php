@@ -8,19 +8,11 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 
 class MerchantAuthenticationRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var MerchantAuthenticationRequestConfigurator
-     */
-    protected $merchantAuthenticationRequestConfigurator;
+    private MerchantAuthenticationRequestConfigurator $merchantAuthenticationRequestConfigurator;
 
     protected function setUp(): void
     {
         $this->merchantAuthenticationRequestConfigurator = new MerchantAuthenticationRequestConfigurator();
-    }
-
-    protected function terDown()
-    {
-        unset($this->merchantAuthenticationRequestConfigurator);
     }
 
     public function testIsApplicable()
@@ -38,7 +30,6 @@ class MerchantAuthenticationRequestConfiguratorTest extends \PHPUnit\Framework\T
 
     public function testHandle()
     {
-        /** @var CreateTransactionRequest $request */
         $request = new CreateTransactionRequest();
 
         $anotherOptions = ['someOption' => 'someValue'];

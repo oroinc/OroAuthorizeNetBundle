@@ -14,9 +14,9 @@ class UpdateCustomerPaymentProfileRequestTest extends AbstractRequestTest
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function optionsProvider()
+    public function optionsProvider(): array
     {
         return [
             'update credit card' => [

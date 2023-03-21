@@ -5,9 +5,8 @@ namespace Oro\Bundle\SaleBundle\Tests\Unit\Event;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response\AuthorizeNetSDKResponse;
 use Oro\Bundle\AuthorizeNetBundle\Event\SDKResponseReceivedEvent;
 use Oro\Bundle\PaymentBundle\Entity\PaymentTransaction;
-use PHPUnit\Framework\TestCase;
 
-class SDKResponseReceivedEventTest extends TestCase
+class SDKResponseReceivedEventTest extends \PHPUnit\Framework\TestCase
 {
     public function testGetters(): void
     {

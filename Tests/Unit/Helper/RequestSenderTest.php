@@ -119,7 +119,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider successfulResponseProvider
      */
-    public function testCreateCustomerProfile($responseMock)
+    public function testCreateCustomerProfile(AuthorizeNetSDKResponse $response)
     {
         $paymentProfileDTO = $this->buildPaymentProfileDTO();
         $customerProfile = $paymentProfileDTO->getProfile()->getCustomerProfile();
@@ -135,7 +135,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
         $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\CreateCustomerProfileRequest::REQUEST_TYPE, $options)
-            ->willReturn($responseMock);
+            ->willReturn($response);
 
         $result = $this->requestSender->createCustomerProfile($customerProfile);
         $this->assertEquals(self::CUSTOMER_PROFILE_ID, $result);
@@ -144,8 +144,11 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider unsuccessfulResponseProvider
      */
-    public function testCreateCustomerProfileException($responseMock, $expectedException, $exceptionMessage)
-    {
+    public function testCreateCustomerProfileException(
+        AuthorizeNetSDKResponse $response,
+        string $expectedException,
+        string $exceptionMessage
+    ) {
         $paymentProfileDTO = $this->buildPaymentProfileDTO();
         $customerProfile = $paymentProfileDTO->getProfile()->getCustomerProfile();
 
@@ -160,7 +163,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
         $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\CreateCustomerProfileRequest::REQUEST_TYPE, $options)
-            ->willReturn($responseMock);
+            ->willReturn($response);
 
         $this->expectException($expectedException);
         $this->expectExceptionMessage($exceptionMessage);
@@ -171,7 +174,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider successfulResponseProvider
      */
-    public function testDeleteCustomerProfile($responseMock)
+    public function testDeleteCustomerProfile(AuthorizeNetSDKResponse $response)
     {
         $paymentProfileDTO = $this->buildPaymentProfileDTO();
         $customerProfile = $paymentProfileDTO->getProfile()->getCustomerProfile();
@@ -186,7 +189,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
         $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\DeleteCustomerProfileRequest::REQUEST_TYPE, $options)
-            ->willReturn($responseMock);
+            ->willReturn($response);
 
         $result = $this->requestSender->deleteCustomerProfile($customerProfile);
         $this->assertEquals(true, $result);
@@ -195,8 +198,11 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider unsuccessfulResponseProvider
      */
-    public function testDeleteCustomerProfileException($responseMock, $expectedException, $exceptionMessage)
-    {
+    public function testDeleteCustomerProfileException(
+        AuthorizeNetSDKResponse $response,
+        string $expectedException,
+        string $exceptionMessage
+    ) {
         $paymentProfileDTO = $this->buildPaymentProfileDTO();
         $customerProfile = $paymentProfileDTO->getProfile()->getCustomerProfile();
 
@@ -210,7 +216,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
         $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\DeleteCustomerProfileRequest::REQUEST_TYPE, $options)
-            ->willReturn($responseMock);
+            ->willReturn($response);
 
         $this->expectException($expectedException);
         $this->expectExceptionMessage($exceptionMessage);
@@ -221,7 +227,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider successfulResponseProvider
      */
-    public function testDeleteCustomerPaymentProfile($responseMock)
+    public function testDeleteCustomerPaymentProfile(AuthorizeNetSDKResponse $response)
     {
         $paymentProfileDTO = $this->buildPaymentProfileDTO();
         $paymentProfile = $paymentProfileDTO->getProfile();
@@ -237,7 +243,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
         $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\DeleteCustomerPaymentProfileRequest::REQUEST_TYPE, $options)
-            ->willReturn($responseMock);
+            ->willReturn($response);
 
         $result = $this->requestSender->deleteCustomerPaymentProfile($paymentProfile);
         $this->assertEquals(true, $result);
@@ -246,8 +252,11 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider unsuccessfulResponseProvider
      */
-    public function testDeleteCustomerPaymentProfileException($responseMock, $expectedException, $exceptionMessage)
-    {
+    public function testDeleteCustomerPaymentProfileException(
+        AuthorizeNetSDKResponse $response,
+        string $expectedException,
+        string $exceptionMessage
+    ) {
         $paymentProfileDTO = $this->buildPaymentProfileDTO();
         $paymentProfile = $paymentProfileDTO->getProfile();
 
@@ -262,7 +271,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
         $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\DeleteCustomerPaymentProfileRequest::REQUEST_TYPE, $options)
-            ->willReturn($responseMock);
+            ->willReturn($response);
 
         $this->expectException($expectedException);
         $this->expectExceptionMessage($exceptionMessage);
@@ -273,7 +282,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider successfulResponseProvider
      */
-    public function testGetCustomerPaymentProfile($responseMock)
+    public function testGetCustomerPaymentProfile(AuthorizeNetSDKResponse $response)
     {
         $paymentProfileDTO = $this->buildPaymentProfileDTO();
         $paymentProfile = $paymentProfileDTO->getProfile();
@@ -289,7 +298,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
         $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\GetCustomerPaymentProfileRequest::REQUEST_TYPE, $options)
-            ->willReturn($responseMock);
+            ->willReturn($response);
 
         $result = $this->requestSender->getCustomerPaymentProfile($paymentProfile);
         $this->assertEquals(self::$paymentProfileData, $result);
@@ -298,8 +307,11 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider unsuccessfulResponseProvider
      */
-    public function testGetCustomerPaymentProfileException($responseMock, $expectedException, $exceptionMessage)
-    {
+    public function testGetCustomerPaymentProfileException(
+        AuthorizeNetSDKResponse $response,
+        string $expectedException,
+        string $exceptionMessage
+    ) {
         $paymentProfileDTO = $this->buildPaymentProfileDTO();
         $paymentProfile = $paymentProfileDTO->getProfile();
 
@@ -314,7 +326,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
         $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\GetCustomerPaymentProfileRequest::REQUEST_TYPE, $options)
-            ->willReturn($responseMock);
+            ->willReturn($response);
 
         $this->expectException(CustomerPaymentProfileNotFoundException::class);
         $this->expectExceptionMessage($exceptionMessage);
@@ -344,14 +356,18 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
             'profile' => $paymentProfilesData
         ];
 
-        $responseMock = $this->createMock(AuthorizeNetSDKResponse::class);
-        $responseMock->method('isSuccessful')->willReturn(true);
-        $responseMock->method('getData')->willReturn($data);
+        $response = $this->createMock(AuthorizeNetSDKResponse::class);
+        $response->expects($this->any())
+            ->method('isSuccessful')
+            ->willReturn(true);
+        $response->expects($this->any())
+            ->method('getData')
+            ->willReturn($data);
 
         $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\GetCustomerProfileRequest::REQUEST_TYPE, $options)
-            ->willReturn($responseMock);
+            ->willReturn($response);
 
         $result = $this->requestSender->getCustomerProfile($customerProfile);
         $this->assertEquals($paymentProfilesData, $result);
@@ -360,8 +376,11 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider unsuccessfulResponseProvider
      */
-    public function testGetCustomerProfileException($responseMock, $expectedException, $exceptionMessage)
-    {
+    public function testGetCustomerProfileException(
+        AuthorizeNetSDKResponse $response,
+        string $expectedException,
+        string $exceptionMessage
+    ) {
         $paymentProfileDTO = $this->buildPaymentProfileDTO();
         $customerProfile = $paymentProfileDTO->getProfile()->getCustomerProfile();
 
@@ -375,7 +394,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
         $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\GetCustomerProfileRequest::REQUEST_TYPE, $options)
-            ->willReturn($responseMock);
+            ->willReturn($response);
 
         $result = $this->requestSender->getCustomerProfile($customerProfile);
         $this->assertSame([], $result);
@@ -384,7 +403,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider successfulResponseProvider
      */
-    public function testCreateCustomerPaymentProfile($responseMock)
+    public function testCreateCustomerPaymentProfile(AuthorizeNetSDKResponse $response)
     {
         $paymentProfileDTO = $this->buildPaymentProfileDTO();
         $addressData = $paymentProfileDTO->getAddress();
@@ -406,7 +425,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
         $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\CreateCustomerPaymentProfileRequest::REQUEST_TYPE, $options)
-            ->willReturn($responseMock);
+            ->willReturn($response);
 
         $result = $this->requestSender->createCustomerPaymentProfile($paymentProfileDTO);
         $this->assertEquals(self::PAYMENT_PROFILE_ID, $result);
@@ -415,8 +434,11 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider unsuccessfulResponseProvider
      */
-    public function testCreateCustomerPaymentProfileException($responseMock, $expectedException, $exceptionMessage)
-    {
+    public function testCreateCustomerPaymentProfileException(
+        AuthorizeNetSDKResponse $response,
+        string $expectedException,
+        string $exceptionMessage
+    ) {
         $paymentProfileDTO = $this->buildPaymentProfileDTO();
         $addressData = $paymentProfileDTO->getAddress();
         $paymentProfile = $paymentProfileDTO->getProfile();
@@ -437,7 +459,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
         $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\CreateCustomerPaymentProfileRequest::REQUEST_TYPE, $options)
-            ->willReturn($responseMock);
+            ->willReturn($response);
 
         $this->expectException($expectedException);
         $this->expectExceptionMessage($exceptionMessage);
@@ -448,7 +470,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider successfulResponseProvider
      */
-    public function testUpdateCustomerPaymentProfileNoCreditCardUpdate($responseMock)
+    public function testUpdateCustomerPaymentProfileNoCreditCardUpdate(AuthorizeNetSDKResponse $response)
     {
         $paymentProfileDTO = $this->buildPaymentProfileDTO();
         $paymentProfileDTO->setUpdatePaymentData(false);
@@ -473,7 +495,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
         $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\UpdateCustomerPaymentProfileRequest::REQUEST_TYPE, $options)
-            ->willReturn($responseMock);
+            ->willReturn($response);
 
         $result = $this->requestSender->updateCustomerPaymentProfile($paymentProfileDTO);
         $this->assertEquals(true, $result);
@@ -483,9 +505,9 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
      * @dataProvider unsuccessfulResponseProvider
      */
     public function testUpdateCustomerPaymentProfileNoCreditCardUpdateException(
-        $responseMock,
-        $expectedException,
-        $exceptionMessage
+        AuthorizeNetSDKResponse $response,
+        string $expectedException,
+        string $exceptionMessage
     ) {
         $paymentProfileDTO = $this->buildPaymentProfileDTO();
         $paymentProfileDTO->setUpdatePaymentData(false);
@@ -510,7 +532,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
         $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\UpdateCustomerPaymentProfileRequest::REQUEST_TYPE, $options)
-            ->willReturn($responseMock);
+            ->willReturn($response);
 
         $this->expectException($expectedException);
         $this->expectExceptionMessage($exceptionMessage);
@@ -521,7 +543,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider successfulResponseProvider
      */
-    public function testUpdateCustomerPaymentProfileWithCreditCardUpdate($responseMock)
+    public function testUpdateCustomerPaymentProfileWithCreditCardUpdate(AuthorizeNetSDKResponse $response)
     {
         $paymentProfileDTO = $this->buildPaymentProfileDTO();
         $paymentProfileDTO->setUpdatePaymentData(true);
@@ -547,7 +569,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
         $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\UpdateCustomerPaymentProfileRequest::REQUEST_TYPE, $options)
-            ->willReturn($responseMock);
+            ->willReturn($response);
 
         $result = $this->requestSender->updateCustomerPaymentProfile($paymentProfileDTO);
         $this->assertEquals(true, $result);
@@ -557,9 +579,9 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
      * @dataProvider unsuccessfulResponseProvider
      */
     public function testUpdateCustomerPaymentProfileWithCreditCardUpdateException(
-        $responseMock,
-        $expectedException,
-        $exceptionMessage
+        AuthorizeNetSDKResponse $response,
+        string $expectedException,
+        string $exceptionMessage
     ) {
         $paymentProfileDTO = $this->buildPaymentProfileDTO();
         $paymentProfileDTO->setUpdatePaymentData(true);
@@ -585,7 +607,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
         $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\UpdateCustomerPaymentProfileRequest::REQUEST_TYPE, $options)
-            ->willReturn($responseMock);
+            ->willReturn($response);
 
         $this->expectException($expectedException);
         $this->expectExceptionMessage($exceptionMessage);
@@ -596,20 +618,23 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider successfulResponseProvider
      */
-    public function testGetPaymentProfileAddressDTO($responseMock)
+    public function testGetPaymentProfileAddressDTO(AuthorizeNetSDKResponse $response)
     {
         $paymentProfileDTO = $this->buildPaymentProfileDTO();
         $paymentProfile = $paymentProfileDTO->getProfile();
         $addressData = $paymentProfileDTO->getAddress();
 
         $countryRepository = $this->createMock(EntityRepository::class);
-        $countryRepository->method('findOneBy')->willReturn($addressData->getCountry());
+        $countryRepository->expects($this->any())
+            ->method('findOneBy')
+            ->willReturn($addressData->getCountry());
 
         $regionRepository = $this->createMock(EntityRepository::class);
-        $regionRepository->method('findOneBy')->willReturn($addressData->getRegion());
+        $regionRepository->expects($this->any())
+            ->method('findOneBy')
+            ->willReturn($addressData->getRegion());
 
-        $this
-            ->doctrineHelper
+        $this->doctrineHelper->expects($this->any())
             ->method('getEntityRepository')
             ->willReturnMap([
                 [Country::class, $countryRepository],
@@ -626,7 +651,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
         $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\GetCustomerPaymentProfileRequest::REQUEST_TYPE, $options)
-            ->willReturn($responseMock);
+            ->willReturn($response);
 
         $paymentProfileData = $this->requestSender->getCustomerPaymentProfile($paymentProfile);
 
@@ -637,7 +662,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider successfulResponseProvider
      */
-    public function testGetPaymentProfileMaskedDataDTO($responseMock)
+    public function testGetPaymentProfileMaskedDataDTO(AuthorizeNetSDKResponse $response)
     {
         $paymentProfileDTO = $this->buildPaymentProfileDTO();
         $paymentProfile = $paymentProfileDTO->getProfile();
@@ -653,7 +678,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
         $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\GetCustomerPaymentProfileRequest::REQUEST_TYPE, $options)
-            ->willReturn($responseMock);
+            ->willReturn($response);
 
         $paymentProfileData = $this->requestSender->getCustomerPaymentProfile($paymentProfile);
 
@@ -664,7 +689,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider successfulResponseProvider
      */
-    public function testUpdateCustomerPaymentProfileNoBankAccountUpdate($responseMock)
+    public function testUpdateCustomerPaymentProfileNoBankAccountUpdate(AuthorizeNetSDKResponse $response)
     {
         $paymentProfileDTO = $this->buildPaymentProfileDTO(CustomerPaymentProfile::TYPE_ECHECK);
         $paymentProfileDTO->setUpdatePaymentData(false);
@@ -692,16 +717,13 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
         $this->client->expects($this->once())
             ->method('send')
             ->with(Gateway::ADDRESS_SANDBOX, Request\UpdateCustomerPaymentProfileRequest::REQUEST_TYPE, $options)
-            ->willReturn($responseMock);
+            ->willReturn($response);
 
         $result = $this->requestSender->updateCustomerPaymentProfile($paymentProfileDTO);
         $this->assertEquals(true, $result);
     }
 
-    /**
-     * @return array
-     */
-    public function successfulResponseProvider()
+    public function successfulResponseProvider(): array
     {
         $universalData = [
             'customer_profile_id' => self::CUSTOMER_PROFILE_ID,
@@ -710,8 +732,12 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
         ];
 
         $successfulResponse = $this->createMock(AuthorizeNetSDKResponse::class);
-        $successfulResponse->method('isSuccessful')->willReturn(true);
-        $successfulResponse->method('getData')->willReturn($universalData);
+        $successfulResponse->expects($this->any())
+            ->method('isSuccessful')
+            ->willReturn(true);
+        $successfulResponse->expects($this->any())
+            ->method('getData')
+            ->willReturn($universalData);
 
         return [
             'successful response' => [
@@ -720,13 +746,12 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function unsuccessfulResponseProvider()
+    public function unsuccessfulResponseProvider(): array
     {
         $unsuccessfulResponse = $this->createMock(AuthorizeNetSDKResponse::class);
-        $unsuccessfulResponse->method('getMessage')->willReturn('error message');
+        $unsuccessfulResponse->expects($this->any())
+            ->method('getMessage')
+            ->willReturn('error message');
 
         return [
             'unsuccessful response' => [
@@ -737,12 +762,9 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @param string $profileType
-     * @return PaymentProfileDTO
-     */
-    private function buildPaymentProfileDTO($profileType = CustomerPaymentProfile::TYPE_CREDITCARD)
-    {
+    private function buildPaymentProfileDTO(
+        string $profileType = CustomerPaymentProfile::TYPE_CREDITCARD
+    ): PaymentProfileDTO {
         $country = (new Country('XX'))->setName('country')->setIso3Code('XXX');
         $region = (new Region('XX'))->setName('state');
         $country->addRegion($region);
@@ -751,12 +773,9 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
         $customerProfile = $this->getEntity(CustomerProfile::class, ['id' => 1]);
         $customerProfile->setCustomerProfileId(self::CUSTOMER_PROFILE_ID);
 
-        /** @var CustomerUser $customerUser */
         $customerUser = $this->getEntity(CustomerUser::class, ['id' => 22]);
         $customerUser->setEmail(self::EMAIL);
-        /** @var Channel $integration */
         $integration = $this->getEntity(Channel::class, ['id' => 33]);
-        /** @var CustomerProfile $customerProfile */
 
         $customerProfile->setCustomerUser($customerUser);
         $customerProfile->setIntegration($integration);
@@ -798,10 +817,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
         return $paymentProfileDTO;
     }
 
-    /**
-     * @return array
-     */
-    private function buildAuthOptions()
+    private function buildAuthOptions(): array
     {
         return [
             Option\ApiLoginId::API_LOGIN_ID => self::API_LOGIN_ID,
@@ -809,11 +825,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @param PaymentProfileAddressDTO $addressData
-     * @return array
-     */
-    private function buildAddressOptions(PaymentProfileAddressDTO $addressData)
+    private function buildAddressOptions(PaymentProfileAddressDTO $addressData): array
     {
         return [
             Option\Address\FirstName::FIRST_NAME => $addressData->getFirstName(),

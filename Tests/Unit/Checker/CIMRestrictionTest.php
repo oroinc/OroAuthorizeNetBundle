@@ -17,19 +17,15 @@ class CIMRestrictionTest extends \PHPUnit\Framework\TestCase
     /** @var CIMRestriction */
     private $checker;
 
-    /** @var AuthorizeNetSettingsRepository | \PHPUnit\Framework\MockObject\MockObject */
+    /** @var AuthorizeNetSettingsRepository|\PHPUnit\Framework\MockObject\MockObject */
     private $authorizeNetSettingsRepository;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->authorizeNetSettingsRepository = $this->createMock(AuthorizeNetSettingsRepository::class);
-        /** @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject $doctrineHelper */
+
         $doctrineHelper = $this->createMock(DoctrineHelper::class);
-        $doctrineHelper
-            ->expects($this->any())
+        $doctrineHelper->expects($this->any())
             ->method('getEntityRepository')
             ->with(AuthorizeNetSettings::class)
             ->willReturn($this->authorizeNetSettingsRepository);
@@ -39,11 +35,9 @@ class CIMRestrictionTest extends \PHPUnit\Framework\TestCase
 
     public function testIsChannelActivationAllowedChannelHasNotApplicableType()
     {
-        /** @var Channel $channel */
         $channel = $this->getEntity(Channel::class, ['id' => 1, 'type' => 'not_applicable_type']);
 
-        $this->authorizeNetSettingsRepository
-            ->expects($this->never())
+        $this->authorizeNetSettingsRepository->expects($this->never())
             ->method('isChannelIntersectedByCIMEnabledWebsitesExist')
             ->with($channel);
 
@@ -52,13 +46,9 @@ class CIMRestrictionTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider isChannelActivationAllowedProvider
-     *
-     * @param bool $intersectedExists
-     * @param bool $isAllowed
      */
-    public function testIsChannelActivationAllowedChannelHasIsApplicableType($intersectedExists, $isAllowed)
+    public function testIsChannelActivationAllowedChannelHasIsApplicableType(bool $intersectedExists, bool $isAllowed)
     {
-        /** @var Channel $channel */
         $channel = $this->getEntity(
             Channel::class,
             [
@@ -67,18 +57,14 @@ class CIMRestrictionTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        $this->authorizeNetSettingsRepository
-            ->expects($this->once())
+        $this->authorizeNetSettingsRepository->expects($this->once())
             ->method('isChannelIntersectedByCIMEnabledWebsitesExist')
             ->willReturn($intersectedExists);
 
         $this->assertEquals($isAllowed, $this->checker->isChannelActivationAllowed($channel));
     }
 
-    /**
-     * @return array
-     */
-    public function isChannelActivationAllowedProvider()
+    public function isChannelActivationAllowedProvider(): array
     {
         return [
             'Channel with active CIM functionality and intersected by enabled cim websites exists' => [

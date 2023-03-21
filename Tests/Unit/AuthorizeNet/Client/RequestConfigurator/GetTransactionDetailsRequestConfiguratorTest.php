@@ -10,7 +10,7 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 class GetTransactionDetailsRequestConfiguratorTest extends AbstractRequestConfiguratorTest
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function getConfigurator(): RequestConfiguratorInterface
     {
@@ -18,7 +18,7 @@ class GetTransactionDetailsRequestConfiguratorTest extends AbstractRequestConfig
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function isApplicableProvider(): array
     {
@@ -37,7 +37,7 @@ class GetTransactionDetailsRequestConfiguratorTest extends AbstractRequestConfig
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function handleProvider(): array
     {

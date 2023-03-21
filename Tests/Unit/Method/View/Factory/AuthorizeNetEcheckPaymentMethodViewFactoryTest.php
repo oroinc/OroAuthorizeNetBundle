@@ -10,31 +10,25 @@ use Symfony\Component\Form\FormFactoryInterface;
 
 class AuthorizeNetEcheckPaymentMethodViewFactoryTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var FormFactoryInterface
-     */
-    protected $formFactory;
+    /** @var FormFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $formFactory;
 
-    /**
-     * @var AuthorizeNetEcheckPaymentMethodViewFactory
-     */
-    protected $factory;
+    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $tokenAccessor;
 
-    /**
-     * @var TokenAccessorInterface
-     */
-    protected $tokenAccessor;
+    /** @var AuthorizeNetEcheckPaymentMethodViewFactory */
+    private $factory;
 
     protected function setUp(): void
     {
         $this->formFactory = $this->createMock(FormFactoryInterface::class);
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
+
         $this->factory = new AuthorizeNetEcheckPaymentMethodViewFactory($this->formFactory, $this->tokenAccessor);
     }
 
     public function testCreate()
     {
-        /** @var AuthorizeNetConfigInterface $config */
         $config = $this->createMock(AuthorizeNetConfigInterface::class);
 
         $expectedView = new AuthorizeNetEcheckPaymentMethodView($this->formFactory, $this->tokenAccessor, $config);

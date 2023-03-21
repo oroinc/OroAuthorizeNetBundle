@@ -4,19 +4,18 @@ namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\Method\Config;
 
 use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfig;
 use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfigInterface;
+use Oro\Bundle\PaymentBundle\Method\Config\PaymentConfigInterface;
 use Oro\Bundle\PaymentBundle\Tests\Unit\Method\Config\AbstractPaymentConfigTestCase;
 
 class AuthorizeNetConfigTest extends AbstractPaymentConfigTestCase
 {
-    /**
-     * @var AuthorizeNetConfigInterface
-     */
+    /** @var AuthorizeNetConfigInterface */
     protected $config;
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    protected function getPaymentConfig()
+    protected function getPaymentConfig(): PaymentConfigInterface
     {
         $params = [
             AuthorizeNetConfig::FIELD_PAYMENT_METHOD_IDENTIFIER => 'test_payment_method_identifier',

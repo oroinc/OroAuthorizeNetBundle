@@ -27,7 +27,7 @@ class MethodOptionProviderFactoryTest extends \PHPUnit\Framework\TestCase
     private $doctrineHelper;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject|AddressExtractor */
-    protected $addressExtractor;
+    private $addressExtractor;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject|TaxProviderRegistry */
     private $taxProviderRegistry;

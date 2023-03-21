@@ -19,13 +19,13 @@ class AddressInfoProviderTest extends \PHPUnit\Framework\TestCase
     private $doctrineHelper;
 
     /** @var AddressExtractor|\PHPUnit\Framework\MockObject\MockObject */
-    protected $addressExtractor;
+    private $addressExtractor;
 
     /** @var PaymentTransaction|\PHPUnit\Framework\MockObject\MockObject */
-    protected $paymentTransaction;
+    private $paymentTransaction;
 
     /** @var AddressInfoProvider */
-    protected $provider;
+    private $provider;
 
     protected function setUp(): void
     {
@@ -45,20 +45,16 @@ class AddressInfoProviderTest extends \PHPUnit\Framework\TestCase
 
     public function testGetBillingAddressDtoExtractException()
     {
-        $this->addressExtractor
-            ->expects($this->once())
+        $this->addressExtractor->expects($this->once())
             ->method('extractAddress')
-            ->willThrowException(
-                new \InvalidArgumentException('Something went wrong')
-            );
+            ->willThrowException(new \InvalidArgumentException('Something went wrong'));
 
         $this->assertNull($this->provider->getBillingAddressDto());
     }
 
     public function testGetBillingAddressDtoWrongAddressEntity()
     {
-        $this->addressExtractor
-            ->expects($this->once())
+        $this->addressExtractor->expects($this->once())
             ->method('extractAddress')
             ->willReturn(new \stdClass());
 
@@ -82,8 +78,7 @@ class AddressInfoProviderTest extends \PHPUnit\Framework\TestCase
         $orderAddress->setCity('Los Angeles');
         $orderAddress->setPhone('+123456');
 
-        $this->addressExtractor
-            ->expects($this->once())
+        $this->addressExtractor->expects($this->once())
             ->method('extractAddress')
             ->willReturn($orderAddress);
 
@@ -117,8 +112,7 @@ class AddressInfoProviderTest extends \PHPUnit\Framework\TestCase
         $orderAddress->setCity('Los Angeles');
         $orderAddress->setPhone('+123456');
 
-        $this->addressExtractor
-            ->expects($this->once())
+        $this->addressExtractor->expects($this->once())
             ->method('extractAddress')
             ->willReturn($orderAddress);
 
@@ -137,20 +131,16 @@ class AddressInfoProviderTest extends \PHPUnit\Framework\TestCase
 
     public function testGetShippingAddressDtoExtractException()
     {
-        $this->addressExtractor
-            ->expects($this->once())
+        $this->addressExtractor->expects($this->once())
             ->method('extractAddress')
-            ->willThrowException(
-                new \InvalidArgumentException('Something went wrong')
-            );
+            ->willThrowException(new \InvalidArgumentException('Something went wrong'));
 
         $this->assertNull($this->provider->getShippingAddressDto());
     }
 
     public function testGetShippingAddressDtoWrongEntity()
     {
-        $this->addressExtractor
-            ->expects($this->once())
+        $this->addressExtractor->expects($this->once())
             ->method('extractAddress')
             ->willReturn(new \stdClass());
 
@@ -177,8 +167,7 @@ class AddressInfoProviderTest extends \PHPUnit\Framework\TestCase
             $this->getEntity(Region::class, ['name' => 'California'], ['CA'])
         );
 
-        $this->addressExtractor
-            ->expects($this->once())
+        $this->addressExtractor->expects($this->once())
             ->method('extractAddress')
             ->willReturn($orderAddress);
 
@@ -212,8 +201,7 @@ class AddressInfoProviderTest extends \PHPUnit\Framework\TestCase
             $this->getEntity(Region::class, ['name' => 'California'], ['CA'])
         );
 
-        $this->addressExtractor
-            ->expects($this->once())
+        $this->addressExtractor->expects($this->once())
             ->method('extractAddress')
             ->willReturn($orderAddress);
 

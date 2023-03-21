@@ -4,6 +4,7 @@ namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\AuthorizeNet\Client\RequestCo
 
 use net\authorize\api\contract\v1 as AnetAPI;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\RequestConfigurator as RequestConfigurator;
+use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\RequestConfigurator\RequestConfiguratorInterface;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option\Address as AddressOption;
 
@@ -12,12 +13,18 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option\Address as AddressOption;
  */
 class UpdateCustomerPaymentProfileRequestConfiguratorTest extends AbstractRequestConfiguratorTest
 {
-    protected function getConfigurator()
+    /**
+     * {@inheritDoc}
+     */
+    protected function getConfigurator(): RequestConfiguratorInterface
     {
         return new RequestConfigurator\UpdateCustomerPaymentProfileRequestConfigurator();
     }
 
-    public function isApplicableProvider()
+    /**
+     * {@inheritDoc}
+     */
+    public function isApplicableProvider(): array
     {
         return [
             'supported' => [
@@ -34,9 +41,9 @@ class UpdateCustomerPaymentProfileRequestConfiguratorTest extends AbstractReques
     }
 
     /**
-     * @return array
+     * {@inheritDoc}
      */
-    public function handleProvider()
+    public function handleProvider(): array
     {
         return [
             'all options' => [

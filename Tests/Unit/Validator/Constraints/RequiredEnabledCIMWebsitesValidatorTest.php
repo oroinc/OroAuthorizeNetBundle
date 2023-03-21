@@ -13,7 +13,10 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 class RequiredEnabledCIMWebsitesValidatorTest extends ConstraintValidatorTestCase
 {
-    protected function createValidator()
+    /**
+     * {@inheritDoc}
+     */
+    protected function createValidator(): RequiredEnabledCIMWebsitesValidator
     {
         return new RequiredEnabledCIMWebsitesValidator();
     }

@@ -30,7 +30,10 @@ class ForbidToReuseEnabledCIMWebsitesValidatorTest extends ConstraintValidatorTe
         parent::setUp();
     }
 
-    protected function createValidator()
+    /**
+     * {@inheritDoc}
+     */
+    protected function createValidator(): ForbidToReuseEnabledCIMWebsitesValidator
     {
         return new ForbidToReuseEnabledCIMWebsitesValidator($this->doctrineHelper, $this->websiteProvider);
     }

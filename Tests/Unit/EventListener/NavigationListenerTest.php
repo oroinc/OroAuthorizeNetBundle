@@ -33,15 +33,11 @@ class NavigationListenerTest extends \PHPUnit\Framework\TestCase
      */
     public function testOnNavigationConfigure(bool $cimEnabled, bool $expectedIsDisplayed)
     {
-        $this
-            ->websiteManager
-            ->expects($this->once())
+        $this->websiteManager->expects($this->once())
             ->method('getCurrentWebsite')
             ->willReturn(new Website());
 
-        $this
-            ->configProvider
-            ->expects($this->atLeastOnce())
+        $this->configProvider->expects($this->atLeastOnce())
             ->method('hasPaymentWithEnabledCIMByWebsite')
             ->willReturn($cimEnabled);
 
@@ -56,7 +52,7 @@ class NavigationListenerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedIsDisplayed, $menuItem->isDisplayed());
     }
 
-    public function onNavigationConfigureDataProvider()
+    public function onNavigationConfigureDataProvider(): array
     {
         return [
             'cim enabled' => [

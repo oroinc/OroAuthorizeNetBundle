@@ -7,7 +7,7 @@ use Psr\Cache\CacheItemPoolInterface;
 
 class PaymentProfileIDs
 {
-    const CUSTOMER_PAYMENT_PROFILE_IDS = 'oro_au_net_mock_customer_payment_profile_ids';
+    private const CUSTOMER_PAYMENT_PROFILE_IDS = 'oro_au_net_mock_customer_payment_profile_ids';
 
     private CacheItemPoolInterface $cache;
 
@@ -16,17 +16,13 @@ class PaymentProfileIDs
         $this->cache = $cache;
     }
 
-    /**
-     * @param string $customerPaymentProfileId
-     * @return bool
-     */
-    public function save(string $customerPaymentProfileId)
+    public function save(string $customerPaymentProfileId): bool
     {
         $paymentProfileIDsCachedItem = $this->getCachedItem();
         if (!$paymentProfileIDsCachedItem->isHit()) {
             $paymentProfileIDs = [];
         } else {
-            $paymentProfileIDs = \json_decode($paymentProfileIDsCachedItem->get(), true);
+            $paymentProfileIDs = json_decode($paymentProfileIDsCachedItem->get(), true);
         }
 
         if (\in_array($customerPaymentProfileId, $paymentProfileIDs, true)) {
@@ -34,57 +30,49 @@ class PaymentProfileIDs
         }
 
         $paymentProfileIDs[] = $customerPaymentProfileId;
-        $paymentProfileIDsCachedItem->set(\json_encode($paymentProfileIDs));
+        $paymentProfileIDsCachedItem->set(json_encode($paymentProfileIDs));
         $this->saveCachedItem($paymentProfileIDsCachedItem);
 
         return true;
     }
 
     /**
-     * @return array|string[]
+     * @return string[]
      */
-    public function all()
+    public function all(): array
     {
         $paymentProfileIDsCachedItem = $this->getCachedItem();
         if (!$paymentProfileIDsCachedItem->isHit()) {
             return [];
         }
 
-        return \json_decode($paymentProfileIDsCachedItem->get(), true);
+        return json_decode($paymentProfileIDsCachedItem->get(), true);
     }
 
-    /**
-     * @param string $customerPaymentProfileId
-     * @return bool
-     */
-    public function exists(string $customerPaymentProfileId)
+    public function exists(string $customerPaymentProfileId): bool
     {
         $paymentProfileIDsCachedItem = $this->getCachedItem();
         if (!$paymentProfileIDsCachedItem->isHit()) {
             return false;
         }
 
-        $paymentProfileIds = \json_decode($paymentProfileIDsCachedItem->get(), true);
+        $paymentProfileIds = json_decode($paymentProfileIDsCachedItem->get(), true);
 
         return \in_array($customerPaymentProfileId, $paymentProfileIds, true);
     }
 
-    /**
-     * @param string $customerPaymentProfileId
-     * @return bool
-     */
-    public function remove(string $customerPaymentProfileId)
+    public function remove(string $customerPaymentProfileId): bool
     {
         $paymentProfileIDsCachedItem = $this->getCachedItem();
         if (!$paymentProfileIDsCachedItem->isHit()) {
             return false;
         }
 
-        $paymentProfileIds = \json_decode($paymentProfileIDsCachedItem->get(), true);
+        $paymentProfileIds = json_decode($paymentProfileIDsCachedItem->get(), true);
 
         if (in_array($customerPaymentProfileId, $paymentProfileIds, true)) {
-            $paymentProfileIDsCachedItem->set(\json_encode(
-                \array_diff($paymentProfileIds, [$customerPaymentProfileId])
+            $paymentProfileIDsCachedItem->set(json_encode(
+                array_diff($paymentProfileIds, [$customerPaymentProfileId])
             ));
             $this->saveCachedItem($paymentProfileIDsCachedItem);
 

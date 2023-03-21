@@ -3,24 +3,30 @@
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\AuthorizeNet\Option;
 
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
+use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
+use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 
 class TransactionTest extends AbstractOptionTest
 {
-    /** {@inheritdoc} */
-    protected function getOptions()
+    /**
+     * {@inheritDoc}
+     */
+    protected function getOptions(): array
     {
         return [new Option\Transaction()];
     }
 
-    /** {@inheritdoc} */
-    public function configureOptionDataProvider()
+    /**
+     * {@inheritDoc}
+     */
+    public function configureOptionDataProvider(): array
     {
         return [
             'required' => [
                 [],
                 [],
                 [
-                    'Symfony\Component\OptionsResolver\Exception\MissingOptionsException',
+                    MissingOptionsException::class,
                     'The required option "transaction_type" is missing.',
                 ],
             ],
@@ -28,7 +34,7 @@ class TransactionTest extends AbstractOptionTest
                 ['transaction_type' => 12345],
                 [],
                 [
-                    'Symfony\Component\OptionsResolver\Exception\InvalidOptionsException',
+                    InvalidOptionsException::class,
                     'The option "transaction_type" with value 12345 is invalid. Accepted values are: '.
                     '"authOnlyTransaction", "priorAuthCaptureTransaction", "authCaptureTransaction"',
                 ],
@@ -38,9 +44,8 @@ class TransactionTest extends AbstractOptionTest
 
     /**
      * @dataProvider validTransactionValuesDataProvider
-     * @param string $transactionAction
      */
-    public function testValidTransactionValues($transactionAction)
+    public function testValidTransactionValues(string $transactionAction)
     {
         $transaction = new Option\Transaction();
         $resolver = new Option\OptionsResolver();
@@ -51,7 +56,7 @@ class TransactionTest extends AbstractOptionTest
         $this->assertEquals($transactionAction, $resolved['transaction_type']);
     }
 
-    public function validTransactionValuesDataProvider()
+    public function validTransactionValuesDataProvider(): array
     {
         return [
             ['authOnlyTransaction'],

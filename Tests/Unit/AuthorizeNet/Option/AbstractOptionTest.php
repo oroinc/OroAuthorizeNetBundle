@@ -7,13 +7,19 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 abstract class AbstractOptionTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Option\OptionInterface[] */
-    protected $options;
+    protected array $options;
 
-    /** @return array */
-    abstract public function configureOptionDataProvider();
+    protected function setUp(): void
+    {
+        $this->options = $this->getOptions();
+    }
 
-    /** @return Option\OptionInterface[] */
-    abstract protected function getOptions();
+    abstract public function configureOptionDataProvider(): array;
+
+    /**
+     * @return Option\OptionInterface[]
+     */
+    abstract protected function getOptions(): array;
 
     /**
      * @dataProvider configureOptionDataProvider
@@ -24,7 +30,7 @@ abstract class AbstractOptionTest extends \PHPUnit\Framework\TestCase
         array $exceptionAndMessage = []
     ) {
         if ($exceptionAndMessage) {
-            list($exception, $message) = $exceptionAndMessage;
+            [$exception, $message] = $exceptionAndMessage;
             $this->expectException($exception);
             $this->expectExceptionMessage($message);
         }
@@ -43,15 +49,5 @@ abstract class AbstractOptionTest extends \PHPUnit\Framework\TestCase
         } else {
             $this->assertEmpty($resolvedOptions);
         }
-    }
-
-    protected function setUp(): void
-    {
-        $this->options = $this->getOptions();
-    }
-
-    protected function tearDown(): void
-    {
-        unset($this->options);
     }
 }

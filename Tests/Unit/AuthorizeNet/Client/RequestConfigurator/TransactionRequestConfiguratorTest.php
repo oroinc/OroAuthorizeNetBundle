@@ -12,21 +12,13 @@ use Oro\Bundle\OrderBundle\Entity\OrderLineItem;
 
 class TransactionRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
 {
-    const SOLUTION_ID = 'AAA000001';
+    private const SOLUTION_ID = 'AAA000001';
 
-    /**
-     * @var TransactionRequestConfigurator
-     */
-    protected $transactionRequestConfigurator;
+    private TransactionRequestConfigurator $transactionRequestConfigurator;
 
     protected function setUp(): void
     {
         $this->transactionRequestConfigurator = new TransactionRequestConfigurator();
-    }
-
-    protected function tearDown(): void
-    {
-        unset($this->transactionRequestConfigurator);
     }
 
     public function testIsApplicable()
@@ -59,12 +51,11 @@ class TransactionRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
     {
         $opaqueData = (new AnetAPI\OpaqueDataType())
             ->setDataDescriptor('data_desc')
-            ->setDataValue('data_value')
-        ;
+            ->setDataValue('data_value');
         $paymentType = (new AnetAPI\PaymentType())->setOpaqueData($opaqueData);
         $solutionType = (new AnetApi\SolutionType())->setId(self::SOLUTION_ID);
 
-        return \array_merge(
+        return array_merge(
             [
                 'amount only' => [
                     'options' => [
@@ -116,7 +107,7 @@ class TransactionRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    protected function getOpaqueHandleData(AnetAPI\PaymentType $paymentType): array
+    private function getOpaqueHandleData(AnetAPI\PaymentType $paymentType): array
     {
         return [
             'opaque parameters only' => [
@@ -142,7 +133,7 @@ class TransactionRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    protected function getCustomerPaymentProfileHandleData(): array
+    private function getCustomerPaymentProfileHandleData(): array
     {
         return [
             'with_customer_payment_profile_id' => [
@@ -181,7 +172,7 @@ class TransactionRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    protected function getCreateProfileCustomerProfileExistsData(): array
+    private function getCreateProfileCustomerProfileExistsData(): array
     {
         return [
             'with_create_profile_true' => [
@@ -209,7 +200,7 @@ class TransactionRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    protected function getCreateProfileGenerateCustomerIdHandleData(): array
+    private function getCreateProfileGenerateCustomerIdHandleData(): array
     {
         return [
             'with_create_profile_customer_data_no_email' => [
@@ -244,7 +235,7 @@ class TransactionRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    protected function getBillingAddressHandleData(): array
+    private function getBillingAddressHandleData(): array
     {
         return [
             'billTo hasOneField' => [
@@ -284,7 +275,7 @@ class TransactionRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    protected function getAllChargeCreditCardHandleData(
+    private function getAllChargeCreditCardHandleData(
         AnetAPI\PaymentType $paymentType,
         AnetApi\SolutionType $solutionType
     ): array {
@@ -311,7 +302,7 @@ class TransactionRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    protected function getAllChargeCustomerProfileHandleData(AnetApi\SolutionType $solutionType): array
+    private function getAllChargeCustomerProfileHandleData(AnetApi\SolutionType $solutionType): array
     {
         return [
             'all parameters together charge payment profile' => [
@@ -345,7 +336,7 @@ class TransactionRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    protected function getShippingAddressHandleData(): array
+    private function getShippingAddressHandleData(): array
     {
         return [
             'shipTo hasOneField' => [
@@ -399,7 +390,7 @@ class TransactionRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    protected function getInvoiceNumberHandleData(): array
+    private function getInvoiceNumberHandleData(): array
     {
         return [
             'with invoiceNumber' => [
@@ -422,7 +413,7 @@ class TransactionRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    protected function getTaxAmountHandleData(): array
+    private function getTaxAmountHandleData(): array
     {
         return [
             'with taxAmount' => [
@@ -446,7 +437,7 @@ class TransactionRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    protected function getLineItemsHandleData(): array
+    private function getLineItemsHandleData(): array
     {
         $repearString = function ($multiplier) {
             return \str_repeat('-', $multiplier);

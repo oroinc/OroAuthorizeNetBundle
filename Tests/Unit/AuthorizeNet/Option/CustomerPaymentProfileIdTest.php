@@ -3,28 +3,30 @@
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\AuthorizeNet\Option;
 
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
+use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
+use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 
 class CustomerPaymentProfileIdTest extends AbstractOptionTest
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    protected function getOptions()
+    protected function getOptions(): array
     {
         return [new Option\CustomerPaymentProfileId()];
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function configureOptionDataProvider()
+    public function configureOptionDataProvider(): array
     {
         return [
             'required' => [
                 [],
                 [],
                 [
-                    'Symfony\Component\OptionsResolver\Exception\MissingOptionsException',
+                    MissingOptionsException::class,
                     'The required option "customer_payment_profile_id" is missing.',
                 ],
             ],
@@ -32,7 +34,7 @@ class CustomerPaymentProfileIdTest extends AbstractOptionTest
                 ['customer_payment_profile_id' => 12345],
                 [],
                 [
-                    'Symfony\Component\OptionsResolver\Exception\InvalidOptionsException',
+                    InvalidOptionsException::class,
                     'The option "customer_payment_profile_id" with value 12345 is expected'.
                     ' to be of type "string", but is of type '.
                     '"int".',

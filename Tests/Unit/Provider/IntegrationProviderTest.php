@@ -40,19 +40,16 @@ class IntegrationProviderTest extends \PHPUnit\Framework\TestCase
         $transport = new AuthorizeNetSettings();
         $transport->setChannel(new Channel());
 
-        $this->repository
-            ->expects($this->once())
+        $this->repository->expects($this->once())
             ->method('findCIMEnabledSettingsByTypeAndWebsite')
             ->with(AuthorizeNetChannelType::TYPE, $website)
             ->willReturn([$transport]);
 
-        $this->websiteManager
-            ->expects($this->once())
+        $this->websiteManager->expects($this->once())
             ->method('getCurrentWebsite')
             ->willReturn($website);
 
-        $this->doctrineHelper
-            ->expects($this->once())
+        $this->doctrineHelper->expects($this->once())
             ->method('getEntityRepository')
             ->with(AuthorizeNetSettings::class)
             ->willReturn($this->repository);
@@ -67,18 +64,15 @@ class IntegrationProviderTest extends \PHPUnit\Framework\TestCase
         $transport = new AuthorizeNetSettings();
         $transport->setChannel(new Channel());
 
-        $this->repository
-            ->expects($this->once())
+        $this->repository->expects($this->once())
             ->method('findCIMEnabledSettingsByTypeAndWebsite')
             ->with(AuthorizeNetChannelType::TYPE, $website)
             ->willReturn([$transport]);
 
-        $this->websiteManager
-            ->expects($this->never())
+        $this->websiteManager->expects($this->never())
             ->method('getCurrentWebsite');
 
-        $this->doctrineHelper
-            ->expects($this->once())
+        $this->doctrineHelper->expects($this->once())
             ->method('getEntityRepository')
             ->with(AuthorizeNetSettings::class)
             ->willReturn($this->repository);
@@ -91,18 +85,15 @@ class IntegrationProviderTest extends \PHPUnit\Framework\TestCase
     {
         $website = new Website();
 
-        $this->repository
-            ->expects($this->once())
+        $this->repository->expects($this->once())
             ->method('findCIMEnabledSettingsByTypeAndWebsite')
             ->with(AuthorizeNetChannelType::TYPE, $website)
             ->willReturn([]);
 
-        $this->websiteManager
-            ->expects($this->never())
+        $this->websiteManager->expects($this->never())
             ->method('getCurrentWebsite');
 
-        $this->doctrineHelper
-            ->expects($this->once())
+        $this->doctrineHelper->expects($this->once())
             ->method('getEntityRepository')
             ->with(AuthorizeNetSettings::class)
             ->willReturn($this->repository);

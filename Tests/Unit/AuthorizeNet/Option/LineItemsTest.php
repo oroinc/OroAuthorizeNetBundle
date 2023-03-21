@@ -8,14 +8,18 @@ use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 
 class LineItemsTest extends AbstractOptionTest
 {
-    /** @return Option\OptionInterface[] */
-    protected function getOptions()
+    /**
+     * {@inheritDoc}
+     */
+    protected function getOptions(): array
     {
-        return [new Option\LineItems($isRequired = false)];
+        return [new Option\LineItems(false)];
     }
 
-    /** @return array */
-    public function configureOptionDataProvider()
+    /**
+     * {@inheritDoc}
+     */
+    public function configureOptionDataProvider(): array
     {
         $lineItems = [new OrderLineItem()];
         return [

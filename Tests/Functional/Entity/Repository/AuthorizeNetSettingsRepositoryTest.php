@@ -9,48 +9,20 @@ use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class AuthorizeNetSettingsRepositoryTest extends WebTestCase
 {
-    /**
-     * @var AuthorizeNetSettingsRepository
-     */
-    protected $repository;
+    private AuthorizeNetSettingsRepository $repository;
 
     protected function setUp(): void
     {
-        $this->initClient([], $this->generateBasicAuthHeader());
+        $this->initClient([], self::generateBasicAuthHeader());
+        $this->loadFixtures([LoadAuthorizeNetChannelData::class]);
 
-        $this->loadFixtures(
-            [
-                LoadAuthorizeNetChannelData::class,
-            ]
-        );
-
-        $this->repository = $this->getContainer()->get('doctrine')
-            ->getManagerForClass(AuthorizeNetSettings::class)
+        $this->repository = self::getContainer()->get('doctrine')
             ->getRepository(AuthorizeNetSettings::class);
     }
 
-    /**
-     * @dataProvider getEnabledSettingsByTypeDataProvider
-     *
-     * @param string $type
-     * @param integer $expectedCount
-     */
-    public function testGetEnabledSettingsByType($type, $expectedCount)
+    public function testGetEnabledSettingsByType()
     {
-        $enabledSettings = $this->repository->getEnabledSettingsByType($type);
-        $this->assertCount($expectedCount, $enabledSettings);
-    }
-
-    /**
-     * @return array
-     */
-    public function getEnabledSettingsByTypeDataProvider()
-    {
-        return [
-            [
-                'type' => 'authorize_net',
-                'expectedCount' => 2,
-            ],
-        ];
+        $enabledSettings = $this->repository->getEnabledSettingsByType('authorize_net');
+        self::assertCount(2, $enabledSettings);
     }
 }

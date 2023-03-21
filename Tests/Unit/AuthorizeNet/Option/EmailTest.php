@@ -3,28 +3,30 @@
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\AuthorizeNet\Option;
 
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
+use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
+use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 
 class EmailTest extends AbstractOptionTest
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    protected function getOptions()
+    protected function getOptions(): array
     {
         return [new Option\Email()];
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function configureOptionDataProvider()
+    public function configureOptionDataProvider(): array
     {
         return [
             'required' => [
                 [],
                 [],
                 [
-                    'Symfony\Component\OptionsResolver\Exception\MissingOptionsException',
+                    MissingOptionsException::class,
                     'The required option "email" is missing.',
                 ],
             ],
@@ -32,7 +34,7 @@ class EmailTest extends AbstractOptionTest
                 ['email' => 12345],
                 [],
                 [
-                    'Symfony\Component\OptionsResolver\Exception\InvalidOptionsException',
+                    InvalidOptionsException::class,
                     'The option "email" with value 12345 is expected to be of type "string", but is of type '.
                     '"int".',
                 ],

@@ -3,24 +3,30 @@
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\AuthorizeNet\Option;
 
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
+use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
+use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 
 class ValidationModeTest extends AbstractOptionTest
 {
-    /** {@inheritdoc} */
-    protected function getOptions()
+    /**
+     * {@inheritDoc}
+     */
+    protected function getOptions(): array
     {
         return [new Option\ValidationMode()];
     }
 
-    /** {@inheritdoc} */
-    public function configureOptionDataProvider()
+    /**
+     * {@inheritDoc}
+     */
+    public function configureOptionDataProvider(): array
     {
         return [
             'required' => [
                 [],
                 [],
                 [
-                    'Symfony\Component\OptionsResolver\Exception\MissingOptionsException',
+                    MissingOptionsException::class,
                     'The required option "validation_mode" is missing.',
                 ],
             ],
@@ -28,7 +34,7 @@ class ValidationModeTest extends AbstractOptionTest
                 ['validation_mode' => 1],
                 [],
                 [
-                    'Symfony\Component\OptionsResolver\Exception\InvalidOptionsException',
+                    InvalidOptionsException::class,
                     'The option "validation_mode" with value 1 is invalid. Accepted values are: '.
                     '"testMode", "liveMode"',
                 ],
@@ -43,9 +49,8 @@ class ValidationModeTest extends AbstractOptionTest
 
     /**
      * @dataProvider allowedValuesDataProvider
-     * @param string $allowedValue
      */
-    public function testAllowedValues($allowedValue)
+    public function testAllowedValues(string $allowedValue)
     {
         $validationMode = new Option\ValidationMode();
         $resolver = new Option\OptionsResolver();
@@ -56,7 +61,7 @@ class ValidationModeTest extends AbstractOptionTest
         $this->assertEquals($allowedValue, $resolved['validation_mode']);
     }
 
-    public function allowedValuesDataProvider()
+    public function allowedValuesDataProvider(): array
     {
         return [
             ['testMode'],

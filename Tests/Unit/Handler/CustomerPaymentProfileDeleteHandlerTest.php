@@ -35,23 +35,19 @@ class CustomerPaymentProfileDeleteHandlerTest extends \PHPUnit\Framework\TestCas
     {
         $paymentProfile = new CustomerPaymentProfile();
 
-        $this->manager
-            ->expects($this->once())
+        $this->manager->expects($this->once())
             ->method('remove')
             ->with($paymentProfile);
 
-        $this->manager
-            ->expects($this->once())
+        $this->manager->expects($this->once())
             ->method('flush');
 
-        $this->doctrineHelper
-            ->expects($this->once())
+        $this->doctrineHelper->expects($this->once())
             ->method('getEntityManager')
             ->with($paymentProfile)
             ->willReturn($this->manager);
 
-        $this->requestSender
-            ->expects($this->once())
+        $this->requestSender->expects($this->once())
             ->method('deleteCustomerPaymentProfile')
             ->with($paymentProfile);
 
@@ -62,24 +58,20 @@ class CustomerPaymentProfileDeleteHandlerTest extends \PHPUnit\Framework\TestCas
     {
         $paymentProfile = new CustomerPaymentProfile();
 
-        $this->manager
-            ->expects($this->never())
+        $this->manager->expects($this->never())
             ->method('remove')
             ->with($paymentProfile);
 
-        $this->manager
-            ->expects($this->never())
+        $this->manager->expects($this->never())
             ->method('flush');
 
-        $this->doctrineHelper
-            ->expects($this->never())
+        $this->doctrineHelper->expects($this->never())
             ->method('getEntityManager')
             ->with($paymentProfile)
             ->willReturn($this->manager);
 
         $exception = new \LogicException('api error');
-        $this->requestSender
-            ->expects($this->once())
+        $this->requestSender->expects($this->once())
             ->method('deleteCustomerPaymentProfile')
             ->with($paymentProfile)
             ->willThrowException($exception);

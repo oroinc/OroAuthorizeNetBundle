@@ -13,24 +13,22 @@ use Oro\Bundle\DataGridBundle\Event\BuildAfter;
 
 class PaymentProfileGridListenerTest extends \PHPUnit\Framework\TestCase
 {
+    private const EXTERNAL_IDS = ['external1', 'external2'];
+
     /** @var PaymentProfileGridListener */
     private $eventListener;
 
-    /** @var PaymentProfileProvider */
+    /** @var PaymentProfileProvider|\PHPUnit\Framework\MockObject\MockObject */
     private $paymentProfileProvider;
 
-    /** @var CustomerProfileProvider */
+    /** @var CustomerProfileProvider|\PHPUnit\Framework\MockObject\MockObject */
     private $customerProfileProvider;
 
-    const EXTERNAL_IDS = ['external1', 'external2'];
-
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->paymentProfileProvider = $this->createMock(PaymentProfileProvider::class);
         $this->customerProfileProvider = $this->createMock(CustomerProfileProvider::class);
+
         $this->eventListener = new PaymentProfileGridListener(
             $this->paymentProfileProvider,
             $this->customerProfileProvider
@@ -39,8 +37,7 @@ class PaymentProfileGridListenerTest extends \PHPUnit\Framework\TestCase
 
     public function testOnBuildAfter()
     {
-        $this->paymentProfileProvider
-            ->expects($this->once())
+        $this->paymentProfileProvider->expects($this->once())
             ->method('getPaymentProfileExternalIds')
             ->willReturn(self::EXTERNAL_IDS);
 

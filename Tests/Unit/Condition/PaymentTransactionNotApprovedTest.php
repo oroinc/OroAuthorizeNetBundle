@@ -5,14 +5,10 @@ namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\Condition;
 use Oro\Bundle\AuthorizeNetBundle\Condition\PaymentTransactionNotApproved;
 use Oro\Bundle\PaymentBundle\Entity\PaymentTransaction;
 use Oro\Component\ConfigExpression\Condition\AbstractCondition;
-use PHPUnit\Framework\TestCase;
 
-class PaymentTransactionNotApprovedTest extends TestCase
+class PaymentTransactionNotApprovedTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var PaymentTransactionNotApproved
-     */
-    private $condition;
+    private PaymentTransactionNotApproved $condition;
 
     protected function setUp(): void
     {

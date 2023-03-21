@@ -17,23 +17,20 @@ class AuthorizeNetPaymentMethodViewTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
-    const ALLOWED_CC_TYPES = ['visa', 'mastercard'];
+    private const ALLOWED_CC_TYPES = ['visa', 'mastercard'];
 
     /** @var FormFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $formFactory;
+    private $formFactory;
 
     /** @var AuthorizeNetPaymentMethodView */
-    protected $methodView;
+    private $methodView;
 
     /** @var AuthorizeNetConfigInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $paymentConfig;
+    private $paymentConfig;
 
     /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $tokenAccessor;
+    private $tokenAccessor;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->formFactory = $this->createMock(FormFactoryInterface::class);
@@ -48,11 +45,9 @@ class AuthorizeNetPaymentMethodViewTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param bool $requireCvvEntryEnabled
-     * @param bool $isEnabledCIM
      * @dataProvider getOptionsProvider
      */
-    public function testGetOptions($requireCvvEntryEnabled, $isEnabledCIM)
+    public function testGetOptions(bool $requireCvvEntryEnabled, bool $isEnabledCIM)
     {
         [$formView, $context] = $this->prepareMocks($requireCvvEntryEnabled, $isEnabledCIM);
 
@@ -102,19 +97,15 @@ class AuthorizeNetPaymentMethodViewTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('_payment_methods_authorize_net_widget', $this->methodView->getBlock());
     }
 
-    /**
-     * @param bool $requireCvvEntryEnabled
-     * @param bool $isEnabledCIM
-     * @return array|\PHPUnit\Framework\MockObject\MockObject[]
-     */
-    protected function prepareMocks($requireCvvEntryEnabled, $isEnabledCIM)
+    private function prepareMocks(bool $requireCvvEntryEnabled, bool $isEnabledCIM): array
     {
         $formView = $this->createMock(FormView::class);
         $form = $this->createMock(FormInterface::class);
-        $form->expects($this->once())->method('createView')->willReturn($formView);
+        $form->expects($this->once())
+            ->method('createView')
+            ->willReturn($formView);
 
-        $this->tokenAccessor
-            ->expects($this->once())
+        $this->tokenAccessor->expects($this->once())
             ->method('hasUser')
             ->willReturn(true);
 
@@ -157,16 +148,12 @@ class AuthorizeNetPaymentMethodViewTest extends \PHPUnit\Framework\TestCase
             ->method('isRequireCvvEntryEnabled')
             ->willReturn($requireCvvEntryEnabled);
 
-        /** @var PaymentContextInterface|\PHPUnit\Framework\MockObject\MockObject $context */
         $context = $this->createMock(PaymentContextInterface::class);
 
-        return array($formView, $context);
+        return [$formView, $context];
     }
 
-    /**
-     * @return array
-     */
-    public function getOptionsProvider()
+    public function getOptionsProvider(): array
     {
         return [
             'cvv not required, cim disabled' => [

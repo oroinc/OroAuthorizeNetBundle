@@ -6,8 +6,7 @@ use Oro\Bundle\AuthorizeNetBundle\Integration\AuthorizeNetChannelType;
 
 class AuthorizeNetChannelTypeTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var AuthorizeNetChannelType */
-    private $channel;
+    private AuthorizeNetChannelType $channel;
 
     protected function setUp(): void
     {
@@ -16,11 +15,11 @@ class AuthorizeNetChannelTypeTest extends \PHPUnit\Framework\TestCase
 
     public function testGetLabelReturnsString()
     {
-        $this->assertTrue(is_string($this->channel->getLabel()));
+        $this->assertIsString($this->channel->getLabel());
     }
 
     public function testGetIconReturnsString()
     {
-        $this->assertTrue(is_string($this->channel->getIcon()));
+        $this->assertIsString($this->channel->getIcon());
     }
 }

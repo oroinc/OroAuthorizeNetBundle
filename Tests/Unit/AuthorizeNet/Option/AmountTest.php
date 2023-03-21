@@ -3,28 +3,30 @@
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\AuthorizeNet\Option;
 
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
+use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
+use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 
 class AmountTest extends AbstractOptionTest
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    protected function getOptions()
+    protected function getOptions(): array
     {
         return [new Option\Amount()];
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function configureOptionDataProvider()
+    public function configureOptionDataProvider(): array
     {
         return [
             'empty' => [
                 [],
                 [],
                 [
-                    'Symfony\Component\OptionsResolver\Exception\MissingOptionsException',
+                    MissingOptionsException::class,
                     'The required option "amount" is missing.',
                 ],
             ],
@@ -32,7 +34,7 @@ class AmountTest extends AbstractOptionTest
                 ['amount' => 'twenty backs'],
                 [],
                 [
-                    'Symfony\Component\OptionsResolver\Exception\InvalidOptionsException',
+                    InvalidOptionsException::class,
                     'The option "amount" with value "twenty backs" is expected to be of type "float" or "integer", '.
                     'but is of type "string".',
                 ],

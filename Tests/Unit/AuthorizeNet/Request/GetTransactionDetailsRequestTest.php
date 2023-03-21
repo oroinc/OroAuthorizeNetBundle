@@ -13,7 +13,7 @@ class GetTransactionDetailsRequestTest extends AbstractRequestTest
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function optionsProvider(): array
     {

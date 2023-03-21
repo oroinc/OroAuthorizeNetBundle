@@ -13,28 +13,22 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class AuthorizeNetPaymentMethodFactoryTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var Gateway
-     */
+    /** @var Gateway|\PHPUnit\Framework\MockObject\MockObject */
     private $gateway;
 
-    /**
-     * @var LoggerInterface;
-     */
-    protected $logger;
+    /** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $logger;
 
     /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject */
-    protected $requestStack;
+    private $requestStack;
 
     /** @var MethodOptionResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $methodOptionResolver;
+    private $methodOptionResolver;
 
     /** @var EventDispatcherInterface */
-    protected $eventDispatcher;
+    private $eventDispatcher;
 
-    /**
-     * @var AuthorizeNetPaymentMethodFactory
-     */
+    /** @var AuthorizeNetPaymentMethodFactory */
     private $factory;
 
     protected function setUp(): void
@@ -56,7 +50,6 @@ class AuthorizeNetPaymentMethodFactoryTest extends \PHPUnit\Framework\TestCase
 
     public function testCreate()
     {
-        /** @var AuthorizeNetConfigInterface $config */
         $config = $this->createMock(AuthorizeNetConfigInterface::class);
 
         $method = new AuthorizeNetPaymentMethod(

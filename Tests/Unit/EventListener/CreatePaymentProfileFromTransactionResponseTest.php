@@ -22,9 +22,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CreatePaymentProfileFromTransactionResponseTest extends \PHPUnit\Framework\TestCase
 {
-    const CUSTOMER_PROFILE_ID = '111';
-    const PAYMENT_PROFILE_ID = '222';
-    const LAST_DIGITS = '1234';
+    private const CUSTOMER_PROFILE_ID = '111';
+    private const PAYMENT_PROFILE_ID = '222';
+    private const LAST_DIGITS = '1234';
 
     /** @var CreatePaymentProfileFromTransactionResponse */
     private $eventListener;
@@ -53,9 +53,6 @@ class CreatePaymentProfileFromTransactionResponseTest extends \PHPUnit\Framework
     /** @var CustomerPaymentProfile */
     private $paymentProfile;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->doctrineHelper = $this->createMock(DoctrineHelper::class);
@@ -83,28 +80,23 @@ class CreatePaymentProfileFromTransactionResponseTest extends \PHPUnit\Framework
         $transaction = $this->createTransaction();
 
         $response = $this->createMock(AuthorizeNetSDKTransactionResponse::class);
-        $response
-            ->expects($this->exactly(2))
+        $response->expects($this->exactly(2))
             ->method('getData')
-            ->willReturn($this->buildResponseData($successful = true));
+            ->willReturn($this->buildResponseData(true));
 
         $customerProfileRepository = $this->createMock(EntityRepository::class);
-        $customerProfileRepository
-            ->expects($this->once())
+        $customerProfileRepository->expects($this->once())
             ->method('findOneBy')
             ->with(['customerProfileId' => self::CUSTOMER_PROFILE_ID], null)
             ->willReturn($customerProfile);
 
         $paymentProfileRepository = $this->createMock(EntityRepository::class);
-        $paymentProfileRepository
-            ->expects($this->once())
+        $paymentProfileRepository->expects($this->once())
             ->method('findOneBy')
             ->with(['customerPaymentProfileId' => self::PAYMENT_PROFILE_ID], null)
             ->willReturn($paymentProfile);
 
-        $this
-            ->doctrineHelper
-            ->expects($this->any())
+        $this->doctrineHelper->expects($this->any())
             ->method('getEntityRepository')
             ->willReturnMap([
                 [CustomerProfile::class, $customerProfileRepository],
@@ -112,17 +104,13 @@ class CreatePaymentProfileFromTransactionResponseTest extends \PHPUnit\Framework
             ]);
 
         $manager = $this->createMock(EntityManager::class);
-        $manager
-            ->expects($this->never())
+        $manager->expects($this->never())
             ->method('persist')
             ->with($paymentProfile);
-
-        $manager
-            ->expects($this->never())
+        $manager->expects($this->never())
             ->method('flush');
-        $this
-            ->doctrineHelper
-            ->expects($this->never())
+
+        $this->doctrineHelper->expects($this->never())
             ->method('getEntityManager')
             ->with($paymentProfile)
             ->willReturn($manager);
@@ -133,10 +121,8 @@ class CreatePaymentProfileFromTransactionResponseTest extends \PHPUnit\Framework
 
     /**
      * @dataProvider successfulResponseDataProvider
-     * @param array $responseData
-     * @param string $expectedProfileType
      */
-    public function testOnTransactionResponseReceivedCreateAll($responseData, $expectedProfileType)
+    public function testOnTransactionResponseReceivedCreateAll(array $responseData, string $expectedProfileType)
     {
         $transaction = $this->createTransaction();
         $transaction->setFrontendOwner($this->customerUser);
@@ -146,43 +132,34 @@ class CreatePaymentProfileFromTransactionResponseTest extends \PHPUnit\Framework
         $order = new Order();
         $order->setWebsite($website);
 
-        $this
-            ->integrationProvider
-            ->expects($this->once())
+        $this->integrationProvider->expects($this->once())
             ->method('getIntegration')
             ->with($website)
             ->willReturn($this->integration);
 
-        $this
-            ->doctrineHelper
-            ->expects($this->once())
+        $this->doctrineHelper->expects($this->once())
             ->method('getEntity')
             ->with($transaction->getEntityClass(), $transaction->getEntityIdentifier())
             ->willReturn($order);
 
         $response = $this->createMock(AuthorizeNetSDKTransactionResponse::class);
-        $response
-            ->expects($this->exactly(2))
+        $response->expects($this->exactly(2))
             ->method('getData')
             ->willReturn($responseData);
 
         $customerProfileRepository = $this->createMock(EntityRepository::class);
-        $customerProfileRepository
-            ->expects($this->once())
+        $customerProfileRepository->expects($this->once())
             ->method('findOneBy')
             ->with(['customerProfileId' => self::CUSTOMER_PROFILE_ID], null)
             ->willReturn(null);
 
         $paymentProfileRepository = $this->createMock(EntityRepository::class);
-        $paymentProfileRepository
-            ->expects($this->once())
+        $paymentProfileRepository->expects($this->once())
             ->method('findOneBy')
             ->with(['customerPaymentProfileId' => self::PAYMENT_PROFILE_ID], null)
             ->willReturn(null);
 
-        $this
-            ->doctrineHelper
-            ->expects($this->any())
+        $this->doctrineHelper->expects($this->any())
             ->method('getEntityRepository')
             ->willReturnMap([
                 [CustomerProfile::class, $customerProfileRepository],
@@ -190,8 +167,7 @@ class CreatePaymentProfileFromTransactionResponseTest extends \PHPUnit\Framework
             ]);
 
         $manager = $this->createMock(EntityManager::class);
-        $manager
-            ->expects($this->once())
+        $manager->expects($this->once())
             ->method('persist')
             ->willReturnCallback(function (CustomerProfile $customerProfile) use ($expectedProfileType) {
                 /** @var CustomerPaymentProfile $paymentProfile */
@@ -207,13 +183,10 @@ class CreatePaymentProfileFromTransactionResponseTest extends \PHPUnit\Framework
                 $this->assertSame('****' . self::LAST_DIGITS, $paymentProfile->getName());
                 $this->assertSame($expectedProfileType, $paymentProfile->getType());
             });
-
-        $manager
-            ->expects($this->once())
+        $manager->expects($this->once())
             ->method('flush');
-        $this
-            ->doctrineHelper
-            ->expects($this->once())
+
+        $this->doctrineHelper->expects($this->once())
             ->method('getEntityManager')
             ->willReturn($manager);
 
@@ -223,48 +196,39 @@ class CreatePaymentProfileFromTransactionResponseTest extends \PHPUnit\Framework
 
     /**
      * @dataProvider successfulResponseDataProvider
-     * @param array $responseData
-     * @param string $expectedProfileType
      */
-    public function testOnTransactionResponseReceivedCreatePaymentProfileOnly($responseData, $expectedProfileType)
-    {
+    public function testOnTransactionResponseReceivedCreatePaymentProfileOnly(
+        array $responseData,
+        string $expectedProfileType
+    ) {
         $transaction = $this->createTransaction();
         $customerProfile = $this->customerProfile;
         $customerProfile->setCustomerUser($this->customerUser);
 
-        $this
-            ->integrationProvider
-            ->expects($this->never())
+        $this->integrationProvider->expects($this->never())
             ->method('getIntegration');
 
-        $this
-            ->doctrineHelper
-            ->expects($this->never())
+        $this->doctrineHelper->expects($this->never())
             ->method('getEntity');
 
         $response = $this->createMock(AuthorizeNetSDKTransactionResponse::class);
-        $response
-            ->expects($this->exactly(2))
+        $response->expects($this->exactly(2))
             ->method('getData')
             ->willReturn($responseData);
 
         $customerProfileRepository = $this->createMock(EntityRepository::class);
-        $customerProfileRepository
-            ->expects($this->once())
+        $customerProfileRepository->expects($this->once())
             ->method('findOneBy')
             ->with(['customerProfileId' => self::CUSTOMER_PROFILE_ID], null)
             ->willReturn($customerProfile);
 
         $paymentProfileRepository = $this->createMock(EntityRepository::class);
-        $paymentProfileRepository
-            ->expects($this->once())
+        $paymentProfileRepository->expects($this->once())
             ->method('findOneBy')
             ->with(['customerPaymentProfileId' => self::PAYMENT_PROFILE_ID], null)
             ->willReturn(null);
 
-        $this
-            ->doctrineHelper
-            ->expects($this->any())
+        $this->doctrineHelper->expects($this->any())
             ->method('getEntityRepository')
             ->willReturnMap([
                 [CustomerProfile::class, $customerProfileRepository],
@@ -272,8 +236,7 @@ class CreatePaymentProfileFromTransactionResponseTest extends \PHPUnit\Framework
             ]);
 
         $manager = $this->createMock(EntityManager::class);
-        $manager
-            ->expects($this->once())
+        $manager->expects($this->once())
             ->method('persist')
             ->willReturnCallback(function (CustomerProfile $customerProfile) use ($expectedProfileType) {
                 /** @var CustomerPaymentProfile $paymentProfile */
@@ -285,13 +248,10 @@ class CreatePaymentProfileFromTransactionResponseTest extends \PHPUnit\Framework
                 $this->assertSame('****' . self::LAST_DIGITS, $paymentProfile->getName());
                 $this->assertSame($expectedProfileType, $paymentProfile->getType());
             });
-
-        $manager
-            ->expects($this->once())
+        $manager->expects($this->once())
             ->method('flush');
-        $this
-            ->doctrineHelper
-            ->expects($this->once())
+
+        $this->doctrineHelper->expects($this->once())
             ->method('getEntityManager')
             ->willReturn($manager);
 
@@ -305,24 +265,20 @@ class CreatePaymentProfileFromTransactionResponseTest extends \PHPUnit\Framework
     public function testOnTransactionResponseReceivedNotApplicable(array $data, PaymentTransaction $transaction)
     {
         $response = $this->createMock(AuthorizeNetSDKTransactionResponse::class);
-        $response
-            ->expects($this->once())
+        $response->expects($this->once())
             ->method('getData')
             ->willReturn($data);
 
-        $this
-            ->session
+        $this->session->expects($this->any())
             ->method('getFlashBag')
             ->willReturn($this->createMock(FlashBagInterface::class));
 
         $customerProfileRepository = $this->createMock(EntityRepository::class);
-        $customerProfileRepository
-            ->expects($this->never())
+        $customerProfileRepository->expects($this->never())
             ->method('findOneBy');
 
         $paymentProfileRepository = $this->createMock(EntityRepository::class);
-        $paymentProfileRepository
-            ->expects($this->never())
+        $paymentProfileRepository->expects($this->never())
             ->method('findOneBy');
 
         $event = new TransactionResponseReceivedEvent($response, $transaction);
@@ -334,30 +290,22 @@ class CreatePaymentProfileFromTransactionResponseTest extends \PHPUnit\Framework
         $transaction = $this->createTransaction();
         $response = $this->createMock(AuthorizeNetSDKTransactionResponse::class);
 
-        $response
-            ->expects($this->once())
+        $response->expects($this->once())
             ->method('getData')
-            ->willReturn($this->buildResponseData($successful = false));
+            ->willReturn($this->buildResponseData(false));
 
-        $this
-            ->translator
-            ->expects($this->once())
+        $this->translator->expects($this->once())
             ->method('trans')
             ->willReturn('error_message');
 
         $flashBag = $this->createMock(FlashBagInterface::class);
-        $flashBag
-            ->expects($this->once())
+        $flashBag->expects($this->once())
             ->method('add')
             ->with('warning', 'error_message');
-        $this
-            ->session
-            ->expects($this->once())
+        $this->session->expects($this->once())
             ->method('isStarted')
             ->willReturn(true);
-        $this
-            ->session
-            ->expects($this->once())
+        $this->session->expects($this->once())
             ->method('getFlashBag')
             ->willReturn($flashBag);
 
@@ -365,17 +313,15 @@ class CreatePaymentProfileFromTransactionResponseTest extends \PHPUnit\Framework
         $this->eventListener->onTransactionResponseReceived($event);
     }
 
-    /**
-     * @return array
-     */
-    public function notApplicableProvider()
+    public function notApplicableProvider(): array
     {
         $transactionWithFrontendOwner = $this->createTransaction();
 
-        $noProfileResponseData = $successfulResponseData = $this->buildResponseData($successful = true);
+        $noProfileResponseData = $this->buildResponseData(true);
+        $successfulResponseData = $noProfileResponseData;
         unset($noProfileResponseData['profile_response']);
 
-        $errorResponseData = $this->buildResponseData($successful = false);
+        $errorResponseData = $this->buildResponseData(false);
 
         return [
             'no profile response data' => [
@@ -393,29 +339,21 @@ class CreatePaymentProfileFromTransactionResponseTest extends \PHPUnit\Framework
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function successfulResponseDataProvider()
+    public function successfulResponseDataProvider(): array
     {
         return [
             'credit card response' => [
-                'responseData' => $this->buildResponseData($successful = true, $accountType = 'visa'),
+                'responseData' => $this->buildResponseData(true, 'visa'),
                 'excpectedProfileType' => CustomerPaymentProfile::TYPE_CREDITCARD
             ],
             'echeck response' => [
-                'responseData' => $this->buildResponseData($successful = true, $accountType = 'eCheck'),
+                'responseData' => $this->buildResponseData(true, 'eCheck'),
                 'excpectedProfileType' => CustomerPaymentProfile::TYPE_ECHECK
             ]
         ];
     }
 
-    /**
-     * @param bool $successful
-     * @param string $accountType
-     * @return array
-     */
-    private function buildResponseData($successful, $accountType = 'visa')
+    private function buildResponseData(bool $successful, string $accountType = 'visa'): array
     {
         return [
             'transaction_response' => [
@@ -438,11 +376,7 @@ class CreatePaymentProfileFromTransactionResponseTest extends \PHPUnit\Framework
         ];
     }
 
-    /**
-     * @param bool $withFrontendOwner
-     * @return PaymentTransaction
-     */
-    private function createTransaction($withFrontendOwner = true)
+    private function createTransaction(bool $withFrontendOwner = true): PaymentTransaction
     {
         $transaction = new PaymentTransaction();
 

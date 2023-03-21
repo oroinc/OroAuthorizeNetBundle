@@ -7,20 +7,14 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Client\RequestConfigurator\Reques
 
 abstract class AbstractRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var RequestConfiguratorInterface
-     */
-    protected $configurator;
+    protected RequestConfiguratorInterface $configurator;
 
     protected function setUp(): void
     {
         $this->configurator = $this->getConfigurator();
     }
 
-    /**
-     * @return RequestConfiguratorInterface
-     */
-    abstract protected function getConfigurator();
+    abstract protected function getConfigurator(): RequestConfiguratorInterface;
 
     /**
      * @dataProvider isApplicableProvider
@@ -30,10 +24,7 @@ abstract class AbstractRequestConfiguratorTest extends \PHPUnit\Framework\TestCa
         $this->assertEquals($expectedResult, $this->configurator->isApplicable($request, $options));
     }
 
-    /**
-     * @return array
-     */
-    abstract public function isApplicableProvider();
+    abstract public function isApplicableProvider(): array;
 
     /**
      * @dataProvider handleProvider
@@ -53,8 +44,5 @@ abstract class AbstractRequestConfiguratorTest extends \PHPUnit\Framework\TestCa
         $this->assertEquals($expectedRequest, $request);
     }
 
-    /**
-     * @return array
-     */
-    abstract public function handleProvider();
+    abstract public function handleProvider(): array;
 }

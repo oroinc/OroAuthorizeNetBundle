@@ -6,18 +6,15 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request\AuthenticateTestRequest;
 
 class AuthenticateTestRequestTest extends AbstractRequestTest
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->request = new AuthenticateTestRequest();
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function optionsProvider()
+    public function optionsProvider(): array
     {
         return [
             'default' => []

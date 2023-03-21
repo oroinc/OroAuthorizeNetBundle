@@ -17,15 +17,13 @@ class AuthorizeNetCIMEnabledConfigProviderTest extends \PHPUnit\Framework\TestCa
     /** @var AuthorizeNetCIMEnabledConfigProvider */
     private $CIMEnabledConfigProvider;
 
-    /** @var AuthorizeNetConfigProviderInterface | \PHPunit\Framework\MockObject\MockObject */
+    /** @var AuthorizeNetConfigProviderInterface|\PHPunit\Framework\MockObject\MockObject */
     private $configProvider;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->configProvider = $this->createMock(AuthorizeNetConfigProviderInterface::class);
+
         $this->CIMEnabledConfigProvider = new AuthorizeNetCIMEnabledConfigProvider($this->configProvider);
     }
 
@@ -38,8 +36,7 @@ class AuthorizeNetCIMEnabledConfigProviderTest extends \PHPUnit\Framework\TestCa
         AuthorizeNetConfigInterface $expectedResult = null
     ) {
         $paymentConfigs = array_map([$this, 'getConfigsByConfigsParams'], $paymentConfigsParams);
-        $this->configProvider
-            ->expects($this->once())
+        $this->configProvider->expects($this->once())
             ->method('getPaymentConfigs')
             ->willReturn($paymentConfigs);
 
@@ -56,8 +53,7 @@ class AuthorizeNetCIMEnabledConfigProviderTest extends \PHPUnit\Framework\TestCa
         AuthorizeNetConfigInterface $expectedResult = null
     ) {
         $paymentConfigs = array_map([$this, 'getConfigsByConfigsParams'], $paymentConfigsParams);
-        $this->configProvider
-            ->expects($this->once())
+        $this->configProvider->expects($this->once())
             ->method('getPaymentConfigs')
             ->willReturn($paymentConfigs);
 
@@ -70,10 +66,7 @@ class AuthorizeNetCIMEnabledConfigProviderTest extends \PHPUnit\Framework\TestCa
         }
     }
 
-    /**
-     * @return array
-     */
-    public function getPaymentConfigWithEnabledCIMByWebsiteProvider()
+    public function getPaymentConfigWithEnabledCIMByWebsiteProvider(): array
     {
         $applicableWebsite = $this->getEntity(Website::class, ['id' => 1]);
         $notApplicableWebsite = $this->getEntity(Website::class, ['id' => 2]);
@@ -133,12 +126,7 @@ class AuthorizeNetCIMEnabledConfigProviderTest extends \PHPUnit\Framework\TestCa
         ];
     }
 
-    /**
-     * @param array $paymentConfigParams
-     *
-     * @return AuthorizeNetConfigInterface
-     */
-    private function getConfigsByConfigsParams(array $paymentConfigParams)
+    private function getConfigsByConfigsParams(array $paymentConfigParams): AuthorizeNetConfigInterface
     {
         $config = new AuthorizeNetConfig();
         $config->add($paymentConfigParams);

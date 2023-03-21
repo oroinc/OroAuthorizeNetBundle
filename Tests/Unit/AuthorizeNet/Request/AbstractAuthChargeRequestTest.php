@@ -8,9 +8,9 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request\AuthorizeRequest;
 abstract class AbstractAuthChargeRequestTest extends AbstractRequestTest
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function optionsProvider()
+    public function optionsProvider(): array
     {
         $default = [
             Option\Transaction::TRANSACTION_TYPE => (new AuthorizeRequest())->getType(),
@@ -44,13 +44,13 @@ abstract class AbstractAuthChargeRequestTest extends AbstractRequestTest
 
         return [
             'defaultChargeCreditCard' => [
-                \array_merge($default, $chargeCreditCard, $addressOptions)
+                array_merge($default, $chargeCreditCard, $addressOptions)
             ],
             'chargeCustomerProfile' => [
-                \array_merge($default, $chargeCustomerProfile)
+                array_merge($default, $chargeCustomerProfile)
             ],
             'chargeCreditCardWithCreateProfileTrue' => [
-                \array_merge(
+                array_merge(
                     $default,
                     $chargeCreditCard,
                     $addressOptions,
@@ -61,7 +61,7 @@ abstract class AbstractAuthChargeRequestTest extends AbstractRequestTest
                 )
             ],
             'chargeCreditCardWithCreateProfileAndCustomerDataId' => [
-                \array_merge(
+                array_merge(
                     $default,
                     $chargeCreditCard,
                     $addressOptions,
@@ -72,7 +72,7 @@ abstract class AbstractAuthChargeRequestTest extends AbstractRequestTest
                 )
             ],
             'chargeCreditCardWithCreateProfileFalse' => [
-                \array_merge(
+                array_merge(
                     $default,
                     $chargeCreditCard,
                     $addressOptions,

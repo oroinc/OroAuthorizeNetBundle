@@ -6,7 +6,6 @@ use Oro\Bundle\AuthorizeNetBundle\Entity\AuthorizeNetSettings;
 use Oro\Bundle\LocaleBundle\Entity\LocalizedFallbackValue;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
 use Oro\Component\Testing\Unit\EntityTrait;
-use Symfony\Component\HttpFoundation\ParameterBag;
 
 class AuthorizeNetSettingsTest extends \PHPUnit\Framework\TestCase
 {
@@ -43,7 +42,6 @@ class AuthorizeNetSettingsTest extends \PHPUnit\Framework\TestCase
 
     public function testGetSettingsBag()
     {
-        /** @var AuthorizeNetSettings $entity */
         $entity = $this->getEntity(
             AuthorizeNetSettings::class,
             [
@@ -64,7 +62,6 @@ class AuthorizeNetSettingsTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        /** @var ParameterBag $result */
         $result = $entity->getSettingsBag();
 
         $this->assertEquals('some login', $result->get('api_login_id'));

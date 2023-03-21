@@ -8,14 +8,18 @@ use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 
 class CustomerIpTest extends AbstractOptionTest
 {
-    /** @return Option\OptionInterface[] */
-    protected function getOptions()
+    /**
+     * {@inheritDoc}
+     */
+    protected function getOptions(): array
     {
         return [new Option\CustomerIp()];
     }
 
-    /** @return array */
-    public function configureOptionDataProvider()
+    /**
+     * {@inheritDoc}
+     */
+    public function configureOptionDataProvider(): array
     {
         return [
             'required' => [
