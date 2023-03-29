@@ -3,6 +3,7 @@
 @fixture-OroFlatRateShippingBundle:FlatRateIntegration.yml
 @fixture-OroCheckoutBundle:Shipping.yml
 @fixture-OroPaymentBundle:ProductsAndShoppingListsForPayments.yml
+@behat-test-env
 Feature: AuthorizeNet integration guest Checkout
   In order to purchase goods using Authorize.Net payment system
   As a Guest customer
