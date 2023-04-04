@@ -128,8 +128,8 @@ Feature: AuthorizeNet integration Fraud Detection
     And go to Sales/Orders
     Then I should see following grid:
       | PO Number | Payment Status  |
-      | 12345     | Paid in full    |
       | 54321     | Pending payment |
+      | 12345     | Paid in full    |
     And click view "Pending payment" in grid
     And I should see following "Order Payment Transaction Grid" grid:
       | Payment Method | Type   | Successful |
