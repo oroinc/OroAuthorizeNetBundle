@@ -10,7 +10,7 @@ use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\OrderBundle\Entity\Order;
 use Oro\Bundle\PaymentBundle\Entity\PaymentTransaction;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -20,28 +20,12 @@ class CreatePaymentProfileFromTransactionResponse
 {
     public const ACCOUNT_TYPE_ECHECK = 'eCheck';
 
-    /** @var DoctrineHelper */
-    private $doctrineHelper;
-
-    /** @var IntegrationProvider */
-    private $integrationProvider;
-
-    /** @var Session */
-    private $session;
-
-    /** @var TranslatorInterface */
-    private $translator;
-
     public function __construct(
-        DoctrineHelper $doctrineHelper,
-        IntegrationProvider $integrationProvider,
-        Session $session,
-        TranslatorInterface $translator
+        private DoctrineHelper $doctrineHelper,
+        private IntegrationProvider $integrationProvider,
+        private RequestStack $requestStack,
+        private TranslatorInterface $translator
     ) {
-        $this->doctrineHelper = $doctrineHelper;
-        $this->integrationProvider = $integrationProvider;
-        $this->session = $session;
-        $this->translator = $translator;
     }
 
     public function onTransactionResponseReceived(TransactionResponseReceivedEvent $event)
@@ -165,8 +149,9 @@ class CreatePaymentProfileFromTransactionResponse
      */
     private function addFlashMessage($message)
     {
-        if ($this->session->isStarted()) {
-            $this->session->getFlashBag()->add('warning', $message);
+        $request = $this->requestStack->getCurrentRequest();
+        if (null !== $request && $request->hasSession() && $request->getSession()->isStarted()) {
+            $request->getSession()->getFlashBag()->add('warning', $message);
         }
     }
 }

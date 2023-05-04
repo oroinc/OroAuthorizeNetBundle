@@ -16,6 +16,8 @@ use Oro\Bundle\IntegrationBundle\Entity\Channel;
 use Oro\Bundle\OrderBundle\Entity\Order;
 use Oro\Bundle\PaymentBundle\Entity\PaymentTransaction;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -35,8 +37,8 @@ class CreatePaymentProfileFromTransactionResponseTest extends \PHPUnit\Framework
     /** @var IntegrationProvider|\PHPUnit\Framework\MockObject\MockObject */
     private $integrationProvider;
 
-    /** @var Session|\PHPUnit\Framework\MockObject\MockObject */
-    private $session;
+    /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject */
+    private $requestStack;
 
     /** @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $translator;
@@ -57,13 +59,13 @@ class CreatePaymentProfileFromTransactionResponseTest extends \PHPUnit\Framework
     {
         $this->doctrineHelper = $this->createMock(DoctrineHelper::class);
         $this->integrationProvider = $this->createMock(IntegrationProvider::class);
-        $this->session = $this->createMock(Session::class);
+        $this->requestStack = $this->createMock(RequestStack::class);
         $this->translator = $this->createMock(TranslatorInterface::class);
 
         $this->eventListener = new CreatePaymentProfileFromTransactionResponse(
             $this->doctrineHelper,
             $this->integrationProvider,
-            $this->session,
+            $this->requestStack,
             $this->translator
         );
 
@@ -269,9 +271,9 @@ class CreatePaymentProfileFromTransactionResponseTest extends \PHPUnit\Framework
             ->method('getData')
             ->willReturn($data);
 
-        $this->session->expects($this->any())
-            ->method('getFlashBag')
-            ->willReturn($this->createMock(FlashBagInterface::class));
+        $this->requestStack->expects($this->any())
+            ->method('getSession')
+            ->willReturn($this->createMock(Session::class));
 
         $customerProfileRepository = $this->createMock(EntityRepository::class);
         $customerProfileRepository->expects($this->never())
@@ -297,15 +299,31 @@ class CreatePaymentProfileFromTransactionResponseTest extends \PHPUnit\Framework
         $this->translator->expects($this->once())
             ->method('trans')
             ->willReturn('error_message');
-
         $flashBag = $this->createMock(FlashBagInterface::class);
         $flashBag->expects($this->once())
             ->method('add')
             ->with('warning', 'error_message');
-        $this->session->expects($this->once())
+        $sessionMock = $this->createMock(Session::class);
+        $sessionMock->expects($this->once())
             ->method('isStarted')
             ->willReturn(true);
-        $this->session->expects($this->once())
+        $requestMock = $this->createMock(Request::class);
+        $requestMock->expects($this->exactly(2))
+            ->method('getSession')
+            ->willReturn($sessionMock);
+        $requestMock->expects($this->once())
+            ->method('hasSession')
+            ->willReturn(true);
+        $this->requestStack->expects($this->once())
+            ->method('getCurrentRequest')
+            ->willReturn($requestMock);
+        $sessionMock->expects($this->once())
+            ->method('getFlashBag')
+            ->willReturn($flashBag);
+        $sessionMock->expects($this->once())
+            ->method('isStarted')
+            ->willReturn(true);
+        $sessionMock->expects($this->once())
             ->method('getFlashBag')
             ->willReturn($flashBag);
 

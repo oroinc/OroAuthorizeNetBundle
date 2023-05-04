@@ -12,6 +12,7 @@ use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfigInterface;
 use Oro\Bundle\AuthorizeNetBundle\Method\Config\Provider\AuthorizeNetConfigProviderInterface;
 use Oro\Bundle\PaymentBundle\Entity\PaymentTransaction;
 use Oro\Bundle\PaymentBundle\Method\PaymentMethodInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -27,7 +28,7 @@ class FraudDetectionTransactionListenerTest extends \PHPUnit\Framework\TestCase
     private $configProvider;
 
     /** @var Session|\PHPUnit\Framework\MockObject\MockObject */
-    private $session;
+    private $requestStack;
 
     /** @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $translator;
@@ -41,14 +42,14 @@ class FraudDetectionTransactionListenerTest extends \PHPUnit\Framework\TestCase
     protected function setUp(): void
     {
         $this->configProvider = $this->createMock(AuthorizeNetConfigProviderInterface::class);
-        $this->session = $this->createMock(Session::class);
+        $this->requestStack = $this->createMock(RequestStack::class);
         $this->translator = $this->createMock(TranslatorInterface::class);
         $this->response = $this->createMock(AuthorizeNetSDKTransactionResponse::class);
         $this->paymentConfig = $this->createMock(AuthorizeNetConfigInterface::class);
 
         $this->eventListener = new FraudDetectionTransactionListener(
             $this->configProvider,
-            $this->session,
+            $this->requestStack,
             $this->translator
         );
     }
@@ -128,8 +129,11 @@ class FraudDetectionTransactionListenerTest extends \PHPUnit\Framework\TestCase
         $flashBag->expects($this->once())
             ->method('add')
             ->with('warning', $message);
-
-        $this->session->expects($this->once())
+        $sessionMock = $this->createMock(Session::class);
+        $this->requestStack->expects($this->once())
+            ->method('getSession')
+            ->willReturn($sessionMock);
+        $sessionMock->expects($this->once())
             ->method('getFlashBag')
             ->willReturn($flashBag);
 

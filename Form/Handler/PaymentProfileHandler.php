@@ -17,7 +17,7 @@ use Oro\Bundle\SecurityBundle\Authentication\TokenAccessor;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -31,8 +31,8 @@ class PaymentProfileHandler extends FormHandler
     /** @var TokenAccessor */
     private $tokenAccessor;
 
-    /** @var Session */
-    private $session;
+    /** @var RequestStack */
+    private $requestStack;
 
     /** @var RequestSender */
     private $requestSender;
@@ -50,7 +50,7 @@ class PaymentProfileHandler extends FormHandler
         EventDispatcherInterface $eventDispatcher,
         DoctrineHelper $doctrineHelper,
         TokenAccessor $tokenAccessor,
-        Session $session,
+        RequestStack $requestStack,
         RequestSender $requestSender,
         TranslatorInterface $translator,
         IntegrationProvider $integrationProvider,
@@ -58,7 +58,7 @@ class PaymentProfileHandler extends FormHandler
     ) {
         parent::__construct($eventDispatcher, $doctrineHelper);
         $this->tokenAccessor = $tokenAccessor;
-        $this->session = $session;
+        $this->requestStack = $requestStack;
         $this->requestSender = $requestSender;
         $this->translator = $translator;
         $this->integrationProvider = $integrationProvider;
@@ -88,7 +88,7 @@ class PaymentProfileHandler extends FormHandler
                     'oro.authorize_net.frontend.payment_profile.message.not_saved',
                     ['%reason%' => $e->getMessage()]
                 );
-                $this->session->getFlashBag()->add('error', $errorMessage);
+                $this->requestStack->getSession()->getFlashBag()->add('error', $errorMessage);
             }
         } elseif (!$form->isSubmitted() && $paymentProfile->getId()) { //fill up dto with api response
             $paymentProfileData = $this->requestSender->getCustomerPaymentProfile($paymentProfile);

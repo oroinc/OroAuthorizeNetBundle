@@ -21,6 +21,7 @@ use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -51,7 +52,7 @@ class PaymentProfileHandlerTest extends \PHPUnit\Framework\TestCase
     private $form;
 
     /** @var Session|\PHPUnit\Framework\MockObject\MockObject */
-    private $session;
+    private $requestStack;
 
     /** @var CustomerProfileProvider|\PHPUnit\Framework\MockObject\MockObject */
     private $customerProfileProvider;
@@ -68,7 +69,7 @@ class PaymentProfileHandlerTest extends \PHPUnit\Framework\TestCase
         $this->requestSender = $this->createMock(RequestSender::class);
         $this->manager = $this->createMock(EntityManager::class);
         $this->form = $this->createMock(FormInterface::class);
-        $this->session = $this->createMock(Session::class);
+        $this->requestStack = $this->createMock(RequestStack::class);
 
         $this->customerProfileProvider = $this->createMock(CustomerProfileProvider::class);
         $eventDispatcher = $this->createMock(EventDispatcherInterface::class);
@@ -78,7 +79,7 @@ class PaymentProfileHandlerTest extends \PHPUnit\Framework\TestCase
             $eventDispatcher,
             $this->doctrineHelper,
             $this->tokenAccessor,
-            $this->session,
+            $this->requestStack,
             $this->requestSender,
             $translator,
             $this->integrationProvider,
@@ -277,8 +278,11 @@ class PaymentProfileHandlerTest extends \PHPUnit\Framework\TestCase
             ->method('createCustomerPaymentProfile')
             ->with($paymentProfileDTO)
             ->willThrowException(new \LogicException('api error'));
-
-        $this->session->expects($this->any())
+        $sessionMock = $this->createMock(Session::class);
+        $this->requestStack->expects($this->any())
+            ->method('getSession')
+            ->willReturn($sessionMock);
+        $sessionMock->expects($this->any())
             ->method('getFlashBag')
             ->willReturn(new FlashBag());
 
@@ -326,7 +330,11 @@ class PaymentProfileHandlerTest extends \PHPUnit\Framework\TestCase
             ->method('createCustomerProfile')
             ->willThrowException(new \LogicException('api error'));
 
-        $this->session->expects($this->any())
+        $sessionMock = $this->createMock(Session::class);
+        $this->requestStack->expects($this->any())
+            ->method('getSession')
+            ->willReturn($sessionMock);
+        $sessionMock->expects($this->any())
             ->method('getFlashBag')
             ->willReturn(new FlashBag());
 
@@ -371,7 +379,11 @@ class PaymentProfileHandlerTest extends \PHPUnit\Framework\TestCase
             ->with($paymentProfileDTO)
             ->willThrowException(new \LogicException('api error'));
 
-        $this->session->expects($this->any())
+        $sessionMock = $this->createMock(Session::class);
+        $this->requestStack->expects($this->any())
+            ->method('getSession')
+            ->willReturn($sessionMock);
+        $sessionMock->expects($this->any())
             ->method('getFlashBag')
             ->willReturn(new FlashBag());
 

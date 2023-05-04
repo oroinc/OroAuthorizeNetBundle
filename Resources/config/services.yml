@@ -80,7 +80,7 @@ services:
         parent: oro_form.form.handler.default
         arguments:
             - '@oro_security.token_accessor'
-            - '@session'
+            - '@request_stack'
             - '@oro_authorize_net.helper.request_sender'
             - '@translator'
             - '@oro_authorize_net.provider.integration'
@@ -164,7 +164,7 @@ services:
         arguments:
             - '@oro_entity.doctrine_helper'
             - '@oro_authorize_net.provider.integration'
-            - '@session'
+            - '@request_stack'
             - '@translator'
         tags:
             - { name: kernel.event_listener, event: oro_authorize_net.transaction_response.received, method: onTransactionResponseReceived }
@@ -198,7 +198,7 @@ services:
         class: 'Oro\Bundle\AuthorizeNetBundle\EventListener\FraudDetectionTransactionListener'
         arguments:
             - '@oro_authorize_net.method.config.provider'
-            - '@session'
+            - '@request_stack'
             - '@translator'
         tags:
             - { name: kernel.event_listener, event: oro_authorize_net.transaction_response.received, method: onTransactionResponseReceived }

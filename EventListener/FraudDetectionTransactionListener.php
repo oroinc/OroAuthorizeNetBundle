@@ -8,7 +8,7 @@ use Oro\Bundle\AuthorizeNetBundle\Exception\TransactionLimitReachedException;
 use Oro\Bundle\AuthorizeNetBundle\Method\AuthorizeNetPaymentMethod;
 use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfig;
 use Oro\Bundle\AuthorizeNetBundle\Method\Config\Provider\AuthorizeNetConfigProviderInterface;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -16,29 +16,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class FraudDetectionTransactionListener
 {
-    /**
-     * @var AuthorizeNetConfigProviderInterface
-     */
-    protected $configProvider;
-
-    /**
-     * @var SessionInterface
-     */
-    protected $session;
-
-    /**
-     * @var TranslatorInterface
-     */
-    protected $translator;
-
     public function __construct(
-        AuthorizeNetConfigProviderInterface $configProvider,
-        SessionInterface $session,
-        TranslatorInterface $translator
+        protected AuthorizeNetConfigProviderInterface $configProvider,
+        protected RequestStack $requestStack,
+        protected TranslatorInterface $translator
     ) {
-        $this->configProvider = $configProvider;
-        $this->session = $session;
-        $this->translator = $translator;
     }
 
     public function onTransactionResponseReceived(TransactionResponseReceivedEvent $event): void
@@ -54,7 +36,7 @@ class FraudDetectionTransactionListener
         $config = $this->configProvider->getPaymentConfig($paymentTransaction->getPaymentMethod());
         if (!$config->isAllowHoldTransaction()) {
             $message = $this->translator->trans('oro.authorize_net.message.allow_hold_transaction');
-            $this->session->getFlashBag()->add('warning', $message);
+            $this->requestStack->getSession()->getFlashBag()->add('warning', $message);
 
             throw new TransactionLimitReachedException('The transaction limit reached.');
         }
