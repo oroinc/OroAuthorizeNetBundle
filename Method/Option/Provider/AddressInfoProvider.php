@@ -83,7 +83,7 @@ class AddressInfoProvider
             return null;
         }
 
-        return (new PaymentProfileAddressDTO)
+        return (new PaymentProfileAddressDTO())
             ->setFirstName($funcTruncate($address->getFirstName(), self::FIRST_NAME_MAX_LENGTH))
             ->setLastName($funcTruncate($address->getLastName(), self::LAST_NAME_MAX_LENGTH))
             ->setCompany($funcTruncate($address->getOrganization(), self::COMPANY_NAME_MAX_LENGTH))

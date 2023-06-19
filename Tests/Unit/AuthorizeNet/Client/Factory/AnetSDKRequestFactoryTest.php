@@ -17,7 +17,7 @@ class AnetSDKRequestFactoryTest extends \PHPUnit\Framework\TestCase
     public function testCreateRequest(string $requestType, string $apiRequestClass)
     {
         $options = [];
-        $transactionRequest = new $apiRequestClass;
+        $transactionRequest = new $apiRequestClass();
 
         $requestConfigurator1 = $this->createMock(RequestConfiguratorInterface::class);
         $requestConfigurator1->expects($this->once())
@@ -57,7 +57,7 @@ class AnetSDKRequestFactoryTest extends \PHPUnit\Framework\TestCase
     public function testCreateController(string $apiRequestClass, string $apiControllerClass)
     {
         /** @var AnetAPI\ANetApiRequestType $request */
-        $request = new $apiRequestClass;
+        $request = new $apiRequestClass();
         $request->setMerchantAuthentication(new AnetAPI\MerchantAuthenticationType());
 
         $factory = new AnetSDKRequestFactory([]);

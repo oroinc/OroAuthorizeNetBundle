@@ -67,7 +67,7 @@ class AnetSDKRequestFactory implements AnetSDKRequestFactoryInterface
             throw new \InvalidArgumentException('Unsupported request type');
         }
 
-        $request = new static::$requestClassMap[$type];
+        $request = new static::$requestClassMap[$type]();
 
         foreach ($this->requestConfigurators as $configurator) {
             if ($configurator->isApplicable($request, $options)) {

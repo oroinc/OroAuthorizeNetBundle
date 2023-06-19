@@ -81,8 +81,8 @@ class AuthorizeNetSDKResponseTest extends \PHPUnit\Framework\TestCase
 
     public function testGetSuccessMessage()
     {
-        $apiMessage = (new MessagesType\MessageAType)->setCode(255)->setText('Will be force with you!');
-        $apiMessageType = (new MessagesType)->setResultCode('Ok')->setMessage([$apiMessage]);
+        $apiMessage = (new MessagesType\MessageAType())->setCode(255)->setText('Will be force with you!');
+        $apiMessageType = (new MessagesType())->setResultCode('Ok')->setMessage([$apiMessage]);
 
         $this->apiResponse->expects($this->exactly(2))
             ->method('getMessages')
@@ -96,8 +96,8 @@ class AuthorizeNetSDKResponseTest extends \PHPUnit\Framework\TestCase
 
     public function testGetErrorMessage()
     {
-        $apiMessage = (new MessagesType\MessageAType)->setCode(408)->setText('The Dark Side is strong in you!');
-        $apiMessageType = (new MessagesType)->setResultCode('Error')->setMessage([$apiMessage]);
+        $apiMessage = (new MessagesType\MessageAType())->setCode(408)->setText('The Dark Side is strong in you!');
+        $apiMessageType = (new MessagesType())->setResultCode('Error')->setMessage([$apiMessage]);
 
         $this->apiResponse->expects($this->exactly(2))
             ->method('getMessages')
