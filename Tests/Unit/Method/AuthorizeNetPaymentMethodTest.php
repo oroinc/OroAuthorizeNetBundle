@@ -345,7 +345,7 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
 
     public function testVerify()
     {
-        $transaction = (new PaymentTransaction)
+        $transaction = (new PaymentTransaction())
             ->setAction(AuthorizeNetPaymentMethod::VERIFY);
 
         $testMode = false;
@@ -379,7 +379,7 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
 
     public function testVerifyWithErrorCode()
     {
-        $transaction = (new PaymentTransaction)
+        $transaction = (new PaymentTransaction())
             ->setAction(AuthorizeNetPaymentMethod::VERIFY);
 
         $testMode = false;
@@ -415,7 +415,7 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
     {
         $authorizeTransaction = $this->createPaymentTransaction(PaymentMethodInterface::AUTHORIZE);
 
-        $transaction = (new PaymentTransaction)
+        $transaction = (new PaymentTransaction())
             ->setSourcePaymentTransaction($authorizeTransaction)
             ->setAction(PaymentMethodInterface::CAPTURE);
 
@@ -486,7 +486,7 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
 
     public function testCaptureWithoutSourcePaymentAction()
     {
-        $transaction = (new PaymentTransaction)
+        $transaction = (new PaymentTransaction())
             ->setAction(PaymentMethodInterface::CAPTURE);
 
         $testMode = false;
@@ -735,8 +735,8 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
             $transactionResponse->setErrors([]);
         }
 
-        $apiMessage = (new MessagesType\MessageAType)->setCode($responseCode)->setText($message);
-        $apiMessageType = (new MessagesType)->setResultCode($resultCode)->setMessage([$apiMessage]);
+        $apiMessage = (new MessagesType\MessageAType())->setCode($responseCode)->setText($message);
+        $apiMessageType = (new MessagesType())->setResultCode($resultCode)->setMessage([$apiMessage]);
 
         $transactionResponse->setResponseCode($responseCode);
         $transactionResponse->setTransId($transactionId);

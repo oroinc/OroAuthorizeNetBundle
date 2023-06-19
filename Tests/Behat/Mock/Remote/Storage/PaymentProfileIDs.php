@@ -82,12 +82,12 @@ class PaymentProfileIDs
         return false;
     }
 
-    private function getCachedItem() : CacheItemInterface
+    private function getCachedItem(): CacheItemInterface
     {
         return $this->cache->getItem(self::CUSTOMER_PAYMENT_PROFILE_IDS);
     }
 
-    private function saveCachedItem(CacheItemInterface $item) : void
+    private function saveCachedItem(CacheItemInterface $item): void
     {
         $this->cache->save($item);
     }

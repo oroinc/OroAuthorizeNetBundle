@@ -49,7 +49,7 @@ class AuthorizeNetSDKClientTest extends \PHPUnit\Framework\TestCase
             ->with($requestType, $requestOptions)
             ->willReturn($request);
 
-        $transactionResponse = new $apiResponseClass;
+        $transactionResponse = new $apiResponseClass();
         $controller = $this->createMock($apiControllerClass);
         $controller->expects($this->once())
             ->method('executeWithApiResponse')

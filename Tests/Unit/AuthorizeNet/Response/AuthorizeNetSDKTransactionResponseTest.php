@@ -95,14 +95,14 @@ class AuthorizeNetSDKTransactionResponseTest extends \PHPUnit\Framework\TestCase
 
     public function testGetSuccessMessage()
     {
-        $transactionMessage = (new TransactionMessage)->setCode(144)->setDescription('Luke is the best jedi');
+        $transactionMessage = (new TransactionMessage())->setCode(144)->setDescription('Luke is the best jedi');
 
         $transactionResponse = new TransactionResponseType();
         $transactionResponse->setResponseCode('1');
         $transactionResponse->setMessages([$transactionMessage]);
 
-        $apiMessage = (new MessagesType\MessageAType)->setCode(255)->setText('Will be force with you!');
-        $apiMessageType = (new MessagesType)->setResultCode('Ok')->setMessage([$apiMessage]);
+        $apiMessage = (new MessagesType\MessageAType())->setCode(255)->setText('Will be force with you!');
+        $apiMessageType = (new MessagesType())->setResultCode('Ok')->setMessage([$apiMessage]);
 
         $this->apiResponse->expects($this->once())
             ->method('getMessages')
@@ -119,15 +119,15 @@ class AuthorizeNetSDKTransactionResponseTest extends \PHPUnit\Framework\TestCase
 
     public function testGetErrorMessage()
     {
-        $transactionError = (new TransactionErrorMessage)->setErrorCode(125)
+        $transactionError = (new TransactionErrorMessage())->setErrorCode(125)
             ->setErrorText('Darth Vader is coming for you');
 
         $transactionResponse = new TransactionResponseType();
         $transactionResponse->setResponseCode('0');
         $transactionResponse->setErrors([$transactionError]);
 
-        $apiMessage = (new MessagesType\MessageAType)->setCode(408)->setText('The Dark Side is strong in you!');
-        $apiMessageType = (new MessagesType)->setResultCode('Error')->setMessage([$apiMessage]);
+        $apiMessage = (new MessagesType\MessageAType())->setCode(408)->setText('The Dark Side is strong in you!');
+        $apiMessageType = (new MessagesType())->setResultCode('Error')->setMessage([$apiMessage]);
 
         $this->apiResponse->expects($this->once())
             ->method('getMessages')

@@ -104,7 +104,7 @@ class PaymentProfileTypesToIDs
         return $paymentProfileTypesToIDs[$profileType] ?? [];
     }
 
-    private function getCachedItem() : CacheItemInterface
+    private function getCachedItem(): CacheItemInterface
     {
         return $this->cache->getItem(self::CUSTOMER_PAYMENT_PROFILE_TYPES_TO_IDS);
     }
