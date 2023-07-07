@@ -3,6 +3,7 @@
 namespace Oro\Bundle\AuthorizeNetBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Extend\Entity\Autocomplete\OroAuthorizeNetBundle_Entity_CustomerPaymentProfile;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
@@ -38,6 +39,7 @@ use Oro\Bundle\OrganizationBundle\Entity\Ownership\OrganizationAwareTrait;
  *          }
  *      }
  * )
+ * @mixin OroAuthorizeNetBundle_Entity_CustomerPaymentProfile
  */
 class CustomerPaymentProfile implements OrganizationAwareInterface, ExtendEntityInterface
 {
