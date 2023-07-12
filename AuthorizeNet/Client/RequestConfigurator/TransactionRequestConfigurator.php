@@ -295,10 +295,6 @@ class TransactionRequestConfigurator implements RequestConfiguratorInterface
         return (new AnetAPI\PaymentType())->setOpaqueData($opaqueDataType);
     }
 
-    /**
-     * @param array $options
-     * @return AnetAPI\SolutionType
-     */
     protected function getSolutionType(array $options): ?AnetAPI\SolutionType
     {
         $solutionId = $options[Option\SolutionId::SOLUTION_ID] ?? null;
