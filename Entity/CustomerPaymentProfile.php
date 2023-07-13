@@ -223,7 +223,7 @@ class CustomerPaymentProfile implements OrganizationAwareInterface, ExtendEntity
     }
 
     /**
-     * @param CustomerUser $customerUser
+     * @param CustomerUser|null $customerUser
      * @return $this
      */
     public function setCustomerUser(CustomerUser $customerUser = null)

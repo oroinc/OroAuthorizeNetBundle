@@ -20,6 +20,6 @@ interface CustomerProfileOptionProviderInterface
     /** @return string */
     public function getGeneratedNewCustomerProfileId(): string;
 
-    /** @return string */
+    /** @return string|null */
     public function getEmail(): ?string;
 }
