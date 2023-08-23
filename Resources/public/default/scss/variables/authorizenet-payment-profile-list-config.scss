@@ -2,4 +2,4 @@
 
 $authorizenet-payment-profile-list-display: flex !default;
 $authorizenet-payment-profile-list-flex-wrap: wrap !default;
-$authorizenet-payment-profile-list-gap: $offset-x-s !default;
+$authorizenet-payment-profile-list-gap: spacing('xs') !default;
