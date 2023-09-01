@@ -36,6 +36,6 @@ layout:
               visible: '=data["acl"].isGranted("oro_authorize_net_payment_profile_frontend_create")'
               icon: 'plus fa--small'
               attr:
-                class: ' fa btn btn--size-s btn--info pull-right btn-block'
+                class: ' fa btn btn--size-small btn--outlined pull-right btn-block'
     conditions:
         'context["eCheckEnabled"] == true'

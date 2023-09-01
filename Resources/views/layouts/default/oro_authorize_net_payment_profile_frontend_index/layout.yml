@@ -40,6 +40,6 @@ layout:
               options:
                   visible: '=data["customerProfile"] !== null and data["customerProfile"].getPaymentProfiles().count() > 0'
                   attr:
-                      class: ' fa btn btn--size-s btn--danger pull-right'
+                      class: ' fa btn btn--size-small btn--danger pull-right'
                   vars:
                       customerProfile: '=data["customerProfile"]'
