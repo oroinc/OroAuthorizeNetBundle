@@ -15,7 +15,7 @@ class RequiredEnabledCIMWebsites extends Constraint
     /**
      * {@inheritdoc}
      */
-    public function validatedBy()
+    public function validatedBy(): string
     {
         return RequiredEnabledCIMWebsitesValidator::ALIAS;
     }

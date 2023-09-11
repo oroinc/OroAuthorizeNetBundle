@@ -28,7 +28,7 @@ class CustomerProfileAndCustomerPaymentProfileVoter implements VoterInterface
     /**
      * {@inheritDoc}
      */
-    public function vote(TokenInterface $token, $subject, array $attributes)
+    public function vote(TokenInterface $token, $subject, array $attributes): int
     {
         if (!\is_object($subject)) {
             return self::ACCESS_ABSTAIN;
