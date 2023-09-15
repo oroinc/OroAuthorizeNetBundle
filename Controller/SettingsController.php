@@ -51,7 +51,7 @@ class SettingsController extends AbstractController
     /**
      * {@inheritdoc}
      */
-    public static function getSubscribedServices()
+    public static function getSubscribedServices(): array
     {
         return [
             TranslatorInterface::class,

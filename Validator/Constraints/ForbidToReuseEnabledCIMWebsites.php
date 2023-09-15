@@ -18,7 +18,7 @@ class ForbidToReuseEnabledCIMWebsites extends Constraint
     /**
      * {@inheritdoc}
      */
-    public function validatedBy()
+    public function validatedBy(): string
     {
         return ForbidToReuseEnabledCIMWebsitesValidator::ALIAS;
     }

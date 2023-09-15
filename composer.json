@@ -14,7 +14,7 @@
     "exclude-from-classmap": ["/Tests/"]
   },
   "require": {
-    "oro/commerce": "5.1.*",
+    "oro/commerce": "6.0.*",
     "jms/serializer": "^1.2|^2.0|^3.0",
     "authorizenet/authorizenet": "~2.0.2"
   },
@@ -28,7 +28,7 @@
   "prefer-stable": true,
   "extra": {
     "branch-alias": {
-      "dev-master": "5.1-dev"
+      "dev-master": "6.0-dev"
     }
   }
 }
