@@ -132,6 +132,32 @@ oro_behat_extension:
       selector: 'div[data-page-component-name="frontend-echeck-payment-profiles-grid"] div.visible-items-counter'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\GridToolbarPaginator
 
+    Account Dropdown:
+      selector: '#topbar-customer-menu-trigger'
+
+    My Profile:
+      selector:
+        locator: '//a[text()="My Profile"]'
+        type: xpath
+
+    Manage Payment Profiles:
+      selector:
+        locator: '//a[text()="Manage Payment Profiles"]'
+        type: xpath
+
+    Users Mobile:
+      selector:
+        locator: '//div[@class="fullscreen-mode"]/ul/li/a[text()="Users"]'
+        type: xpath
+
+    ShoppingList Owner:
+      selector: '.shopping-list-owner a'
+
+    Order History Menu:
+      selector:
+        type: xpath
+        locator: '//ul[contains(@class,"primary-menu")]/li/a[text()="Order History"]'
+
   suites:
     OroAuthorizeNetBundle:
       contexts:

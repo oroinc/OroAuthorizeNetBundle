@@ -41,7 +41,7 @@ Feature: AuthorizeNet integration eCheck
     Given I proceed as the Buyer
     And I signed in as AmandaRCole@example.org on the store frontend
     And I am on homepage
-    And I follow "Account"
+    And I click "Account Dropdown"
     And I click "Manage Payment Profiles"
     Then I should not see an "Authorize.NetGrid.eCheckProfile" element
     And I should not see "Add New Bank Account"
@@ -149,7 +149,7 @@ Feature: AuthorizeNet integration eCheck
     And I click "Continue"
     And I click "Submit Order"
     Then I see the "Thank You" page with "Thank You For Your Purchase!" title
-    When I follow "Account"
+    And I click "Account Dropdown"
     And I click "Manage Payment Profiles"
     Then number of records in "Authorize.NetGrid.eCheckProfile" grid should be 1
     And number of records payment profiles in AuthorizeNet account should be 1

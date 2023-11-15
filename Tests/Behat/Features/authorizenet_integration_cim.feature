@@ -40,7 +40,7 @@ Feature: AuthorizeNet integration CIM
     Given I proceed as the Buyer
     And I signed in as AmandaRCole@example.org on the store frontend
     And I am on homepage
-    And I follow "Account"
+    And I click "Account Dropdown"
     Then I should not see "Manage Payment Profiles"
 
   Scenario: Check "Manage Payment Profiles" when CIM enabled
@@ -54,6 +54,7 @@ Feature: AuthorizeNet integration CIM
     Then I should see "Integration saved" flash message
     When I proceed as the Buyer
     And I reload the page
+    And I click "Account Dropdown"
     Then I should see "Manage Payment Profiles"
     When I click "Manage Payment Profiles"
     Then there is no records in "Authorize.NetGridCreditCardProfile"
@@ -147,7 +148,7 @@ Feature: AuthorizeNet integration CIM
     And I click "Continue"
     And I click "Submit Order"
     Then I see the "Thank You" page with "Thank You For Your Purchase!" title
-    When I follow "Account"
+    And I click "Account Dropdown"
     And I click "Manage Payment Profiles"
     Then number of records in "Authorize.NetGridCreditCardProfile" grid should be 1
     And number of records payment profiles in AuthorizeNet account should be 1
