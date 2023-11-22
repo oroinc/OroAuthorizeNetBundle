@@ -133,7 +133,7 @@ oro_behat_extension:
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\GridToolbarPaginator
 
     Account Dropdown:
-      selector: '#topbar-customer-menu-trigger'
+      selector: '#customer-menu-trigger'
 
     My Profile:
       selector:
