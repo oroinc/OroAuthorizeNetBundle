@@ -11,22 +11,10 @@ use Oro\Bundle\MigrationBundle\Migration\QueryBag;
  */
 class OroAuthorizeNetBundleInstaller implements Installation
 {
-    const CUSTOMER_PROFILE_TABLE = 'oro_au_net_customer_profile';
-    const CUSTOMER_PAYMENT_PROFILE_TABLE = 'oro_au_net_payment_profile';
-
-    const INTEGRATION_TRANSPORT_TABLE = 'oro_integration_transport';
-    const FALLBACK_LOCALIZATION_VALUE_TABLE = 'oro_fallback_localization_val';
-
-    const ECHECK_ENABLED_COLUMN = 'au_net_echeck_enabled';
-    const ECHECK_ACCOUNT_TYPES_COLUMN = 'au_net_echeck_account_types';
-    const ECHECK_CONFIRMATION_TEXT_COLUMN = 'au_net_echeck_confirmation_txt';
-    const ECHECK_LABEL_TABLE = 'oro_au_net_echeck_label';
-    const ECHECK_SHORT_LABEL_TABLE = 'oro_au_net_echeck_short_label';
-
     /**
      * {@inheritDoc}
      */
-    public function getMigrationVersion()
+    public function getMigrationVersion(): string
     {
         return 'v1_2';
     }
@@ -34,7 +22,7 @@ class OroAuthorizeNetBundleInstaller implements Installation
     /**
      * {@inheritDoc}
      */
-    public function up(Schema $schema, QueryBag $queries)
+    public function up(Schema $schema, QueryBag $queries): void
     {
         $this->updateOroIntegrationTransportTable($schema);
 
@@ -58,9 +46,9 @@ class OroAuthorizeNetBundleInstaller implements Installation
     /**
      * Update oro_integration_transport table
      */
-    protected function updateOroIntegrationTransportTable(Schema $schema)
+    private function updateOroIntegrationTransportTable(Schema $schema): void
     {
-        $table = $schema->getTable(self::INTEGRATION_TRANSPORT_TABLE);
+        $table = $schema->getTable('oro_integration_transport');
         $table->addColumn('au_net_api_login', 'string', ['notnull' => false, 'length' => 255]);
         $table->addColumn('au_net_transaction_key', 'string', ['notnull' => false, 'length' => 255]);
         $table->addColumn('au_net_client_key', 'string', ['notnull' => false, 'length' => 255]);
@@ -70,28 +58,19 @@ class OroAuthorizeNetBundleInstaller implements Installation
         $table->addColumn('au_net_require_cvv_entry', 'boolean', ['default' => true, 'notnull' => false]);
         $table->addColumn('au_net_enabled_cim', 'boolean', ['default' => false, 'notnull' => false]);
         $table->addColumn('au_net_allow_hold_transaction', 'boolean', ['default' => true, 'notnull' => false]);
-
-        $table->addColumn(self::ECHECK_ENABLED_COLUMN, 'boolean', [
-            'default' => false,
-            'notnull' => false
-        ]);
-        $table->addColumn(self::ECHECK_ACCOUNT_TYPES_COLUMN, 'array', [
-            'notnull' => false,
-            'comment' => '(DC2Type:array)'
-        ]);
-        $table->addColumn(self::ECHECK_CONFIRMATION_TEXT_COLUMN, 'text', [
-            'notnull' => false
-        ]);
+        $table->addColumn('au_net_echeck_enabled', 'boolean', ['default' => false, 'notnull' => false]);
+        $table->addColumn('au_net_echeck_account_types', 'array', ['notnull' => false, 'comment' => '(DC2Type:array)']);
+        $table->addColumn('au_net_echeck_confirmation_txt', 'text', ['notnull' => false]);
     }
 
     /**
      * Create oro_au_net_credit_card_lbl table
      */
-    protected function createOroAuthorizeNetCreditCardLblTable(Schema $schema)
+    private function createOroAuthorizeNetCreditCardLblTable(Schema $schema): void
     {
         $table = $schema->createTable('oro_au_net_credit_card_lbl');
-        $table->addColumn('transport_id', 'integer', []);
-        $table->addColumn('localized_value_id', 'integer', []);
+        $table->addColumn('transport_id', 'integer');
+        $table->addColumn('localized_value_id', 'integer');
         $table->setPrimaryKey(['transport_id', 'localized_value_id']);
         $table->addUniqueIndex(['localized_value_id']);
     }
@@ -99,11 +78,11 @@ class OroAuthorizeNetBundleInstaller implements Installation
     /**
      * Create oro_au_net_credit_card_sh_lbl table
      */
-    protected function createOroAuthorizeNetCreditCardShLblTable(Schema $schema)
+    private function createOroAuthorizeNetCreditCardShLblTable(Schema $schema): void
     {
         $table = $schema->createTable('oro_au_net_credit_card_sh_lbl');
-        $table->addColumn('transport_id', 'integer', []);
-        $table->addColumn('localized_value_id', 'integer', []);
+        $table->addColumn('transport_id', 'integer');
+        $table->addColumn('localized_value_id', 'integer');
         $table->setPrimaryKey(['transport_id', 'localized_value_id']);
         $table->addUniqueIndex(['localized_value_id']);
     }
@@ -111,17 +90,17 @@ class OroAuthorizeNetBundleInstaller implements Installation
     /**
      * Create oro_au_net_enabled_cim_website
      */
-    protected function createOroAuthorizeNetEnabledCimWebsiteTable(Schema $schema)
+    private function createOroAuthorizeNetEnabledCimWebsiteTable(Schema $schema): void
     {
         $table = $schema->createTable('oro_au_net_enabled_cim_website');
-        $table->addColumn('transport_id', 'integer', []);
-        $table->addColumn('website_id', 'integer', []);
+        $table->addColumn('transport_id', 'integer');
+        $table->addColumn('website_id', 'integer');
         $table->setPrimaryKey(['transport_id', 'website_id']);
     }
 
-    protected function createOroAuthorizeNetCustomerProfileTable(Schema $schema)
+    private function createOroAuthorizeNetCustomerProfileTable(Schema $schema): void
     {
-        $table = $schema->createTable(self::CUSTOMER_PROFILE_TABLE);
+        $table = $schema->createTable('oro_au_net_customer_profile');
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('customer_profile_id', 'string', ['length' => 32]);
         $table->addColumn('integration_id', 'integer', ['notnull' => true]);
@@ -130,9 +109,9 @@ class OroAuthorizeNetBundleInstaller implements Installation
         $table->setPrimaryKey(['id']);
     }
 
-    protected function createOroAuthorizeNetCustomerPaymentProfileTable(Schema $schema)
+    private function createOroAuthorizeNetCustomerPaymentProfileTable(Schema $schema): void
     {
-        $table = $schema->createTable(self::CUSTOMER_PAYMENT_PROFILE_TABLE);
+        $table = $schema->createTable('oro_au_net_payment_profile');
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('type', 'string', ['length' => 10, 'default' => 'creditcard']);
         $table->addColumn('name', 'string', ['length' => 25]);
@@ -150,17 +129,17 @@ class OroAuthorizeNetBundleInstaller implements Installation
     /**
      * Add oro_au_net_credit_card_lbl foreign keys.
      */
-    protected function addOroAuthorizeNetCreditCardLblForeignKeys(Schema $schema)
+    private function addOroAuthorizeNetCreditCardLblForeignKeys(Schema $schema): void
     {
         $table = $schema->getTable('oro_au_net_credit_card_lbl');
         $table->addForeignKeyConstraint(
-            $schema->getTable(self::INTEGRATION_TRANSPORT_TABLE),
+            $schema->getTable('oro_integration_transport'),
             ['transport_id'],
             ['id'],
             ['onDelete' => 'CASCADE', 'onUpdate' => null]
         );
         $table->addForeignKeyConstraint(
-            $schema->getTable(self::FALLBACK_LOCALIZATION_VALUE_TABLE),
+            $schema->getTable('oro_fallback_localization_val'),
             ['localized_value_id'],
             ['id'],
             ['onDelete' => 'CASCADE', 'onUpdate' => null]
@@ -170,17 +149,17 @@ class OroAuthorizeNetBundleInstaller implements Installation
     /**
      * Add oro_au_net_credit_card_sh_lbl foreign keys.
      */
-    protected function addOroAuthorizeNetCreditCardShLblForeignKeys(Schema $schema)
+    private function addOroAuthorizeNetCreditCardShLblForeignKeys(Schema $schema): void
     {
         $table = $schema->getTable('oro_au_net_credit_card_sh_lbl');
         $table->addForeignKeyConstraint(
-            $schema->getTable(self::INTEGRATION_TRANSPORT_TABLE),
+            $schema->getTable('oro_integration_transport'),
             ['transport_id'],
             ['id'],
             ['onDelete' => 'CASCADE', 'onUpdate' => null]
         );
         $table->addForeignKeyConstraint(
-            $schema->getTable(self::FALLBACK_LOCALIZATION_VALUE_TABLE),
+            $schema->getTable('oro_fallback_localization_val'),
             ['localized_value_id'],
             ['id'],
             ['onDelete' => 'CASCADE', 'onUpdate' => null]
@@ -190,11 +169,11 @@ class OroAuthorizeNetBundleInstaller implements Installation
     /**
      * Add oro_au_net_enabled_cim_website foreign keys.
      */
-    protected function addOroAuthorizeNetEnabledCimWebsiteForeignKeys(Schema $schema)
+    private function addOroAuthorizeNetEnabledCimWebsiteForeignKeys(Schema $schema): void
     {
         $table = $schema->getTable('oro_au_net_enabled_cim_website');
         $table->addForeignKeyConstraint(
-            $schema->getTable(self::INTEGRATION_TRANSPORT_TABLE),
+            $schema->getTable('oro_integration_transport'),
             ['transport_id'],
             ['id'],
             ['onDelete' => 'CASCADE', 'onUpdate' => null]
@@ -207,9 +186,9 @@ class OroAuthorizeNetBundleInstaller implements Installation
         );
     }
 
-    protected function addOroAuthorizeNetCustomerProfileForeignKeys(Schema $schema)
+    private function addOroAuthorizeNetCustomerProfileForeignKeys(Schema $schema): void
     {
-        $table = $schema->getTable(self::CUSTOMER_PROFILE_TABLE);
+        $table = $schema->getTable('oro_au_net_customer_profile');
         $table->addForeignKeyConstraint(
             $schema->getTable('oro_organization'),
             ['organization_id'],
@@ -230,9 +209,9 @@ class OroAuthorizeNetBundleInstaller implements Installation
         );
     }
 
-    protected function addOroAuthorizeNetCustomerPaymentProfileForeignKeys(Schema $schema)
+    private function addOroAuthorizeNetCustomerPaymentProfileForeignKeys(Schema $schema): void
     {
-        $table = $schema->getTable(self::CUSTOMER_PAYMENT_PROFILE_TABLE);
+        $table = $schema->getTable('oro_au_net_payment_profile');
         $table->addForeignKeyConstraint(
             $schema->getTable('oro_organization'),
             ['organization_id'],
@@ -246,59 +225,59 @@ class OroAuthorizeNetBundleInstaller implements Installation
             ['onUpdate' => null, 'onDelete' => 'CASCADE']
         );
         $table->addForeignKeyConstraint(
-            $schema->getTable(self::CUSTOMER_PROFILE_TABLE),
+            $schema->getTable('oro_au_net_customer_profile'),
             ['customer_profile_id'],
             ['id'],
             ['onUpdate' => null, 'onDelete' => 'CASCADE']
         );
     }
 
-    protected function createOroAuthorizeNetECheckLabelTable(Schema $schema)
+    private function createOroAuthorizeNetECheckLabelTable(Schema $schema): void
     {
-        $table = $schema->createTable(self::ECHECK_LABEL_TABLE);
+        $table = $schema->createTable('oro_au_net_echeck_label');
         $table->addColumn('transport_id', 'integer');
         $table->addColumn('localized_value_id', 'integer');
         $table->setPrimaryKey(['transport_id', 'localized_value_id']);
         $table->addUniqueIndex(['localized_value_id']);
     }
 
-    protected function createOroAuthorizeNetECheckShortLabelTable(Schema $schema)
+    private function createOroAuthorizeNetECheckShortLabelTable(Schema $schema): void
     {
-        $table = $schema->createTable(self::ECHECK_SHORT_LABEL_TABLE);
+        $table = $schema->createTable('oro_au_net_echeck_short_label');
         $table->addColumn('transport_id', 'integer');
         $table->addColumn('localized_value_id', 'integer');
         $table->setPrimaryKey(['transport_id', 'localized_value_id']);
         $table->addUniqueIndex(['localized_value_id']);
     }
 
-    protected function addOroAuthorizeNetECheckLabelForeignKeys(Schema $schema)
+    private function addOroAuthorizeNetECheckLabelForeignKeys(Schema $schema): void
     {
-        $table = $schema->getTable(self::ECHECK_LABEL_TABLE);
+        $table = $schema->getTable('oro_au_net_echeck_label');
         $table->addForeignKeyConstraint(
-            $schema->getTable(self::INTEGRATION_TRANSPORT_TABLE),
+            $schema->getTable('oro_integration_transport'),
             ['transport_id'],
             ['id'],
             ['onDelete' => 'CASCADE', 'onUpdate' => null]
         );
         $table->addForeignKeyConstraint(
-            $schema->getTable(self::FALLBACK_LOCALIZATION_VALUE_TABLE),
+            $schema->getTable('oro_fallback_localization_val'),
             ['localized_value_id'],
             ['id'],
             ['onDelete' => 'CASCADE', 'onUpdate' => null]
         );
     }
 
-    protected function addOroAuthorizeNetECheckShortLabelForeignKeys(Schema $schema)
+    private function addOroAuthorizeNetECheckShortLabelForeignKeys(Schema $schema): void
     {
-        $table = $schema->getTable(self::ECHECK_SHORT_LABEL_TABLE);
+        $table = $schema->getTable('oro_au_net_echeck_short_label');
         $table->addForeignKeyConstraint(
-            $schema->getTable(self::INTEGRATION_TRANSPORT_TABLE),
+            $schema->getTable('oro_integration_transport'),
             ['transport_id'],
             ['id'],
             ['onDelete' => 'CASCADE', 'onUpdate' => null]
         );
         $table->addForeignKeyConstraint(
-            $schema->getTable(self::FALLBACK_LOCALIZATION_VALUE_TABLE),
+            $schema->getTable('oro_fallback_localization_val'),
             ['localized_value_id'],
             ['id'],
             ['onDelete' => 'CASCADE', 'onUpdate' => null]
