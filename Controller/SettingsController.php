@@ -29,20 +29,20 @@ class SettingsController extends AbstractController
      */
     public function checkCredentialsAction(Request $request)
     {
-        $transactionKey = $this
+        $transactionKey = $this->container
             ->get(TransactionKeyValueProvider::class)
             ->fromIntegrationEditFormValue(
                 $request->get('integrationId'),
                 $request->get('transactionKey')
             );
 
-        $status = $this
+        $status = $this->container
             ->get(AuthenticationCredentialsValidator::class)
             ->isValid($request->get('apiLogin', ''), $transactionKey, $request->get('isTestMode') === '1');
 
         $message = $status ? 'credentials_are_valid' : 'credentials_are_not_valid';
         return new JsonResponse([
-            'message' => $this->get(TranslatorInterface::class)
+            'message' => $this->container->get(TranslatorInterface::class)
                 ->trans('oro.authorize_net.settings.check_credentials.' . $message),
             'status'  => $status
         ]);
