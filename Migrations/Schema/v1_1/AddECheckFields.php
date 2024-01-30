@@ -11,18 +11,10 @@ use Oro\Bundle\MigrationBundle\Migration\QueryBag;
  */
 class AddECheckFields implements Migration
 {
-    const INTEGRATION_TRANSPORT_TABLE = 'oro_integration_transport';
-    const FALLBACK_LOCALIZATION_VALUE_TABLE = 'oro_fallback_localization_val';
-    const ECHECK_ENABLED_COLUMN = 'au_net_echeck_enabled';
-    const ECHECK_ACCOUNT_TYPES_COLUMN = 'au_net_echeck_account_types';
-    const ECHECK_CONFIRMATION_TEXT_COLUMN = 'au_net_echeck_confirmation_txt';
-    const ECHECK_LABEL_TABLE = 'oro_au_net_echeck_label';
-    const ECHECK_SHORT_LABEL_TABLE = 'oro_au_net_echeck_short_label';
-
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function up(Schema $schema, QueryBag $queries)
+    public function up(Schema $schema, QueryBag $queries): void
     {
         $this->updateOroIntegrationTransportTable($schema);
         $this->createOroAuthorizeNetECheckLabelTable($schema);
@@ -31,69 +23,60 @@ class AddECheckFields implements Migration
         $this->addOroAuthorizeNetECheckShortLabelForeignKeys($schema);
     }
 
-    protected function updateOroIntegrationTransportTable(Schema $schema)
+    private function updateOroIntegrationTransportTable(Schema $schema): void
     {
-        $table = $schema->getTable(self::INTEGRATION_TRANSPORT_TABLE);
-
-        $table->addColumn(self::ECHECK_ENABLED_COLUMN, 'boolean', [
-            'default' => '0',
-            'notnull' => false
-        ]);
-        $table->addColumn(self::ECHECK_ACCOUNT_TYPES_COLUMN, 'array', [
-            'notnull' => false,
-            'comment' => '(DC2Type:array)'
-        ]);
-        $table->addColumn(self::ECHECK_CONFIRMATION_TEXT_COLUMN, 'text', [
-            'notnull' => false
-        ]);
+        $table = $schema->getTable('oro_integration_transport');
+        $table->addColumn('au_net_echeck_enabled', 'boolean', ['default' => '0', 'notnull' => false]);
+        $table->addColumn('au_net_echeck_account_types', 'array', ['notnull' => false, 'comment' => '(DC2Type:array)']);
+        $table->addColumn('au_net_echeck_confirmation_txt', 'text', ['notnull' => false]);
     }
 
-    protected function createOroAuthorizeNetECheckLabelTable(Schema $schema)
+    private function createOroAuthorizeNetECheckLabelTable(Schema $schema): void
     {
-        $table = $schema->createTable(self::ECHECK_LABEL_TABLE);
+        $table = $schema->createTable('oro_au_net_echeck_label');
         $table->addColumn('transport_id', 'integer');
         $table->addColumn('localized_value_id', 'integer');
         $table->setPrimaryKey(['transport_id', 'localized_value_id']);
         $table->addUniqueIndex(['localized_value_id']);
     }
 
-    protected function createOroAuthorizeNetECheckShortLabelTable(Schema $schema)
+    private function createOroAuthorizeNetECheckShortLabelTable(Schema $schema): void
     {
-        $table = $schema->createTable(self::ECHECK_SHORT_LABEL_TABLE);
+        $table = $schema->createTable('oro_au_net_echeck_short_label');
         $table->addColumn('transport_id', 'integer');
         $table->addColumn('localized_value_id', 'integer');
         $table->setPrimaryKey(['transport_id', 'localized_value_id']);
         $table->addUniqueIndex(['localized_value_id']);
     }
 
-    protected function addOroAuthorizeNetECheckLabelForeignKeys(Schema $schema)
+    private function addOroAuthorizeNetECheckLabelForeignKeys(Schema $schema): void
     {
-        $table = $schema->getTable(self::ECHECK_LABEL_TABLE);
+        $table = $schema->getTable('oro_au_net_echeck_label');
         $table->addForeignKeyConstraint(
-            $schema->getTable(self::INTEGRATION_TRANSPORT_TABLE),
+            $schema->getTable('oro_integration_transport'),
             ['transport_id'],
             ['id'],
             ['onDelete' => 'CASCADE', 'onUpdate' => null]
         );
         $table->addForeignKeyConstraint(
-            $schema->getTable(self::FALLBACK_LOCALIZATION_VALUE_TABLE),
+            $schema->getTable('oro_fallback_localization_val'),
             ['localized_value_id'],
             ['id'],
             ['onDelete' => 'CASCADE', 'onUpdate' => null]
         );
     }
 
-    protected function addOroAuthorizeNetECheckShortLabelForeignKeys(Schema $schema)
+    private function addOroAuthorizeNetECheckShortLabelForeignKeys(Schema $schema): void
     {
-        $table = $schema->getTable(self::ECHECK_SHORT_LABEL_TABLE);
+        $table = $schema->getTable('oro_au_net_echeck_short_label');
         $table->addForeignKeyConstraint(
-            $schema->getTable(self::INTEGRATION_TRANSPORT_TABLE),
+            $schema->getTable('oro_integration_transport'),
             ['transport_id'],
             ['id'],
             ['onDelete' => 'CASCADE', 'onUpdate' => null]
         );
         $table->addForeignKeyConstraint(
-            $schema->getTable(self::FALLBACK_LOCALIZATION_VALUE_TABLE),
+            $schema->getTable('oro_fallback_localization_val'),
             ['localized_value_id'],
             ['id'],
             ['onDelete' => 'CASCADE', 'onUpdate' => null]
