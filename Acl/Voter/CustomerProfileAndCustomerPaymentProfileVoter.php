@@ -9,6 +9,7 @@ use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\SecurityBundle\Acl\Voter\EntityClassResolverUtil;
 use Oro\Bundle\SecurityBundle\Acl\Voter\EntityIdentifierResolverUtil;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 /**
@@ -30,7 +31,7 @@ class CustomerProfileAndCustomerPaymentProfileVoter implements VoterInterface
      */
     public function vote(TokenInterface $token, $subject, array $attributes): int
     {
-        if (!\is_object($subject)) {
+        if (!\is_object($subject) || \in_array(AuthenticatedVoter::PUBLIC_ACCESS, $attributes)) {
             return self::ACCESS_ABSTAIN;
         }
 
@@ -38,6 +39,7 @@ class CustomerProfileAndCustomerPaymentProfileVoter implements VoterInterface
         if (null === $user) {
             return self::ACCESS_DENIED;
         }
+
         if (!$user instanceof CustomerUser) {
             return self::ACCESS_ABSTAIN;
         }

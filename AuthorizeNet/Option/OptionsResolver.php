@@ -25,7 +25,7 @@ class OptionsResolver extends BaseOptionsResolver
     /**
      * {@inheritdoc}
      */
-    public function resolve(array $options = [])
+    public function resolve(array $options = []): array
     {
         $this->addOptionLocked = true;
         $this->handleDependentOptions($options);

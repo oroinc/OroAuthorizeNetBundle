@@ -3,7 +3,6 @@
 namespace Oro\Bundle\AuthorizeNetBundle\Migrations\Schema\v1_2;
 
 use Doctrine\DBAL\Schema\Schema;
-use Oro\Bundle\AuthorizeNetBundle\Migrations\Schema\OroAuthorizeNetBundleInstaller;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
@@ -13,14 +12,11 @@ use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 class AddAllowHoldTransactionField implements Migration
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function up(Schema $schema, QueryBag $queries): void
     {
-        $table = $schema->getTable(OroAuthorizeNetBundleInstaller::INTEGRATION_TRANSPORT_TABLE);
-        $table->addColumn('au_net_allow_hold_transaction', 'boolean', [
-            'default' => true,
-            'notnull' => false
-        ]);
+        $schema->getTable('oro_integration_transport')
+            ->addColumn('au_net_allow_hold_transaction', 'boolean', ['default' => true,'notnull' => false]);
     }
 }

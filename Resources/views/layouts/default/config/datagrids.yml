@@ -37,11 +37,11 @@ datagrids:
         properties:
             id: ~
             update_link:
-                type:  url
+                type: url
                 route: oro_authorize_net_payment_profile_frontend_update
                 params: [ id ]
             delete_link:
-                type:  url
+                type: url
                 route: oro_authorize_net_payment_profile_frontend_delete
                 params: [ id ]
         sorters:
@@ -51,7 +51,7 @@ datagrids:
         filters:
             columns:
                 name:
-                    type:      string
+                    type: string
                     data_name: profile.name
         actions:
             update:
