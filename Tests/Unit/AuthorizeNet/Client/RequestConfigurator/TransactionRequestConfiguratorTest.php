@@ -467,11 +467,18 @@ class TransactionRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
         $lineItem2->setProductName('PRODUCT2' .  $repearString(300));
         $lineItem2->setQuantity(2);
         $lineItem2->setValue(20);
+
+        $lineItem3 = new OrderLineItem();
+        $lineItem3->setProductSku('SKU3');
+        $lineItem3->setProductName('');
+        $lineItem3->setFreeFormProduct('SKU3FREEFORM');
+        $lineItem3->setQuantity(3);
+        $lineItem3->setValue(10);
         return [
             'with lineItems' => [
                 'options' => [
                     Option\ChargeType::NAME => Option\ChargeType::TYPE_CREDIT_CARD,
-                    Option\LineItems::NAME => [$lineItem1, $lineItem2]
+                    Option\LineItems::NAME => [$lineItem1, $lineItem2, $lineItem3]
                 ],
                 'transactionRequestType' => (new AnetAPI\TransactionRequestType())
                     ->setLineItems([
@@ -486,7 +493,13 @@ class TransactionRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
                             ->setName($subString($lineItem2->getProductName(), 31))
                             ->setDescription($subString($lineItem2->getProductName(), 255))
                             ->setQuantity($lineItem2->getQuantity())
-                            ->setUnitPrice($lineItem2->getValue())
+                            ->setUnitPrice($lineItem2->getValue()),
+                        (new AnetAPI\LineItemType())
+                            ->setItemId($lineItem3->getProductSku())
+                            ->setName($lineItem3->getFreeFormProduct())
+                            ->setDescription(null)
+                            ->setQuantity($lineItem3->getQuantity())
+                            ->setUnitPrice($lineItem3->getValue()),
                     ])
             ],
             'without lineItems' => [

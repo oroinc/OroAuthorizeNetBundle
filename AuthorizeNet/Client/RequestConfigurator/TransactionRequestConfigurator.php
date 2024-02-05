@@ -321,7 +321,7 @@ class TransactionRequestConfigurator implements RequestConfiguratorInterface
         $longStringLength = 255;
 
         foreach (\array_slice($lineItems, 0, self::LINE_ITEMS_MAX_QUANTITY) as $item) {
-            $productName = $item->getProductName();
+            $productName = $item->getProductName() ?: $item->getFreeFormProduct();
             $requestLineItem = new AnetAPI\LineItemType();
             $requestLineItem->setItemId($this->truncateString($item->getProductSku(), $shortStringLength));
             $requestLineItem->setName($this->truncateString($productName, $shortStringLength));
