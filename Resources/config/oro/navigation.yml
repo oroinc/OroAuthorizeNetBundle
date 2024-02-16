@@ -35,11 +35,13 @@ navigation:
                                    oro_authorize_net_echeck_payment_profile_frontend_create: ~
             oro_customer_menu:
                 children:
-                    oro_authorize_net_payment_profile_frontend_index:
+                    oro_order_frontend_orders:
                         children:
-                            oro_authorize_net_creditcard_payment_profile_frontend_create: ~
-                            oro_authorize_net_echeck_payment_profile_frontend_create: ~
-                            oro_authorize_net_payment_profile_frontend_update: ~
+                            oro_authorize_net_payment_profile_frontend_index:
+                                children:
+                                    oro_authorize_net_creditcard_payment_profile_frontend_create: ~
+                                    oro_authorize_net_echeck_payment_profile_frontend_create: ~
+                                    oro_authorize_net_payment_profile_frontend_update: ~
     titles:
         oro_authorize_net_payment_profile_frontend_index: 'oro.authorize_net.frontend.payment_profile.menu.label'
         oro_authorize_net_creditcard_payment_profile_frontend_create: 'oro.authorize_net.frontend.payment_profile.create.label'
