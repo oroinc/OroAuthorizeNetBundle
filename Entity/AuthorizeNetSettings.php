@@ -4,7 +4,9 @@ namespace Oro\Bundle\AuthorizeNetBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Oro\Bundle\AuthorizeNetBundle\Entity\Repository\AuthorizeNetSettingsRepository;
 use Oro\Bundle\IntegrationBundle\Entity\Transport;
 use Oro\Bundle\LocaleBundle\Entity\LocalizedFallbackValue;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
@@ -12,13 +14,13 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
  * Entity which store AuthorizeNet integration settings
- * @ORM\Entity(repositoryClass="Oro\Bundle\AuthorizeNetBundle\Entity\Repository\AuthorizeNetSettingsRepository")
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
+#[ORM\Entity(repositoryClass: AuthorizeNetSettingsRepository::class)]
 class AuthorizeNetSettings extends Transport
 {
     const API_LOGIN_ID = 'api_login_id';
@@ -50,184 +52,92 @@ class AuthorizeNetSettings extends Transport
      */
     protected $settings;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="au_net_api_login", type="string", length=255, nullable=false)
-     */
-    protected $apiLoginId;
+    #[ORM\Column(name: 'au_net_api_login', type: Types::STRING, length: 255, nullable: false)]
+    protected ?string $apiLoginId = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="au_net_transaction_key", type="string", length=255, nullable=false)
-     */
-    protected $transactionKey;
+    #[ORM\Column(name: 'au_net_transaction_key', type: Types::STRING, length: 255, nullable: false)]
+    protected ?string $transactionKey = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="au_net_client_key", type="string", length=255, nullable=false)
-     */
-    protected $clientKey;
+    #[ORM\Column(name: 'au_net_client_key', type: Types::STRING, length: 255, nullable: false)]
+    protected ?string $clientKey = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="au_net_credit_card_action", type="string", length=255, nullable=false)
-     */
-    protected $creditCardPaymentAction;
+    #[ORM\Column(name: 'au_net_credit_card_action', type: Types::STRING, length: 255, nullable: false)]
+    protected ?string $creditCardPaymentAction = null;
 
     /**
      * @var array
-     *
-     * @ORM\Column(name="au_net_allowed_card_types", type="array", length=255, nullable=false)
      */
+    #[ORM\Column(name: 'au_net_allowed_card_types', type: Types::ARRAY, length: 255, nullable: false)]
     protected $allowedCreditCardTypes = [];
 
     /**
-     * @var Collection|LocalizedFallbackValue[]
-     *
-     * @ORM\ManyToMany(
-     *      targetEntity="Oro\Bundle\LocaleBundle\Entity\LocalizedFallbackValue",
-     *      cascade={"ALL"},
-     *      orphanRemoval=true
-     * )
-     * @ORM\JoinTable(
-     *      name="oro_au_net_credit_card_lbl",
-     *      joinColumns={
-     *          @ORM\JoinColumn(name="transport_id", referencedColumnName="id", onDelete="CASCADE")
-     *      },
-     *      inverseJoinColumns={
-     *          @ORM\JoinColumn(name="localized_value_id", referencedColumnName="id", onDelete="CASCADE", unique=true)
-     *      }
-     * )
+     * @var Collection<int, LocalizedFallbackValue>
      */
-    protected $creditCardLabels;
+    #[ORM\ManyToMany(targetEntity: LocalizedFallbackValue::class, cascade: ['ALL'], orphanRemoval: true)]
+    #[ORM\JoinTable(name: 'oro_au_net_credit_card_lbl')]
+    #[ORM\JoinColumn(name: 'transport_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'localized_value_id', referencedColumnName: 'id', unique: true, onDelete: 'CASCADE')]
+    protected ?Collection $creditCardLabels = null;
 
     /**
-     * @var Collection|LocalizedFallbackValue[]
-     *
-     * @ORM\ManyToMany(
-     *      targetEntity="Oro\Bundle\LocaleBundle\Entity\LocalizedFallbackValue",
-     *      cascade={"ALL"},
-     *      orphanRemoval=true
-     * )
-     * @ORM\JoinTable(
-     *      name="oro_au_net_credit_card_sh_lbl",
-     *      joinColumns={
-     *          @ORM\JoinColumn(name="transport_id", referencedColumnName="id", onDelete="CASCADE")
-     *      },
-     *      inverseJoinColumns={
-     *          @ORM\JoinColumn(name="localized_value_id", referencedColumnName="id", onDelete="CASCADE", unique=true)
-     *      }
-     * )
+     * @var Collection<int, LocalizedFallbackValue>
      */
-    protected $creditCardShortLabels;
+    #[ORM\ManyToMany(targetEntity: LocalizedFallbackValue::class, cascade: ['ALL'], orphanRemoval: true)]
+    #[ORM\JoinTable(name: 'oro_au_net_credit_card_sh_lbl')]
+    #[ORM\JoinColumn(name: 'transport_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'localized_value_id', referencedColumnName: 'id', unique: true, onDelete: 'CASCADE')]
+    protected ?Collection $creditCardShortLabels = null;
+
+    #[ORM\Column(name: 'au_net_test_mode', type: Types::BOOLEAN, options: ['default' => false])]
+    protected ?bool $authNetTestMode = false;
+
+    #[ORM\Column(name: 'au_net_require_cvv_entry', type: Types::BOOLEAN, options: ['default' => true])]
+    protected ?bool $authNetRequireCVVEntry = true;
+
+    #[ORM\Column(name: 'au_net_enabled_cim', type: Types::BOOLEAN, options: ['default' => false])]
+    protected ?bool $enabledCIM = false;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="au_net_test_mode", type="boolean", options={"default"=false})
+     * @var Collection<int, Website>
      */
-    protected $authNetTestMode = false;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="au_net_require_cvv_entry", type="boolean", options={"default"=true})
-     */
-    protected $authNetRequireCVVEntry = true;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="au_net_enabled_cim", type="boolean", options={"default"=false})
-     */
-    protected $enabledCIM = false;
-
-    /**
-     * @var Website[]|Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Oro\Bundle\WebsiteBundle\Entity\Website")
-     * @ORM\JoinTable(
-     *      name="oro_au_net_enabled_cim_website",
-     *      joinColumns={
-     *          @ORM\JoinColumn(name="transport_id", referencedColumnName="id", onDelete="CASCADE")
-     *      },
-     *      inverseJoinColumns={
-     *          @ORM\JoinColumn(name="website_id", referencedColumnName="id", onDelete="CASCADE")
-     *      }
-     * )
-     */
+    #[ORM\ManyToMany(targetEntity: Website::class)]
+    #[ORM\JoinTable(name: 'oro_au_net_enabled_cim_website')]
+    #[ORM\JoinColumn(name: 'transport_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'website_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     protected $enabledCIMWebsites;
 
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="au_net_echeck_enabled", type="boolean", options={"default"=false})
-     */
-    protected $eCheckEnabled = false;
+    #[ORM\Column(name: 'au_net_echeck_enabled', type: Types::BOOLEAN, options: ['default' => false])]
+    protected ?bool $eCheckEnabled = false;
 
     /**
-     * @var Collection|LocalizedFallbackValue[]
-     *
-     * @ORM\ManyToMany(
-     *      targetEntity="Oro\Bundle\LocaleBundle\Entity\LocalizedFallbackValue",
-     *      cascade={"ALL"},
-     *      orphanRemoval=true
-     * )
-     * @ORM\JoinTable(
-     *      name="oro_au_net_echeck_label",
-     *      joinColumns={
-     *          @ORM\JoinColumn(name="transport_id", referencedColumnName="id", onDelete="CASCADE")
-     *      },
-     *      inverseJoinColumns={
-     *          @ORM\JoinColumn(name="localized_value_id", referencedColumnName="id", onDelete="CASCADE", unique=true)
-     *      }
-     * )
+     * @var Collection<int, LocalizedFallbackValue>
      */
-    protected $eCheckLabels;
+    #[ORM\ManyToMany(targetEntity: LocalizedFallbackValue::class, cascade: ['ALL'], orphanRemoval: true)]
+    #[ORM\JoinTable(name: 'oro_au_net_echeck_label')]
+    #[ORM\JoinColumn(name: 'transport_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'localized_value_id', referencedColumnName: 'id', unique: true, onDelete: 'CASCADE')]
+    protected ?Collection $eCheckLabels = null;
 
     /**
-     * @var Collection|LocalizedFallbackValue[]
-     *
-     * @ORM\ManyToMany(
-     *      targetEntity="Oro\Bundle\LocaleBundle\Entity\LocalizedFallbackValue",
-     *      cascade={"ALL"},
-     *      orphanRemoval=true
-     * )
-     * @ORM\JoinTable(
-     *      name="oro_au_net_echeck_short_label",
-     *      joinColumns={
-     *          @ORM\JoinColumn(name="transport_id", referencedColumnName="id", onDelete="CASCADE")
-     *      },
-     *      inverseJoinColumns={
-     *          @ORM\JoinColumn(name="localized_value_id", referencedColumnName="id", onDelete="CASCADE", unique=true)
-     *      }
-     * )
+     * @var Collection<int, LocalizedFallbackValue>
      */
-    protected $eCheckShortLabels;
+    #[ORM\ManyToMany(targetEntity: LocalizedFallbackValue::class, cascade: ['ALL'], orphanRemoval: true)]
+    #[ORM\JoinTable(name: 'oro_au_net_echeck_short_label')]
+    #[ORM\JoinColumn(name: 'transport_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'localized_value_id', referencedColumnName: 'id', unique: true, onDelete: 'CASCADE')]
+    protected ?Collection $eCheckShortLabels = null;
 
     /**
      * @var array
-     *
-     * @ORM\Column(name="au_net_echeck_account_types", type="array")
      */
+    #[ORM\Column(name: 'au_net_echeck_account_types', type: Types::ARRAY)]
     protected $eCheckAccountTypes = self::ECHECK_ACCOUNT_TYPES;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="au_net_echeck_confirmation_txt", type="text")
-     */
-    protected $eCheckConfirmationText;
+    #[ORM\Column(name: 'au_net_echeck_confirmation_txt', type: Types::TEXT)]
+    protected ?string $eCheckConfirmationText = null;
 
-    /**
-     * @var boolean
-     * @ORM\Column(name="au_net_allow_hold_transaction", type="boolean", options={"default": true})
-     */
-    protected $allowHoldTransaction = true;
+    #[ORM\Column(name: 'au_net_allow_hold_transaction', type: Types::BOOLEAN, options: ['default' => true])]
+    protected ?bool $allowHoldTransaction = true;
 
     /**
      * Constructor

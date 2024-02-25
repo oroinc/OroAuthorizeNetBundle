@@ -2,10 +2,11 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Extend\Entity\Autocomplete\OroAuthorizeNetBundle_Entity_CustomerPaymentProfile;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\Config;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 use Oro\Bundle\OrganizationBundle\Entity\OrganizationAwareInterface;
@@ -14,33 +15,26 @@ use Oro\Bundle\OrganizationBundle\Entity\Ownership\OrganizationAwareTrait;
 /**
  * Entity that consist information "customerPaymentProfileId" from Authorize.Net
  * and binds it to Oro CustomerProfile entity
- * @ORM\Table(
- *     name="oro_au_net_payment_profile",
- *     indexes={
- *          @ORM\Index(name="oro_au_net_payment_profile_name_idx", columns={"name"}),
- *          @ORM\Index(name="oro_au_net_payment_profile_type_idx", columns={"type"})
- *     }
- * )
- * @ORM\Entity
- * @Config(
- *       mode="hidden",
- *       defaultValues={
- *          "ownership"={
- *              "owner_type"="ORGANIZATION",
- *              "owner_field_name"="organization",
- *              "owner_column_name"="organization_id",
- *              "frontend_owner_type"="FRONTEND_USER",
- *              "frontend_owner_field_name"="customerUser",
- *              "frontend_owner_column_name"="customer_user_id"
- *          },
- *          "security"={
- *              "type"="ACL",
- *              "group_name"="commerce"
- *          }
- *      }
- * )
  * @mixin OroAuthorizeNetBundle_Entity_CustomerPaymentProfile
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'oro_au_net_payment_profile')]
+#[ORM\Index(columns: ['name'], name: 'oro_au_net_payment_profile_name_idx')]
+#[ORM\Index(columns: ['type'], name: 'oro_au_net_payment_profile_type_idx')]
+#[Config(
+    mode: 'hidden',
+    defaultValues: [
+        'ownership' => [
+            'owner_type' => 'ORGANIZATION',
+            'owner_field_name' => 'organization',
+            'owner_column_name' => 'organization_id',
+            'frontend_owner_type' => 'FRONTEND_USER',
+            'frontend_owner_field_name' => 'customerUser',
+            'frontend_owner_column_name' => 'customer_user_id'
+        ],
+        'security' => ['type' => 'ACL', 'group_name' => 'commerce']
+    ]
+)]
 class CustomerPaymentProfile implements OrganizationAwareInterface, ExtendEntityInterface
 {
     use OrganizationAwareTrait;
@@ -54,60 +48,33 @@ class CustomerPaymentProfile implements OrganizationAwareInterface, ExtendEntity
         self::TYPE_ECHECK
     ];
 
-    /**
-     * @var int
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
+    #[ORM\Id]
+    #[ORM\Column(type: Types::INTEGER)]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    protected ?int $id = null;
 
-    /**
-     * @var string
-     * @ORM\Column(name="type", length=10, type="string", options={"default"="creditcard"})
-     */
-    protected $type = self::TYPE_CREDITCARD;
+    #[ORM\Column(name: 'type', type: Types::STRING, length: 10, options: ['default' => 'creditcard'])]
+    protected ?string $type = self::TYPE_CREDITCARD;
 
-    /**
-     * @var string
-     * @ORM\Column(name="name", length=25, type="string")
-     */
-    protected $name;
+    #[ORM\Column(name: 'name', type: Types::STRING, length: 25)]
+    protected ?string $name = null;
 
-    /**
-     * @var string
-     * @ORM\Column(name="last_digits", length=4, type="string")
-     */
-    protected $lastDigits;
+    #[ORM\Column(name: 'last_digits', type: Types::STRING, length: 4)]
+    protected ?string $lastDigits = null;
 
-    /**
-     * @var bool
-     * @ORM\Column(name="is_default", type="boolean", options={"default"=false})
-     */
-    protected $default = false;
+    #[ORM\Column(name: 'is_default', type: Types::BOOLEAN, options: ['default' => false])]
+    protected ?bool $default = false;
 
-    /**
-     * @var string
-     * @ORM\Column(name="customer_payment_profile_id", length=32, type="string")
-     */
-    protected $customerPaymentProfileId;
+    #[ORM\Column(name: 'customer_payment_profile_id', type: Types::STRING, length: 32)]
+    protected ?string $customerPaymentProfileId = null;
 
-    /**
-     * @var CustomerProfile
-     * @ORM\ManyToOne(
-     *     targetEntity="Oro\Bundle\AuthorizeNetBundle\Entity\CustomerProfile",
-     *     inversedBy="paymentProfiles"
-     * )
-     * @ORM\JoinColumn(name="customer_profile_id", referencedColumnName="id", onDelete="CASCADE", nullable=false)
-     */
-    protected $customerProfile;
+    #[ORM\ManyToOne(targetEntity: CustomerProfile::class, inversedBy: 'paymentProfiles')]
+    #[ORM\JoinColumn(name: 'customer_profile_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    protected ?CustomerProfile $customerProfile = null;
 
-    /**
-     * @var CustomerUser
-     * @ORM\ManyToOne(targetEntity="Oro\Bundle\CustomerBundle\Entity\CustomerUser")
-     * @ORM\JoinColumn(name="customer_user_id", referencedColumnName="id", onDelete="CASCADE", nullable=false)
-     */
-    protected $customerUser;
+    #[ORM\ManyToOne(targetEntity: CustomerUser::class)]
+    #[ORM\JoinColumn(name: 'customer_user_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    protected ?CustomerUser $customerUser = null;
 
     /**
      * @param string $type

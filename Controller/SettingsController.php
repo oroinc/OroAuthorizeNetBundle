@@ -4,8 +4,8 @@ namespace Oro\Bundle\AuthorizeNetBundle\Controller;
 
 use Oro\Bundle\AuthorizeNetBundle\Service\AuthenticationCredentialsValidator;
 use Oro\Bundle\AuthorizeNetBundle\Service\TransactionKeyValueProvider;
-use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
-use Oro\Bundle\SecurityBundle\Annotation\CsrfProtection;
+use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
+use Oro\Bundle\SecurityBundle\Attribute\CsrfProtection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,19 +14,18 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Settings form controller to perform validation
- *
- * @Route(path="/settings")
  */
+#[Route(path: '/settings')]
 class SettingsController extends AbstractController
 {
     /**
-     * @Route(name="oro_authorize_net_settings_check_credentials", path="/check-credentials", methods={"POST"})
-     * @AclAncestor("oro_authorize_net_settings_edit")
-     * @CsrfProtection()
      *
      * @param Request $request
      * @return JsonResponse
      */
+    #[Route(name: 'oro_authorize_net_settings_check_credentials', path: '/check-credentials', methods: ['POST'])]
+    #[AclAncestor('oro_authorize_net_settings_edit')]
+    #[CsrfProtection()]
     public function checkCredentialsAction(Request $request)
     {
         $transactionKey = $this->container
