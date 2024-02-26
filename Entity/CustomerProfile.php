@@ -3,10 +3,12 @@
 namespace Oro\Bundle\AuthorizeNetBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Extend\Entity\Autocomplete\OroAuthorizeNetBundle_Entity_CustomerProfile;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\Config;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 use Oro\Bundle\IntegrationBundle\Entity\Channel as Integration;
@@ -15,70 +17,55 @@ use Oro\Bundle\OrganizationBundle\Entity\Ownership\OrganizationAwareTrait;
 
 /**
  * CustomerProfile Entity (Authorize.Net customerProfile)
- * @ORM\Table(name="oro_au_net_customer_profile")
- * @ORM\Entity
- * @Config(
- *       mode="hidden",
- *       defaultValues={
- *          "ownership"={
- *              "owner_type"="ORGANIZATION",
- *              "owner_field_name"="organization",
- *              "owner_column_name"="organization_id",
- *              "frontend_owner_type"="FRONTEND_USER",
- *              "frontend_owner_field_name"="customerUser",
- *              "frontend_owner_column_name"="customer_user_id"
- *          },
- *          "security"={
- *              "type"="ACL",
- *              "group_name"="commerce"
- *          }
- *      }
- * )
  * @mixin OroAuthorizeNetBundle_Entity_CustomerProfile
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'oro_au_net_customer_profile')]
+#[Config(
+    mode: 'hidden',
+    defaultValues: [
+        'ownership' => [
+            'owner_type' => 'ORGANIZATION',
+            'owner_field_name' => 'organization',
+            'owner_column_name' => 'organization_id',
+            'frontend_owner_type' => 'FRONTEND_USER',
+            'frontend_owner_field_name' => 'customerUser',
+            'frontend_owner_column_name' => 'customer_user_id'
+        ],
+        'security' => ['type' => 'ACL', 'group_name' => 'commerce']
+    ]
+)]
 class CustomerProfile implements OrganizationAwareInterface, ExtendEntityInterface
 {
     use OrganizationAwareTrait;
     use ExtendEntityTrait;
 
-    /**
-     * @var int
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
+    #[ORM\Id]
+    #[ORM\Column(type: Types::INTEGER)]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    protected ?int $id = null;
+
+    #[ORM\Column(name: 'customer_profile_id', type: Types::STRING, length: 32)]
+    protected ?string $customerProfileId = null;
+
+    #[ORM\ManyToOne(targetEntity: Integration::class)]
+    #[ORM\JoinColumn(name: 'integration_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    protected ?Integration $integration = null;
+
+    #[ORM\ManyToOne(targetEntity: CustomerUser::class)]
+    #[ORM\JoinColumn(name: 'customer_user_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    protected ?CustomerUser $customerUser = null;
 
     /**
-     * @var string
-     * @ORM\Column(name="customer_profile_id", length=32, type="string")
+     * @var Collection<int, CustomerPaymentProfile>
      */
-    protected $customerProfileId;
-
-    /**
-     * @var Integration
-     * @ORM\ManyToOne(targetEntity="Oro\Bundle\IntegrationBundle\Entity\Channel")
-     * @ORM\JoinColumn(name="integration_id", referencedColumnName="id", onDelete="CASCADE", nullable=false)
-     */
-    protected $integration;
-
-    /**
-     * @var CustomerUser
-     * @ORM\ManyToOne(targetEntity="Oro\Bundle\CustomerBundle\Entity\CustomerUser")
-     * @ORM\JoinColumn(name="customer_user_id", referencedColumnName="id", onDelete="CASCADE", nullable=false)
-     */
-    protected $customerUser;
-
-    /**
-     * @var ArrayCollection|CustomerPaymentProfile[]
-     * @ORM\OneToMany(
-     *     targetEntity="Oro\Bundle\AuthorizeNetBundle\Entity\CustomerPaymentProfile",
-     *     mappedBy="customerProfile",
-     *     cascade={"persist", "remove"},
-     *     orphanRemoval=true
-     * )
-     */
-    protected $paymentProfiles;
+    #[ORM\OneToMany(
+        mappedBy: 'customerProfile',
+        targetEntity: CustomerPaymentProfile::class,
+        cascade: ['persist', 'remove'],
+        orphanRemoval: true
+    )]
+    protected ?Collection $paymentProfiles = null;
 
     public function __construct()
     {

@@ -13,9 +13,9 @@ use Oro\Bundle\AuthorizeNetBundle\Model\DTO\PaymentProfileDTO;
 use Oro\Bundle\AuthorizeNetBundle\Provider\CIMEnabledIntegrationConfigProvider;
 use Oro\Bundle\AuthorizeNetBundle\Provider\CustomerProfileProvider;
 use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
-use Oro\Bundle\LayoutBundle\Annotation\Layout;
-use Oro\Bundle\SecurityBundle\Annotation\Acl;
-use Oro\Bundle\SecurityBundle\Annotation\CsrfProtection;
+use Oro\Bundle\LayoutBundle\Attribute\Layout;
+use Oro\Bundle\SecurityBundle\Attribute\Acl;
+use Oro\Bundle\SecurityBundle\Attribute\CsrfProtection;
 use Oro\Bundle\UIBundle\Route\Router;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -30,18 +30,17 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class PaymentProfileController extends AbstractController
 {
     /**
-     * @Route("/", name="oro_authorize_net_payment_profile_frontend_index")
-     * @Layout(vars={"entity_class", "eCheckEnabled"})
-     * @Acl(
-     *      id="oro_authorize_net_payment_profile_frontend_view",
-     *      type="entity",
-     *      class="Oro\Bundle\AuthorizeNetBundle\Entity\CustomerPaymentProfile",
-     *      permission="VIEW",
-     *      group_name="commerce"
-     * )
-     *
      * @return array
      */
+    #[Route(path: '/', name: 'oro_authorize_net_payment_profile_frontend_index')]
+    #[Layout(vars: ['entity_class', 'eCheckEnabled'])]
+    #[Acl(
+        id: 'oro_authorize_net_payment_profile_frontend_view',
+        type: 'entity',
+        class: CustomerPaymentProfile::class,
+        permission: 'VIEW',
+        groupName: 'commerce'
+    )]
     public function indexAction()
     {
         $this->assertCIMEnabled();
@@ -59,26 +58,24 @@ class PaymentProfileController extends AbstractController
     }
 
     /**
-     * @Route(
-     *     "/create/{type}",
-     *     name="oro_authorize_net_payment_profile_frontend_create",
-     *     requirements={
-     *         "type": "creditcard|echeck",
-     *     }
-     * )
-     * @Layout()
-     * @Acl(
-     *      id="oro_authorize_net_payment_profile_frontend_create",
-     *      type="entity",
-     *      class="Oro\Bundle\AuthorizeNetBundle\Entity\CustomerPaymentProfile",
-     *      permission="CREATE",
-     *      group_name="commerce"
-     * )
      *
      * @param string $type
      * @param Request $request
      * @return array
      */
+    #[Route(
+        path: '/create/{type}',
+        name: 'oro_authorize_net_payment_profile_frontend_create',
+        requirements: ['type' => 'creditcard|echeck']
+    )]
+    #[Layout]
+    #[Acl(
+        id: 'oro_authorize_net_payment_profile_frontend_create',
+        type: 'entity',
+        class: CustomerPaymentProfile::class,
+        permission: 'CREATE',
+        groupName: 'commerce'
+    )]
     public function createAction($type, Request $request)
     {
         $this->assertCIMEnabled($type);
@@ -88,20 +85,24 @@ class PaymentProfileController extends AbstractController
     }
 
     /**
-     * @Route("/edit/{id}", name="oro_authorize_net_payment_profile_frontend_update", requirements={"id"="\d+"})
-     * @Layout()
-     * @Acl(
-     *      id="oro_authorize_net_payment_profile_frontend_update",
-     *      type="entity",
-     *      class="Oro\Bundle\AuthorizeNetBundle\Entity\CustomerPaymentProfile",
-     *      permission="EDIT",
-     *      group_name="commerce"
-     * )
      *
      * @param CustomerPaymentProfile $paymentProfile
      * @param Request $request
      * @return array
      */
+    #[Route(
+        path: '/edit/{id}',
+        name: 'oro_authorize_net_payment_profile_frontend_update',
+        requirements: ['id' => '\d+']
+    )]
+    #[Layout]
+    #[Acl(
+        id: 'oro_authorize_net_payment_profile_frontend_update',
+        type: 'entity',
+        class: CustomerPaymentProfile::class,
+        permission: 'EDIT',
+        groupName: 'commerce'
+    )]
     public function updateAction(CustomerPaymentProfile $paymentProfile, Request $request)
     {
         $this->assertCIMEnabled();
@@ -110,24 +111,24 @@ class PaymentProfileController extends AbstractController
     }
 
     /**
-     * @Route(
-     *     "/delete/{id}",
-     *     name="oro_authorize_net_payment_profile_frontend_delete",
-     *     requirements={"id"="\d+"},
-     *     methods={"DELETE"}
-     * )
-     * @CsrfProtection()
-     * @Acl(
-     *      id="oro_authorize_net_payment_profile_frontend_delete",
-     *      type="entity",
-     *      class="Oro\Bundle\AuthorizeNetBundle\Entity\CustomerPaymentProfile",
-     *      permission="DELETE",
-     *      group_name="commerce"
-     * )
      *
      * @param CustomerPaymentProfile $paymentProfile
      * @return JsonResponse
      */
+    #[Route(
+        path: '/delete/{id}',
+        name: 'oro_authorize_net_payment_profile_frontend_delete',
+        requirements: ['id' => '\d+'],
+        methods: ['DELETE']
+    )]
+    #[Acl(
+        id: 'oro_authorize_net_payment_profile_frontend_delete',
+        type: 'entity',
+        class: CustomerPaymentProfile::class,
+        permission: 'DELETE',
+        groupName: 'commerce'
+    )]
+    #[CsrfProtection()]
     public function deleteAction(CustomerPaymentProfile $paymentProfile)
     {
         $this->assertCIMEnabled();
@@ -147,24 +148,24 @@ class PaymentProfileController extends AbstractController
     }
 
     /**
-     * @Route(
-     *     "/delete-all/{id}",
-     *     name="oro_authorize_net_payment_profile_frontend_delete_all",
-     *     requirements={"id"="\d+"},
-     *     methods={"DELETE"}
-     * )
-     * @CsrfProtection()
-     * @Acl(
-     *      id="oro_authorize_net_customer_profile_frontend_delete",
-     *      type="entity",
-     *      class="Oro\Bundle\AuthorizeNetBundle\Entity\CustomerProfile",
-     *      permission="DELETE",
-     *      group_name="commerce"
-     * )
      *
      * @param CustomerProfile $customerProfile
      * @return JsonResponse
      */
+    #[Route(
+        path: '/delete-all/{id}',
+        name: 'oro_authorize_net_payment_profile_frontend_delete_all',
+        requirements: ['id' => '\d+'],
+        methods: ['DELETE']
+    )]
+    #[Acl(
+        id: 'oro_authorize_net_customer_profile_frontend_delete',
+        type: 'entity',
+        class: CustomerProfile::class,
+        permission: 'DELETE',
+        groupName: 'commerce'
+    )]
+    #[CsrfProtection()]
     public function deleteAllAction(CustomerProfile $customerProfile)
     {
         $this->assertCIMEnabled();
