@@ -28,7 +28,6 @@ layout:
                     options:
                         action: submit
                         text: oro.authorize_net.frontend.payment_profile.buttons.save
-                        style: auto
                         attr:
                             'class': 'role-submit '
                 __form_actions_cancel:
@@ -37,7 +36,7 @@ layout:
                         route_name: 'oro_authorize_net_payment_profile_frontend_index'
                         text: oro.authorize_net.frontend.payment_profile.buttons.cancel
                         attr:
-                            'class': 'btn '
+                            'class': 'btn btn--outlined '
                 __form_required_label:
                     blockType: block
             tree:
@@ -46,8 +45,8 @@ layout:
                         __form_errors: ~
                         __form: ~
                         __form_actions:
-                            __form_actions_update: ~
                             __form_actions_cancel: ~
+                            __form_actions_update: ~
         - '@move':
             id: __form_actions
             parentId: __form
