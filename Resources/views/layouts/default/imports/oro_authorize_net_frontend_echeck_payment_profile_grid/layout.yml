@@ -34,7 +34,7 @@ layout:
                   type: echeck
               text: 'oro.authorize_net.frontend.payment_profile.buttons.echeck.create'
               visible: '=data["acl"].isGranted("oro_authorize_net_payment_profile_frontend_create")'
-              icon: 'plus fa--small'
+              icon: 'plus'
               attr:
                 class: ' fa btn btn--size-small btn--outlined pull-right btn-block'
     conditions:
