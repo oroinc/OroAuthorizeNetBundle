@@ -1,0 +1,7 @@
+oro_sanitize:
+    entity:
+        oro_integration_transport:
+            fields:
+                au_net_api_login: md5
+                au_net_transaction_key: md5
+                au_net_client_key: md5
