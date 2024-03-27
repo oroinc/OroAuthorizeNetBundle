@@ -33,7 +33,16 @@ navigation:
                                    oro_authorize_net_payment_profile_frontend_update: ~
                                    oro_authorize_net_creditcard_payment_profile_frontend_create: ~
                                    oro_authorize_net_echeck_payment_profile_frontend_create: ~
+            # Start Requirement for "Default Theme 50/51"
             oro_customer_menu:
+                children:
+                    oro_authorize_net_payment_profile_frontend_index:
+                        children:
+                            oro_authorize_net_creditcard_payment_profile_frontend_create: ~
+                            oro_authorize_net_echeck_payment_profile_frontend_create: ~
+                            oro_authorize_net_payment_profile_frontend_update: ~
+            # End Requirement for "Default Theme 50/51"
+            oro_customer_menu_refreshing_teal:
                 children:
                     oro_order_frontend_orders:
                         children:

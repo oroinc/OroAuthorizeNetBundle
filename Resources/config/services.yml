@@ -46,6 +46,7 @@ services:
             - "@oro_authorize_net.method.config.provider.cim_enabled_config_provider"
         tags:
             - { name: kernel.event_listener, event: oro_menu.configure.oro_customer_menu, method: onNavigationConfigure }
+            - { name: kernel.event_listener, event: oro_menu.configure.oro_customer_menu_refreshing_teal, method: onNavigationConfigure }
 
     oro_authorize_net.security.acl.voter.customer_profile:
         class: Oro\Bundle\AuthorizeNetBundle\Acl\Voter\CustomerProfileAndCustomerPaymentProfileVoter
