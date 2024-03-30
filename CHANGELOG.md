@@ -4,7 +4,7 @@ The current file describes significant changes in the code that may affect the u
 
 ## Changes in the Authorizenet package versions
 
-- [6.0.0-RC](#600-rc-2024-02-29)
+- [6.0.0](#600-2024-03-30)
 - [5.1.0](#510-2023-03-31)
 - [5.0.0](#500-2022-01-26)
 - [4.2.0](#420-2020-01-29)
@@ -12,8 +12,8 @@ The current file describes significant changes in the code that may affect the u
 - [4.0.0](#400-2019-07-31)
 - [3.1.0](#310-2019-01-30)
 
-## 6.0.0-RC (2024-02-29)
-[Show detailed list of changes](incompatibilities-6-0-rc.md)
+## 6.0.0 (2024-03-30)
+[Show detailed list of changes](incompatibilities-6-0.md)
 
 ## 5.1.0 (2023-03-31)
 [Show detailed list of changes](incompatibilities-5-1.md)
