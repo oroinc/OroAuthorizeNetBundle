@@ -78,6 +78,7 @@ Feature: AuthorizeNet integration CIM
     Then I should not see "Invalid Expiration date."
     When I submit form
     Then I should see "Invalid Expiration date."
+    And I scroll to top
     When I fill "Authorize.NetForm.PaymentProfile" with:
       | Year | 2027 |
     And I submit form
@@ -143,6 +144,7 @@ Feature: AuthorizeNet integration CIM
     Then I should not see "Invalid Expiration date."
     When I click "Continue"
     Then I should see "Invalid Expiration date."
+    And I scroll to top
     When I fill "Authorize.NetFormCheckoutCreditCardPaymentProfileMethod" with:
       | Year | 2027 |
     And I click "Continue"
@@ -180,6 +182,7 @@ Feature: AuthorizeNet integration CIM
     And I select "Fifth avenue, 10115 Berlin, Germany" on the "Billing Information" checkout step and press Continue
     And I select "Fifth avenue, 10115 Berlin, Germany" on the "Shipping Information" checkout step and press Continue
     And I check "Flat Rate" on the "Shipping Method" checkout step and press Continue
+    And I scroll to top
     And I fill "Authorize.NetFormCheckoutCreditCardPaymentProfileMethod" with:
       | ProfileCVV | 123 |
     Then I should see that option "Second credit card (ends with 0015)" is selected in "Authorize.NetField.CreditCardProfile" select
