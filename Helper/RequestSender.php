@@ -228,7 +228,7 @@ class RequestSender
         /** @var CountryRepository $countryRepository */
         $countryRepository = $this->doctrineHelper->getEntityRepository(Country::class);
         /** @var RegionRepository $regionRepository */
-        $regionRepository= $this->doctrineHelper->getEntityRepository(Region::class);
+        $regionRepository = $this->doctrineHelper->getEntityRepository(Region::class);
 
         if (array_key_exists($countryOptionKey, $addressData)) {
             /** @var Country $country */
