@@ -129,8 +129,6 @@ Feature: AuthorizeNet integration eCheck
     When I remove last added payment profile from AuthorizeNet account
     And I refresh "Authorize.NetGrid.eCheckProfile" grid
     Then there is no records in "Authorize.NetGrid.eCheckProfile"
-    When I reset "Authorize.NetGrid.eCheckProfile" grid
-    Then there is no records in "Authorize.NetGrid.eCheckProfile"
 
   Scenario: Checkout with new bank account
     Given I open page with shopping list List 2

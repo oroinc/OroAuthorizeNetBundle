@@ -6,10 +6,6 @@ layout:
     actions:
         - '@setOption':
             id: __datagrid
-            optionName: grid_render_parameters.gridViewsOptions.hideTitle
-            optionValue: '.page-title-wrapper'
-        - '@setOption':
-            id: __datagrid
             optionName: grid_render_parameters.toolbarOptions.itemsCounter
             optionValue:
               transTemplate: 'oro.authorize_net.frontend.payment_profile.datagrid.pagination.totalRecords'
