@@ -92,7 +92,7 @@ define(function(require) {
             this.$el = this.options._sourceElement;
             this.$form = this.$el.find(this.options.selectors.form);
             this.loadAcceptJsLibrary();
-            this.$form.submit(this.onSubmit.bind(this));
+            this.$form.on('submit', this.onSubmit.bind(this));
         },
 
         dispose: function() {
@@ -200,7 +200,7 @@ define(function(require) {
                 this.eraseSensitiveData();
 
                 this.submitted = true;
-                this.$form.submit();
+                this.$form.trigger('submit');
             }
         },
 

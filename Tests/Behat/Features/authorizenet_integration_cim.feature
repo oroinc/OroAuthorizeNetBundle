@@ -126,6 +126,7 @@ Feature: AuthorizeNet integration CIM
     When I remove last added payment profile from AuthorizeNet account
     And I refresh "Authorize.NetGridCreditCardProfile" grid
     Then there is no records in "Authorize.NetGridCreditCardProfile"
+    And I filter Name as is equal to "test"
     When I reset "Authorize.NetGridCreditCardProfile" grid
     Then there is no records in "Authorize.NetGridCreditCardProfile"
 
