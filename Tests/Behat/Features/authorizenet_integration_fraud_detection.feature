@@ -59,9 +59,9 @@ Feature: AuthorizeNet integration Fraud Detection
   Scenario: Successful order payment with verify action and "Authorize" payment action
     Given I proceed as the Admin
     When go to Sales/Orders
-    Then I should see "12345" in grid with following data:
+    Then I should see "1" in grid with following data:
       | Payment Status | Pending payment |
-    And click view "12345" in grid
+    And click view "1" in grid
     And I should see following "Order Payment Transaction Grid" grid:
       | Payment Method | Type   | Successful |
       | AuthorizeNet   | Verify | Yes        |
@@ -127,9 +127,9 @@ Feature: AuthorizeNet integration Fraud Detection
     Given I proceed as the Admin
     And go to Sales/Orders
     Then I should see following grid:
-      | PO Number | Payment Status  |
-      | 54321     | Pending payment |
-      | 12345     | Paid in full    |
+      | Order Number | Payment Status  |
+      | 3            | Pending payment |
+      | 1            | Paid in full    |
     And click view "Pending payment" in grid
     And I should see following "Order Payment Transaction Grid" grid:
       | Payment Method | Type   | Successful |
