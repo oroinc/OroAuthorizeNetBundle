@@ -9,17 +9,13 @@ use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 
 class CountryTest extends AbstractOptionTest
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getOptions(): array
     {
         return [new AddressOption\Country()];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function configureOptionDataProvider(): array
     {
         return [

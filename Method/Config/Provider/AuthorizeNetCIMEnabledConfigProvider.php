@@ -19,17 +19,13 @@ class AuthorizeNetCIMEnabledConfigProvider implements AuthorizeNetCIMEnabledConf
         $this->configProvider = $configProvider;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function hasPaymentWithEnabledCIMByWebsite(Website $website)
     {
         return $this->getPaymentConfigWithEnabledCIMByWebsite($website) instanceof AuthorizeNetConfigInterface;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getPaymentConfigWithEnabledCIMByWebsite(Website $website)
     {
         $paymentConfigs = $this->configProvider->getPaymentConfigs();

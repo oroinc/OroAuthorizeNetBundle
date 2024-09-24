@@ -22,18 +22,19 @@ class ChargeType extends AbstractOption
     public const ALLOWED_VALUES = [self::TYPE_CREDIT_CARD, self::TYPE_PAYMENT_PROFILE];
 
     /** @return string */
+    #[\Override]
     protected function getName()
     {
         return self::NAME;
     }
 
-    /** {@inheritdoc} */
+    #[\Override]
     protected function getAllowedTypes()
     {
         return 'int';
     }
 
-    /** {@inheritdoc} */
+    #[\Override]
     protected function getAllowedValues()
     {
         return self::ALLOWED_VALUES;

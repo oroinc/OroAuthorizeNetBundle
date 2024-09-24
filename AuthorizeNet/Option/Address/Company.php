@@ -11,17 +11,13 @@ class Company extends AbstractOption
 {
     const COMPANY = 'company';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getName()
     {
         return self::COMPANY;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getAllowedTypes()
     {
         return 'string';

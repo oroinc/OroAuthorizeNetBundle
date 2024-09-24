@@ -15,9 +15,7 @@ class PaymentProfileMaskedDataType extends AbstractType
 {
     const NAME = 'oro_authorize_net_payment_profile_masked_data';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('accountNumber', HiddenType::class);
@@ -27,9 +25,7 @@ class PaymentProfileMaskedDataType extends AbstractType
         $builder->add('bankName', HiddenType::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -37,9 +33,7 @@ class PaymentProfileMaskedDataType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return self::NAME;

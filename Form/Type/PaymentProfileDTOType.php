@@ -21,9 +21,7 @@ class PaymentProfileDTOType extends AbstractType
 {
     const NAME = 'oro_authorize_net_payment_profile_dto';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('profile', PaymentProfileType::class, [
@@ -74,17 +72,13 @@ class PaymentProfileDTOType extends AbstractType
         });
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars['paymentProfileComponentOptions'] = $options['paymentProfileComponentOptions'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -98,9 +92,7 @@ class PaymentProfileDTOType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return self::NAME;

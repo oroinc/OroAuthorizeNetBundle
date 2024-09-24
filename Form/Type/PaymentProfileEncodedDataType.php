@@ -15,9 +15,7 @@ class PaymentProfileEncodedDataType extends AbstractType
 {
     const NAME = 'oro_authorize_net_payment_profile_encoded_data';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('descriptor', HiddenType::class, [
@@ -32,9 +30,7 @@ class PaymentProfileEncodedDataType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -42,9 +38,7 @@ class PaymentProfileEncodedDataType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return self::NAME;

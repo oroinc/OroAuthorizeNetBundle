@@ -9,17 +9,13 @@ use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 
 class PhoneNumberTest extends AbstractOptionTest
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getOptions(): array
     {
         return [new AddressOption\PhoneNumber()];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function configureOptionDataProvider(): array
     {
         return [

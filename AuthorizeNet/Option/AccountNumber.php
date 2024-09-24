@@ -9,17 +9,13 @@ class AccountNumber extends AbstractOption
 {
     const ACCOUNT_NUMBER = 'account_number';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getName()
     {
         return self::ACCOUNT_NUMBER;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getAllowedTypes()
     {
         return 'string';

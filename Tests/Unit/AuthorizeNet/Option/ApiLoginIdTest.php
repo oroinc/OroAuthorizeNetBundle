@@ -8,17 +8,13 @@ use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 
 class ApiLoginIdTest extends AbstractOptionTest
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getOptions(): array
     {
         return [new Option\ApiLoginId()];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function configureOptionDataProvider(): array
     {
         return [

@@ -39,9 +39,7 @@ class CheckoutPaymentProfileType extends AbstractType
         $this->translator = $translator;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $profileType = $options['profile_type'];
@@ -93,9 +91,7 @@ class CheckoutPaymentProfileType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -106,9 +102,7 @@ class CheckoutPaymentProfileType extends AbstractType
         $resolver->setAllowedValues('profile_type', CustomerPaymentProfile::ALLOWED_TYPES);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return self::NAME;

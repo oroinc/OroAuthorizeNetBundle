@@ -60,6 +60,7 @@ class PaymentProfileHandlerTest extends \PHPUnit\Framework\TestCase
     /** @var PaymentProfileHandler */
     private $handler;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->doctrineHelper = $this->createMock(DoctrineHelper::class);

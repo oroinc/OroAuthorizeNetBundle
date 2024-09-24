@@ -9,17 +9,13 @@ class ApiLoginId extends AbstractOption
 {
     const API_LOGIN_ID = 'api_login_id';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getName()
     {
         return self::API_LOGIN_ID;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getAllowedTypes()
     {
         return 'string';

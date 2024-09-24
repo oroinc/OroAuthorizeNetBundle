@@ -10,12 +10,13 @@ class TaxAmount extends AbstractOption
     public const NAME = 'tax_amount';
 
     /** @return string */
+    #[\Override]
     protected function getName()
     {
         return self::NAME;
     }
 
-    /** {@inheritdoc} */
+    #[\Override]
     public function getAllowedTypes()
     {
         return ['float', 'integer'];

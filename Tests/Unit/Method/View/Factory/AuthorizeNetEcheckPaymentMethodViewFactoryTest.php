@@ -19,6 +19,7 @@ class AuthorizeNetEcheckPaymentMethodViewFactoryTest extends \PHPUnit\Framework\
     /** @var AuthorizeNetEcheckPaymentMethodViewFactory */
     private $factory;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->formFactory = $this->createMock(FormFactoryInterface::class);

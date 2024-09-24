@@ -80,36 +80,43 @@ class MethodOptionProvider implements MethodOptionProviderInterface
         return $profile;
     }
 
+    #[\Override]
     public function getSolutionId(): ?string
     {
         return $this->config->isTestMode() ? null : self::SOLUTION_ID;
     }
 
+    #[\Override]
     public function getApiLoginId(): string
     {
         return $this->config->getApiLoginId();
     }
 
+    #[\Override]
     public function getTransactionKey(): string
     {
         return $this->config->getTransactionKey();
     }
 
+    #[\Override]
     public function getDataDescriptor(): string
     {
         return $this->getAdditionalDataField(self::PARAM_DATA_DESCRIPTOR);
     }
 
+    #[\Override]
     public function getDataValue(): string
     {
         return $this->getAdditionalDataField(self::PARAM_DATA_VALUE);
     }
 
+    #[\Override]
     public function isCustomerProfileExists(): bool
     {
         return null !== $this->getCustomerProfile();
     }
 
+    #[\Override]
     public function getExistingCustomerProfileId(): string
     {
         $customerProfile = $this->getCustomerProfile();
@@ -120,6 +127,7 @@ class MethodOptionProvider implements MethodOptionProviderInterface
         return $customerProfile->getCustomerProfileId();
     }
 
+    #[\Override]
     public function getExistingCustomerPaymentProfileId(): string
     {
         $profileId = $this->getProfileId();
@@ -145,6 +153,7 @@ class MethodOptionProvider implements MethodOptionProviderInterface
         return $paymentProfile->getCustomerPaymentProfileId();
     }
 
+    #[\Override]
     public function getGeneratedNewCustomerProfileId(): string
     {
         if ($this->isCustomerProfileExists()) {
@@ -159,6 +168,7 @@ class MethodOptionProvider implements MethodOptionProviderInterface
         return $this->merchantCustomerIdGenerator->generate($this->config->getIntegrationId(), $frontendOwner->getId());
     }
 
+    #[\Override]
     public function getEmail(): ?string
     {
         $frontendOwner = $this->paymentTransaction->getFrontendOwner();
@@ -169,16 +179,19 @@ class MethodOptionProvider implements MethodOptionProviderInterface
         return $frontendOwner->getEmail();
     }
 
+    #[\Override]
     public function getProfileId(): ?int
     {
         return $this->getAdditionalDataField(self::PARAM_PROFILE_ID, false);
     }
 
+    #[\Override]
     public function getCardCode(): ?string
     {
         return $this->getAdditionalDataField(self::PARAM_CARD_CODE, false);
     }
 
+    #[\Override]
     public function getCreateProfile(): ?bool
     {
         $createProfile = $this->getAdditionalDataField(self::PARAM_CREATE_PROFILE, false);
@@ -189,16 +202,19 @@ class MethodOptionProvider implements MethodOptionProviderInterface
         return (bool)$createProfile;
     }
 
+    #[\Override]
     public function getAmount(): float
     {
         return round($this->paymentTransaction->getAmount(), self::AMOUNT_PRECISION);
     }
 
+    #[\Override]
     public function getCurrency(): string
     {
         return $this->paymentTransaction->getCurrency();
     }
 
+    #[\Override]
     public function getOriginalTransaction(): ?string
     {
         return $this->paymentTransaction->getReference();
@@ -303,11 +319,13 @@ class MethodOptionProvider implements MethodOptionProviderInterface
         return $invoiceNumber;
     }
 
+    #[\Override]
     public function isCIMEnabled(): bool
     {
         return $this->config->isEnabledCIM();
     }
 
+    #[\Override]
     public function getClientIp(): ?string
     {
         $request = $this->requestStack->getCurrentRequest();

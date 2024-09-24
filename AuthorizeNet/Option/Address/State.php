@@ -11,17 +11,13 @@ class State extends AbstractOption
 {
     const STATE = 'state';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getName()
     {
         return self::STATE;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getAllowedTypes()
     {
         return 'string';

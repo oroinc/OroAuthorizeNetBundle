@@ -9,17 +9,13 @@ class SolutionId extends AbstractOption
 {
     const SOLUTION_ID = 'solution_id';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getName()
     {
         return self::SOLUTION_ID;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getAllowedTypes()
     {
         return 'string';

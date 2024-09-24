@@ -237,9 +237,7 @@ class PaymentProfileController extends AbstractController
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public static function getSubscribedServices(): array
     {
         return [

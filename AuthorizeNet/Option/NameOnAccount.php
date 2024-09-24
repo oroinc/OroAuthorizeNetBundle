@@ -9,17 +9,13 @@ class NameOnAccount extends AbstractOption
 {
     const NAME_ON_ACCOUNT = 'name_on_account';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getName()
     {
         return self::NAME_ON_ACCOUNT;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getAllowedTypes()
     {
         return 'string';

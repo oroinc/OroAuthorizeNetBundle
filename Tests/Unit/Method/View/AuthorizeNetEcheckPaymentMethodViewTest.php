@@ -29,6 +29,7 @@ class AuthorizeNetEcheckPaymentMethodViewTest extends \PHPUnit\Framework\TestCas
     /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $tokenAccessor;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->formFactory = $this->createMock(FormFactoryInterface::class);

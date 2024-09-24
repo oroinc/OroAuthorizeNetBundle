@@ -24,6 +24,7 @@ class GetTransactionDetailsControllerMock extends AbstractControllerMock
      *
      * @return GetTransactionDetailsResponse
      */
+    #[\Override]
     public function executeWithApiResponse($endPoint = null): GetTransactionDetailsResponse
     {
         $transactionId = $this->request->getTransId();

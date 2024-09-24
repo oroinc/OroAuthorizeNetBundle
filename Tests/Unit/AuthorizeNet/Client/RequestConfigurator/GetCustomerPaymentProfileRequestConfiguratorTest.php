@@ -9,17 +9,13 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 
 class GetCustomerPaymentProfileRequestConfiguratorTest extends AbstractRequestConfiguratorTest
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getConfigurator(): RequestConfiguratorInterface
     {
         return new RequestConfigurator\GetCustomerPaymentProfileRequestConfigurator();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function isApplicableProvider(): array
     {
         return [
@@ -36,9 +32,7 @@ class GetCustomerPaymentProfileRequestConfiguratorTest extends AbstractRequestCo
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function handleProvider(): array
     {
         return [

@@ -23,6 +23,7 @@ class UpdateCustomerPaymentProfileControllerMock extends AbstractControllerMock 
         $this->request = $request;
     }
 
+    #[\Override]
     public function setPaymentProfileIdsStorage(PaymentProfileIDs $paymentProfileIdsStorage)
     {
         $this->paymentProfileIdsStorage = $paymentProfileIdsStorage;
@@ -32,6 +33,7 @@ class UpdateCustomerPaymentProfileControllerMock extends AbstractControllerMock 
      * @param null|string $endPoint
      * @return UpdateCustomerPaymentProfileResponse
      */
+    #[\Override]
     public function executeWithApiResponse($endPoint = null): UpdateCustomerPaymentProfileResponse
     {
         $recordExists = $this->paymentProfileIdsStorage->exists(

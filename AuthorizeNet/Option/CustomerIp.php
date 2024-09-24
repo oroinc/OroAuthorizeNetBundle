@@ -9,17 +9,13 @@ class CustomerIp extends AbstractOption
 {
     public const NAME = 'customer_ip';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getName()
     {
         return self::NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getAllowedTypes()
     {
         return 'string';

@@ -9,17 +9,13 @@ class BankName extends AbstractOption
 {
     const BANK_NAME = 'bank_name';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getName()
     {
         return self::BANK_NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getAllowedTypes()
     {
         return 'string';

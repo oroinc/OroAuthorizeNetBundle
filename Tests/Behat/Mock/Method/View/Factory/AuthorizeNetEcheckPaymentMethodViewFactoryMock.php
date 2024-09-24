@@ -8,9 +8,7 @@ use Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Mock\Method\View\AuthorizeNetEchec
 
 class AuthorizeNetEcheckPaymentMethodViewFactoryMock extends AuthorizeNetEcheckPaymentMethodViewFactory
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function create(AuthorizeNetConfigInterface $config)
     {
         return new AuthorizeNetEcheckPaymentMethodViewMock($this->formFactory, $this->tokenAccessor, $config);

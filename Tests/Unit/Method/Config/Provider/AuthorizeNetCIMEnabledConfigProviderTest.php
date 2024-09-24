@@ -20,6 +20,7 @@ class AuthorizeNetCIMEnabledConfigProviderTest extends \PHPUnit\Framework\TestCa
     /** @var AuthorizeNetConfigProviderInterface|\PHPunit\Framework\MockObject\MockObject */
     private $configProvider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->configProvider = $this->createMock(AuthorizeNetConfigProviderInterface::class);

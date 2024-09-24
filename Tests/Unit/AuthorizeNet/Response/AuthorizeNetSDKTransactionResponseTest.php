@@ -22,6 +22,7 @@ class AuthorizeNetSDKTransactionResponseTest extends \PHPUnit\Framework\TestCase
     /** @var AuthorizeNetSDKResponse */
     private $authorizeNetSdkResponse;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->serializer = $this->createMock(ArrayTransformerInterface::class);

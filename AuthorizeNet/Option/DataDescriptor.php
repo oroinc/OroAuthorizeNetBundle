@@ -9,17 +9,13 @@ class DataDescriptor extends AbstractOption
 {
     const DATA_DESCRIPTOR = 'data_descriptor';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getName()
     {
         return self::DATA_DESCRIPTOR;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getAllowedTypes()
     {
         return 'string';

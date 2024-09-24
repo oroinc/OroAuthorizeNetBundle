@@ -12,9 +12,7 @@ class RequiredEnabledCIMWebsites extends Constraint
     /** @var string */
     public $message = 'oro.authorize_net.validator.required_enabled_cim_websites';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function validatedBy(): string
     {
         return RequiredEnabledCIMWebsitesValidator::ALIAS;

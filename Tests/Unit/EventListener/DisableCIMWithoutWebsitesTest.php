@@ -18,6 +18,7 @@ class DisableCIMWithoutWebsitesTest extends \PHPUnit\Framework\TestCase
 
     private DisableCIMWithoutWebsites $eventListener;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->eventListener = new DisableCIMWithoutWebsites();

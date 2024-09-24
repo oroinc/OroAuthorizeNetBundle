@@ -55,6 +55,7 @@ class CreatePaymentProfileFromTransactionResponseTest extends \PHPUnit\Framework
     /** @var CustomerPaymentProfile */
     private $paymentProfile;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->doctrineHelper = $this->createMock(DoctrineHelper::class);

@@ -8,17 +8,13 @@ use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
 
 class ShippingAddressTest extends AbstractOptionTest
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getOptions(): array
     {
         return [new ShippingAddress()];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function configureOptionDataProvider(): array
     {
         $nonExistingField = 'not_existing_option';

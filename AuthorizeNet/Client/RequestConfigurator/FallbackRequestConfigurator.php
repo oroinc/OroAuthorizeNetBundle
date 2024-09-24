@@ -17,17 +17,13 @@ class FallbackRequestConfigurator implements RequestConfiguratorInterface
         $this->propertyAccessor = $propertyAccessor;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isApplicable(AnetAPI\ANetApiRequestType $request, array $options)
     {
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function handle(AnetAPI\ANetApiRequestType $request, array &$options)
     {
         foreach ($options as $key => $value) {

@@ -9,17 +9,13 @@ class OriginalTransaction extends AbstractOption
 {
     const ORIGINAL_TRANSACTION = 'original_transaction';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getName()
     {
         return self::ORIGINAL_TRANSACTION;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getAllowedTypes()
     {
         return ['integer', 'string'];

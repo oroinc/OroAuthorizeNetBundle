@@ -22,6 +22,7 @@ class CustomerProfileDeleteHandlerTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerProfileDeleteHandler */
     private $handler;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->doctrineHelper = $this->createMock(DoctrineHelper::class);

@@ -54,19 +54,19 @@ final class AnetSDKRequestFactoryMock extends AnetSDKRequestFactory implements
             MockControllers\GetTransactionDetailsControllerMock::class,
     ];
 
+    #[\Override]
     public function setPaymentProfileIdsStorage(PaymentProfileIDs $paymentProfileIdsStorage)
     {
         $this->paymentProfileIdsStorage = $paymentProfileIdsStorage;
     }
 
+    #[\Override]
     public function setPaymentProfileTypesToIDsStorage(PaymentProfileTypesToIDs $paymentProfileTypesToIDsStorage)
     {
         $this->paymentProfileTypesToIDsStorage = $paymentProfileTypesToIDsStorage;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function createController(AnetAPI\ANetApiRequestType $request)
     {
         $controller = parent::createController($request);

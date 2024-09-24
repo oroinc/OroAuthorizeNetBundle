@@ -44,9 +44,7 @@ class PaymentTransactionVerifyAction extends AbstractPaymentMethodAction
         self::VOIDED => 'oro.authorize_net.message.voided'
     ];
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function configureOptionsResolver(OptionsResolver $resolver): void
     {
         parent::configureOptionsResolver($resolver);
@@ -55,9 +53,7 @@ class PaymentTransactionVerifyAction extends AbstractPaymentMethodAction
             ->remove(['amount', 'currency']);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function configureValuesResolver(OptionsResolver $resolver): void
     {
         parent::configureValuesResolver($resolver);
@@ -66,9 +62,7 @@ class PaymentTransactionVerifyAction extends AbstractPaymentMethodAction
             ->remove(['amount', 'currency']);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function executeAction($context): void
     {
         $options = $this->getOptions($context);

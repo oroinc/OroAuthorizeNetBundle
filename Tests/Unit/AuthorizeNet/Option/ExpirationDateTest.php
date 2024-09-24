@@ -8,17 +8,13 @@ use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 
 class ExpirationDateTest extends AbstractOptionTest
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getOptions(): array
     {
         return [new Option\ExpirationDate()];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function configureOptionDataProvider(): array
     {
         return [

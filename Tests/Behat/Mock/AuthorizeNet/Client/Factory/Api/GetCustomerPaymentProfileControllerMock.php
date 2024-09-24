@@ -35,11 +35,13 @@ class GetCustomerPaymentProfileControllerMock extends AbstractControllerMock imp
         $this->request = $request;
     }
 
+    #[\Override]
     public function setPaymentProfileTypesToIDsStorage(PaymentProfileTypesToIDs $paymentProfileTypesToIDs)
     {
         $this->paymentProfileTypesToIDsStorage = $paymentProfileTypesToIDs;
     }
 
+    #[\Override]
     public function setPaymentProfileIdsStorage(PaymentProfileIDs $paymentProfileIdsStorage)
     {
         $this->paymentProfileIdsStorage = $paymentProfileIdsStorage;
@@ -49,6 +51,7 @@ class GetCustomerPaymentProfileControllerMock extends AbstractControllerMock imp
      * @param null|string $endPoint
      * @return GetCustomerPaymentProfileResponse
      */
+    #[\Override]
     public function executeWithApiResponse($endPoint = null): GetCustomerPaymentProfileResponse
     {
         $recordExists = $this->paymentProfileIdsStorage->exists(

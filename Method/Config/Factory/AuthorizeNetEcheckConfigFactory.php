@@ -17,6 +17,7 @@ class AuthorizeNetEcheckConfigFactory extends AuthorizeNetConfigFactory
      *
      * @return AuthorizeNetConfig
      */
+    #[\Override]
     public function createConfig(AuthorizeNetSettings $settings)
     {
         $config = parent::createConfig($settings);

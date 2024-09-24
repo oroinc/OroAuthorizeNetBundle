@@ -24,6 +24,7 @@ class AuthorizeNetConfigProviderTest extends \PHPUnit\Framework\TestCase
     /** @var AuthorizeNetConfigProvider */
     private $authorizeNetConfigProvider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $channel1 = $this->getEntity(Channel::class, ['id' => 1, 'type' => AuthorizeNetChannelType::TYPE]);

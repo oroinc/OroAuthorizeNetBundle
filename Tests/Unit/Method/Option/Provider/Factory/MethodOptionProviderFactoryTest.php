@@ -41,6 +41,7 @@ class MethodOptionProviderFactoryTest extends \PHPUnit\Framework\TestCase
     /** @var MethodOptionProviderFactory */
     private $factory;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->customerProfileProvider = $this->createMock(CustomerProfileProvider::class);

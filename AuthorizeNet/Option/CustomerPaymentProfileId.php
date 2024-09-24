@@ -9,17 +9,13 @@ class CustomerPaymentProfileId extends AbstractOption
 {
     const CUSTOMER_PAYMENT_PROFILE_ID = 'customer_payment_profile_id';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getName()
     {
         return self::CUSTOMER_PAYMENT_PROFILE_ID;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getAllowedTypes()
     {
         return 'string';

@@ -9,17 +9,13 @@ class UpdatePaymentData extends AbstractOption
 {
     const UPDATE_PAYMENT_DATA = 'update_payment_data';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getName()
     {
         return self::UPDATE_PAYMENT_DATA;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getAllowedTypes()
     {
         return 'bool';

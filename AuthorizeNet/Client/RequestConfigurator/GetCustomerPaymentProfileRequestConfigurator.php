@@ -10,9 +10,7 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
  */
 class GetCustomerPaymentProfileRequestConfigurator implements RequestConfiguratorInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isApplicable(AnetAPI\ANetApiRequestType $request, array $options)
     {
         return $request instanceof AnetAPI\GetCustomerPaymentProfileRequest;
@@ -22,6 +20,7 @@ class GetCustomerPaymentProfileRequestConfigurator implements RequestConfigurato
      * @param AnetAPI\ANetApiRequestType|AnetAPI\GetCustomerPaymentProfileRequest $request
      * @param array $options
      */
+    #[\Override]
     public function handle(AnetAPI\ANetApiRequestType $request, array &$options)
     {
         if (array_key_exists(Option\CustomerProfileId::CUSTOMER_PROFILE_ID, $options)) {

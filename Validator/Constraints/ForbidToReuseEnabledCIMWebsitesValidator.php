@@ -36,6 +36,7 @@ class ForbidToReuseEnabledCIMWebsitesValidator extends ConstraintValidator
      * @param AuthorizeNetSettings            $entity
      * @param ForbidToReuseEnabledCIMWebsites $constraint
      */
+    #[\Override]
     public function validate($entity, Constraint $constraint)
     {
         if (! $entity instanceof AuthorizeNetSettings) {

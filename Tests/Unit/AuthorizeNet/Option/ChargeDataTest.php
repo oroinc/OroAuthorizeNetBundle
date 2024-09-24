@@ -7,18 +7,16 @@ use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 
 class ChargeDataTest extends AbstractOptionTest
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getOptions(): array
     {
         return [new Option\ChargeData()];
     }
 
     /**
-     * {@inheritDoc}
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
+    #[\Override]
     public function configureOptionDataProvider(): array
     {
         $profileOptions = [

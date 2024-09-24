@@ -40,6 +40,7 @@ class PaymentTransactionVerifyActionTest extends \PHPUnit\Framework\TestCase
     /** @var PaymentTransactionVerifyAction */
     private $action;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->contextAccessor = $this->createMock(ContextAccessor::class);

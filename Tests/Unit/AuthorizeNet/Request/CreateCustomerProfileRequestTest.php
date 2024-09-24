@@ -7,14 +7,13 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request\CreateCustomerProfileRequ
 
 class CreateCustomerProfileRequestTest extends AbstractRequestTest
 {
+    #[\Override]
     protected function setUp(): void
     {
         $this->request = new CreateCustomerProfileRequest();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function optionsProvider(): array
     {
         return [

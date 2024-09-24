@@ -7,14 +7,13 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request\GetTransactionDetailsRequ
 
 class GetTransactionDetailsRequestTest extends AbstractRequestTest
 {
+    #[\Override]
     protected function setUp(): void
     {
         $this->request = new GetTransactionDetailsRequest();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function optionsProvider(): array
     {
         return [

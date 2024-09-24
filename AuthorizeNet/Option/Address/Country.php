@@ -11,17 +11,13 @@ class Country extends AbstractOption
 {
     const COUNTRY = 'country';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getName()
     {
         return self::COUNTRY;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getAllowedTypes()
     {
         return 'string';

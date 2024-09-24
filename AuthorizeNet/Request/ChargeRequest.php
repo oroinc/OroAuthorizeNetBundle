@@ -9,6 +9,7 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
  */
 class ChargeRequest extends AbstractDataFieldsAwareRequest
 {
+    #[\Override]
     public function getType(): string
     {
         return Option\Transaction::CHARGE;

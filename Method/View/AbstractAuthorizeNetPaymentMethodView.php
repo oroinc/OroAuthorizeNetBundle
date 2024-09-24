@@ -38,46 +38,34 @@ abstract class AbstractAuthorizeNetPaymentMethodView implements PaymentMethodVie
         $this->config = $config;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     abstract public function getOptions(PaymentContextInterface $context);
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getBlock()
     {
         return '_payment_methods_authorize_net_widget';
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getLabel()
     {
         return $this->config->getLabel();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getShortLabel()
     {
         return $this->config->getShortLabel();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getAdminLabel()
     {
         return $this->config->getAdminLabel();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getPaymentMethodIdentifier()
     {
         return $this->config->getPaymentMethodIdentifier();

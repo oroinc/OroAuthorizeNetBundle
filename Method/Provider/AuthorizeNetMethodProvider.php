@@ -31,9 +31,7 @@ class AuthorizeNetMethodProvider extends AbstractPaymentMethodProvider
         $this->paymentMethodFactory = $paymentMethodFactory;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function collectMethods()
     {
         $configs = $this->configProvider->getPaymentConfigs();

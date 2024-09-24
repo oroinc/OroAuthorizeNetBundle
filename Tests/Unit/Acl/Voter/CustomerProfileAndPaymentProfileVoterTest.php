@@ -20,6 +20,7 @@ class CustomerProfileAndPaymentProfileVoterTest extends \PHPUnit\Framework\TestC
     /** @var TokenInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $token;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->doctrineHelper = $this->createMock(DoctrineHelper::class);

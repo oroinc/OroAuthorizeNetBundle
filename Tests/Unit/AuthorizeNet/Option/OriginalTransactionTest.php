@@ -8,17 +8,13 @@ use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 
 class OriginalTransactionTest extends AbstractOptionTest
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getOptions(): array
     {
         return [new Option\OriginalTransaction(false)];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function configureOptionDataProvider(): array
     {
         return [

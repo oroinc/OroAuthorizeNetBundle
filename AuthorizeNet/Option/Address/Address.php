@@ -11,17 +11,13 @@ class Address extends AbstractOption
 {
     const ADDRESS = 'address';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getName()
     {
         return self::ADDRESS;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getAllowedTypes()
     {
         return 'string';

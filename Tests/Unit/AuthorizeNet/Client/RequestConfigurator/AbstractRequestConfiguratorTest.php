@@ -9,6 +9,7 @@ abstract class AbstractRequestConfiguratorTest extends \PHPUnit\Framework\TestCa
 {
     protected RequestConfiguratorInterface $configurator;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->configurator = $this->getConfigurator();

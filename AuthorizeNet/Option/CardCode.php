@@ -10,12 +10,13 @@ class CardCode extends AbstractOption
     public const NAME = 'card_code';
 
     /** @return string */
+    #[\Override]
     protected function getName()
     {
         return self::NAME;
     }
 
-    /** {@inheritdoc} */
+    #[\Override]
     public function getAllowedTypes()
     {
         return 'string';

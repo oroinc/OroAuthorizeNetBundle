@@ -14,15 +14,14 @@ class CreditCardExpirationDateTypeTest extends FormIntegrationTestCase
 
     private CreditCardExpirationDateType $formType;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->formType = new CreditCardExpirationDateType();
         parent::setUp();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getExtensions(): array
     {
         return [

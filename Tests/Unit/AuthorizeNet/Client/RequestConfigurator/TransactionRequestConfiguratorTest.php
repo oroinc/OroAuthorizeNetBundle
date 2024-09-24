@@ -16,6 +16,7 @@ class TransactionRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
 
     private TransactionRequestConfigurator $transactionRequestConfigurator;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->transactionRequestConfigurator = new TransactionRequestConfigurator();

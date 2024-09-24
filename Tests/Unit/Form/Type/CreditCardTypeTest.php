@@ -19,6 +19,7 @@ class CreditCardTypeTest extends FormIntegrationTestCase
     /** @var CreditCardType */
     private $formType;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->translator = $this->createMock(TranslatorInterface::class);
@@ -26,9 +27,7 @@ class CreditCardTypeTest extends FormIntegrationTestCase
         parent::setUp();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getExtensions(): array
     {
         return [

@@ -11,9 +11,7 @@ use Oro\Bundle\PaymentBundle\Context\PaymentContextInterface;
  */
 class AuthorizeNetEcheckPaymentMethodView extends AbstractAuthorizeNetPaymentMethodView
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getOptions(PaymentContextInterface $context)
     {
         $config = $this->config;

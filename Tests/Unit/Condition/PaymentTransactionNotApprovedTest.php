@@ -10,6 +10,7 @@ class PaymentTransactionNotApprovedTest extends \PHPUnit\Framework\TestCase
 {
     private PaymentTransactionNotApproved $condition;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->condition = new PaymentTransactionNotApproved();

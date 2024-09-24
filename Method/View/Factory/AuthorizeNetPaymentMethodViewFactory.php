@@ -10,9 +10,7 @@ use Oro\Bundle\AuthorizeNetBundle\Method\View\AuthorizeNetPaymentMethodView;
  */
 class AuthorizeNetPaymentMethodViewFactory extends AbstractAuthorizeNetPaymentMethodViewFactory
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function create(AuthorizeNetConfigInterface $config)
     {
         return new AuthorizeNetPaymentMethodView($this->formFactory, $this->tokenAccessor, $config);

@@ -37,9 +37,7 @@ class AuthorizeNetSDKClient implements ClientInterface
         $this->logger = $logger;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function send(string $hostAddress, string $requestType, array $options = [])
     {
         $request = $this->requestFactory->createRequest($requestType, $options);

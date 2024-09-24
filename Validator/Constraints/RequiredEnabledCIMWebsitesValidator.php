@@ -19,6 +19,7 @@ class RequiredEnabledCIMWebsitesValidator extends ConstraintValidator
      * @param AuthorizeNetSettings        $entity
      * @param RequiredEnabledCIMWebsites  $constraint
      */
+    #[\Override]
     public function validate($entity, Constraint $constraint)
     {
         if (! $entity instanceof AuthorizeNetSettings) {

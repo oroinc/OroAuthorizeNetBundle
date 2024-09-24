@@ -25,6 +25,7 @@ class GetCustomerProfileControllerMock extends AbstractControllerMock implements
         $this->request = $request;
     }
 
+    #[\Override]
     public function setPaymentProfileIdsStorage(PaymentProfileIDs $paymentProfileIdsStorage)
     {
         $this->paymentProfileIdsStorage = $paymentProfileIdsStorage;
@@ -34,6 +35,7 @@ class GetCustomerProfileControllerMock extends AbstractControllerMock implements
      * @param null|string $endPoint
      * @return GetCustomerProfileResponse
      */
+    #[\Override]
     public function executeWithApiResponse($endPoint = null): GetCustomerProfileResponse
     {
         $response = new GetCustomerProfileResponse();

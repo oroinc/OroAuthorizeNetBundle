@@ -13,9 +13,7 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
  */
 abstract class AbstractDataFieldsAwareRequest extends AbstractTransactionRequest
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function configureRequestOptions()
     {
         return parent::configureRequestOptions()->addOption(new Option\ChargeData());

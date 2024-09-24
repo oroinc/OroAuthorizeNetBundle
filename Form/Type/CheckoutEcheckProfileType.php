@@ -15,9 +15,7 @@ class CheckoutEcheckProfileType extends AbstractType
 {
     const NAME = 'oro_authorize_net_checkout_echeck_profile';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('paymentData', BankAccountType::class, [
@@ -27,9 +25,7 @@ class CheckoutEcheckProfileType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -41,17 +37,13 @@ class CheckoutEcheckProfileType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return self::NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getParent(): ?string
     {
         return CheckoutPaymentProfileType::class;

@@ -8,9 +8,7 @@ use Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Mock\Method\AuthorizeNetPaymentMet
 
 class AuthorizeNetPaymentMethodFactoryMock extends AuthorizeNetPaymentMethodFactory
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function create(AuthorizeNetConfigInterface $config)
     {
         $method = new AuthorizeNetPaymentMethodMock(

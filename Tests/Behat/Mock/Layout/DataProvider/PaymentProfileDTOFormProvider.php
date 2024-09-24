@@ -9,6 +9,7 @@ class PaymentProfileDTOFormProvider extends BaseProvider
     /**
      * @return array
      */
+    #[\Override]
     public function getPageComponentOptions()
     {
         $options = parent::getPageComponentOptions();

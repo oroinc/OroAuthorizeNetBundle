@@ -24,6 +24,7 @@ class CreateCustomerProfileControllerMock extends AbstractControllerMock
      * @param null|string $endPoint
      * @return CreateCustomerProfileResponse
      */
+    #[\Override]
     public function executeWithApiResponse($endPoint = null): CreateCustomerProfileResponse
     {
         $response = new CreateCustomerProfileResponse();

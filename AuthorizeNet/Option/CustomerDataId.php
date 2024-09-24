@@ -17,12 +17,13 @@ class CustomerDataId extends AbstractOption
     /**
      * @return string
      */
+    #[\Override]
     protected function getName()
     {
         return self::NAME;
     }
 
-    /** {@inheritdoc} */
+    #[\Override]
     public function getAllowedTypes()
     {
         return 'string';

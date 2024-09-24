@@ -14,6 +14,7 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option\Address as AddressOption;
  */
 class ChargeData implements OptionInterface, OptionsDependentInterface
 {
+    #[\Override]
     public function configureOption(OptionsResolver $resolver)
     {
         $resolver
@@ -40,6 +41,7 @@ class ChargeData implements OptionInterface, OptionsDependentInterface
      * @param mixed[] $options Options to resolve
      * @return bool
      */
+    #[\Override]
     public function isApplicableDependent(array $options)
     {
         return true;
@@ -51,6 +53,7 @@ class ChargeData implements OptionInterface, OptionsDependentInterface
      * @param OptionsResolver $resolver
      * @param mixed[] $options Options to resolve
      */
+    #[\Override]
     public function configureDependentOption(OptionsResolver $resolver, array $options)
     {
         $chargeType = $options[ChargeType::NAME] ?? null;

@@ -24,17 +24,13 @@ class PaymentTransactionNotApproved extends AbstractCondition implements Context
      */
     protected $transaction;
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getName(): string
     {
         return self::NAME;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function initialize(array $options): self
     {
         if (array_key_exists('transaction', $options)) {
@@ -48,9 +44,7 @@ class PaymentTransactionNotApproved extends AbstractCondition implements Context
         return $this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function isConditionAllowed($context): bool
     {
         /** @var PaymentTransaction $transaction */

@@ -8,17 +8,13 @@ use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
 
 class CustomerAddressTest extends AbstractOptionTest
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getOptions(): array
     {
         return [new Option\CustomerAddress()];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function configureOptionDataProvider(): array
     {
         return [

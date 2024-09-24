@@ -26,104 +26,85 @@ class AuthorizeNetConfig extends AbstractParameterBagPaymentConfig implements Au
     const ECHECK_CONFIRMATION_TEXT = 'echeck_confirmation_text';
     const ALLOW_HOLD_TRANSACTION = 'allow_hold_transaction';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isTestMode()
     {
         return (bool)$this->get(self::TEST_MODE_KEY);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getAllowedCreditCards()
     {
         return (array)$this->get(self::ALLOWED_CREDIT_CARD_TYPES_KEY);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getPurchaseAction()
     {
         return (string)$this->get(self::PURCHASE_ACTION_KEY);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getApiLoginId()
     {
         return (string)$this->get(self::API_LOGIN_ID);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getTransactionKey()
     {
         return (string)$this->get(self::TRANSACTION_KEY);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getClientKey()
     {
         return (string)$this->get(self::CLIENT_KEY);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isRequireCvvEntryEnabled()
     {
         return (bool)$this->get(self::REQUIRE_CVV_ENTRY_KEY);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isEnabledCIM()
     {
         return (bool)$this->get(self::ENABLED_CIM_KEY);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getEnabledCIMWebsites()
     {
         return $this->get(self::ENABLED_CIM_WEBSITES, new ArrayCollection());
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getIntegrationId(): int
     {
         return $this->getInt(self::INTEGRATION_ID);
     }
 
+    #[\Override]
     public function isECheckEnabled(): bool
     {
         return $this->getBoolean(self::ECHECK_ENABLED);
     }
 
+    #[\Override]
     public function getECheckAccountTypes(): array
     {
         return (array) $this->get(self::ECHECK_ACCOUNT_TYPES);
     }
 
+    #[\Override]
     public function getECheckConfirmationText(): string
     {
         return (string) $this->get(self::ECHECK_CONFIRMATION_TEXT);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isAllowHoldTransaction(): bool
     {
         return (bool) $this->get(self::ALLOW_HOLD_TRANSACTION);

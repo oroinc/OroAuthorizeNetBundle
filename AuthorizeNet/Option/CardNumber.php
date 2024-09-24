@@ -9,17 +9,13 @@ class CardNumber extends AbstractOption
 {
     const CARD_NUMBER = 'card_number';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getName()
     {
         return self::CARD_NUMBER;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getAllowedTypes()
     {
         return 'string';

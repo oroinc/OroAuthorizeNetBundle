@@ -9,17 +9,13 @@ class IsDefault extends AbstractOption
 {
     const IS_DEFAULT = 'is_default';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getName()
     {
         return self::IS_DEFAULT;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getAllowedTypes()
     {
         return 'bool';

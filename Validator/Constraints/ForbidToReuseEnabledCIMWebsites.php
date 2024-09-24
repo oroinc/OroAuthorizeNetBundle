@@ -15,9 +15,7 @@ class ForbidToReuseEnabledCIMWebsites extends Constraint
     /** @var string */
     public $messageMultiWebsite = 'oro.authorize_net.validator.forbid_to_reuse_enabled_cim_websites.multi';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function validatedBy(): string
     {
         return ForbidToReuseEnabledCIMWebsitesValidator::ALIAS;

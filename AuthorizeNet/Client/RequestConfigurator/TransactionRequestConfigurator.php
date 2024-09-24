@@ -19,9 +19,7 @@ class TransactionRequestConfigurator implements RequestConfiguratorInterface
 {
     const LINE_ITEMS_MAX_QUANTITY = 30;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isApplicable(AnetAPI\ANetApiRequestType $request, array $options)
     {
         return $request instanceof AnetAPI\CreateTransactionRequest;
@@ -31,6 +29,7 @@ class TransactionRequestConfigurator implements RequestConfiguratorInterface
      * @param AnetAPI\ANetApiRequestType|AnetAPI\CreateTransactionRequest $request
      * @param array $options
      */
+    #[\Override]
     public function handle(AnetAPI\ANetApiRequestType $request, array &$options)
     {
         $request->setTransactionRequest($this->getTransactionRequest($options));

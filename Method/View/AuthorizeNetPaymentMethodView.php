@@ -11,9 +11,7 @@ use Oro\Bundle\PaymentBundle\Context\PaymentContextInterface;
  */
 class AuthorizeNetPaymentMethodView extends AbstractAuthorizeNetPaymentMethodView
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getOptions(PaymentContextInterface $context)
     {
         $allowedCreditCards = $this->config->getAllowedCreditCards();
