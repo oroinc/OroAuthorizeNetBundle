@@ -43,8 +43,8 @@ Feature: AuthorizeNet integration Single Page Checkout
 
   Scenario: Frontend AcceptJs Card validation error when pay order with AuthorizeNet
     Given I scroll to top
-    When I select "ORO, Fifth avenue, 10115 Berlin, Germany" from "Select Billing Address"
-    And I select "ORO, Fifth avenue, 10115 Berlin, Germany" from "Select Shipping Address"
+    When I select "ORO, Fifth avenue, 10115 Berlin, Germany" from "Billing Address"
+    And I select "ORO, Fifth avenue, 10115 Berlin, Germany" from "Shipping Address"
     And I check "Flat Rate" on the checkout page
     And I fill "Credit Card Form" with:
       | CreditCardNumber | 5555555555554444 |
@@ -59,8 +59,8 @@ Feature: AuthorizeNet integration Single Page Checkout
     Given There are products in the system available for order
     When I open page with shopping list List 2
     And I click "Create Order"
-    And I select "ORO, Fifth avenue, 10115 Berlin, Germany" from "Select Billing Address"
-    And I select "ORO, Fifth avenue, 10115 Berlin, Germany" from "Select Shipping Address"
+    And I select "ORO, Fifth avenue, 10115 Berlin, Germany" from "Billing Address"
+    And I select "ORO, Fifth avenue, 10115 Berlin, Germany" from "Shipping Address"
     And I check "Flat Rate" on the checkout page
     And I fill "Credit Card Form" with:
       | CreditCardNumber | 5105105105105100 |
@@ -75,7 +75,7 @@ Feature: AuthorizeNet integration Single Page Checkout
     Given There are products in the system available for order
     When I open page with shopping list List 1
     And I click "Create Order"
-    And I select "ORO, Fifth avenue, 10115 Berlin, Germany" from "Select Billing Address"
+    And I select "ORO, Fifth avenue, 10115 Berlin, Germany" from "Billing Address"
     And I check "Flat Rate" on the checkout page
     And I fill "Credit Card Form" with:
       | CreditCardNumber | 5424000000000015 |
@@ -91,7 +91,7 @@ Feature: AuthorizeNet integration Single Page Checkout
     Given There are products in the system available for order
     When I open page with shopping list List 2
     And I click "Create Order"
-    And I select "ORO, Fifth avenue, 10115 Berlin, Germany" from "Select Billing Address"
+    And I select "ORO, Fifth avenue, 10115 Berlin, Germany" from "Billing Address"
     And I check "Flat Rate" on the checkout page
     And I fill "Credit Card Form" with:
       | CreditCardNumber | 5424000000000015 |

@@ -48,8 +48,8 @@ Feature: AuthorizeNet integration CIM single page checkout
     Then there is no records in "Authorize.NetGridCreditCardProfile"
     When I open page with shopping list List 2
     And I click "Create Order"
-    And I select "ORO, Fifth avenue, 10115 Berlin, Germany" from "Select Billing Address"
-    And I select "ORO, Fifth avenue, 10115 Berlin, Germany" from "Select Shipping Address"
+    And I select "ORO, Fifth avenue, 10115 Berlin, Germany" from "Billing Address"
+    And I select "ORO, Fifth avenue, 10115 Berlin, Germany" from "Shipping Address"
     And I check "Flat Rate" on the checkout page
     And I fill "Authorize.NetFormCheckoutCreditCardPaymentProfileMethod" with:
       | Profile                        | New Card           |
@@ -93,8 +93,8 @@ Feature: AuthorizeNet integration CIM single page checkout
   Scenario: Checkout with existed cart
     Given I open page with shopping list List 1
     And I click "Create Order"
-    And I select "ORO, Fifth avenue, 10115 Berlin, Germany" from "Select Billing Address"
-    And I select "ORO, Fifth avenue, 10115 Berlin, Germany" from "Select Shipping Address"
+    And I select "ORO, Fifth avenue, 10115 Berlin, Germany" from "Billing Address"
+    And I select "ORO, Fifth avenue, 10115 Berlin, Germany" from "Shipping Address"
     And I check "Flat Rate" on the checkout page
     And I fill "Authorize.NetFormCheckoutCreditCardPaymentProfileMethod" with:
       | ProfileCVV | 123 |
