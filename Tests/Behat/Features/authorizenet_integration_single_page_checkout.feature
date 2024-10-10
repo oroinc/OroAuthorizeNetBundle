@@ -101,8 +101,7 @@ Feature: AuthorizeNet integration Single Page Checkout
     And I scroll to top
     And I check "Use billing address" on the checkout page
     Then CreditCardFormCreditCardNumber field should has 5424000000000015 value
-    When I click on "Billing Address Select"
-    And I click on "New Address Option"
+    When I click on "Add Address Single Page Checkout Btn" with title "Add" in element "Single Page Checkout Billing Section"
     And I fill "New Address Popup Form" with:
       | Email        | test@example.com |
     And I click "Continue"
