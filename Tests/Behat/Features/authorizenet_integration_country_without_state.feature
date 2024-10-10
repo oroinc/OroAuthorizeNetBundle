@@ -41,8 +41,8 @@ Feature: AuthorizeNet integration Country without State
     And I signed in as AmandaRCole@example.org on the store frontend
     When I open page with shopping list List 1
     And I click "Create Order"
-    And fill form with:
-      | Select Billing Address | New address             |
+    And I click "Add Address"
+    And I fill "New Address Popup Form" with:
       | Label                  | Address without a State |
       | First Name             | Tester1                 |
       | Last Name              | Testerson1              |
@@ -51,7 +51,10 @@ Feature: AuthorizeNet integration Country without State
       | City                   | City                    |
       | Country                | American Samoa          |
       | Zip/Postal Code        | 10115                   |
+    And I click "Continue" in modal window
     And I click "Ship to This Address"
+    And I click "Continue"
+    # TODO remove next line after backend fix
     And I click "Continue"
     And I check "Flat Rate" on the "Shipping Method" checkout step and press Continue
     And I fill "Credit Card Form" with:
