@@ -1,5 +1,6 @@
 {% block _delete_all_payment_profile_button_widget %}
     {% import '@OroUI/macros.html.twig' as UI %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
 
     {% set moduleOptions = {
         confirmMessage: 'oro.authorize_net.frontend.payment_profile.message.delete_all_dialog'|trans,
@@ -10,10 +11,13 @@
         redirect: url('oro_authorize_net_payment_profile_frontend_index')
     } %}
 
-    <button {{ block('block_attributes') }} {{ UI.renderPageComponentAttributes({
-        module: 'orofrontend/js/app/components/delete-item-component',
-        options: moduleOptions
-    }) }} >
-        <i class="fa-trash"></i> {{ 'oro.authorize_net.frontend.payment_profile.buttons.delete_all'|trans }}
-    </button>
+    <div class="echeck-payment-profiles__delete-all">
+        <button {{ block('block_attributes') }} {{ UI.renderPageComponentAttributes({
+            module: 'orofrontend/js/app/components/delete-item-component',
+            options: moduleOptions
+        }) }} >
+            {{ renderIcon.icon({name: 'trash'}) }}
+            {{ 'oro.authorize_net.frontend.payment_profile.buttons.delete_all'|trans }}
+        </button>
+    </div>
 {% endblock %}
