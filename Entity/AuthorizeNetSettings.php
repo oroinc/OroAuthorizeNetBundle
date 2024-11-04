@@ -151,9 +151,7 @@ class AuthorizeNetSettings extends Transport
         $this->eCheckShortLabels = new ArrayCollection();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getSettingsBag()
     {
         if (null === $this->settings) {

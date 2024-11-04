@@ -12,9 +12,7 @@ use Oro\Bundle\EntityExtendBundle\PropertyAccess;
  */
 class CreateCustomerPaymentProfileRequestConfigurator implements RequestConfiguratorInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isApplicable(AnetAPI\ANetApiRequestType $request, array $options)
     {
         return $request instanceof AnetAPI\CreateCustomerPaymentProfileRequest;
@@ -24,6 +22,7 @@ class CreateCustomerPaymentProfileRequestConfigurator implements RequestConfigur
      * @param AnetAPI\ANetApiRequestType|AnetAPI\CreateCustomerPaymentProfileRequest $request
      * @param array $options
      */
+    #[\Override]
     public function handle(AnetAPI\ANetApiRequestType $request, array &$options)
     {
         if (array_key_exists(Option\CustomerProfileId::CUSTOMER_PROFILE_ID, $options)) {

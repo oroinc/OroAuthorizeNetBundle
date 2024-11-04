@@ -23,6 +23,7 @@ class ForbidToReuseEnabledCIMWebsitesValidatorTest extends ConstraintValidatorTe
     /** @var WebsiteProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $websiteProvider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->doctrineHelper = $this->createMock(DoctrineHelper::class);
@@ -30,9 +31,7 @@ class ForbidToReuseEnabledCIMWebsitesValidatorTest extends ConstraintValidatorTe
         parent::setUp();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function createValidator(): ForbidToReuseEnabledCIMWebsitesValidator
     {
         return new ForbidToReuseEnabledCIMWebsitesValidator($this->doctrineHelper, $this->websiteProvider);

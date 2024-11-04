@@ -41,9 +41,7 @@ abstract class AbstractOption implements OptionInterface
         return [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     final public function configureOption(OptionsResolver $resolver)
     {
         $resolver->setDefined($this->getName());

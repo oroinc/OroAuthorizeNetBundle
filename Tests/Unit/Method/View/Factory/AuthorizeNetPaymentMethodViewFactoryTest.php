@@ -19,6 +19,7 @@ class AuthorizeNetPaymentMethodViewFactoryTest extends \PHPUnit\Framework\TestCa
     /** @var AuthorizeNetPaymentMethodViewFactory */
     private $factory;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->formFactory = $this->createMock(FormFactoryInterface::class);

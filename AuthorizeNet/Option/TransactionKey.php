@@ -9,17 +9,13 @@ class TransactionKey extends AbstractOption
 {
     const TRANSACTION_KEY = 'transaction_key';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getName()
     {
         return self::TRANSACTION_KEY;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getAllowedTypes()
     {
         return 'string';

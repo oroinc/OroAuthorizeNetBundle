@@ -26,9 +26,7 @@ class CustomerProfileAndCustomerPaymentProfileVoter implements VoterInterface
         $this->className = $className;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function vote(TokenInterface $token, $subject, array $attributes): int
     {
         if (!\is_object($subject) || \in_array(AuthenticatedVoter::PUBLIC_ACCESS, $attributes)) {

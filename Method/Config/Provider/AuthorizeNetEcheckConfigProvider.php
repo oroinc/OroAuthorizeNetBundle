@@ -12,6 +12,7 @@ class AuthorizeNetEcheckConfigProvider extends AuthorizeNetConfigProvider
     /**
      * @return AuthorizeNetSettings[]
      */
+    #[\Override]
     protected function getSettings()
     {
         $settings = parent::getSettings();

@@ -58,9 +58,7 @@ class AnetSDKRequestFactory implements AnetSDKRequestFactoryInterface
         $this->requestConfigurators = $requestConfigurators;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function createRequest(string $type, array $options = [])
     {
         if (!array_key_exists($type, static::$requestClassMap)) {
@@ -78,9 +76,7 @@ class AnetSDKRequestFactory implements AnetSDKRequestFactoryInterface
         return $request;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function createController(AnetAPI\ANetApiRequestType $request)
     {
         $requestClass = \get_class($request);

@@ -29,11 +29,13 @@ class DeleteCustomerPaymentProfileControllerMock extends AbstractControllerMock 
         $this->request = $request;
     }
 
+    #[\Override]
     public function setPaymentProfileIdsStorage(PaymentProfileIDs $paymentProfileIdsStorage)
     {
         $this->paymentProfileIdsStorage = $paymentProfileIdsStorage;
     }
 
+    #[\Override]
     public function setPaymentProfileTypesToIDsStorage(PaymentProfileTypesToIDs $paymentProfileTypesToIDs)
     {
         $this->paymentProfileTypesToIDsStorage = $paymentProfileTypesToIDs;
@@ -43,6 +45,7 @@ class DeleteCustomerPaymentProfileControllerMock extends AbstractControllerMock 
      * @param null|string $endPoint
      * @return DeleteCustomerPaymentProfileResponse
      */
+    #[\Override]
     public function executeWithApiResponse($endPoint = null): DeleteCustomerPaymentProfileResponse
     {
         $removeResult = $this->paymentProfileIdsStorage->remove(

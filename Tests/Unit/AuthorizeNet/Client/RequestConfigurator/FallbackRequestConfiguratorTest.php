@@ -10,6 +10,7 @@ class FallbackRequestConfiguratorTest extends \PHPUnit\Framework\TestCase
 {
     private FallbackRequestConfigurator $fallbackRequestConfigurator;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->fallbackRequestConfigurator = new FallbackRequestConfigurator(

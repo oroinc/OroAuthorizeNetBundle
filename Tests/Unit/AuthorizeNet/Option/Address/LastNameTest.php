@@ -9,17 +9,13 @@ use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 
 class LastNameTest extends AbstractOptionTest
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getOptions(): array
     {
         return [new AddressOption\LastName()];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function configureOptionDataProvider(): array
     {
         return [

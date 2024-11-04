@@ -65,9 +65,7 @@ class PaymentProfileHandler extends FormHandler
         $this->customerProfileProvider = $customerProfileProvider;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function process($data, FormInterface $form, Request $request)
     {
         $this->assertIsApplicableData($data);

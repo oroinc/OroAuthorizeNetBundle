@@ -11,14 +11,13 @@ class DeleteCustomerProfileRequest extends AbstractRequest
 {
     const REQUEST_TYPE = 'deleteCustomerProfileRequest';
 
+    #[\Override]
     public function getType(): string
     {
         return self::REQUEST_TYPE;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function configureRequestOptions()
     {
         $this->addOption(new Option\CustomerProfileId());

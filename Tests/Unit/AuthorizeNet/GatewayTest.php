@@ -21,6 +21,7 @@ class GatewayTest extends \PHPUnit\Framework\TestCase
     /** @var Gateway */
     private $gateway;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->client = $this->createMock(ClientInterface::class);

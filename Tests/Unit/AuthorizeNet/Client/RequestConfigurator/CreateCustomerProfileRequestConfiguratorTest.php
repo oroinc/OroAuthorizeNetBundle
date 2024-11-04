@@ -9,17 +9,13 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 
 class CreateCustomerProfileRequestConfiguratorTest extends AbstractRequestConfiguratorTest
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getConfigurator(): RequestConfiguratorInterface
     {
         return new RequestConfigurator\CreateCustomerProfileRequestConfigurator();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function isApplicableProvider(): array
     {
         return [
@@ -36,9 +32,7 @@ class CreateCustomerProfileRequestConfiguratorTest extends AbstractRequestConfig
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function handleProvider(): array
     {
         return [

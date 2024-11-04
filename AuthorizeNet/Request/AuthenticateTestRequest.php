@@ -9,9 +9,7 @@ class AuthenticateTestRequest extends AbstractRequest
 {
     public const REQUEST_TYPE = 'authenticateTestRequest';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getType(): string
     {
         return self::REQUEST_TYPE;

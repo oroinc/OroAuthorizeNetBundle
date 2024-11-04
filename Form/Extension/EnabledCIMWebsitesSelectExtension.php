@@ -33,9 +33,7 @@ class EnabledCIMWebsitesSelectExtension extends AbstractTypeExtension
         $this->websiteManager = $websiteManager;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $fieldOptions = [
@@ -63,9 +61,7 @@ class EnabledCIMWebsitesSelectExtension extends AbstractTypeExtension
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -76,9 +72,7 @@ class EnabledCIMWebsitesSelectExtension extends AbstractTypeExtension
         ]);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public static function getExtendedTypes(): iterable
     {
         return [AuthorizeNetSettingsType::class];

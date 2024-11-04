@@ -12,12 +12,13 @@ class LineItems extends AbstractOption
     public const NAME = 'line_items';
 
     /** @return string */
+    #[\Override]
     protected function getName()
     {
         return self::NAME;
     }
 
-    /** {@inheritdoc} */
+    #[\Override]
     public function getAllowedTypes()
     {
         return sprintf('%s[]', OrderLineItem::class);

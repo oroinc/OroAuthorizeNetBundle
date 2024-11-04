@@ -45,6 +45,7 @@ class BasicCardTypesDataProvider implements CardTypesDataProviderInterface
     /**
      * @return string[]
      */
+    #[\Override]
     public function getCardTypes()
     {
         return [

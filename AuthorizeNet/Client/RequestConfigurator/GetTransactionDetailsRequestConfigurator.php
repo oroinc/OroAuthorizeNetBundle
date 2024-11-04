@@ -10,17 +10,13 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
  */
 class GetTransactionDetailsRequestConfigurator implements RequestConfiguratorInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isApplicable(AnetAPI\ANetApiRequestType $request, array $options): bool
     {
         return $request instanceof AnetAPI\GetTransactionDetailsRequest;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function handle(AnetAPI\ANetApiRequestType $request, array &$options): void
     {
         if (array_key_exists(Option\OriginalTransaction::ORIGINAL_TRANSACTION, $options)) {

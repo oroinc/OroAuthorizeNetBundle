@@ -39,6 +39,7 @@ class FraudDetectionTransactionListenerTest extends \PHPUnit\Framework\TestCase
     /** @var AuthorizeNetConfigInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $paymentConfig;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->configProvider = $this->createMock(AuthorizeNetConfigProviderInterface::class);

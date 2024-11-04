@@ -11,14 +11,13 @@ class CreateCustomerProfileRequest extends AbstractRequest
 {
     const REQUEST_TYPE = 'createCustomerProfileRequest';
 
+    #[\Override]
     public function getType(): string
     {
         return self::REQUEST_TYPE;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function configureRequestOptions()
     {
         $this

@@ -9,17 +9,13 @@ class Amount extends AbstractOption
 {
     const AMOUNT = 'amount';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getName()
     {
         return self::AMOUNT;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getAllowedTypes()
     {
         return ['float', 'integer'];

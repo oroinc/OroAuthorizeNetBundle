@@ -22,15 +22,14 @@ class PaymentProfileDTOTypeTest extends AddressFormExtensionTestCase
 {
     private PaymentProfileDTOType $formType;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->formType = new PaymentProfileDTOType();
         parent::setUp();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getExtensions(): array
     {
         return array_merge(parent::getExtensions(), [

@@ -11,17 +11,13 @@ use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
  */
 class PaymentDataTest extends AbstractOptionTest
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getOptions(): array
     {
         return [new Option\PaymentData()];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function configureOptionDataProvider(): array
     {
         return [

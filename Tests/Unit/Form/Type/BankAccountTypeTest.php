@@ -11,15 +11,14 @@ class BankAccountTypeTest extends FormIntegrationTestCase
 {
     private BankAccountType $formType;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->formType = new BankAccountType($this->createMock(TranslatorInterface::class));
         parent::setUp();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getExtensions(): array
     {
         return array_merge(parent::getExtensions(), [

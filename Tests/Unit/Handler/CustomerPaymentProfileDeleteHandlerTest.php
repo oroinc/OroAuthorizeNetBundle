@@ -22,6 +22,7 @@ class CustomerPaymentProfileDeleteHandlerTest extends \PHPUnit\Framework\TestCas
     /** @var CustomerPaymentProfileDeleteHandler */
     private $handler;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->doctrineHelper = $this->createMock(DoctrineHelper::class);

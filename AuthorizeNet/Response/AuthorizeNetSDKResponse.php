@@ -31,33 +31,25 @@ class AuthorizeNetSDKResponse implements ResponseInterface
         $this->apiResponse = $apiResponse;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isSuccessful()
     {
         return $this->apiResponse->getMessages()->getResultCode() === 'Ok';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isActive()
     {
         return $this->apiResponse->getMessages()->getResultCode() === 'Ok';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getReference()
     {
         return $this->apiResponse->getRefId();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getMessage()
     {
         return $this->isSuccessful() ?
@@ -85,9 +77,7 @@ class AuthorizeNetSDKResponse implements ResponseInterface
         return empty($errorMessages) ? null : implode(';  ', $errorMessages);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getData()
     {
         if ($this->apiResponseSerialized === null) {

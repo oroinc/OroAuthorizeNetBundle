@@ -9,6 +9,7 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
  */
 abstract class AbstractTransactionRequest extends AbstractRequest
 {
+    #[\Override]
     protected function configureRequestOptions()
     {
         return $this
@@ -23,6 +24,7 @@ abstract class AbstractTransactionRequest extends AbstractRequest
     /**
      * @return $this
      */
+    #[\Override]
     protected function configureSpecificOptions()
     {
         $this->resolver

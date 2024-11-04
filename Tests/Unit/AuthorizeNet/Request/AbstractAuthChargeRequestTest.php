@@ -7,9 +7,7 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request\AuthorizeRequest;
 
 abstract class AbstractAuthChargeRequestTest extends AbstractRequestTest
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function optionsProvider(): array
     {
         $default = [

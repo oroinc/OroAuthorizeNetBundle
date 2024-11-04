@@ -9,9 +9,7 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option\Address as AddressOption;
  */
 class CustomerAddress implements OptionInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function configureOption(OptionsResolver $resolver)
     {
         $resolver

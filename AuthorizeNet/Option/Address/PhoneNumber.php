@@ -11,17 +11,13 @@ class PhoneNumber extends AbstractOption
 {
     const PHONE_NUMBER = 'phone_number';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getName()
     {
         return self::PHONE_NUMBER;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getAllowedTypes()
     {
         return 'string';

@@ -33,11 +33,13 @@ class CreateTransactionControllerMock extends AbstractControllerMock implements
         $this->request = $request;
     }
 
+    #[\Override]
     public function setPaymentProfileIdsStorage(PaymentProfileIDs $paymentProfileIdsStorage)
     {
         $this->paymentProfileIdsStorage = $paymentProfileIdsStorage;
     }
 
+    #[\Override]
     public function setPaymentProfileTypesToIDsStorage(PaymentProfileTypesToIDs $paymentProfileTypesToIDs)
     {
         $this->paymentProfileTypesToIDsStorage = $paymentProfileTypesToIDs;
@@ -50,6 +52,7 @@ class CreateTransactionControllerMock extends AbstractControllerMock implements
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
+    #[\Override]
     public function executeWithApiResponse($endPoint = null): CreateTransactionResponse
     {
         $profile = $this->request->getTransactionRequest()->getProfile();

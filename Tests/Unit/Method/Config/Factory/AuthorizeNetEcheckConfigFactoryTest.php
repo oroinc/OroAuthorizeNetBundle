@@ -30,6 +30,7 @@ class AuthorizeNetEcheckConfigFactoryTest extends \PHPUnit\Framework\TestCase
     /** @var AuthorizeNetEcheckConfigFactory */
     private $configFactory;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->encoder = $this->createMock(SymmetricCrypterInterface::class);

@@ -15,12 +15,14 @@ class MerchantAuthenticationRequestConfigurator implements RequestConfiguratorIn
      * @param array $options
      * @return bool
      */
+    #[\Override]
     public function isApplicable(AnetAPI\ANetApiRequestType $request, array $options)
     {
         return array_key_exists(Option\ApiLoginId::API_LOGIN_ID, $options)
             && array_key_exists(Option\TransactionKey::TRANSACTION_KEY, $options);
     }
 
+    #[\Override]
     public function handle(AnetAPI\ANetApiRequestType $request, array &$options)
     {
         $request->setMerchantAuthentication($this->getMerchantAuthenticationType($options));

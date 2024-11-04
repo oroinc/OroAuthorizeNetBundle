@@ -77,6 +77,7 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
     /** @var TaxProviderRegistry */
     private $taxProviderRegistry;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->gateway = $this->createMock(Gateway::class);

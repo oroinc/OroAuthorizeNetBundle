@@ -10,17 +10,13 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option\Address as AddressOption;
 
 class CreateCustomerPaymentProfileRequestConfiguratorTest extends AbstractRequestConfiguratorTest
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getConfigurator(): RequestConfiguratorInterface
     {
         return new RequestConfigurator\CreateCustomerPaymentProfileRequestConfigurator();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function isApplicableProvider(): array
     {
         return [
@@ -37,9 +33,7 @@ class CreateCustomerPaymentProfileRequestConfiguratorTest extends AbstractReques
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function handleProvider(): array
     {
         return [

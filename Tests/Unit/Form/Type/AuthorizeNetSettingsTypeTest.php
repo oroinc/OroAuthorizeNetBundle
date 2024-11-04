@@ -42,6 +42,7 @@ class AuthorizeNetSettingsTypeTest extends FormIntegrationTestCase
     /** @var CryptedDataTransformerFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $cryptedDataTransformerFactory;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->prepareForm();
@@ -69,9 +70,7 @@ class AuthorizeNetSettingsTypeTest extends FormIntegrationTestCase
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getExtensions(): array
     {
         $websiteProvider = $this->createMock(WebsiteProviderInterface::class);

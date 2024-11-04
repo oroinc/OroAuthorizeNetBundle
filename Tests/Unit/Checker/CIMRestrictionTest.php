@@ -20,6 +20,7 @@ class CIMRestrictionTest extends \PHPUnit\Framework\TestCase
     /** @var AuthorizeNetSettingsRepository|\PHPUnit\Framework\MockObject\MockObject */
     private $authorizeNetSettingsRepository;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->authorizeNetSettingsRepository = $this->createMock(AuthorizeNetSettingsRepository::class);

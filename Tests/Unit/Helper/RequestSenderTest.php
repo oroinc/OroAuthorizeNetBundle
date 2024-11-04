@@ -85,6 +85,7 @@ class RequestSenderTest extends \PHPUnit\Framework\TestCase
         AuthorizeNetConfig::TEST_MODE_KEY => true
     ];
 
+    #[\Override]
     protected function setUp(): void
     {
         $requestRegistry = new RequestRegistry([

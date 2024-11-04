@@ -36,6 +36,7 @@ class CheckoutPaymentProfileTypeTest extends FormIntegrationTestCase
     /** @var PaymentProfileProvider|\PHPUnit\Framework\MockObject\MockObject */
     private $paymentProfileProvider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->translator = $this->createMock(TranslatorInterface::class);
@@ -50,9 +51,7 @@ class CheckoutPaymentProfileTypeTest extends FormIntegrationTestCase
         parent::setUp();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getExtensions(): array
     {
         return [

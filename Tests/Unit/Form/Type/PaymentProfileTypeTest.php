@@ -13,15 +13,14 @@ class PaymentProfileTypeTest extends FormIntegrationTestCase
 {
     private PaymentProfileType $formType;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->formType = new PaymentProfileType();
         parent::setUp();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getExtensions(): array
     {
         return array_merge(parent::getExtensions(), [

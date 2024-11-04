@@ -11,17 +11,13 @@ class GetTransactionDetailsRequest extends AbstractRequest
 {
     public const REQUEST_TYPE = 'getTransactionDetailsRequest';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getType(): string
     {
         return self::REQUEST_TYPE;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function configureRequestOptions(): self
     {
         $this->addOption(new Option\OriginalTransaction());

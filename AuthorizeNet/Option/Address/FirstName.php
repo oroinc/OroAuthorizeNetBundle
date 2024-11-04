@@ -11,17 +11,13 @@ class FirstName extends AbstractOption
 {
     const FIRST_NAME = 'first_name';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getName()
     {
         return self::FIRST_NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getAllowedTypes()
     {
         return 'string';

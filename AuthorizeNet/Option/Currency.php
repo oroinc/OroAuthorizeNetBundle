@@ -25,17 +25,13 @@ class Currency extends AbstractOption
         Currency::NEW_ZEALAND_DOLLAR,
     ];
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getName()
     {
         return self::CURRENCY;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getAllowedValues()
     {
         return self::ALL_CURRENCIES;

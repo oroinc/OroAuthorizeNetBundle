@@ -47,6 +47,7 @@ class MethodOptionProviderTest extends \PHPUnit\Framework\TestCase
     /** @var MethodOptionProvider */
     private $methodOptionProvider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->config = $this->createMock(AuthorizeNetConfigInterface::class);

@@ -10,9 +10,7 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
  */
 class CreateCustomerProfileRequestConfigurator implements RequestConfiguratorInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isApplicable(AnetAPI\ANetApiRequestType $request, array $options)
     {
         return $request instanceof AnetAPI\CreateCustomerProfileRequest;
@@ -22,6 +20,7 @@ class CreateCustomerProfileRequestConfigurator implements RequestConfiguratorInt
      * @param AnetAPI\ANetApiRequestType|AnetAPI\CreateCustomerProfileRequest $request
      * @param array $options
      */
+    #[\Override]
     public function handle(AnetAPI\ANetApiRequestType $request, array &$options)
     {
         $profile = new AnetAPI\CustomerProfileType();

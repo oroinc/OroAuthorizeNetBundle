@@ -45,6 +45,7 @@ class MethodOptionResolver implements MethodOptionResolverInterface
         return $this->optionProviderFactory->createMethodOptionProvider($config, $transaction);
     }
 
+    #[\Override]
     public function resolvePurchase(AuthorizeNetConfigInterface $config, PaymentTransaction $transaction): array
     {
         $addressInfoProvider = $this->optionProviderFactory->createAddressProvider($transaction);
@@ -94,6 +95,7 @@ class MethodOptionResolver implements MethodOptionResolverInterface
         return $this->withGenerateCustomerId($options, $methodOptionsProvider);
     }
 
+    #[\Override]
     public function resolveAuthorize(AuthorizeNetConfigInterface $config, PaymentTransaction $transaction): array
     {
         $provider = $this->createOptionProvider($config, $transaction);
@@ -106,6 +108,7 @@ class MethodOptionResolver implements MethodOptionResolverInterface
         return $options;
     }
 
+    #[\Override]
     public function resolveCharge(AuthorizeNetConfigInterface $config, PaymentTransaction $transaction): array
     {
         $provider = $this->createOptionProvider($config, $transaction);
@@ -118,6 +121,7 @@ class MethodOptionResolver implements MethodOptionResolverInterface
         return $options;
     }
 
+    #[\Override]
     public function resolveCapture(AuthorizeNetConfigInterface $config, PaymentTransaction $transaction): array
     {
         $authorizeTransaction = $transaction->getSourcePaymentTransaction();
@@ -137,6 +141,7 @@ class MethodOptionResolver implements MethodOptionResolverInterface
         return $options;
     }
 
+    #[\Override]
     public function resolveVerify(AuthorizeNetConfigInterface $config, PaymentTransaction $transaction): array
     {
         $provider = $this->createOptionProvider($config, $transaction);

@@ -44,9 +44,7 @@ class AuthorizeNetPaymentMethodFactory implements AuthorizeNetPaymentMethodFacto
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function create(AuthorizeNetConfigInterface $config)
     {
         $method = new AuthorizeNetPaymentMethod(

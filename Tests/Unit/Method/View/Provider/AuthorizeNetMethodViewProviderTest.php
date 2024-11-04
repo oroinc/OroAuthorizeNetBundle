@@ -10,6 +10,7 @@ use Oro\Bundle\PaymentBundle\Tests\Unit\Method\View\Provider\AbstractMethodViewP
 
 class AuthorizeNetMethodViewProviderTest extends AbstractMethodViewProviderTest
 {
+    #[\Override]
     protected function setUp(): void
     {
         $this->factory = $this->createMock(AuthorizeNetPaymentMethodViewFactoryInterface::class);

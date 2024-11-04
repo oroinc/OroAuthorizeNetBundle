@@ -31,6 +31,7 @@ class AuthorizeNetPaymentMethodFactoryTest extends \PHPUnit\Framework\TestCase
     /** @var AuthorizeNetPaymentMethodFactory */
     private $factory;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->gateway = $this->createMock(Gateway::class);

@@ -70,17 +70,13 @@ class AuthorizeNetPaymentMethod implements PaymentMethodInterface
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getIdentifier()
     {
         return $this->config->getPaymentMethodIdentifier();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isApplicable(PaymentContextInterface $context)
     {
         $request = $this->requestStack->getCurrentRequest();
@@ -88,9 +84,7 @@ class AuthorizeNetPaymentMethod implements PaymentMethodInterface
         return !$request || $request->isSecure();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function supports($actionName)
     {
         return in_array(
@@ -100,9 +94,7 @@ class AuthorizeNetPaymentMethod implements PaymentMethodInterface
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function execute($action, PaymentTransaction $paymentTransaction)
     {
         if (!$this->supports($action)) {

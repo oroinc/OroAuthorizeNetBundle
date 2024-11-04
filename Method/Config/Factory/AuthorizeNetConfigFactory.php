@@ -46,6 +46,7 @@ class AuthorizeNetConfigFactory implements AuthorizeNetConfigFactoryInterface
      *
      * @return AuthorizeNetConfig
      */
+    #[\Override]
     public function createConfig(AuthorizeNetSettings $settings)
     {
         $params = [];

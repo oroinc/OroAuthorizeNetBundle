@@ -13,17 +13,13 @@ class Transaction extends AbstractOption
     const CAPTURE = 'priorAuthCaptureTransaction';
     const CHARGE = 'authCaptureTransaction';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getName()
     {
         return self::TRANSACTION_TYPE;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getAllowedValues()
     {
         return [

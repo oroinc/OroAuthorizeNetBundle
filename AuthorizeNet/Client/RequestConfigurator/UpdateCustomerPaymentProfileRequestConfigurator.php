@@ -10,9 +10,7 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
  */
 class UpdateCustomerPaymentProfileRequestConfigurator extends CreateCustomerPaymentProfileRequestConfigurator
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isApplicable(AnetAPI\ANetApiRequestType $request, array $options)
     {
         return $request instanceof AnetAPI\UpdateCustomerPaymentProfileRequest;
@@ -22,6 +20,7 @@ class UpdateCustomerPaymentProfileRequestConfigurator extends CreateCustomerPaym
      * @param AnetAPI\ANetApiRequestType|AnetAPI\UpdateCustomerPaymentProfileRequest $request
      * @param array $options
      */
+    #[\Override]
     public function handle(AnetAPI\ANetApiRequestType $request, array &$options)
     {
         parent::handle($request, $options);
@@ -62,6 +61,7 @@ class UpdateCustomerPaymentProfileRequestConfigurator extends CreateCustomerPaym
     /**
      * @return AnetAPI\CustomerPaymentProfileExType
      */
+    #[\Override]
     protected function createCustomerPaymentProfile()
     {
         return new AnetAPI\CustomerPaymentProfileExType();

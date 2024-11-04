@@ -7,6 +7,7 @@ namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
  */
 class PaymentData implements OptionInterface, OptionsDependentInterface
 {
+    #[\Override]
     public function configureOption(OptionsResolver $resolver)
     {
         $resolver
@@ -23,17 +24,13 @@ class PaymentData implements OptionInterface, OptionsDependentInterface
             ->addOption(new BankName($isRequired = false));
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isApplicableDependent(array $options)
     {
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function configureDependentOption(OptionsResolver $resolver, array $options)
     {
         $updatePaymentData = $options[UpdatePaymentData::UPDATE_PAYMENT_DATA] ?? false;

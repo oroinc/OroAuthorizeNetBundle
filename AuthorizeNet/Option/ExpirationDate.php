@@ -9,17 +9,13 @@ class ExpirationDate extends AbstractOption
 {
     const EXPIRATION_DATE = 'expiration_date';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getName()
     {
         return self::EXPIRATION_DATE;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getAllowedTypes()
     {
         return 'string';

@@ -12,17 +12,13 @@ class ValidationMode extends AbstractOption
     const TEST_MODE = 'testMode';
     const LIVE_MODE = 'liveMode';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getName()
     {
         return self::VALIDATION_MODE;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getAllowedValues()
     {
         return [self::TEST_MODE, self::LIVE_MODE];

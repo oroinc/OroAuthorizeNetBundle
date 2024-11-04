@@ -24,6 +24,7 @@ class PaymentProfileGridListenerTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerProfileProvider|\PHPUnit\Framework\MockObject\MockObject */
     private $customerProfileProvider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->paymentProfileProvider = $this->createMock(PaymentProfileProvider::class);

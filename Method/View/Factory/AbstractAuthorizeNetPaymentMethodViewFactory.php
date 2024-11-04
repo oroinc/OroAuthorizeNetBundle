@@ -27,8 +27,6 @@ abstract class AbstractAuthorizeNetPaymentMethodViewFactory implements Authorize
         $this->tokenAccessor = $tokenAccessor;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     abstract public function create(AuthorizeNetConfigInterface $config);
 }

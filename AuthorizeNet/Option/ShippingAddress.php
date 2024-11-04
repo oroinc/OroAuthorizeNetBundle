@@ -29,9 +29,7 @@ class ShippingAddress implements OptionInterface
         self::COUNTRY
     ];
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function configureOption(OptionsResolver $resolver)
     {
         $allOptionKeys = self::ALL_OPTION_KEYS;

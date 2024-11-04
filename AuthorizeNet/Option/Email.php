@@ -9,17 +9,13 @@ class Email extends AbstractOption
 {
     const EMAIL = 'email';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getName()
     {
         return self::EMAIL;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getAllowedTypes()
     {
         return 'string';

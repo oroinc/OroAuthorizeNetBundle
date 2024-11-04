@@ -11,17 +11,13 @@ class Zip extends AbstractOption
 {
     const ZIP = 'zip';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getName()
     {
         return self::ZIP;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getAllowedTypes()
     {
         return 'string';

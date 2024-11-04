@@ -12,17 +12,13 @@ class ProfileType extends AbstractOption
     const CREDITCARD_TYPE = 'creditcard';
     const ECHECK_TYPE = 'echeck';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getName()
     {
         return self::PROFILE_TYPE;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getAllowedValues()
     {
         return [self::CREDITCARD_TYPE, self::ECHECK_TYPE];

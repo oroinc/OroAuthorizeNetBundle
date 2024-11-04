@@ -8,6 +8,7 @@ class AuthorizeNetChannelTypeTest extends \PHPUnit\Framework\TestCase
 {
     private AuthorizeNetChannelType $channel;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->channel = new AuthorizeNetChannelType();

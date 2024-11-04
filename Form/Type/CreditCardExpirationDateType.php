@@ -15,17 +15,13 @@ class CreditCardExpirationDateType extends AbstractType
     const NAME = 'oro_authorize_net_credit_card_expiration_date';
     const YEAR_PERIOD = 10;
 
-    /**
-     *{@inheritdoc}
-     */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->remove('day');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         $years = range(date('y'), date('y') + self::YEAR_PERIOD);
@@ -48,17 +44,13 @@ class CreditCardExpirationDateType extends AbstractType
         $resolver->setAllowedValues('input', ['array']);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return self::NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getParent(): ?string
     {
         return DateType::class;

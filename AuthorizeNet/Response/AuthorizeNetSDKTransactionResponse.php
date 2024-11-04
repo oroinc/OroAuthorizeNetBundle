@@ -21,9 +21,7 @@ class AuthorizeNetSDKTransactionResponse extends AuthorizeNetSDKResponse
      */
     protected $apiResponse;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isSuccessful()
     {
         $transactionResponse = $this->apiResponse->getTransactionResponse();
@@ -35,9 +33,7 @@ class AuthorizeNetSDKTransactionResponse extends AuthorizeNetSDKResponse
         return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isActive()
     {
         $transactionResponse = $this->apiResponse->getTransactionResponse();
@@ -46,9 +42,7 @@ class AuthorizeNetSDKTransactionResponse extends AuthorizeNetSDKResponse
             $transactionResponse->getResponseCode() === self::TRANS_SUCCESSFUL_RESPONSE_CODE;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getReference()
     {
         $transactionResponse = $this->apiResponse->getTransactionResponse();
@@ -59,6 +53,7 @@ class AuthorizeNetSDKTransactionResponse extends AuthorizeNetSDKResponse
     /**
      * @return null|string
      */
+    #[\Override]
     protected function getSuccessMessage()
     {
         $messages = $this->collectMessages();
@@ -80,6 +75,7 @@ class AuthorizeNetSDKTransactionResponse extends AuthorizeNetSDKResponse
     /**
      * @return null|string
      */
+    #[\Override]
     protected function getErrorMessage()
     {
         $errorMessages = $this->collectMessages();

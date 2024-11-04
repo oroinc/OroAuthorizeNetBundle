@@ -12,9 +12,7 @@ class AuthorizeNetConfigTest extends AbstractPaymentConfigTestCase
     /** @var AuthorizeNetConfigInterface */
     protected $config;
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getPaymentConfig(): PaymentConfigInterface
     {
         $params = [

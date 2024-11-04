@@ -12,17 +12,13 @@ class CheckoutSaveProfileType extends AbstractType
 {
     const NAME = 'oro_authorize_net_checkout_save_profile';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return self::NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getParent(): ?string
     {
         return CheckboxType::class;

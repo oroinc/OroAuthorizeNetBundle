@@ -7,17 +7,13 @@ use net\authorize\api\controller\base\ApiOperationBase;
 
 abstract class AbstractControllerMock extends ApiOperationBase
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getApiResponse()
     {
         throw new \RuntimeException('This method must not be called in tests');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function execute($endPoint = ANetEnvironment::CUSTOM)
     {
         throw new \RuntimeException('This method must not be called in tests');

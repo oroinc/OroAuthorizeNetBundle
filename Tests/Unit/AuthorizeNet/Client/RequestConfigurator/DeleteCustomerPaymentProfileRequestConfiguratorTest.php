@@ -9,17 +9,13 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
 
 class DeleteCustomerPaymentProfileRequestConfiguratorTest extends AbstractRequestConfiguratorTest
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getConfigurator(): RequestConfiguratorInterface
     {
         return new RequestConfigurator\DeleteCustomerPaymentProfileRequestConfigurator();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function isApplicableProvider(): array
     {
         return [
@@ -36,9 +32,7 @@ class DeleteCustomerPaymentProfileRequestConfiguratorTest extends AbstractReques
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function handleProvider(): array
     {
         return [

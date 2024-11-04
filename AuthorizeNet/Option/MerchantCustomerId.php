@@ -9,17 +9,13 @@ class MerchantCustomerId extends AbstractOption
 {
     const MERCHANT_CUSTOMER_ID = 'merchant_customer_id';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getName()
     {
         return self::MERCHANT_CUSTOMER_ID;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getAllowedTypes()
     {
         return 'string';

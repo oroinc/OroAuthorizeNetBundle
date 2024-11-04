@@ -15,6 +15,7 @@ class PaymentProfileAddressTypeTest extends AddressFormExtensionTestCase
 {
     private PaymentProfileAddressType $formType;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->formType = new PaymentProfileAddressType(
@@ -24,9 +25,7 @@ class PaymentProfileAddressTypeTest extends AddressFormExtensionTestCase
         parent::setUp();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getExtensions(): array
     {
         return array_merge(parent::getExtensions(), [

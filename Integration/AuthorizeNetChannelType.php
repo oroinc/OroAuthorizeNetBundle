@@ -12,17 +12,13 @@ class AuthorizeNetChannelType implements ChannelInterface, IconAwareIntegrationI
 {
     const TYPE = 'authorize_net';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getLabel()
     {
         return 'oro.authorize_net.channel_type.authorize_net.label';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getIcon()
     {
         return 'bundles/oroauthorizenet/img/authorize-net-logo.png';

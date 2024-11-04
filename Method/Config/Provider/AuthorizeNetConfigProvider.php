@@ -49,6 +49,7 @@ class AuthorizeNetConfigProvider implements AuthorizeNetConfigProviderInterface
      *
      * @return bool
      */
+    #[\Override]
     public function hasPaymentConfig($identifier)
     {
         $configs = $this->getPaymentConfigs();
@@ -56,9 +57,7 @@ class AuthorizeNetConfigProvider implements AuthorizeNetConfigProviderInterface
         return array_key_exists($identifier, $configs);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getPaymentConfigs()
     {
         if ($this->configs === null) {
@@ -68,9 +67,7 @@ class AuthorizeNetConfigProvider implements AuthorizeNetConfigProviderInterface
         return $this->configs;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getPaymentConfig($identifier)
     {
         if (!$this->hasPaymentConfig($identifier)) {

@@ -9,17 +9,13 @@ class AccountType extends AbstractOption
 {
     const ACCOUNT_TYPE = 'account_type';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getName()
     {
         return self::ACCOUNT_TYPE;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getAllowedTypes()
     {
         return 'string';

@@ -9,17 +9,13 @@ class RoutingNumber extends AbstractOption
 {
     const ROUTING_NUMBER = 'routing_number';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getName()
     {
         return self::ROUTING_NUMBER;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getAllowedTypes()
     {
         return 'string';

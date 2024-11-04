@@ -9,14 +9,13 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
  */
 class CaptureRequest extends AbstractTransactionRequest
 {
+    #[\Override]
     public function getType(): string
     {
         return Option\Transaction::CAPTURE;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function configureRequestOptions()
     {
         return parent::configureRequestOptions()->addOption(new Option\OriginalTransaction());

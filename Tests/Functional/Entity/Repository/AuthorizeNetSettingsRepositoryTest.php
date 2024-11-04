@@ -11,6 +11,7 @@ class AuthorizeNetSettingsRepositoryTest extends WebTestCase
 {
     private AuthorizeNetSettingsRepository $repository;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient([], self::generateBasicAuthHeader());

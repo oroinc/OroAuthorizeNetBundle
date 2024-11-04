@@ -11,17 +11,13 @@ class FaxNumber extends AbstractOption
 {
     const FAX_NUMBER = 'fax_number';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getName()
     {
         return self::FAX_NUMBER;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getAllowedTypes()
     {
         return 'string';

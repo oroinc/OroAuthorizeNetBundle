@@ -14,9 +14,7 @@ class CheckoutCredicardProfileType extends AbstractType
 {
     const NAME = 'oro_authorize_net_checkout_creditcard_profile';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if ($options['requireCvvEntryEnabled']) {
@@ -36,9 +34,7 @@ class CheckoutCredicardProfileType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -50,17 +46,13 @@ class CheckoutCredicardProfileType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return self::NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getParent(): ?string
     {
         return CheckoutPaymentProfileType::class;

@@ -11,15 +11,14 @@ class PaymentProfileEncodedDataTypeTest extends FormIntegrationTestCase
 {
     private PaymentProfileEncodedDataType $formType;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->formType = new PaymentProfileEncodedDataType();
         parent::setUp();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getExtensions(): array
     {
         return array_merge(parent::getExtensions(), [

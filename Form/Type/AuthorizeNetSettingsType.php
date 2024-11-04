@@ -60,9 +60,7 @@ class AuthorizeNetSettingsType extends AbstractType
         $this->paymentActionsDataProvider = $paymentActionsDataProvider;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -177,9 +175,7 @@ class AuthorizeNetSettingsType extends AbstractType
         $this->transformWithEncodedValue($builder, 'clientKey');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -187,9 +183,7 @@ class AuthorizeNetSettingsType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return self::BLOCK_PREFIX;
