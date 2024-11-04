@@ -38,6 +38,7 @@ Feature: AuthorizeNet integration Single Page Checkout
     Then I should not see "Invalid Expiration date."
     When I click "Submit Order"
     Then I should see "Invalid Expiration date."
+    And I scroll to top
     When I fill "Credit Card Form" with:
       | Year | 2029 |
 
