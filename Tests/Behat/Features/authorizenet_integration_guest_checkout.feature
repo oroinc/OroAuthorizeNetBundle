@@ -66,7 +66,7 @@ Feature: AuthorizeNet integration guest Checkout
 
   Scenario: Successful first order payment with AuthorizeNet
     Given I click on "Create Order"
-    And I click "Continue as a Guest"
+    And I click "Continue As Guest User"
     And I fill form with:
       | First Name      | Tester1          |
       | Last Name       | Testerson1       |
@@ -102,7 +102,7 @@ Feature: AuthorizeNet integration guest Checkout
 
   Scenario: Second successful order payment with AuthorizeNet after first order payment
     Given I click on "Create Order"
-    And I click "Continue as a Guest"
+    And I click "Continue As Guest User"
     And I fill form with:
       | First Name      | Tester2          |
       | Last Name       | Testerson2       |
