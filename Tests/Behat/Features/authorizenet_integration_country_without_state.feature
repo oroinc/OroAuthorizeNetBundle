@@ -54,8 +54,6 @@ Feature: AuthorizeNet integration Country without State
     And I click "Continue" in modal window
     And I click "Ship to This Address"
     And I click "Continue"
-    # TODO remove next line after backend fix
-    And I click "Continue"
     And I check "Flat Rate" on the "Shipping Method" checkout step and press Continue
     And I fill "Credit Card Form" with:
       | CreditCardNumber | 5424000000000015 |
