@@ -60,6 +60,7 @@ Feature: AuthorizeNet integration CIM single page checkout
     Then I should not see "Invalid Expiration date."
     When I click "Submit Order"
     Then I should see "Invalid Expiration date."
+    And I scroll to top
     When I fill "Authorize.NetFormCheckoutCreditCardPaymentProfileMethod" with:
       | Year | 2027 |
     And I click "Submit Order"
