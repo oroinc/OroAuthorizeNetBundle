@@ -51,7 +51,7 @@ Feature: AuthorizeNet integration Country without State
       | City                   | City                    |
       | Country                | American Samoa          |
       | Zip/Postal Code        | 10115                   |
-    And I click "Continue" in modal window
+    And I click "Add Address" in modal window
     And I click "Ship to This Address"
     And I click "Continue"
     And I check "Flat Rate" on the "Shipping Method" checkout step and press Continue

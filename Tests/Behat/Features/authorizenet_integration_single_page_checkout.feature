@@ -105,7 +105,7 @@ Feature: AuthorizeNet integration Single Page Checkout
     When I click on "Add Address Single Page Checkout Btn" with title "Add" in element "Single Page Checkout Billing Section"
     And I fill "New Address Popup Form" with:
       | Email        | test@example.com |
-    And I click "Continue"
+    And I click "Add Address"
     And I scroll to top
     And I wait until all blocks on one step checkout page are reloaded
     Then CreditCardFormCreditCardNumber field should has 5424000000000015 value
