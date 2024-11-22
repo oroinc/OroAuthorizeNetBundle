@@ -42,7 +42,8 @@ Feature: AuthorizeNet integration Single Page Checkout
       | Year | 2029 |
 
   Scenario: Frontend AcceptJs Card validation error when pay order with AuthorizeNet
-    Given I select "ORO, Fifth avenue, 10115 Berlin, Germany" from "Select Billing Address"
+    Given I scroll to top
+    When I select "ORO, Fifth avenue, 10115 Berlin, Germany" from "Select Billing Address"
     And I select "ORO, Fifth avenue, 10115 Berlin, Germany" from "Select Shipping Address"
     And I check "Flat Rate" on the checkout page
     And I fill "Credit Card Form" with:
@@ -50,7 +51,7 @@ Feature: AuthorizeNet integration Single Page Checkout
       | Month            | 11               |
       | Year             | 2027             |
       | CVV              | 123              |
-    When I click "Submit Order"
+    And I click "Submit Order"
     Then I should see only following flash messages:
       | Payment gateway error. User authentication failed due to invalid authentication values. |
 
