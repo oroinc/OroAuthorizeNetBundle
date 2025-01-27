@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\CustomerBundle\Tests\Unit\Layout\DataProvider;
+namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\Layout\DataProvider;
 
 use Oro\Bundle\AuthorizeNetBundle\Entity\CustomerPaymentProfile;
 use Oro\Bundle\AuthorizeNetBundle\Form\Type\PaymentProfileDTOType;
