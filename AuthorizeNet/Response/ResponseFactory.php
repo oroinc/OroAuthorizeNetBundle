@@ -13,7 +13,7 @@ class ResponseFactory
 {
     private ?ArrayTransformerInterface $serializer;
 
-    public function __construct(ArrayTransformerInterface $serializer = null)
+    public function __construct(?ArrayTransformerInterface $serializer = null)
     {
         $this->serializer = $serializer;
     }

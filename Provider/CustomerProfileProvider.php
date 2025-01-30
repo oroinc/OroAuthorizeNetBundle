@@ -35,7 +35,7 @@ class CustomerProfileProvider
      * @param CustomerUser|null $customerUser
      * @return CustomerProfile|null
      */
-    public function findCustomerProfile(CustomerUser $customerUser = null)
+    public function findCustomerProfile(?CustomerUser $customerUser = null)
     {
         if (null === $customerUser) {
             $customerUser = $this->tokenAccessor->getUser();

@@ -31,7 +31,7 @@ class IntegrationProvider
      * @param Website|null $website
      * @return Channel|null
      */
-    public function getIntegration(Website $website = null)
+    public function getIntegration(?Website $website = null)
     {
         if (!$website) {
             $website = $this->websiteManager->getCurrentWebsite();

@@ -52,7 +52,7 @@ class CheckoutPaymentProfileType extends AbstractType
 
         $builder->add('profile', ChoiceType::class, [
             'label' => 'oro.authorize_net.settings.form.groups.profile',
-            'choice_label' => function (CustomerPaymentProfile $profile = null) use ($profileType) {
+            'choice_label' => function (?CustomerPaymentProfile $profile = null) use ($profileType) {
                 $label = $this->translator->trans(
                     sprintf(
                         'oro.authorize_net.frontend.payment_profile.checkout.new_%s_choice.label',
@@ -71,7 +71,7 @@ class CheckoutPaymentProfileType extends AbstractType
 
                 return $label;
             },
-            'choice_value' => function (CustomerPaymentProfile $profile = null) {
+            'choice_value' => function (?CustomerPaymentProfile $profile = null) {
                 return $profile ? $profile->getId() : '';
             },
             'choices' => array_merge($paymentProfiles, [null]),

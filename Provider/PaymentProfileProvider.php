@@ -30,7 +30,7 @@ class PaymentProfileProvider
      * @param CustomerProfile|null $customerProfile
      * @return array
      */
-    public function getPaymentProfileExternalIds(CustomerProfile $customerProfile = null)
+    public function getPaymentProfileExternalIds(?CustomerProfile $customerProfile = null)
     {
         if (!$customerProfile || $customerProfile->getPaymentProfiles()->isEmpty()) {
             return [];

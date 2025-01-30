@@ -717,7 +717,7 @@ class AuthorizeNetPaymentMethodTest extends \PHPUnit\Framework\TestCase
 
     private function prepareSDKResponse(
         bool $requestSuccessful,
-        string $responseCode = null
+        ?string $responseCode = null
     ): AuthorizeNetSDKTransactionResponse {
         $transactionResponse = new TransactionResponseType();
         if ($requestSuccessful === true) {

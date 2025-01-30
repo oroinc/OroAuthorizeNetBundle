@@ -34,7 +34,7 @@ class AuthorizeNetCIMEnabledConfigProviderTest extends \PHPUnit\Framework\TestCa
     public function testGetPaymentConfigWithEnabledCIMByWebsite(
         array $paymentConfigsParams,
         Website $website,
-        AuthorizeNetConfigInterface $expectedResult = null
+        ?AuthorizeNetConfigInterface $expectedResult = null
     ) {
         $paymentConfigs = array_map([$this, 'getConfigsByConfigsParams'], $paymentConfigsParams);
         $this->configProvider->expects($this->once())
@@ -51,7 +51,7 @@ class AuthorizeNetCIMEnabledConfigProviderTest extends \PHPUnit\Framework\TestCa
     public function testHasPaymentWithEnabledCIMByWebsite(
         array $paymentConfigsParams,
         Website $website,
-        AuthorizeNetConfigInterface $expectedResult = null
+        ?AuthorizeNetConfigInterface $expectedResult = null
     ) {
         $paymentConfigs = array_map([$this, 'getConfigsByConfigsParams'], $paymentConfigsParams);
         $this->configProvider->expects($this->once())

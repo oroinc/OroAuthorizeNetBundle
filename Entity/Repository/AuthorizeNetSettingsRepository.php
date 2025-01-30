@@ -37,7 +37,7 @@ class AuthorizeNetSettingsRepository extends EntityRepository
     public function getEnabledSettingsWithCIMByTypeAndWebsites(
         string $type,
         array $websites,
-        int $excludedSettingId = null
+        ?int $excludedSettingId = null
     ) {
         $qb =  $this->createQueryBuilder('settings');
 
