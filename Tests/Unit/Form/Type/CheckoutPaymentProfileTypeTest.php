@@ -178,11 +178,11 @@ class CheckoutPaymentProfileTypeTest extends FormIntegrationTestCase
      * @dataProvider submitProvider
      */
     public function testSubmit(
-        array            $submittedData,
-        array            $expectedData,
-        ?array           $defaultData = null,
-        array            $options = [],
-        bool             $isValid = true,
+        array $submittedData,
+        array $expectedData,
+        ?array $defaultData = null,
+        array $options = [],
+        bool $isValid = true,
         ?CustomerProfile $customerProfile = null
     ) {
         $this->customerProfileProvider->expects($this->once())
