@@ -3,19 +3,19 @@
 namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\Method\Config;
 
 use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfig;
-use Oro\Bundle\AuthorizeNetBundle\Method\Config\AuthorizeNetConfigInterface;
-use Oro\Bundle\PaymentBundle\Method\Config\PaymentConfigInterface;
-use Oro\Bundle\PaymentBundle\Tests\Unit\Method\Config\AbstractPaymentConfigTestCase;
+use PHPUnit\Framework\TestCase;
 
-class AuthorizeNetConfigTest extends AbstractPaymentConfigTestCase
+/**
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ */
+class AuthorizeNetConfigTest extends TestCase
 {
-    /** @var AuthorizeNetConfigInterface */
-    protected $config;
+    private AuthorizeNetConfig $config;
 
     #[\Override]
-    protected function getPaymentConfig(): PaymentConfigInterface
+    protected function setUp(): void
     {
-        $params = [
+        $this->config = new AuthorizeNetConfig([
             AuthorizeNetConfig::FIELD_PAYMENT_METHOD_IDENTIFIER => 'test_payment_method_identifier',
             AuthorizeNetConfig::FIELD_ADMIN_LABEL => 'test admin label',
             AuthorizeNetConfig::FIELD_LABEL => 'test label',
@@ -29,53 +29,71 @@ class AuthorizeNetConfigTest extends AbstractPaymentConfigTestCase
             AuthorizeNetConfig::INTEGRATION_ID => 4,
             AuthorizeNetConfig::ECHECK_ENABLED => true,
             AuthorizeNetConfig::ALLOW_HOLD_TRANSACTION => true
-        ];
-
-        return new AuthorizeNetConfig($params);
+        ]);
     }
 
-    public function testIsTestMode()
+    public function testGetLabel(): void
     {
-        $this->assertTrue($this->config->isTestMode());
+        self::assertSame('test label', $this->config->getLabel());
     }
 
-    public function testGetPurchaseAction()
+    public function testGetShortLabel(): void
     {
-        $this->assertSame('authorize', $this->config->getPurchaseAction());
+        self::assertSame('test short label', $this->config->getShortLabel());
     }
 
-    public function testGetAllowedCreditCards()
+    public function testGetAdminLabel(): void
     {
-        $this->assertSame(['Master Card', 'Visa'], $this->config->getAllowedCreditCards());
+        self::assertSame('test admin label', $this->config->getAdminLabel());
     }
 
-    public function testGetApiLoginId()
+    public function testGetPaymentMethodIdentifier(): void
     {
-        $this->assertSame('api login id', $this->config->getApiLoginId());
+        self::assertSame('test_payment_method_identifier', $this->config->getPaymentMethodIdentifier());
     }
 
-    public function testGetTransactionKey()
+    public function testIsTestMode(): void
     {
-        $this->assertSame('trans key', $this->config->getTransactionKey());
+        self::assertTrue($this->config->isTestMode());
     }
 
-    public function testGetClientKey()
+    public function testGetPurchaseAction(): void
     {
-        $this->assertSame('client key', $this->config->getClientKey());
+        self::assertSame('authorize', $this->config->getPurchaseAction());
     }
 
-    public function testGetIntegrationId()
+    public function testGetAllowedCreditCards(): void
     {
-        $this->assertSame(4, $this->config->getIntegrationId());
+        self::assertSame(['Master Card', 'Visa'], $this->config->getAllowedCreditCards());
     }
 
-    public function testIsECheckEnabled()
+    public function testGetApiLoginId(): void
     {
-        $this->assertTrue($this->config->isECheckEnabled());
+        self::assertSame('api login id', $this->config->getApiLoginId());
     }
 
-    public function testIsAllowHoldTransaction()
+    public function testGetTransactionKey(): void
     {
-        $this->assertTrue($this->config->isAllowHoldTransaction());
+        self::assertSame('trans key', $this->config->getTransactionKey());
+    }
+
+    public function testGetClientKey(): void
+    {
+        self::assertSame('client key', $this->config->getClientKey());
+    }
+
+    public function testGetIntegrationId(): void
+    {
+        self::assertSame(4, $this->config->getIntegrationId());
+    }
+
+    public function testIsECheckEnabled(): void
+    {
+        self::assertTrue($this->config->isECheckEnabled());
+    }
+
+    public function testIsAllowHoldTransaction(): void
+    {
+        self::assertTrue($this->config->isAllowHoldTransaction());
     }
 }
