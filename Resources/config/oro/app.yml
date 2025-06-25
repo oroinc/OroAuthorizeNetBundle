@@ -1,0 +1,6 @@
+oro_asset:
+    external_resources:
+        authorize_net_payment_js_test:
+            link: 'https://jstest.authorize.net/v1/Accept.js'
+        authorize_net_payment_js_prod:
+            link: 'https://js.authorize.net/v1/Accept.js'

@@ -1,6 +1,7 @@
 {% block _oro_authorize_net_credit_card_widget %}
     {% set paymentMethodComponent = options.paymentMethodComponent|default('oroauthorizenet/js/app/components/payment-method-component') %}
-    {% set paymentMethodComponentOptions = options.paymentMethodComponentOptions|default({})|merge({paymentMethod: paymentMethod}) %}
+    {% set acceptJsUrls = {prod: oro_external_link('authorize_net_payment_js_prod'), test: oro_external_link('authorize_net_payment_js_test')} %}
+    {% set paymentMethodComponentOptions = options.paymentMethodComponentOptions|default({})|merge({paymentMethod: paymentMethod, acceptJsUrls: acceptJsUrls}) %}
 
     <div class="{{ class_prefix }}-form__payment-methods"
         data-page-component-module="{{ paymentMethodComponent }}"
@@ -67,7 +68,8 @@
 
 {% block _oro_authorize_net_checkout_creditcard_profile_widget %}
     {% set paymentMethodComponent = options.paymentMethodComponent|default('oroauthorizenet/js/app/components/payment-method-component') %}
-    {% set paymentMethodComponentOptions = options.paymentMethodComponentOptions|default({})|merge({paymentMethod: paymentMethod}) %}
+    {% set acceptJsUrls = {prod: oro_external_link('authorize_net_payment_js_prod'), test: oro_external_link('authorize_net_payment_js_test')} %}
+    {% set paymentMethodComponentOptions = options.paymentMethodComponentOptions|default({})|merge({paymentMethod: paymentMethod, acceptJsUrls: acceptJsUrls}) %}
 
     <div class="{{ class_prefix }}-form__payment-methods"
         data-page-component-module="{{ paymentMethodComponent }}"
@@ -109,7 +111,8 @@
 
 {% block _oro_authorize_net_checkout_echeck_profile_widget %}
     {% set paymentMethodComponent = options.paymentMethodComponent|default('oroauthorizenet/js/app/components/payment-method-component') %}
-    {% set paymentMethodComponentOptions = options.paymentMethodComponentOptions|default({})|merge({paymentMethod: paymentMethod}) %}
+    {% set acceptJsUrls = {prod: oro_external_link('authorize_net_payment_js_prod'), test: oro_external_link('authorize_net_payment_js_test')} %}
+    {% set paymentMethodComponentOptions = options.paymentMethodComponentOptions|default({})|merge({paymentMethod: paymentMethod, acceptJsUrls: acceptJsUrls}) %}
 
     <div class="{{ class_prefix }}-form__payment-methods"
          data-page-component-module="{{ paymentMethodComponent }}"
@@ -139,7 +142,8 @@
 
 {% block _oro_authorize_net_bank_account_widget %}
     {% set paymentMethodComponent = options.paymentMethodComponent|default('oroauthorizenet/js/app/components/payment-method-component') %}
-    {% set paymentMethodComponentOptions = options.paymentMethodComponentOptions|default({})|merge({paymentMethod: paymentMethod}) %}
+    {% set acceptJsUrls = {prod: oro_external_link('authorize_net_payment_js_prod'), test: oro_external_link('authorize_net_payment_js_test')} %}
+    {% set paymentMethodComponentOptions = options.paymentMethodComponentOptions|default({})|merge({paymentMethod: paymentMethod, acceptJsUrls: acceptJsUrls}) %}
 
     <div class="{{ class_prefix }}-form__payment-methods"
          data-page-component-module="{{ paymentMethodComponent }}"
