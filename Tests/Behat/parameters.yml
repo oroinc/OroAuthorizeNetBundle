@@ -55,9 +55,3 @@ services:
         class: 'Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Mock\Remote\Storage\PaymentProfileTypesToIDs'
         arguments:
             - '@oro_authorize_net.cache.mock.customer_payment_profiles'
-
-    oro_authorize_net.mock.twig.external_resource_extension_mock:
-        class: Oro\Bundle\AuthorizeNetBundle\Tests\Behat\Mock\Twig\ExternalResourceExtensionMock
-        decorates: oro_asset.twig.external_resource_extension
-        arguments:
-            - '%oro_asset.external_resources%'

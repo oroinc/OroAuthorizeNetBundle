@@ -43,7 +43,10 @@ define(function(require) {
             clientKey: null,
             apiLoginID: null,
             testMode: null,
-            acceptJsUrls: {}
+            acceptJsUrls: {
+                test: 'https://jstest.authorize.net/v1/Accept.js',
+                prod: 'https://js.authorize.net/v1/Accept.js'
+            }
         },
 
         /**
