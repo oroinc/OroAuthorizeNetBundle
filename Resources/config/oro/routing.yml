@@ -1,11 +1,11 @@
 oro_authorize_net_settings:
     resource: "@OroAuthorizeNetBundle/Controller/SettingsController.php"
-    type: annotation
+    type: attribute
     prefix: /authorizenet
 
 oro_authorize_net_payment_profile_frontend:
     resource: "@OroAuthorizeNetBundle/Controller/Frontend/PaymentProfileController.php"
-    type: annotation
+    type: attribute
     prefix: /customer/payment-profile
     options:
         frontend: true
