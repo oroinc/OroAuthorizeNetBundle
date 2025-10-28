@@ -213,3 +213,12 @@ services:
         parent: oro_payment.action.payment_method_action.abstract
         tags:
             - { name: oro_action.action, alias: payment_transaction_verify }
+
+    Oro\Bundle\AuthorizeNetBundle\Entity\Repository\AuthorizeNetSettingsRepository:
+        parent: oro_entity.abstract_repository
+        arguments:
+            - 'Oro\Bundle\AuthorizeNetBundle\Entity\AuthorizeNetSettings'
+        calls:
+            - [ setAclHelper, [ '@oro_security.acl_helper' ] ]
+        tags:
+            - { name: doctrine.repository_service }
