@@ -8,6 +8,7 @@ use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\AuthorizeNetBundle\Entity\AuthorizeNetSettings;
 use Oro\Bundle\IntegrationBundle\Entity\Channel;
 use Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadOrganization;
+use Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadSecondOrganizationWithBusinessUnit;
 use Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadUser;
 
 class LoadAuthorizeNetChannelData extends AbstractFixture implements DependentFixtureInterface
@@ -18,18 +19,28 @@ class LoadAuthorizeNetChannelData extends AbstractFixture implements DependentFi
             'type' => 'authorize_net',
             'enabled' => true,
             'reference' => 'authorize_net:channel_1',
+            'organization' => LoadOrganization::ORGANIZATION,
         ],
         [
             'name' => 'AuthorizeNet2',
             'type' => 'authorize_net',
             'enabled' => true,
             'reference' => 'authorize_net:channel_2',
+            'organization' => LoadOrganization::ORGANIZATION,
         ],
         [
             'name' => 'AuthorizeNet3',
             'type' => 'authorize_net',
             'enabled' => false,
             'reference' => 'authorize_net:channel_3',
+            'organization' => LoadOrganization::ORGANIZATION
+        ],
+        [
+            'name' => 'AuthorizeNet4',
+            'type' => 'authorize_net',
+            'enabled' => true,
+            'reference' => 'authorize_net:channel_4',
+            'organization' => LoadSecondOrganizationWithBusinessUnit::SECOND_ORGANIZATION
         ],
     ];
 
@@ -38,7 +49,7 @@ class LoadAuthorizeNetChannelData extends AbstractFixture implements DependentFi
      */
     public function getDependencies(): array
     {
-        return [LoadOrganization::class, LoadUser::class];
+        return [LoadOrganization::class, LoadUser::class, LoadSecondOrganizationWithBusinessUnit::class];
     }
 
     /**
@@ -52,7 +63,7 @@ class LoadAuthorizeNetChannelData extends AbstractFixture implements DependentFi
             $entity->setType($data['type']);
             $entity->setEnabled($data['enabled']);
             $entity->setDefaultUserOwner($this->getReference(LoadUser::USER));
-            $entity->setOrganization($this->getReference(LoadOrganization::ORGANIZATION));
+            $entity->setOrganization($this->getReference($data['organization']));
             $entity->setTransport(new AuthorizeNetSettings());
             $this->setReference($data['reference'], $entity);
             $manager->persist($entity);

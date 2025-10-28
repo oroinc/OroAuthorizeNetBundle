@@ -2,29 +2,39 @@
 
 namespace Oro\Bundle\AuthorizeNetBundle\Entity\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Oro\Bundle\AuthorizeNetBundle\Entity\AuthorizeNetSettings;
 use Oro\Bundle\IntegrationBundle\Entity\Channel;
+use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 /**
  * Repository for AuthorizeNetSettings entity
  */
-class AuthorizeNetSettingsRepository extends EntityRepository
+class AuthorizeNetSettingsRepository extends ServiceEntityRepository
 {
+    private ?AclHelper $aclHelper = null;
+
+    public function setAclHelper(AclHelper $aclHelper): self
+    {
+        $this->aclHelper = $aclHelper;
+
+        return $this;
+    }
+
     /**
      * @param string $type
      * @return AuthorizeNetSettings[]
      */
     public function getEnabledSettingsByType($type)
     {
-        return $this->createQueryBuilder('settings')
+        $qb = $this->createQueryBuilder('settings')
             ->innerJoin('settings.channel', 'channel')
             ->andWhere('channel.enabled = true')
             ->andWhere('channel.type = :type')
-            ->setParameter('type', $type)
-            ->getQuery()
-            ->getResult();
+            ->setParameter('type', $type);
+
+        return $this->aclHelper?->apply($qb)->getResult();
     }
 
     /**
@@ -58,7 +68,7 @@ class AuthorizeNetSettingsRepository extends EntityRepository
             ->setParameter('websites', $websites)
             ->groupBy('settings.id');
 
-        return $qb->getQuery()->getResult();
+        return $this->aclHelper?->apply($qb)->getResult();
     }
 
     /**
@@ -80,7 +90,7 @@ class AuthorizeNetSettingsRepository extends EntityRepository
             ->setParameter('type', $type)
             ->setParameter('websites', [ $website ]);
 
-        return $qb->getQuery()->getResult();
+        return $this->aclHelper?->apply($qb)->getResult();
     }
 
     /**
@@ -123,7 +133,7 @@ class AuthorizeNetSettingsRepository extends EntityRepository
             ->setParameter('channel', $channel)
             ->setParameter('channelInt', $channel);
 
-        $result = $qb->getQuery()->getScalarResult();
+        $result = $this->aclHelper?->apply($qb)->getScalarResult();
 
         return !empty($result);
     }
