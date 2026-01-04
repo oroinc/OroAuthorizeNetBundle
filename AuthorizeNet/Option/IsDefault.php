@@ -7,7 +7,7 @@ namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
  */
 class IsDefault extends AbstractOption
 {
-    const IS_DEFAULT = 'is_default';
+    public const IS_DEFAULT = 'is_default';
 
     #[\Override]
     protected function getName()

@@ -7,11 +7,11 @@ namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
  */
 class Transaction extends AbstractOption
 {
-    const TRANSACTION_TYPE = 'transaction_type';
+    public const TRANSACTION_TYPE = 'transaction_type';
 
-    const AUTHORIZE = 'authOnlyTransaction';
-    const CAPTURE = 'priorAuthCaptureTransaction';
-    const CHARGE = 'authCaptureTransaction';
+    public const AUTHORIZE = 'authOnlyTransaction';
+    public const CAPTURE = 'priorAuthCaptureTransaction';
+    public const CHARGE = 'authCaptureTransaction';
 
     #[\Override]
     protected function getName()

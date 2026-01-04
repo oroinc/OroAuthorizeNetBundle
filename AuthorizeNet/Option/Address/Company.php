@@ -9,7 +9,7 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option\AbstractOption;
  */
 class Company extends AbstractOption
 {
-    const COMPANY = 'company';
+    public const COMPANY = 'company';
 
     #[\Override]
     protected function getName()

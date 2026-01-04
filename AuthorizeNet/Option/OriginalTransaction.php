@@ -7,7 +7,7 @@ namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
  */
 class OriginalTransaction extends AbstractOption
 {
-    const ORIGINAL_TRANSACTION = 'original_transaction';
+    public const ORIGINAL_TRANSACTION = 'original_transaction';
 
     #[\Override]
     protected function getName()

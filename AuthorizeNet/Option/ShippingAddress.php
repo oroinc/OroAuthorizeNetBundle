@@ -7,18 +7,18 @@ namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
  */
 class ShippingAddress implements OptionInterface
 {
-    const PREFIX = 'ship_to_';
+    public const PREFIX = 'ship_to_';
 
-    const FIRST_NAME = self::PREFIX . 'first_name';
-    const LAST_NAME = self::PREFIX . 'last_name';
-    const COMPANY = self::PREFIX . 'company';
-    const ADDRESS = self::PREFIX . 'address';
-    const CITY = self::PREFIX . 'city';
-    const STATE = self::PREFIX . 'state';
-    const ZIP = self::PREFIX . 'zip';
-    const COUNTRY = self::PREFIX . 'country';
+    public const FIRST_NAME = self::PREFIX . 'first_name';
+    public const LAST_NAME = self::PREFIX . 'last_name';
+    public const COMPANY = self::PREFIX . 'company';
+    public const ADDRESS = self::PREFIX . 'address';
+    public const CITY = self::PREFIX . 'city';
+    public const STATE = self::PREFIX . 'state';
+    public const ZIP = self::PREFIX . 'zip';
+    public const COUNTRY = self::PREFIX . 'country';
 
-    const ALL_OPTION_KEYS = [
+    public const ALL_OPTION_KEYS = [
         self::FIRST_NAME,
         self::LAST_NAME,
         self::COMPANY,

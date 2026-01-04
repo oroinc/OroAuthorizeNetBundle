@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  */
 class ForbidToReuseEnabledCIMWebsitesValidator extends ConstraintValidator
 {
-    const ALIAS = 'oro_authorize_net.validator.forbid_to_reuse_enabled_cim_websites';
+    public const ALIAS = 'oro_authorize_net.validator.forbid_to_reuse_enabled_cim_websites';
 
     /** @var DoctrineHelper */
     private $doctrineHelper;

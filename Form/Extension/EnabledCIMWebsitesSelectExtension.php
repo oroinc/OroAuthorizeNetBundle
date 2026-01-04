@@ -19,7 +19,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class EnabledCIMWebsitesSelectExtension extends AbstractTypeExtension
 {
-    const FIELD_NAME = 'enabledCIMWebsites';
+    public const FIELD_NAME = 'enabledCIMWebsites';
 
     /** @var WebsiteProviderInterface */
     private $websiteProvider;

@@ -12,7 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class CheckoutCredicardProfileType extends AbstractType
 {
-    const NAME = 'oro_authorize_net_checkout_creditcard_profile';
+    public const NAME = 'oro_authorize_net_checkout_creditcard_profile';
 
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)

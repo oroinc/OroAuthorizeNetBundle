@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
  */
 class CheckoutSaveProfileType extends AbstractType
 {
-    const NAME = 'oro_authorize_net_checkout_save_profile';
+    public const NAME = 'oro_authorize_net_checkout_save_profile';
 
     #[\Override]
     public function getBlockPrefix(): string

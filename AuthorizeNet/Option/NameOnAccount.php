@@ -7,7 +7,7 @@ namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
  */
 class NameOnAccount extends AbstractOption
 {
-    const NAME_ON_ACCOUNT = 'name_on_account';
+    public const NAME_ON_ACCOUNT = 'name_on_account';
 
     #[\Override]
     public function getName()

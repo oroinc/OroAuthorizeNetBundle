@@ -7,7 +7,7 @@ namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
  */
 class DataDescriptor extends AbstractOption
 {
-    const DATA_DESCRIPTOR = 'data_descriptor';
+    public const DATA_DESCRIPTOR = 'data_descriptor';
 
     #[\Override]
     protected function getName()

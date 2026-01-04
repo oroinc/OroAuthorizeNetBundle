@@ -10,7 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver as BaseOptionsResolver;
  */
 class OptionsResolver extends BaseOptionsResolver
 {
-    const ACCESS_EXCEPTION_MESSAGE = 'addOption is locked during resolve process';
+    public const ACCESS_EXCEPTION_MESSAGE = 'addOption is locked during resolve process';
 
     /**
      * @var bool

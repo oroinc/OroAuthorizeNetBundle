@@ -7,7 +7,7 @@ namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
  */
 class AccountType extends AbstractOption
 {
-    const ACCOUNT_TYPE = 'account_type';
+    public const ACCOUNT_TYPE = 'account_type';
 
     #[\Override]
     public function getName()

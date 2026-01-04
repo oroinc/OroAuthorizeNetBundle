@@ -16,8 +16,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class PaymentProfileDTOFormProvider extends AbstractFormProvider
 {
-    const PAYMENT_PROFILE_CREATE_ROUTE_NAME = 'oro_authorize_net_payment_profile_frontend_create';
-    const PAYMENT_PROFILE_UPDATE_ROUTE_NAME = 'oro_authorize_net_payment_profile_frontend_update';
+    public const PAYMENT_PROFILE_CREATE_ROUTE_NAME = 'oro_authorize_net_payment_profile_frontend_create';
+    public const PAYMENT_PROFILE_UPDATE_ROUTE_NAME = 'oro_authorize_net_payment_profile_frontend_update';
 
     /** @var CIMEnabledIntegrationConfigProvider */
     private $configProvider;

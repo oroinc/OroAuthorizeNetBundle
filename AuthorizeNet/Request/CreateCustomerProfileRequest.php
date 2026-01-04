@@ -9,7 +9,7 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
  */
 class CreateCustomerProfileRequest extends AbstractRequest
 {
-    const REQUEST_TYPE = 'createCustomerProfileRequest';
+    public const REQUEST_TYPE = 'createCustomerProfileRequest';
 
     #[\Override]
     public function getType(): string

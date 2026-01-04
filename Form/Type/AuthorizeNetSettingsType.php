@@ -26,7 +26,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class AuthorizeNetSettingsType extends AbstractType
 {
-    const BLOCK_PREFIX = 'oro_authorize_net_settings';
+    public const BLOCK_PREFIX = 'oro_authorize_net_settings';
 
     /**
      * @var TranslatorInterface

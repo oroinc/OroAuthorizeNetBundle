@@ -19,7 +19,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class PaymentProfileDTOType extends AbstractType
 {
-    const NAME = 'oro_authorize_net_payment_profile_dto';
+    public const NAME = 'oro_authorize_net_payment_profile_dto';
 
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)

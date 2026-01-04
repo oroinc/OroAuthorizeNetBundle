@@ -7,7 +7,7 @@ namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
  */
 class ExpirationDate extends AbstractOption
 {
-    const EXPIRATION_DATE = 'expiration_date';
+    public const EXPIRATION_DATE = 'expiration_date';
 
     #[\Override]
     public function getName()

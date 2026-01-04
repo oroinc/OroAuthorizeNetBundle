@@ -7,7 +7,7 @@ namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
  */
 class SolutionId extends AbstractOption
 {
-    const SOLUTION_ID = 'solution_id';
+    public const SOLUTION_ID = 'solution_id';
 
     #[\Override]
     protected function getName()

@@ -13,7 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class CheckoutEcheckProfileType extends AbstractType
 {
-    const NAME = 'oro_authorize_net_checkout_echeck_profile';
+    public const NAME = 'oro_authorize_net_checkout_echeck_profile';
 
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)

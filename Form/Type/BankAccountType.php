@@ -20,7 +20,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class BankAccountType extends AbstractType
 {
-    const NAME = 'oro_authorize_net_bank_account';
+    public const NAME = 'oro_authorize_net_bank_account';
 
     /** @var TranslatorInterface */
     protected $translator;

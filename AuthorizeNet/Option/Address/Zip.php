@@ -9,7 +9,7 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option\AbstractOption;
  */
 class Zip extends AbstractOption
 {
-    const ZIP = 'zip';
+    public const ZIP = 'zip';
 
     #[\Override]
     protected function getName()

@@ -10,7 +10,7 @@ use Oro\Bundle\IntegrationBundle\Provider\IconAwareIntegrationInterface;
  */
 class AuthorizeNetChannelType implements ChannelInterface, IconAwareIntegrationInterface
 {
-    const TYPE = 'authorize_net';
+    public const TYPE = 'authorize_net';
 
     #[\Override]
     public function getLabel()

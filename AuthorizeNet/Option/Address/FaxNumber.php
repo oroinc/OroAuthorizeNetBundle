@@ -9,7 +9,7 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option\AbstractOption;
  */
 class FaxNumber extends AbstractOption
 {
-    const FAX_NUMBER = 'fax_number';
+    public const FAX_NUMBER = 'fax_number';
 
     #[\Override]
     public function getName()

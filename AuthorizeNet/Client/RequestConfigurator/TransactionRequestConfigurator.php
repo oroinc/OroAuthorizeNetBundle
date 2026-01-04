@@ -17,7 +17,7 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
  */
 class TransactionRequestConfigurator implements RequestConfiguratorInterface
 {
-    const LINE_ITEMS_MAX_QUANTITY = 30;
+    public const LINE_ITEMS_MAX_QUANTITY = 30;
 
     #[\Override]
     public function isApplicable(AnetAPI\ANetApiRequestType $request, array $options)

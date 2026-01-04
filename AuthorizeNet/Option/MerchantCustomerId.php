@@ -7,7 +7,7 @@ namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
  */
 class MerchantCustomerId extends AbstractOption
 {
-    const MERCHANT_CUSTOMER_ID = 'merchant_customer_id';
+    public const MERCHANT_CUSTOMER_ID = 'merchant_customer_id';
 
     #[\Override]
     protected function getName()

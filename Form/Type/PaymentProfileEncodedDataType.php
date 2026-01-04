@@ -13,7 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class PaymentProfileEncodedDataType extends AbstractType
 {
-    const NAME = 'oro_authorize_net_payment_profile_encoded_data';
+    public const NAME = 'oro_authorize_net_payment_profile_encoded_data';
 
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)

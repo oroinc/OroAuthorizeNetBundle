@@ -7,7 +7,7 @@ namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
  */
 class CustomerProfileId extends AbstractOption
 {
-    const CUSTOMER_PROFILE_ID = 'customer_profile_id';
+    public const CUSTOMER_PROFILE_ID = 'customer_profile_id';
 
     #[\Override]
     protected function getName()

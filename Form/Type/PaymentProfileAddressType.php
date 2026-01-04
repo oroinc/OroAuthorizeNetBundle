@@ -24,7 +24,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class PaymentProfileAddressType extends AbstractType
 {
-    const NAME = 'oro_authorize_net_payment_profile_address';
+    public const NAME = 'oro_authorize_net_payment_profile_address';
 
     /** @var AddressCountryAndRegionSubscriber */
     protected $countryAndRegionSubscriber;

@@ -9,7 +9,7 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
  */
 class DeleteCustomerProfileRequest extends AbstractRequest
 {
-    const REQUEST_TYPE = 'deleteCustomerProfileRequest';
+    public const REQUEST_TYPE = 'deleteCustomerProfileRequest';
 
     #[\Override]
     public function getType(): string

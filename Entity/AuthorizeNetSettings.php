@@ -23,25 +23,25 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 #[ORM\Entity(repositoryClass: AuthorizeNetSettingsRepository::class)]
 class AuthorizeNetSettings extends Transport
 {
-    const API_LOGIN_ID = 'api_login_id';
-    const TRANSACTION_KEY = 'transaction_key';
-    const CLIENT_KEY = 'client_key';
-    const CREDIT_CARD_LABELS_KEY = 'credit_card_labels';
-    const CREDIT_CARD_SHORT_LABELS_KEY = 'credit_card_short_labels';
-    const CREDIT_CARD_PAYMENT_ACTION_KEY = 'credit_card_payment_action';
-    const ALLOWED_CREDIT_CARD_TYPES_KEY = 'allowed_credit_card_types';
-    const REQUIRE_CVV_ENTRY_KEY = 'require_cvv_entry';
-    const TEST_MODE_KEY = 'test_mode';
-    const ENABLED_CIM_KEY = 'enabled_cim';
-    const ENABLED_CIM_WEBSITES_KEY = 'enabled_cim_websites';
-    const ECHECK_ENABLED_KEY = 'echeck_enabled';
-    const ECHECK_LABELS_KEY = 'echeck_labels';
-    const ECHECK_SHORT_LABELS_KEY = 'echeck_short_labels';
-    const ECHECK_ACCOUNT_TYPES_KEY = 'echeck_account_types';
-    const ECHECK_CONFIRMATION_TEXT_KEY = 'echeck_confirmation_text';
-    const ALLOW_HOLD_TRANSACTION = 'allow_hold_transaction';
+    public const API_LOGIN_ID = 'api_login_id';
+    public const TRANSACTION_KEY = 'transaction_key';
+    public const CLIENT_KEY = 'client_key';
+    public const CREDIT_CARD_LABELS_KEY = 'credit_card_labels';
+    public const CREDIT_CARD_SHORT_LABELS_KEY = 'credit_card_short_labels';
+    public const CREDIT_CARD_PAYMENT_ACTION_KEY = 'credit_card_payment_action';
+    public const ALLOWED_CREDIT_CARD_TYPES_KEY = 'allowed_credit_card_types';
+    public const REQUIRE_CVV_ENTRY_KEY = 'require_cvv_entry';
+    public const TEST_MODE_KEY = 'test_mode';
+    public const ENABLED_CIM_KEY = 'enabled_cim';
+    public const ENABLED_CIM_WEBSITES_KEY = 'enabled_cim_websites';
+    public const ECHECK_ENABLED_KEY = 'echeck_enabled';
+    public const ECHECK_LABELS_KEY = 'echeck_labels';
+    public const ECHECK_SHORT_LABELS_KEY = 'echeck_short_labels';
+    public const ECHECK_ACCOUNT_TYPES_KEY = 'echeck_account_types';
+    public const ECHECK_CONFIRMATION_TEXT_KEY = 'echeck_confirmation_text';
+    public const ALLOW_HOLD_TRANSACTION = 'allow_hold_transaction';
 
-    const ECHECK_ACCOUNT_TYPES = [
+    public const ECHECK_ACCOUNT_TYPES = [
         'checking',
         'savings',
         'businessChecking'

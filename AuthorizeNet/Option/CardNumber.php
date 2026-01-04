@@ -7,7 +7,7 @@ namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
  */
 class CardNumber extends AbstractOption
 {
-    const CARD_NUMBER = 'card_number';
+    public const CARD_NUMBER = 'card_number';
 
     #[\Override]
     public function getName()

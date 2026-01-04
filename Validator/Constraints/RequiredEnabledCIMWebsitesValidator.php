@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  */
 class RequiredEnabledCIMWebsitesValidator extends ConstraintValidator
 {
-    const ALIAS = 'oro_authorize_net.validator.required_enabled_cim_websites';
+    public const ALIAS = 'oro_authorize_net.validator.required_enabled_cim_websites';
 
     /**
      * @param AuthorizeNetSettings        $entity

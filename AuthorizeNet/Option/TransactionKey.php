@@ -7,7 +7,7 @@ namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
  */
 class TransactionKey extends AbstractOption
 {
-    const TRANSACTION_KEY = 'transaction_key';
+    public const TRANSACTION_KEY = 'transaction_key';
 
     #[\Override]
     protected function getName()

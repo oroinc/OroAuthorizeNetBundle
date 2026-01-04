@@ -11,7 +11,7 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class SDKResponseReceivedEvent extends Event
 {
-    const NAME = 'oro_authorize_net.sdk_response.received';
+    public const NAME = 'oro_authorize_net.sdk_response.received';
 
     /** @var AuthorizeNetSDKResponse */
     private $response;

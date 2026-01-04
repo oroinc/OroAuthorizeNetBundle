@@ -11,20 +11,20 @@ use Oro\Bundle\PaymentBundle\Method\Config\ParameterBag\AbstractParameterBagPaym
  */
 class AuthorizeNetConfig extends AbstractParameterBagPaymentConfig implements AuthorizeNetConfigInterface
 {
-    const ALLOWED_CREDIT_CARD_TYPES_KEY = 'allowed_credit_card_types';
-    const PURCHASE_ACTION_KEY  = 'purchase_action';
-    const TEST_MODE_KEY  = 'test_mode';
-    const API_LOGIN_ID = 'api_login_id';
-    const TRANSACTION_KEY = 'transaction_key';
-    const CLIENT_KEY = 'client_key';
-    const REQUIRE_CVV_ENTRY_KEY = 'require_cvv_entry';
-    const ENABLED_CIM_KEY = 'enabled_cim';
-    const ENABLED_CIM_WEBSITES = 'enabled_cim_websites';
-    const INTEGRATION_ID = 'integration_id';
-    const ECHECK_ENABLED = 'echeck_enabled';
-    const ECHECK_ACCOUNT_TYPES = 'echeck_account_types';
-    const ECHECK_CONFIRMATION_TEXT = 'echeck_confirmation_text';
-    const ALLOW_HOLD_TRANSACTION = 'allow_hold_transaction';
+    public const ALLOWED_CREDIT_CARD_TYPES_KEY = 'allowed_credit_card_types';
+    public const PURCHASE_ACTION_KEY  = 'purchase_action';
+    public const TEST_MODE_KEY  = 'test_mode';
+    public const API_LOGIN_ID = 'api_login_id';
+    public const TRANSACTION_KEY = 'transaction_key';
+    public const CLIENT_KEY = 'client_key';
+    public const REQUIRE_CVV_ENTRY_KEY = 'require_cvv_entry';
+    public const ENABLED_CIM_KEY = 'enabled_cim';
+    public const ENABLED_CIM_WEBSITES = 'enabled_cim_websites';
+    public const INTEGRATION_ID = 'integration_id';
+    public const ECHECK_ENABLED = 'echeck_enabled';
+    public const ECHECK_ACCOUNT_TYPES = 'echeck_account_types';
+    public const ECHECK_CONFIRMATION_TEXT = 'echeck_confirmation_text';
+    public const ALLOW_HOLD_TRANSACTION = 'allow_hold_transaction';
 
     #[\Override]
     public function isTestMode()

@@ -15,7 +15,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class CreditCardCvvType extends AbstractType
 {
-    const NAME = 'oro_authorize_net_credit_card_cvv';
+    public const NAME = 'oro_authorize_net_credit_card_cvv';
 
     /** @var TranslatorInterface */
     private $translator;

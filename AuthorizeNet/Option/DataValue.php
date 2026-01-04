@@ -7,7 +7,7 @@ namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
  */
 class DataValue extends AbstractOption
 {
-    const DATA_VALUE = 'data_value';
+    public const DATA_VALUE = 'data_value';
 
     #[\Override]
     protected function getName()

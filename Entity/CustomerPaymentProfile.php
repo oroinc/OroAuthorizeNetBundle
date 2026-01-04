@@ -40,10 +40,10 @@ class CustomerPaymentProfile implements OrganizationAwareInterface, ExtendEntity
     use OrganizationAwareTrait;
     use ExtendEntityTrait;
 
-    const TYPE_CREDITCARD = 'creditcard';
-    const TYPE_ECHECK = 'echeck';
+    public const TYPE_CREDITCARD = 'creditcard';
+    public const TYPE_ECHECK = 'echeck';
 
-    const ALLOWED_TYPES = [
+    public const ALLOWED_TYPES = [
         self::TYPE_CREDITCARD,
         self::TYPE_ECHECK
     ];

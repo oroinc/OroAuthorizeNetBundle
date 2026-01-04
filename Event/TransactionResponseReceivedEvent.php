@@ -11,7 +11,7 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class TransactionResponseReceivedEvent extends Event
 {
-    const NAME = 'oro_authorize_net.transaction_response.received';
+    public const NAME = 'oro_authorize_net.transaction_response.received';
 
     /** @var AuthorizeNetSDKTransactionResponse */
     private $response;

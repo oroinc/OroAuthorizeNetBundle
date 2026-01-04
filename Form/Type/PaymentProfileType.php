@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  */
 class PaymentProfileType extends AbstractType
 {
-    const NAME = 'oro_authorize_net_payment_profile';
+    public const NAME = 'oro_authorize_net_payment_profile';
 
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)

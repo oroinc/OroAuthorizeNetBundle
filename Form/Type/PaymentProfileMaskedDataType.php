@@ -13,7 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class PaymentProfileMaskedDataType extends AbstractType
 {
-    const NAME = 'oro_authorize_net_payment_profile_masked_data';
+    public const NAME = 'oro_authorize_net_payment_profile_masked_data';
 
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)

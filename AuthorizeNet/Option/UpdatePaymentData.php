@@ -7,7 +7,7 @@ namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
  */
 class UpdatePaymentData extends AbstractOption
 {
-    const UPDATE_PAYMENT_DATA = 'update_payment_data';
+    public const UPDATE_PAYMENT_DATA = 'update_payment_data';
 
     #[\Override]
     public function getName()

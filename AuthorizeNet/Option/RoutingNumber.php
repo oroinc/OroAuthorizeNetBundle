@@ -7,7 +7,7 @@ namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
  */
 class RoutingNumber extends AbstractOption
 {
-    const ROUTING_NUMBER = 'routing_number';
+    public const ROUTING_NUMBER = 'routing_number';
 
     #[\Override]
     public function getName()

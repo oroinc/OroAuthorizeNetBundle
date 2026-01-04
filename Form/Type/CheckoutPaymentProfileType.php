@@ -18,7 +18,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class CheckoutPaymentProfileType extends AbstractType
 {
-    const NAME = 'oro_authorize_net_checkout_payment_profile';
+    public const NAME = 'oro_authorize_net_checkout_payment_profile';
 
     /** @var CustomerProfileProvider */
     private $customerProfileProvider;

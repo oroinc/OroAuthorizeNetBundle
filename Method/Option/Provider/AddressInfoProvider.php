@@ -14,15 +14,15 @@ use Oro\Bundle\PaymentBundle\Provider\AddressExtractor;
  */
 class AddressInfoProvider
 {
-    const BILLING_ADDRESS_PROPERTY = 'billingAddress';
-    const SHIPPING_ADDRESS_PROPERTY = 'shippingAddress';
+    public const BILLING_ADDRESS_PROPERTY = 'billingAddress';
+    public const SHIPPING_ADDRESS_PROPERTY = 'shippingAddress';
 
-    const FIRST_NAME_MAX_LENGTH = 50;
-    const LAST_NAME_MAX_LENGTH = 50;
-    const COMPANY_NAME_MAX_LENGTH = 50;
-    const STREET_MAX_LENGTH = 60;
-    const CITY_NAME_MAX_LENGTH = 40;
-    const POST_CODE_MAX_LENGTH = 20;
+    public const FIRST_NAME_MAX_LENGTH = 50;
+    public const LAST_NAME_MAX_LENGTH = 50;
+    public const COMPANY_NAME_MAX_LENGTH = 50;
+    public const STREET_MAX_LENGTH = 60;
+    public const CITY_NAME_MAX_LENGTH = 40;
+    public const POST_CODE_MAX_LENGTH = 20;
 
     /** @var DoctrineHelper */
     private $doctrineHelper;

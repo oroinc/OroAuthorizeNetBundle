@@ -7,7 +7,7 @@ namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
  */
 class Email extends AbstractOption
 {
-    const EMAIL = 'email';
+    public const EMAIL = 'email';
 
     #[\Override]
     protected function getName()

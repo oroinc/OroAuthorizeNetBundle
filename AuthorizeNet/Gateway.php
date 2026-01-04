@@ -12,8 +12,8 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Response\ResponseInterface;
  */
 class Gateway
 {
-    const ADDRESS_SANDBOX = \net\authorize\api\constants\ANetEnvironment::SANDBOX;
-    const ADDRESS_PRODUCTION = \net\authorize\api\constants\ANetEnvironment::PRODUCTION;
+    public const ADDRESS_SANDBOX = \net\authorize\api\constants\ANetEnvironment::SANDBOX;
+    public const ADDRESS_PRODUCTION = \net\authorize\api\constants\ANetEnvironment::PRODUCTION;
 
     /**
      * @var ClientInterface

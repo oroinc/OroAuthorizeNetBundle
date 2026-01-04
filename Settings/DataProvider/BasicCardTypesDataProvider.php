@@ -10,37 +10,37 @@ class BasicCardTypesDataProvider implements CardTypesDataProviderInterface
     /**
      * @internal
      */
-    const VISA = 'visa';
+    public const VISA = 'visa';
 
     /**
      * @internal
      */
-    const MASTERCARD = 'mastercard';
+    public const MASTERCARD = 'mastercard';
 
     /**
      * @internal
      */
-    const DISCOVER = 'discover';
+    public const DISCOVER = 'discover';
 
     /**
      * @internal
      */
-    const AMERICAN_EXPRESS = 'american_express';
+    public const AMERICAN_EXPRESS = 'american_express';
 
     /**
      * @internal
      */
-    const JCB = 'jcb';
+    public const JCB = 'jcb';
 
     /**
      * @internal
      */
-    const DINERS_CLUB = 'diners_club';
+    public const DINERS_CLUB = 'diners_club';
 
     /**
      * @internal
      */
-    const CHINA_UNION_PAY = 'china_union_pay';
+    public const CHINA_UNION_PAY = 'china_union_pay';
 
     /**
      * @return string[]

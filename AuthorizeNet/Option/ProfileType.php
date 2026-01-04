@@ -7,10 +7,10 @@ namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
  */
 class ProfileType extends AbstractOption
 {
-    const PROFILE_TYPE = 'profile_type';
+    public const PROFILE_TYPE = 'profile_type';
 
-    const CREDITCARD_TYPE = 'creditcard';
-    const ECHECK_TYPE = 'echeck';
+    public const CREDITCARD_TYPE = 'creditcard';
+    public const ECHECK_TYPE = 'echeck';
 
     #[\Override]
     protected function getName()

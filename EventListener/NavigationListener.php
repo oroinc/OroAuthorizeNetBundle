@@ -12,7 +12,7 @@ use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
  */
 class NavigationListener
 {
-    const MENU_ITEM_ID = 'oro_authorize_net_payment_profile_frontend_index';
+    public const MENU_ITEM_ID = 'oro_authorize_net_payment_profile_frontend_index';
 
     /** @var WebsiteManager */
     private $websiteManager;

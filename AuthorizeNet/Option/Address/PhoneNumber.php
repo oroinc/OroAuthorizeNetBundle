@@ -9,7 +9,7 @@ use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option\AbstractOption;
  */
 class PhoneNumber extends AbstractOption
 {
-    const PHONE_NUMBER = 'phone_number';
+    public const PHONE_NUMBER = 'phone_number';
 
     #[\Override]
     protected function getName()

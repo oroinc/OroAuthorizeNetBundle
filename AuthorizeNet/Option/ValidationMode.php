@@ -7,10 +7,10 @@ namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
  */
 class ValidationMode extends AbstractOption
 {
-    const VALIDATION_MODE = 'validation_mode';
+    public const VALIDATION_MODE = 'validation_mode';
 
-    const TEST_MODE = 'testMode';
-    const LIVE_MODE = 'liveMode';
+    public const TEST_MODE = 'testMode';
+    public const LIVE_MODE = 'liveMode';
 
     #[\Override]
     protected function getName()

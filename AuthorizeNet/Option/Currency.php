@@ -7,16 +7,16 @@ namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
  */
 class Currency extends AbstractOption
 {
-    const CURRENCY = 'currency';
+    public const CURRENCY = 'currency';
 
-    const AUSTRALIAN_DOLLAR = 'AUD';
-    const US_DOLLAR = 'USD';
-    const CANADIAN_DOLLAR = 'CAD';
-    const EURO = 'EUR';
-    const BRITISH_POUND = 'GBP';
-    const NEW_ZEALAND_DOLLAR = 'NZD';
+    public const AUSTRALIAN_DOLLAR = 'AUD';
+    public const US_DOLLAR = 'USD';
+    public const CANADIAN_DOLLAR = 'CAD';
+    public const EURO = 'EUR';
+    public const BRITISH_POUND = 'GBP';
+    public const NEW_ZEALAND_DOLLAR = 'NZD';
 
-    const ALL_CURRENCIES = [
+    public const ALL_CURRENCIES = [
         Currency::AUSTRALIAN_DOLLAR,
         Currency::US_DOLLAR,
         Currency::CANADIAN_DOLLAR,

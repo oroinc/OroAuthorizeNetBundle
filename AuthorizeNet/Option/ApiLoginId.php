@@ -7,7 +7,7 @@ namespace Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Option;
  */
 class ApiLoginId extends AbstractOption
 {
-    const API_LOGIN_ID = 'api_login_id';
+    public const API_LOGIN_ID = 'api_login_id';
 
     #[\Override]
     protected function getName()
