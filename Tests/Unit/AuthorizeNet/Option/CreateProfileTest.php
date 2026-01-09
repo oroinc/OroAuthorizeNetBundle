@@ -32,7 +32,7 @@ class CreateProfileTest extends AbstractOptionTest
                 [
                     InvalidOptionsException::class,
                     sprintf(
-                        'The option "%s" with value 1 is expected to be of type "bool", but is of '.
+                        'The option "%s" with value 1 is expected to be of type "bool", but is of ' .
                         'type "int".',
                         Option\CreateProfile::NAME
                     )

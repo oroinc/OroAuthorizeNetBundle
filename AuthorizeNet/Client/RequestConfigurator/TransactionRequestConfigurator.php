@@ -138,7 +138,8 @@ class TransactionRequestConfigurator implements RequestConfiguratorInterface
         $chargeType = $options[Option\ChargeType::NAME] ?? null;
         $createProfile = $options[Option\CreateProfile::NAME] ?? false;
         $customerDataId = $options[Option\CustomerDataId::NAME] ?? null;
-        if (null !== $chargeType
+        if (
+            null !== $chargeType
             && Option\ChargeType::TYPE_CREDIT_CARD === $chargeType
             && true === $createProfile
             && null !== $customerDataId

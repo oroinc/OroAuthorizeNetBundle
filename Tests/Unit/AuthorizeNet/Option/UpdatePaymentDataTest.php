@@ -31,7 +31,7 @@ class UpdatePaymentDataTest extends AbstractOptionTest
                 [],
                 [
                     InvalidOptionsException::class,
-                    'The option "update_payment_data" with value 0 is expected to be of type "bool", '.
+                    'The option "update_payment_data" with value 0 is expected to be of type "bool", ' .
                     'but is of type "int".',
                 ],
             ],

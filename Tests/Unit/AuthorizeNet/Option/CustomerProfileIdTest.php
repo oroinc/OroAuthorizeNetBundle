@@ -31,7 +31,7 @@ class CustomerProfileIdTest extends AbstractOptionTest
                 [],
                 [
                     InvalidOptionsException::class,
-                    'The option "customer_profile_id" with value 12345 is expected '.
+                    'The option "customer_profile_id" with value 12345 is expected ' .
                     'to be of type "string", but is of type "int".',
                 ],
             ],

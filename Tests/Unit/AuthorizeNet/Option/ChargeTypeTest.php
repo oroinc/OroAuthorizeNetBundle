@@ -32,7 +32,7 @@ class ChargeTypeTest extends AbstractOptionTest
                 [
                     InvalidOptionsException::class,
                     sprintf(
-                        'The option "%s" with value "%s" is expected to be of type "int", but is of '.
+                        'The option "%s" with value "%s" is expected to be of type "int", but is of ' .
                         'type "string".',
                         Option\ChargeType::NAME,
                         (string) Option\ChargeType::TYPE_CREDIT_CARD

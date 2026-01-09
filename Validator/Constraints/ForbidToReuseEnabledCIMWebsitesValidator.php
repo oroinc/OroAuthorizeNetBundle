@@ -75,7 +75,7 @@ class ForbidToReuseEnabledCIMWebsitesValidator extends ConstraintValidator
                 ->addViolation();
         } else {
             $reusedWebsiteNames = $this->getReusedWebsiteNames($entity, $enabledSettings);
-            $websiteMessageParameter = '"'. join('", "', $reusedWebsiteNames) .'"';
+            $websiteMessageParameter = '"' . join('", "', $reusedWebsiteNames) . '"';
 
             $context
                 ->buildViolation($constraint->messageMultiWebsite)

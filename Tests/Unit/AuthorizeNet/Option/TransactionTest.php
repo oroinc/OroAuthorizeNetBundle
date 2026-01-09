@@ -31,7 +31,7 @@ class TransactionTest extends AbstractOptionTest
                 [],
                 [
                     InvalidOptionsException::class,
-                    'The option "transaction_type" with value 12345 is invalid. Accepted values are: '.
+                    'The option "transaction_type" with value 12345 is invalid. Accepted values are: ' .
                     '"authOnlyTransaction", "priorAuthCaptureTransaction", "authCaptureTransaction"',
                 ],
             ],

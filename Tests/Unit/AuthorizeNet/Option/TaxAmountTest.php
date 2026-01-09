@@ -32,7 +32,7 @@ class TaxAmountTest extends AbstractOptionTest
                 [
                     InvalidOptionsException::class,
                     sprintf(
-                        'The option "%s" with value "9.99" is expected to be of type "float" or "integer", but is of '.
+                        'The option "%s" with value "9.99" is expected to be of type "float" or "integer", but is of ' .
                         'type "string".',
                         Option\TaxAmount::NAME
                     )

@@ -31,7 +31,7 @@ class ExpirationDateTest extends AbstractOptionTest
                 [],
                 [
                     InvalidOptionsException::class,
-                    'The option "expiration_date" with value 12345 is expected to be of type "string", but is of '.
+                    'The option "expiration_date" with value 12345 is expected to be of type "string", but is of ' .
                     'type "int".',
                 ],
             ],

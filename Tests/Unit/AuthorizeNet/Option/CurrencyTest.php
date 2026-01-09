@@ -23,7 +23,7 @@ class CurrencyTest extends AbstractOptionTest
                 [],
                 [
                     InvalidOptionsException::class,
-                    'The option "currency" with value "UAH" is invalid. Accepted values are: "AUD", "USD", "CAD", '.
+                    'The option "currency" with value "UAH" is invalid. Accepted values are: "AUD", "USD", "CAD", ' .
                     '"EUR", "GBP", "NZD".',
                 ],
             ],

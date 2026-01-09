@@ -32,7 +32,7 @@ class ZipTest extends AbstractOptionTest
                 [],
                 [
                     InvalidOptionsException::class,
-                    'The option "zip" with value 12345 is expected to be of type "string", but is of type '.
+                    'The option "zip" with value 12345 is expected to be of type "string", but is of type ' .
                     '"int".',
                 ],
             ],

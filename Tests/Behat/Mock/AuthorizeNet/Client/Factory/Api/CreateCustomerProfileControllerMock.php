@@ -31,7 +31,7 @@ class CreateCustomerProfileControllerMock extends AbstractControllerMock
 
         $email = 'AmandaRCole@example.org';
         if ($email !== $this->request->getProfile()->getEmail()) {
-            $errorMessage = 'Incorrect email given while try to create customer profile, expecting "' . $email .'"';
+            $errorMessage = 'Incorrect email given while try to create customer profile, expecting "' . $email . '"';
 
             if (null === $this->request->getProfile()->getEmail()) {
                 $errorMessage .= ', but got nothing!';

@@ -31,7 +31,7 @@ class MerchantCustomerIdTest extends AbstractOptionTest
                 [],
                 [
                     InvalidOptionsException::class,
-                    'The option "merchant_customer_id" with value 12345 is expected '.
+                    'The option "merchant_customer_id" with value 12345 is expected ' .
                     'to be of type "string", but is of type "int".',
                 ],
             ],

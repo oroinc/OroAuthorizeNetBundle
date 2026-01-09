@@ -59,8 +59,10 @@ class CreateTransactionControllerMock extends AbstractControllerMock implements
         if (null !== $profile) {
             $customerProfileId = $profile->getCustomerProfileId();
             $customer = $this->request->getTransactionRequest()->getCustomer();
-            if (CreateCustomerProfileControllerMock::REGISTERED_CUSTOMER_PROFILE_ID !== $customerProfileId &&
-                ($customer && $customer->getEmail() !== 'AmandaRCole@example.org' || !$customer)) {
+            if (
+                CreateCustomerProfileControllerMock::REGISTERED_CUSTOMER_PROFILE_ID !== $customerProfileId &&
+                ($customer && $customer->getEmail() !== 'AmandaRCole@example.org' || !$customer)
+            ) {
                 throw new \RuntimeException(
                     'Incorrect credentials got when try to pay and create profile with Authorize.Net!'
                 );

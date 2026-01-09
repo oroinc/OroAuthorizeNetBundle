@@ -23,7 +23,7 @@ class CustomerAddressTest extends AbstractOptionTest
                 [],
                 [
                     MissingOptionsException::class,
-                    'The required options "address", "city", "company", "country", "first_name", '.
+                    'The required options "address", "city", "company", "country", "first_name", ' .
                     '"last_name", "state", "zip" are missing.',
                 ],
             ],
@@ -32,7 +32,7 @@ class CustomerAddressTest extends AbstractOptionTest
                 [],
                 [
                     UndefinedOptionsException::class,
-                    'The option "not_existing_option" does not exist. Defined options are: "address", "city", '.
+                    'The option "not_existing_option" does not exist. Defined options are: "address", "city", ' .
                     '"company", "country", "fax_number", "first_name", "last_name", "phone_number", "state", "zip".',
                 ],
             ],

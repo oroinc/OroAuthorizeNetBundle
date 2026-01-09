@@ -72,8 +72,10 @@ class CreateCustomerPaymentProfileRequestConfigurator implements RequestConfigur
             $paymentProfile->setDefaultPaymentProfile($options[Option\IsDefault::IS_DEFAULT]);
         }
 
-        if (array_key_exists(Option\DataDescriptor::DATA_DESCRIPTOR, $options)
-            && array_key_exists(Option\DataValue::DATA_VALUE, $options)) {
+        if (
+            array_key_exists(Option\DataDescriptor::DATA_DESCRIPTOR, $options)
+            && array_key_exists(Option\DataValue::DATA_VALUE, $options)
+        ) {
             $paymentProfile->setPayment($this->getPaymentType($options));
         }
 

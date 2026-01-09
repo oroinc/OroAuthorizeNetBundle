@@ -31,8 +31,8 @@ class TransactionKeyTest extends AbstractOptionTest
                 [],
                 [
                     InvalidOptionsException::class,
-                    'The option "transaction_key" with value 12345 is expected to be of type "string", but is of type '.
-                    '"int".',
+                    'The option "transaction_key" with value 12345 is expected to be of type "string",'
+                    . ' but is of type "int".',
                 ],
             ],
             'valid' => [

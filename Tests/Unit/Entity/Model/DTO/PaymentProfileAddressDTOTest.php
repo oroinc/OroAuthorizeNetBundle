@@ -62,7 +62,7 @@ class PaymentProfileAddressDTOTest extends \PHPUnit\Framework\TestCase
     ): void {
         $addressData = new PaymentProfileAddressDTO();
         $country = new Country($iso2code);
-        $region = new Region($iso2code.$regionCode);
+        $region = new Region($iso2code . $regionCode);
         $region->setName($regionName);
         $region->setCode($regionCode);
         $region->setCountry($country);

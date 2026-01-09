@@ -32,7 +32,7 @@ class CustomerIpTest extends AbstractOptionTest
                 [
                     InvalidOptionsException::class,
                     sprintf(
-                        'The option "%s" with value 123 is expected to be of type "string", but is of '.
+                        'The option "%s" with value 123 is expected to be of type "string", but is of ' .
                         'type "int".',
                         Option\CustomerIp::NAME
                     )

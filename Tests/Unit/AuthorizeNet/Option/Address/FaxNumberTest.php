@@ -32,7 +32,7 @@ class FaxNumberTest extends AbstractOptionTest
                 [],
                 [
                     InvalidOptionsException::class,
-                    'The option "fax_number" with value 12345 is expected to be of type "string", but is of type '.
+                    'The option "fax_number" with value 12345 is expected to be of type "string", but is of type ' .
                     '"int".',
                 ],
             ],

@@ -31,7 +31,7 @@ class AmountTest extends AbstractOptionTest
                 [],
                 [
                     InvalidOptionsException::class,
-                    'The option "amount" with value "twenty backs" is expected to be of type "float" or "integer", '.
+                    'The option "amount" with value "twenty backs" is expected to be of type "float" or "integer", ' .
                     'but is of type "string".',
                 ],
             ],

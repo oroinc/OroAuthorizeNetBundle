@@ -128,7 +128,8 @@ class PaymentTransactionVerifyAction extends AbstractPaymentMethodAction
     protected function isValidTransaction(array $data): bool
     {
         $transaction = $data['transaction'] ?? null;
-        if (!$transaction ||
+        if (
+            !$transaction ||
             !array_key_exists('response_code', $transaction) ||
             !array_key_exists('transaction_status', $transaction)
         ) {

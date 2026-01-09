@@ -26,7 +26,7 @@ class PaymentDataTest extends AbstractOptionTest
                 [],
                 [
                     MissingOptionsException::class,
-                    'The required options "card_number", "expiration_date", "profile_type", '.
+                    'The required options "card_number", "expiration_date", "profile_type", ' .
                     '"update_payment_data" are missing.',
                 ],
             ],
@@ -35,7 +35,7 @@ class PaymentDataTest extends AbstractOptionTest
                 [],
                 [
                     UndefinedOptionsException::class,
-                    'The option "not_existing_option" does not exist. Defined options are: '.
+                    'The option "not_existing_option" does not exist. Defined options are: ' .
                     '"card_number", "expiration_date", "profile_type", "update_payment_data".'
                 ],
             ],
@@ -116,8 +116,8 @@ class PaymentDataTest extends AbstractOptionTest
                 [
                     UndefinedOptionsException::class,
                     'The options "card_number", "expiration_date" do not exist. ' .
-                    'Defined options are: "account_number", "account_type", "bank_name", '.
-                    '"name_on_account", "profile_type",'.
+                    'Defined options are: "account_number", "account_type", "bank_name", ' .
+                    '"name_on_account", "profile_type",' .
                     ' "routing_number", "update_payment_data".'
                 ]
             ],

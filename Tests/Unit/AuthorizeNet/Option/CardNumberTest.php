@@ -31,7 +31,7 @@ class CardNumberTest extends AbstractOptionTest
                 [],
                 [
                     InvalidOptionsException::class,
-                    'The option "card_number" with value 12345 is expected to be of type "string", but is of '.
+                    'The option "card_number" with value 12345 is expected to be of type "string", but is of ' .
                     'type "int".',
                 ],
             ],

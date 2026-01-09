@@ -31,7 +31,7 @@ class ValidationModeTest extends AbstractOptionTest
                 [],
                 [
                     InvalidOptionsException::class,
-                    'The option "validation_mode" with value 1 is invalid. Accepted values are: '.
+                    'The option "validation_mode" with value 1 is invalid. Accepted values are: ' .
                     '"testMode", "liveMode"',
                 ],
             ],
