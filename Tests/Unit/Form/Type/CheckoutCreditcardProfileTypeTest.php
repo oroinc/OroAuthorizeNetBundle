@@ -178,9 +178,19 @@ class CheckoutCreditcardProfileTypeTest extends FormIntegrationTestCase
             ->method('getPaymentProfileExternalIds')
             ->willReturn($externalIds);
 
+        // Can't use 'willReturnMap' as it returns null for default cases while 'trans' method must return string
+        $translationMap = $this->buildTranslationMap($customerProfile);
         $this->translator->expects($this->any())
             ->method('trans')
-            ->willReturnMap($this->buildTranslationMap($customerProfile));
+            ->willReturnCallback(function (...$args) use ($translationMap) {
+                foreach ($translationMap as $entry) {
+                    $returnValue = array_pop($entry);
+                    if ($args === $entry) {
+                        return $returnValue;
+                    }
+                }
+                return '';
+            });
 
         $form = $this->factory->create(CheckoutCredicardProfileType::class);
         $profileFormOptions = $form->get('profile')->getConfig()->getOptions();

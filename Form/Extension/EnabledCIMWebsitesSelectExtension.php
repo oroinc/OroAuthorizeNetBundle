@@ -34,7 +34,7 @@ class EnabledCIMWebsitesSelectExtension extends AbstractTypeExtension
     }
 
     #[\Override]
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $fieldOptions = [
             'class' => Website::class,
@@ -62,7 +62,7 @@ class EnabledCIMWebsitesSelectExtension extends AbstractTypeExtension
     }
 
     #[\Override]
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'constraints' => [

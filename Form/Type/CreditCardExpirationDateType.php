@@ -35,6 +35,8 @@ class CreditCardExpirationDateType extends AbstractType
                 'model_timezone' => 'UTC',
                 'view_timezone' => 'UTC',
                 'format' => 'dMy',
+                'widget' => 'choice',
+                'html5' => false,
                 'input' => 'array',
                 'years' => $years,
                 'months' => $months

@@ -186,9 +186,19 @@ class CheckoutEcheckProfileTypeTest extends FormIntegrationTestCase
             ->method('getPaymentProfileExternalIds')
             ->willReturn($externalIds);
 
+        // Can't use 'willReturnMap' as it returns null for default cases while 'trans' method must return string
+        $translationMap = $this->buildTranslationMap($customerProfile);
         $this->translator->expects($this->any())
             ->method('trans')
-            ->willReturnMap($this->buildTranslationMap($customerProfile));
+            ->willReturnCallback(function (...$args) use ($translationMap) {
+                foreach ($translationMap as $entry) {
+                    $returnValue = array_pop($entry);
+                    if ($args === $entry) {
+                        return $returnValue;
+                    }
+                }
+                return '';
+            });
 
         $form = $this->factory->create(CheckoutEcheckProfileType::class, null, self::FORM_OPTIONS);
         $profileFormOptions = $form->get('profile')->getConfig()->getOptions();
@@ -242,9 +252,19 @@ class CheckoutEcheckProfileTypeTest extends FormIntegrationTestCase
             ->method('getPaymentProfileExternalIds')
             ->willReturn($externalIds);
 
+        // Can't use 'willReturnMap' as it returns null for default cases while 'trans' method must return string
+        $translationMap = $this->buildTranslationMap($customerProfile);
         $this->translator->expects($this->any())
             ->method('trans')
-            ->willReturnMap($this->buildTranslationMap($customerProfile));
+            ->willReturnCallback(function (...$args) use ($translationMap) {
+                foreach ($translationMap as $entry) {
+                    $returnValue = array_pop($entry);
+                    if ($args === $entry) {
+                        return $returnValue;
+                    }
+                }
+                return '';
+            });
 
         $form = $this->factory->create(CheckoutEcheckProfileType::class, $defaultData, $options);
 
