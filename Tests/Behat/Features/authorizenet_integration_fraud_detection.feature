@@ -135,5 +135,5 @@ Feature: AuthorizeNet integration Fraud Detection
       | Payment Method | Type   | Successful |
       | AuthorizeNet   | Verify | Yes        |
     When I click "Verify Status"
-    Then I should see "This transaction has already been approved and charged. This order will be marked as paid."
+    Then I should see "This transaction has already been approved and charged. This order will be marked as paid." flash message
     And I should not see "Capture"
