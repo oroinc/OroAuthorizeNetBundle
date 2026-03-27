@@ -85,6 +85,7 @@ Feature: AuthorizeNet integration guest Checkout
       | Year             | 2027             |
       | CVV              | 123              |
     And I click "Continue"
+    And I click "Expand Checkout Footer"
     And I uncheck "Save my data and create an account" on the checkout page
     And I press "Submit Order"
     Then I should see "Thank You For Your Purchase!"
@@ -121,6 +122,7 @@ Feature: AuthorizeNet integration guest Checkout
       | Year             | 2027             |
       | CVV              | 123              |
     And I click "Continue"
+    And I click "Expand Checkout Footer"
     And I uncheck "Save my data and create an account" on the checkout page
     And I press "Submit Order"
     Then I should see "Thank You For Your Purchase!"
