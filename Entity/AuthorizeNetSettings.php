@@ -139,9 +139,6 @@ class AuthorizeNetSettings extends Transport
     #[ORM\Column(name: 'au_net_allow_hold_transaction', type: Types::BOOLEAN, options: ['default' => true])]
     protected ?bool $allowHoldTransaction = true;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->creditCardLabels = new ArrayCollection();
