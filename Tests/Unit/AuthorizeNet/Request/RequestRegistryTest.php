@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\PayPal\Payflow\Request;
+namespace Oro\Bundle\AuthorizeNetBundle\Tests\Unit\AuthorizeNet\Request;
 
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request\RequestInterface;
 use Oro\Bundle\AuthorizeNetBundle\AuthorizeNet\Request\RequestRegistry;
