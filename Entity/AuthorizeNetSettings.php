@@ -52,13 +52,13 @@ class AuthorizeNetSettings extends Transport
      */
     protected $settings;
 
-    #[ORM\Column(name: 'au_net_api_login', type: Types::STRING, length: 255, nullable: false)]
+    #[ORM\Column(name: 'au_net_api_login', type: Types::TEXT, nullable: false)]
     protected ?string $apiLoginId = null;
 
-    #[ORM\Column(name: 'au_net_transaction_key', type: Types::STRING, length: 255, nullable: false)]
+    #[ORM\Column(name: 'au_net_transaction_key', type: Types::TEXT, nullable: false)]
     protected ?string $transactionKey = null;
 
-    #[ORM\Column(name: 'au_net_client_key', type: Types::STRING, length: 255, nullable: false)]
+    #[ORM\Column(name: 'au_net_client_key', type: Types::TEXT, nullable: false)]
     protected ?string $clientKey = null;
 
     #[ORM\Column(name: 'au_net_credit_card_action', type: Types::STRING, length: 255, nullable: false)]
