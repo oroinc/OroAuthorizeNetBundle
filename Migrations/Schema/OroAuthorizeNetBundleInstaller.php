@@ -14,7 +14,7 @@ class OroAuthorizeNetBundleInstaller implements Installation
     #[\Override]
     public function getMigrationVersion(): string
     {
-        return 'v1_2';
+        return 'v1_3';
     }
 
     #[\Override]
@@ -45,9 +45,9 @@ class OroAuthorizeNetBundleInstaller implements Installation
     private function updateOroIntegrationTransportTable(Schema $schema): void
     {
         $table = $schema->getTable('oro_integration_transport');
-        $table->addColumn('au_net_api_login', 'string', ['notnull' => false, 'length' => 255]);
-        $table->addColumn('au_net_transaction_key', 'string', ['notnull' => false, 'length' => 255]);
-        $table->addColumn('au_net_client_key', 'string', ['notnull' => false, 'length' => 255]);
+        $table->addColumn('au_net_api_login', 'text', ['notnull' => false]);
+        $table->addColumn('au_net_transaction_key', 'text', ['notnull' => false]);
+        $table->addColumn('au_net_client_key', 'text', ['notnull' => false]);
         $table->addColumn('au_net_credit_card_action', 'string', ['notnull' => false, 'length' => 255]);
         $table->addColumn('au_net_allowed_card_types', 'array', ['notnull' => false, 'comment' => '(DC2Type:array)']);
         $table->addColumn('au_net_test_mode', 'boolean', ['default' => false, 'notnull' => false]);
