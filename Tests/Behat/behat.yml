@@ -105,8 +105,6 @@ oro_behat_extension:
           # General fields
           Name: 'oro_authorize_net_payment_profile_dto[profile][name]'
           Profile Default: 'oro_authorize_net_payment_profile_dto[profile][default]'
-    AddMethodButton:
-      selector: "a[class='btn add-method']"
     DeleteShoppingList:
       selector: 'input[name="oro_workflow_transition[remove_source]"]'
 
@@ -132,14 +130,6 @@ oro_behat_extension:
       selector: 'div[data-page-component-name="frontend-echeck-payment-profiles-grid"] div.visible-items-counter'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\GridToolbarPaginator
 
-    Account Dropdown:
-      selector: '#customer-menu-trigger'
-
-    My Profile:
-      selector:
-        locator: '//a[text()="My Profile"]'
-        type: xpath
-
     Manage Payment Profiles:
       selector:
         locator: '//a[text()="Manage Payment Profiles"]'
@@ -149,14 +139,6 @@ oro_behat_extension:
       selector:
         locator: '//div[@class="fullscreen-mode"]/ul/li/a[text()="Users"]'
         type: xpath
-
-    ShoppingList Owner:
-      selector: '.shopping-list-owner a'
-
-    Order History Menu:
-      selector:
-        type: xpath
-        locator: '//ul[contains(@class,"primary-menu")]/li/a[text()="Order History"]'
 
   suites:
     OroAuthorizeNetBundle:
