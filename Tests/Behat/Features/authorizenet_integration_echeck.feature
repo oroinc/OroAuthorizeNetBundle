@@ -19,7 +19,7 @@ Feature: AuthorizeNet integration eCheck
     And I login as administrator
     And I go to System/Integrations/Manage Integrations
     And I click "Create Integration"
-    And I select "Authorize.NET" from "Type"
+    And I select "Authorize.Net" from "Type"
     And I fill "Authorize.Net Form" with:
       | Name                      | AuthorizeNet         |
       | Label                     | Authorize            |
