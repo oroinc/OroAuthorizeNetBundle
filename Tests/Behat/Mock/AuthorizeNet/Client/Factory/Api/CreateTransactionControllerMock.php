@@ -83,6 +83,8 @@ class CreateTransactionControllerMock extends AbstractControllerMock implements
                     return $this->getInvalidTokenErrorResponse();
                 case 'special_data_value_for_not_approved_emulation':
                     return $this->getNotApprovedResponse();
+                case 'special_data_value_for_gateway_exception_emulation':
+                    throw new \RuntimeException('Simulated Authorize.Net gateway transport failure');
             }
         }
 
