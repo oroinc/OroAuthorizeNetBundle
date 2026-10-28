@@ -4,7 +4,7 @@
 @fixture-OroCheckoutBundle:Shipping.yml
 @fixture-OroPaymentBundle:ProductsAndShoppingListsForPayments.yml
 @behat-test-env
-Feature: Single page checkout completion when Authorize.Net gateway fails after validation
+Feature: Single page checkout completion when AuthorizeNet gateway fails after validation
 
   Scenario: Create new AuthorizeNet Integration
     Given I login as administrator
